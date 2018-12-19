@@ -1,6 +1,6 @@
 <template>
     <v-footer app fixed>
-        <span>v0.0.1 (pre-alpha)</span>
+        <span>v0.0.1 (pre-alpha) - Made with <3 by Sollunad.9780</span>
     </v-footer>
 </template>
 
