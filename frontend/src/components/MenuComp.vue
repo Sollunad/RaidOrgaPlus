@@ -6,12 +6,25 @@
                 fixed
                 app
         >
+            <v-toolbar flat class="transparent">
+                <v-list class="pa-0">
+                    <v-list-tile avatar>
+                        <v-list-tile-avatar>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5WHNC1-MDjlPoM7tOuZgb8L_fKr4WC4GtHUxy-4cY5pRnGtoR">
+                        </v-list-tile-avatar>
+
+                        <v-list-tile-content>
+                            <v-list-tile-title>Sollunad.9780</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-toolbar>
+
             <v-list dense>
                 <MenuItemComp
                     v-for="menuItem in menuItems"
-                    v-bind:icon="menuItem.icon"
-                    v-bind:title="menuItem.title"
                     v-bind:key="menuItem.id"
+                    v-bind:menuItem="menuItem"
                 ></MenuItemComp>
             </v-list>
         </v-navigation-drawer>
@@ -30,8 +43,9 @@
         data: () => ({
             drawer: null,
             menuItems: [
-                { id: 1, icon: 'dashboard', title: 'Dashboard'},
-                { id: 2, icon: 'settings', title: 'Settings'}
+                { id: 1, icon: 'dashboard', title: 'Dashboard', route: '/dashboard' },
+                { id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
+                { id: 2, icon: 'settings', title: 'Einstellungen', route: 'einstellungen' },
             ]
         }),
         components: {
