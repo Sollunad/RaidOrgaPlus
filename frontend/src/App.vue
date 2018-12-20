@@ -1,7 +1,6 @@
 <template>
   <v-app dark>
     <MenuComp></MenuComp>
-    <router-view></router-view>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -18,14 +17,13 @@
 
   import DashboardPage from './pages/DashboardPage.vue';
 
-  Vue.use(VueRouter);
 
   const routes = [
-    { path: '/dashboard', component: DashboardPage },
+      { path: '/dashboard', component: DashboardPage }
   ];
 
   const router = new VueRouter({routes});
-
+  Vue.use(VueRouter);
   export default {
     components: {
       FooterComp,
