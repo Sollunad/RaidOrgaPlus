@@ -15,11 +15,26 @@
   import MenuComp from './components/MenuComp.vue';
   import FooterComp from './components/FooterComp';
 
-  import DashboardPage from './pages/DashboardPage.vue';
+  import MeineRaidsPage from './pages/MeineRaidsPage.vue';
+  import RaidDashboardPage from "./pages/RaidDashboardPage";
+  import TerminePage from "./pages/TerminePage";
+  import AufstellungPage from "./pages/AufstellungPage";
+  import ArchivPage from "./pages/ArchivPage";
+  import ProfilPage from "./pages/ProfilPage";
+  import SkillsPage from "./pages/SkillsPage";
+  import EinstellungenPage from "./pages/EinstellungenPage";
 
 
   const routes = [
-      { path: '/dashboard', component: DashboardPage }
+      { path: '/raids', component: MeineRaidsPage },
+      { path: '/raids/:raid_id', component: RaidDashboardPage },
+      { path: '/raids/:raid_id/termine', component: TerminePage },
+      { path: '/raids/:raid_id/termine/:termin_id', component: AufstellungPage },
+      { path: '/raids/:raid_id/archiv', component: ArchivPage },
+      { path: '/raids/:raid_id/archiv/:termin_id', component: AufstellungPage },
+      { path: '/profil', component: ProfilPage },
+      { path: '/skills', component: SkillsPage },
+      { path: '/einstellungen', component: EinstellungenPage }
   ];
 
   const router = new VueRouter({routes});
