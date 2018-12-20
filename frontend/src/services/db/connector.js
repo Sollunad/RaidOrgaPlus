@@ -24,9 +24,3 @@ function queryV(command, values) {
       con.end();
     });
 }
-
-async function test() {
-  console.log(await query('SELECT * from Spieler'));
-}
-
-test();
