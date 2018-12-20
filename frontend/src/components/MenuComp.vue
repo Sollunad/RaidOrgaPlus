@@ -14,7 +14,8 @@
                         </v-list-tile-avatar>
 
                         <v-list-tile-content>
-                            <v-list-tile-title>Sollunad.9780</v-list-tile-title>
+                            <v-list-tile-title>
+                                <NameComp v-bind:user = "user"></NameComp></v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
@@ -37,6 +38,7 @@
 
 <script>
     import MenuItemComp from './MenuItemComp.vue';
+    import NameComp from "./NameComp";
 
     export default {
         name: "MenuComp",
@@ -44,11 +46,14 @@
             drawer: null,
             menuItems: [
                 { id: 1, icon: 'dashboard', title: 'Dashboard', route: '/dashboard' },
+                { id: 2, icon: 'person', title: 'Profil', route: '/profil' },
                 { id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
-                { id: 2, icon: 'settings', title: 'Einstellungen', route: 'einstellungen' },
-            ]
+                { id: 4, icon: 'settings', title: 'Einstellungen', route: '/einstellungen' },
+            ],
+            user: { name: 'Daniel', accountname: 'Sollunad.9780'}
         }),
         components: {
+            NameComp,
             MenuItemComp
         }
     }
