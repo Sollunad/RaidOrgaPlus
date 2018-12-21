@@ -1,10 +1,13 @@
 <template>
-    <p>Termine</p>
+    <TerminOverviewComp></TerminOverviewComp>
 </template>
 
 <script>
+    import TerminOverviewComp from "../components/TerminOverviewComp";
+
     export default {
-        name: "TerminePage"
+        name: "TerminePage",
+        components: {TerminOverviewComp},
     }
 </script>
 

@@ -3,6 +3,7 @@ let cors = require('cors');
 let app = express();
 
 const raids = require('./raids/raids.js');
+const termin = require('./termin/termin.js');
 
 var corsOptions = {
     origin: '*',
@@ -23,8 +24,24 @@ app.get('/raids', async function (req, res) {
         res.send(await raids.listForPlayer(user_id));
     } else if (raid_id) {
         res.send(await raids.get(raid_id));
+    } else {
+        res.send([]);
     }
-})
+});
+
+app.get('/termin', async function (req, res) {
+    const raid_id = req.query.raid;
+    const archive = req.query.archive;
+    if (raid_id) {
+        if (archive && archive === "1") {
+            res.send(await termin.listArchived(raid_id));
+        } else {
+            res.send(await termin.listActive(raid_id));
+        }
+    } else {
+        res.send([]);
+    }
+});
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
