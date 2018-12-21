@@ -18,7 +18,12 @@ app.get('/', function (req, res) {
 
 app.get('/raids', async function (req, res) {
     const user_id = req.query.user;
-    res.send(await raids.listForPlayer(user_id));
+    const raid_id = req.query.raid;
+    if (user_id) {
+        res.send(await raids.listForPlayer(user_id));
+    } else if (raid_id) {
+        res.send(await raids.give(raid_id));
+    }
 })
 
 app.listen(3000, function () {

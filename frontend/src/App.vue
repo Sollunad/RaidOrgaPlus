@@ -28,11 +28,10 @@
 
   const routes = [
       { path: '/raids', component: MeineRaidsPage },
-      { path: '/raids/:raid_id', component: RaidDashboardPage },
-      { path: '/raids/:raid_id/termine', component: TerminePage },
-      { path: '/raids/:raid_id/termine/:termin_id', component: AufstellungPage },
-      { path: '/raids/:raid_id/archiv', component: ArchivPage },
-      { path: '/raids/:raid_id/archiv/:termin_id', component: AufstellungPage },
+      { path: '/raid', component: RaidDashboardPage },
+      { path: '/termine', component: TerminePage },
+      { path: '/aufstellung', component: AufstellungPage },
+      { path: '/archiv', component: ArchivPage },
       { path: '/profil', component: ProfilPage },
       { path: '/skills', component: SkillsPage },
       { path: '/einstellungen', component: EinstellungenPage }
