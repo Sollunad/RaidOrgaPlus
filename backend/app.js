@@ -22,7 +22,7 @@ app.get('/raids', async function (req, res) {
     if (user_id) {
         res.send(await raids.listForPlayer(user_id));
     } else if (raid_id) {
-        res.send(await raids.give(raid_id));
+        res.send(await raids.get(raid_id));
     }
 })
 
