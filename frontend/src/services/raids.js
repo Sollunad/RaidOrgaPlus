@@ -1,12 +1,9 @@
-const db = require('./db/connector.js');
+const sf = require('snekfetch');
 
-exports.listPlayer = listRaidsByPlayerId;
+export default { listForPlayer };
 
-async function listRaidsByPlayerId(userId) {
-    const stmt = `SELECT Raid.name FROM Spieler JOIN Spieler_Raid ON Spieler.id = Spieler_Raid.fk_spieler JOIN Raid ON Raid.id = Spieler_Raid.fk_raid WHERE Spieler.id = ${userId}`;
-    try {
-        return await db.query(stmt);
-    } catch(e) {
-        console.log(e);
-    }
+async function listForPlayer(userId) {
+    const url = 'http://localhost:3000/raids?user=' + userId;
+    const response = await sf.get(url);
+    return response.body;
 }

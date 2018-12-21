@@ -11,6 +11,7 @@
 <script>
   import Vue from 'vue';
   import VueRouter from 'vue-router';
+  import VueAsync from 'vue-async-computed';
 
   import MenuComp from './components/MenuComp.vue';
   import FooterComp from './components/FooterComp';
@@ -39,6 +40,7 @@
 
   const router = new VueRouter({routes});
   Vue.use(VueRouter);
+  Vue.use(VueAsync);
   export default {
     components: {
       FooterComp,

@@ -16,7 +16,8 @@ function query(command) {
 }
 
 function queryV(command, values) {
-    return new Promise( (resolve, reject) => {
+  const con = sql.createConnection(config);
+  return new Promise( (resolve, reject) => {
       con.query(command, values, (err,rows) => {
         if (err) return reject(err);
         resolve(rows);
@@ -24,9 +25,3 @@ function queryV(command, values) {
       con.end();
     });
 }
-
-async function test() {
-  console.log(await query('SELECT * from Spieler'));
-}
-
-test();
