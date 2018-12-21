@@ -4,6 +4,9 @@ let app = express();
 
 const raids = require('./raids/raids.js');
 const termin = require('./termin/termin.js');
+const login = require('./user/login.js');
+const register = require('./user/register.js');
+const session = require('./user/session.js');
 
 var corsOptions = {
     origin: '*',
@@ -12,6 +15,8 @@ var corsOptions = {
 }
 
 app.use(cors(corsOptions));
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded()); // to support URL-encoded bodies
 
 app.get('/', function (req, res) {
     res.send('Hello World!');
@@ -40,6 +45,33 @@ app.get('/termin', async function (req, res) {
         }
     } else {
         res.send([]);
+    }
+});
+
+app.get('/user', async function (req, res) {
+    const uuid = req.query.session;
+    if (session) {
+        res.send(await session.getUser(uuid));
+    } else {
+        res.send([]);
+    }
+});
+
+app.post('/register', function(req, res) {
+    const accName = req.body.accName;
+    const pwd = req.body.pwd;
+    const name = req.body.name;
+    if (accName && pwd && name) {
+        register.register(accName, pwd, name);
+        res.send('Success!');
+    }
+});
+
+app.post('/login', async function(req, res) {
+    const accName = req.body.accName;
+    const pwd = req.body.pwd;
+    if (accName && pwd) {
+        res.send(await login.login(accName, pwd));
     }
 });
 
