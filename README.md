@@ -1,3 +1,3 @@
 # RaidOrgaPlus
 
-Because everything is better when done by myself.
+Because Google Scripts are totally 2k18
