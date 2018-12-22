@@ -1,8 +1,10 @@
 <template>
   <v-app dark>
-    <MenuComp></MenuComp>
+    <MenuComp
+      v-bind:userId="userId"></MenuComp>
     <v-content>
-      <router-view></router-view>
+      <MainPage v-if="loggedIn"></MainPage>
+      <LoginPage v-else></LoginPage>
     </v-content>
     <FooterComp></FooterComp>
   </v-app>
@@ -25,6 +27,9 @@
   import SkillsPage from "./pages/SkillsPage";
   import EinstellungenPage from "./pages/EinstellungenPage";
 
+  import session from './services/session.js';
+  import MainPage from "./pages/MainPage";
+  import LoginPage from "./pages/LoginPage";
 
   const routes = [
       { path: '/raids', component: MeineRaidsPage },
@@ -42,11 +47,21 @@
   Vue.use(VueAsync);
   export default {
     components: {
+      LoginPage,
+      MainPage,
       FooterComp,
       MenuComp,
     },
     props: {
       source: String
+    },
+    asyncComputed: {
+      userId: function() {
+        return session.getUser(localStorage.session);
+      },
+      loggedIn: function() {
+        return this.userId !== 0;
+      }
     },
     router
   }

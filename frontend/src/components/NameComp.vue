@@ -1,6 +1,6 @@
 <template>
-    <p @mouseenter="name = user.accountname"
-       @mouseleave="name = user.name">{{ name }}</p>
+    <p @mouseenter="showName = user.accname"
+       @mouseleave="showName = user.name">{{ showName }}</p>
 </template>
 
 <script>
@@ -9,7 +9,7 @@
         props: ['user'],
         data: function() {
             return {
-                name: this.user.name
+                showName: this.user.name
             }
         }
     }

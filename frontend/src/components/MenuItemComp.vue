@@ -12,7 +12,7 @@
 <script>
     export default {
         name: "MenuItemComp",
-        props: ['menuItem']
+        props: ['menuItem'],
     }
 </script>
 

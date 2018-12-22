@@ -1,10 +1,12 @@
 <template>
-    
+    <LoginComp></LoginComp>
 </template>
 
 <script>
+    import LoginComp from "../components/LoginComp";
     export default {
-        name: "LoginPage"
+        name: "LoginPage",
+        components: {LoginComp}
     }
 </script>
 

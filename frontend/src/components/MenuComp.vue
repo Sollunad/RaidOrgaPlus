@@ -15,13 +15,17 @@
 
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                <NameComp v-bind:user = "user"></NameComp></v-list-tile-title>
+                                <NameComp
+                                        v-if="user"
+                                        v-bind:user = "user"></NameComp></v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
             </v-toolbar>
 
-            <v-list dense>
+            <v-list dense
+                    v-if="loggedIn"
+            >
                 <MenuItemComp
                     v-for="menuItem in menuItems"
                     v-bind:key="menuItem.id"
@@ -39,6 +43,7 @@
 <script>
     import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
+    import user from '../services/user.js';
 
     export default {
         name: "MenuComp",
@@ -49,12 +54,23 @@
                 { id: 2, icon: 'person', title: 'Profil', route: '/profil' },
                 { id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
                 { id: 4, icon: 'settings', title: 'Einstellungen', route: '/einstellungen' },
-            ],
-            user: { name: 'Daniel', accountname: 'Sollunad.9780'}
+                { id: 5, icon: 'logout', title: 'Logout', route: '/logout' }
+            ]
         }),
+        props: ['userId'],
         components: {
             NameComp,
             MenuItemComp
+        },
+        computed: {
+            loggedIn: function() {
+                return this.userId !== 0;
+            }
+        },
+        asyncComputed: {
+            user: function() {
+                return user.get(this.userId);
+            }
         }
     }
 

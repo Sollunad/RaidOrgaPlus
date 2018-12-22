@@ -7,7 +7,7 @@
         ></v-progress-circular>
         <v-layout row>
             <v-card>
-                <v-list two-line>
+                <v-list two-line v-if="raids.length > 0">
                     <ListRaidComp
                             v-for="raid in raids"
                             v-bind:key="raid.id"
@@ -26,9 +26,10 @@
     export default {
         name: "RaidOverviewComp",
         components: {ListRaidComp},
+        props: ['user'],
         asyncComputed: {
             raids: function () {
-                return db_raids.listForPlayer(2);
+                return db_raids.listForPlayer(this.user);
             }
         }
     }
