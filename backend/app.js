@@ -53,7 +53,6 @@ app.get('/user', async function (req, res) {
     const user_id = req.query.id;
     if (user_id) {
         const resp = await user.get(user_id);
-        console.log(resp);
         res.send(resp);
     } else {
         res.send([]);
@@ -69,13 +68,12 @@ app.get('/session', async function (req, res) {
     }
 });
 
-app.post('/register', function(req, res) {
+app.post('/register', async function(req, res) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     const name = req.body.name;
     if (accName && pwd && name) {
-        register.register(accName, pwd, name);
-        res.send('Success!');
+        res.send(await register.register(accName, pwd, name));
     }
 });
 

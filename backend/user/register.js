@@ -8,15 +8,16 @@ exports.register = register;
 async function register(accName, pwd, name){
     const response = await userExists(accName);
     const count = response[0].count;
-    if (count > 0) return;
+    if (count > 0) return false;
     const pwdHash = hash.generate(pwd);
-    await registerUser(accName, pwdHash, name);
+    registerUser(accName, pwdHash, name);
+    return true;
 }
 
-async function registerUser(accName, pwdHash, name) {
+function registerUser(accName, pwdHash, name) {
     const stmt = `INSERT INTO Spieler (accname, password, name) VALUES ('${accName}', '${pwdHash}', '${name}')`;
     try {
-        return await db.query(stmt);
+        db.query(stmt);
     } catch(e) {
         throw e;
     }

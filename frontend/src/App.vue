@@ -4,7 +4,7 @@
       v-bind:userId="userId"></MenuComp>
     <v-content>
       <MainPage v-if="loggedIn"></MainPage>
-      <LoginPage v-else></LoginPage>
+      <LoginRegisterPage v-else></LoginRegisterPage>
     </v-content>
     <FooterComp></FooterComp>
   </v-app>
@@ -29,7 +29,7 @@
 
   import session from './services/session.js';
   import MainPage from "./pages/MainPage";
-  import LoginPage from "./pages/LoginPage";
+  import LoginRegisterPage from "./pages/LoginRegisterPage";
 
   const routes = [
       { path: '/raids', component: MeineRaidsPage },
@@ -47,7 +47,7 @@
   Vue.use(VueAsync);
   export default {
     components: {
-      LoginPage,
+      LoginRegisterPage,
       MainPage,
       FooterComp,
       MenuComp,
