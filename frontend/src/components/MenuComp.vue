@@ -9,7 +9,8 @@
             <v-toolbar flat class="transparent">
                 <v-list class="pa-0">
                     <v-list-tile avatar>
-                        <v-list-tile-avatar>
+                        <v-list-tile-avatar
+                            v-if="user">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5WHNC1-MDjlPoM7tOuZgb8L_fKr4WC4GtHUxy-4cY5pRnGtoR">
                         </v-list-tile-avatar>
 
@@ -36,6 +37,12 @@
         <v-toolbar app fixed clipped-left>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-title>RaidOrga+</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon
+                   v-if="user"
+                   @click="logout">
+                <v-icon>logout</v-icon>
+            </v-btn>
         </v-toolbar>
     </div>
 </template>
@@ -54,7 +61,6 @@
                 { id: 2, icon: 'person', title: 'Profil', route: '/profil' },
                 { id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
                 { id: 4, icon: 'settings', title: 'Einstellungen', route: '/einstellungen' },
-                { id: 5, icon: 'logout', title: 'Logout', route: '/logout' }
             ]
         }),
         props: ['userId'],
@@ -70,6 +76,12 @@
         asyncComputed: {
             user: function() {
                 return user.get(this.userId);
+            }
+        },
+        methods: {
+            logout: function() {
+                localStorage.session = "";
+                window.location.reload();
             }
         }
     }
