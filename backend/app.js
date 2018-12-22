@@ -7,6 +7,7 @@ const termin = require('./termin/termin.js');
 const login = require('./user/login.js');
 const register = require('./user/register.js');
 const session = require('./user/session.js');
+const user = require('./user/user.js');
 
 var corsOptions = {
     origin: '*',
@@ -49,7 +50,18 @@ app.get('/termin', async function (req, res) {
 });
 
 app.get('/user', async function (req, res) {
-    const uuid = req.query.session;
+    const user_id = req.query.id;
+    if (user_id) {
+        const resp = await user.get(user_id);
+        console.log(resp);
+        res.send(resp);
+    } else {
+        res.send([]);
+    }
+});
+
+app.get('/session', async function (req, res) {
+    const uuid = req.query.uuid;
     if (session) {
         res.send(await session.getUser(uuid));
     } else {
@@ -72,6 +84,8 @@ app.post('/login', async function(req, res) {
     const pwd = req.body.pwd;
     if (accName && pwd) {
         res.send(await login.login(accName, pwd));
+    } else {
+        res.send([]);
     }
 });
 

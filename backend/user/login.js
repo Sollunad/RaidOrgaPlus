@@ -13,7 +13,7 @@ async function login(username, pwd){
         if (correctPwd){
             const uuid = uuidv4();
             session.start(user.id, uuid);
-            return uuid;
+            return [uuid];
         }
     }
 }
