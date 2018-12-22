@@ -69,7 +69,7 @@
         methods: {
             async submit () {
                 if (this.$refs.form.validate()) {
-                    const success = await register.register(this.accName, this.name, this.password);
+                    const success = await register.register(this.accName, this.password, this.name);
                     if (success) {
                         this.buttonColor = 'success';
                         localStorage.session = await login.login(this.accName, this.password);
