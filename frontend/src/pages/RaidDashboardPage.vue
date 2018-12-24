@@ -1,20 +1,35 @@
 <template>
-    <p>Raid Dashboard von {{ raid.name }}</p>
+    <v-layout row>
+        <v-flex xs12 sm3>
+            <v-card>
+                <v-list>
+                    <v-list-tile
+                            v-for="item in items"
+                            :key="item.title"
+                            avatar
+                            :to="item.route"
+                    >
+                        <v-list-tile-content>
+                            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-card>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
-    import db_raids from '../services/raids.js';
 
     export default {
         name: "RaidDashboardPage",
-        computed: {
-            raidId: function() {
-                return localStorage.raidId;
-            }
-        },
-        asyncComputed: {
-            raid: function () {
-                return db_raids.give(this.raidId);
+        props: ['raid'],
+        data () {
+            return {
+                items: [
+                    { title: 'Termine', route: '/raid/termine' },
+                    { title: 'Archiv', route: '/raid/archiv' },
+                ]
             }
         }
     }

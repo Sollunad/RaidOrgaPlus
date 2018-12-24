@@ -35,6 +35,16 @@ app.get('/raids', async function (req, res) {
     }
 });
 
+app.get('/role', async function (req, res) {
+    const user_id = req.query.user;
+    const raid_id = req.query.raid;
+    if (user_id && raid_id) {
+        res.send(await raids.role(raid_id, user_id));
+    } else {
+        res.send([]);
+    }
+});
+
 app.get('/termin', async function (req, res) {
     const raid_id = req.query.raid;
     const archive = req.query.archive;
@@ -52,8 +62,7 @@ app.get('/termin', async function (req, res) {
 app.get('/user', async function (req, res) {
     const user_id = req.query.id;
     if (user_id) {
-        const resp = await user.get(user_id);
-        res.send(resp);
+        res.send(await user.get(user_id));
     } else {
         res.send([]);
     }

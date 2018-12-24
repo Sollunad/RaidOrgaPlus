@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-list-tile avatar @click="saveId()" :to="'/aufstellung'">
+        <v-list-tile avatar @click="saveId()" :to="'/raid/aufstellung'">
             <v-list-tile-content>
                 <v-list-tile-title v-html="termin.date"></v-list-tile-title>
                 <v-list-tile-sub-title v-html="termin.time"></v-list-tile-sub-title>

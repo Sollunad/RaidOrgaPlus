@@ -1,5 +1,11 @@
 <template>
-    <TerminOverviewComp></TerminOverviewComp>
+    <div>
+        <TerminOverviewComp
+                v-bind:raid="raid"
+                v-bind:archived="false">
+        </TerminOverviewComp>
+        <p v-if="role > 0">Neuer Termin</p>
+    </div>
 </template>
 
 <script>
@@ -8,6 +14,7 @@
     export default {
         name: "TerminePage",
         components: {TerminOverviewComp},
+        props: ['raid', 'role']
     }
 </script>
 

@@ -1,21 +1,24 @@
 <template>
     <div>
-        <p>Termine von {{raid.name}}</p>
         <v-progress-circular
                 v-if="!termine"
                 indeterminate
                 color="primary"
         ></v-progress-circular>
-        <v-layout row>
-            <v-card>
-                <v-list two-line>
-                    <ListTerminComp
-                            v-for="termin in termine"
-                            v-bind:key="termin.id"
-                            v-bind:termin="termin"
-                    ></ListTerminComp>
-                </v-list>
-            </v-card>
+        <v-layout row
+                v-else-if="listNotEmpty"
+        >
+            <v-flex xs12 sm6 md4 lg3>
+                <v-card>
+                    <v-list two-line>
+                        <ListTerminComp
+                                v-for="termin in termine"
+                                v-bind:key="termin.id"
+                                v-bind:termin="termin"
+                        ></ListTerminComp>
+                    </v-list>
+                </v-card>
+            </v-flex>
         </v-layout>
     </div>
 </template>
@@ -23,22 +26,22 @@
 <script>
     import db_termine from '../services/termin.js';
     import ListTerminComp from "./ListTerminComp";
-    import db_raids from "../services/raids";
 
     export default {
         name: "TerminOverviewComp",
         components: {ListTerminComp},
-        computed: {
-            raidId: function() {
-                return localStorage.raidId;
-            }
-        },
+        props: ['raid', 'archived'],
         asyncComputed: {
             termine: function() {
-                return db_termine.listActive(this.raidId);
+                if (this.raid) {
+                    if (this.archived) return db_termine.listArchived(this.raid.id);
+                    else return db_termine.listActive(this.raid.id);
+                }
             },
-            raid: function () {
-                return db_raids.give(this.raidId);
+            listNotEmpty: function() {
+                if (this.termine) {
+                    return this.termine.length !== 0;
+                }
             }
         }
     }

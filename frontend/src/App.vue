@@ -5,7 +5,7 @@
     </MenuComp>
     <v-content>
       <MainPage
-              v-if="loggedIn"
+              v-if="!showLogin"
               v-bind:user="user"
       ></MainPage>
       <LoginRegisterPage v-else></LoginRegisterPage>
@@ -52,6 +52,9 @@
       },
       loggedIn: function() {
         return this.userId !== 0 && this.userId !== null;
+      },
+      showLogin: function() {
+        return this.userId === 0;
       }
     },
     router

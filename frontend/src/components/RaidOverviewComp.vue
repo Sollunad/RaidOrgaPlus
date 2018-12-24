@@ -6,15 +6,17 @@
                 color="primary"
         ></v-progress-circular>
         <v-layout row>
-            <v-card>
-                <v-list two-line v-if="raids.length > 0">
-                    <ListRaidComp
-                            v-for="raid in raids"
-                            v-bind:key="raid.id"
-                            v-bind:raid="raid"
-                    ></ListRaidComp>
-                </v-list>
-            </v-card>
+            <v-flex xs12 sm6 md4 lg3 xl2>
+                <v-card>
+                    <v-list two-line v-if="raids.length > 0">
+                        <ListRaidComp
+                                v-for="raid in raids"
+                                v-bind:key="raid.id"
+                                v-bind:raid="raid"
+                        ></ListRaidComp>
+                    </v-list>
+                </v-card>
+            </v-flex>
         </v-layout>
     </div>
 </template>
