@@ -12,6 +12,7 @@
     "express": "^4.16.4",
     "mysql": "^2.16.0",
     "password-hash": "^1.2.2",
+    "snekfetch": "^4.0.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {},

@@ -8,8 +8,10 @@ import ProfilPage from "./pages/ProfilPage";
 import SkillsPage from "./pages/SkillsPage";
 import EinstellungenPage from "./pages/EinstellungenPage";
 import RaidEinstellungenPage from "./pages/RaidEinstellungenPage";
+import HomePage from "./pages/HomePage";
 
 const routes = [
+    { path: '/', component: HomePage },
     { path: '/raids', component: MeineRaidsPage },
     { path: '/raid', component: RaidPage,
       children: [

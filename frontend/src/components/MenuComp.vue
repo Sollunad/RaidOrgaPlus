@@ -57,6 +57,7 @@
         data: () => ({
             drawer: null,
             menuItems: [
+                { id: 0, icon: 'home', title: 'Home', route: '/' },
                 { id: 1, icon: 'casino', title: 'Meine Raids', route: '/raids' },
                 { id: 2, icon: 'person', title: 'Profil', route: '/profil' },
                 { id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},

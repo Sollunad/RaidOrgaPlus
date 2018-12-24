@@ -8,6 +8,8 @@ const login = require('./user/login.js');
 const register = require('./user/register.js');
 const session = require('./user/session.js');
 const user = require('./user/user.js');
+const encounter = require('./encounter/encounter');
+const progress = require('./encounter/progress');
 
 var corsOptions = {
     origin: '*',
@@ -96,6 +98,19 @@ app.post('/login', async function(req, res) {
     const pwd = req.body.pwd;
     if (accName && pwd) {
         res.send(await login.login(accName, pwd));
+    } else {
+        res.send([]);
+    }
+});
+
+app.get('/encounter', async function(req, res) {
+    res.send(await encounter.list());
+});
+
+app.get('/progress', async function(req, res) {
+    const user_id = req.query.user;
+    if (user_id) {
+        res.send(await progress.progress(user_id));
     } else {
         res.send([]);
     }
