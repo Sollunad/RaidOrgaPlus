@@ -1,23 +1,16 @@
 <template>
     <div class="form">
-        <LoginComp v-if="!register"></LoginComp>
-        <RegisterComp v-else></RegisterComp>
-        <v-checkbox
-                v-model="register"
-                label="Neu registrieren?"
-        ></v-checkbox>
+        <LoginRegisterComp></LoginRegisterComp>
     </div>
 </template>
 
 <script>
-    import LoginComp from "../components/LoginComp";
-    import RegisterComp from '../components/RegisterComp';
+    import LoginRegisterComp from '../components/LoginRegisterComp';
 
     export default {
         name: "LoginPage",
-        components: {LoginComp, RegisterComp},
+        components: {LoginRegisterComp},
         data: () => ({
-            register: false
         })
     }
 </script>
