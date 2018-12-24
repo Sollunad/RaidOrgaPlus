@@ -51,6 +51,7 @@
     import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
     import user from '../services/user.js';
+    import session from '../services/session.js';
 
     export default {
         name: "MenuComp",
@@ -80,6 +81,7 @@
         },
         methods: {
             logout: function() {
+                session.invalidate(localStorage.session);
                 localStorage.session = "";
                 window.location.reload();
             }

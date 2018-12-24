@@ -61,8 +61,13 @@ app.get('/user', async function (req, res) {
 
 app.get('/session', async function (req, res) {
     const uuid = req.query.uuid;
-    if (session) {
-        res.send(await session.getUser(uuid));
+    const invalidate = req.query.invalidate;
+    if (uuid) {
+        if (invalidate && invalidate === "1") {
+            res.send(await session.invalidate(uuid));
+        } else {
+            res.send(await session.getUser(uuid));
+        }
     } else {
         res.send([]);
     }
