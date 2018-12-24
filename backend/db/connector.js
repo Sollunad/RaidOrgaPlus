@@ -5,6 +5,7 @@ exports.query = query;
 exports.queryV = queryV;
 
 function query(command) {
+  console.log(command);
   const con = sql.createConnection(config);
   return new Promise( function(resolve, reject) {
     con.query(command, (err,rows) => {
