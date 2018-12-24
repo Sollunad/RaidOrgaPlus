@@ -60,7 +60,6 @@
                 { id: 1, icon: 'casino', title: 'Meine Raids', route: '/raids' },
                 { id: 2, icon: 'person', title: 'Profil', route: '/profil' },
                 { id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
-                { id: 4, icon: 'settings', title: 'Einstellungen', route: '/einstellungen' },
             ]
         }),
         props: ['user'],
