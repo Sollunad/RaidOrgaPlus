@@ -29,7 +29,7 @@
         props: ['user'],
         asyncComputed: {
             raids: function () {
-                return db_raids.listForPlayer(this.user);
+                return db_raids.listForPlayer(this.user.id);
             }
         }
     }

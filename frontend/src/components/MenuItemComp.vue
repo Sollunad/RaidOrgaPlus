@@ -1,5 +1,5 @@
 <template>
-    <v-list-tile @click="" :to="menuItem.route">
+    <v-list-tile :to="menuItem.route">
         <v-list-tile-action>
             <v-icon>{{ menuItem.icon }}</v-icon>
         </v-list-tile-action>

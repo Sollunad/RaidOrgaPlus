@@ -1,10 +1,11 @@
 <template>
-    <router-view></router-view>
+    <router-view v-bind:user="user"></router-view>
 </template>
 
 <script>
     export default {
-        name: "MainPage"
+        name: "MainPage",
+        props: ['user']
     }
 </script>
 

@@ -1,9 +1,13 @@
 <template>
   <v-app dark>
     <MenuComp
-      v-bind:userId="userId"></MenuComp>
+      v-bind:user="user">
+    </MenuComp>
     <v-content>
-      <MainPage v-if="loggedIn"></MainPage>
+      <MainPage
+              v-if="loggedIn"
+              v-bind:user="user"
+      ></MainPage>
       <LoginRegisterPage v-else></LoginRegisterPage>
     </v-content>
     <FooterComp></FooterComp>
@@ -18,6 +22,7 @@
   import MenuComp from './components/MenuComp.vue';
   import FooterComp from './components/FooterComp';
 
+  import user from './services/user.js';
   import session from './services/session.js';
   import MainPage from "./pages/MainPage";
   import LoginRegisterPage from "./pages/LoginRegisterPage";
@@ -39,11 +44,14 @@
       source: String
     },
     asyncComputed: {
+      user: function() {
+        if (this.loggedIn) return user.get(this.userId);
+      },
       userId: function() {
         return session.getUser(localStorage.session);
       },
       loggedIn: function() {
-        return this.userId !== 0;
+        return this.userId !== 0 && this.userId !== null;
       }
     },
     router

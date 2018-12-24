@@ -50,7 +50,6 @@
 <script>
     import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
-    import user from '../services/user.js';
     import session from '../services/session.js';
 
     export default {
@@ -64,19 +63,14 @@
                 { id: 4, icon: 'settings', title: 'Einstellungen', route: '/einstellungen' },
             ]
         }),
-        props: ['userId'],
+        props: ['user'],
         components: {
             NameComp,
             MenuItemComp
         },
         computed: {
             loggedIn: function() {
-                return this.userId !== 0;
-            }
-        },
-        asyncComputed: {
-            user: function() {
-                if (this.userId) return user.get(this.userId);
+                return this.user !== undefined;
             }
         },
         methods: {
