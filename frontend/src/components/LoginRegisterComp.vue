@@ -98,7 +98,7 @@
                 if (session) {
                     this.buttonColor = 'success';
                     localStorage.session = session;
-                    window.location.reload();
+                    window.location.href = '/';
                 } else {
                     this.snackbar = true;
                 }
@@ -106,9 +106,7 @@
             async register() {
                 const success = await register.register(this.accName, this.password, this.name);
                 if (success) {
-                    this.buttonColor = 'success';
-                    localStorage.session = await login.login(this.accName, this.password);
-                    window.location.reload();
+                    this.login();
                 } else {
                     this.snackbar = true;
                 }
