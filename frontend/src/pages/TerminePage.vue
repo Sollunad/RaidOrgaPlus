@@ -4,7 +4,10 @@
                 v-bind:raid="raid"
                 v-bind:archived="false">
         </TerminOverviewComp>
-        <p v-if="role > 0">Neuer Termin</p>
+        <v-btn color="success" class="buttonAdd"
+               v-if="role > 0">
+            Neuer Termin
+        </v-btn>
     </div>
 </template>
 
@@ -19,5 +22,7 @@
 </script>
 
 <style scoped>
-
+    .buttonAdd {
+        margin-top: 1rem;
+    }
 </style>
