@@ -5,7 +5,6 @@ exports.getUser = getUserId;
 exports.invalidate = invalidateUuid;
 
 async function startSession(id, uuid) {
-    await invalidateUser(id);
     const stmt = `INSERT INTO Session (user, uuid) VALUES (${id}, '${uuid}')`;
     try {
         return await db.query(stmt);
