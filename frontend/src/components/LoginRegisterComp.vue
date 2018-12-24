@@ -1,13 +1,15 @@
 <template>
     <div>
-        <v-form ref="form" v-model="valid" lazy-validation class="form">
+        <v-form ref="form" v-model="valid" lazy-validation class="form" >
             <v-text-field
+                    @keypress.enter="submit"
                     v-model="accName"
                     :rules="accNameRules"
                     label="Accountname"
                     required
             ></v-text-field>
             <v-text-field
+                    @keypress.enter="submit"
                     v-if="registerMode"
                     v-model="name"
                     :rules="nameRules"
@@ -15,6 +17,7 @@
                     required
             ></v-text-field>
             <v-text-field
+                    @keypress.enter="submit"
                     v-model="password"
                     :rules="passwordRules"
                     :type="'password'"
