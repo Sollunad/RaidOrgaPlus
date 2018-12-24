@@ -3,7 +3,7 @@
         <v-btn flat icon @click="back">
             <v-icon>arrow_back</v-icon>
         </v-btn>
-        <v-toolbar-title>{{ raid.name }}</v-toolbar-title>
+        <v-toolbar-title>{{ raidName }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn flat icon
                v-if="role === 2"
@@ -21,6 +21,11 @@
         methods: {
             back: function() {
                 window.history.back();
+            }
+        },
+        computed: {
+            raidName: function() {
+                if (this.raid) return this.raid.name;
             }
         }
     }
