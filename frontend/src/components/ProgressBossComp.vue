@@ -1,5 +1,5 @@
 <template>
-    <v-btn fab large
+    <v-btn fab
            :color="progressColor">
         <v-avatar>
             <v-img :src="icon(boss.abbr)">

@@ -1,5 +1,5 @@
 <template>
-    <p>Skills</p>
+    <p>Soon: Skills angeben</p>
 </template>
 
 <script>

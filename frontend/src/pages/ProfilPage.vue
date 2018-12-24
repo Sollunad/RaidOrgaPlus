@@ -1,19 +1,23 @@
 <template>
-    <div>
-        <p>Profil von {{ user.name }}</p>
-        <p>Anzeigename ändern</p>
-        <p>API-Key hinterlegen</p>
-        <p>Builds ankreuzen</p>
+    <div class="profile">
+        <ProfileAPIKeyComp
+            v-bind:user="user"></ProfileAPIKeyComp>
     </div>
 </template>
 
 <script>
+    //TODO: Anzeigenamen ändern
+    //TODO: Builds ankreuzen
+    import ProfileAPIKeyComp from "../components/ProfileAPIKeyComp";
     export default {
         name: "ProfilPage",
+        components: {ProfileAPIKeyComp},
         props: ['user']
     }
 </script>
 
 <style scoped>
-
+    .profile {
+        margin: 5%;
+    }
 </style>

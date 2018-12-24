@@ -116,6 +116,16 @@ app.get('/progress', async function(req, res) {
     }
 });
 
+app.post('/setapi', async function(req, res) {
+    const user_id = req.body.userId;
+    const apiKey = req.body.apiKey;
+    if (user_id && apiKey) {
+        res.send(await user.setApi(user_id, apiKey));
+    } else {
+        res.send(false);
+    }
+});
+
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
 });
