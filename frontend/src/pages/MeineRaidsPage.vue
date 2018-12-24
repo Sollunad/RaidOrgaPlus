@@ -1,6 +1,7 @@
 <template>
     <div>
         <RaidOverviewComp
+            v-if="user"
             v-bind:user="user">
         </RaidOverviewComp>
     </div>

@@ -76,7 +76,7 @@
         },
         asyncComputed: {
             user: function() {
-                return user.get(this.userId);
+                if (this.userId) return user.get(this.userId);
             }
         },
         methods: {
