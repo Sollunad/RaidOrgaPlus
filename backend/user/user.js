@@ -4,6 +4,7 @@ const api = require('../gw2api/api');
 exports.get = getForId;
 exports.api = getApiKey;
 exports.setApi = setApiKey;
+exports.hasApi = hasApiKey;
 
 async function getForId(userId) {
     const stmt = `SELECT id, accname, name FROM Spieler WHERE id = ${userId}`;
@@ -21,6 +22,11 @@ async function getApiKey(userId) {
     } catch(e) {
         throw e;
     }
+}
+
+async function hasApiKey(userId) {
+    const api_key = await getApiKey(userId);
+    return (api_key && api_key[0].apikey !== '');
 }
 
 async function setApiKey(userId, apiKey) {

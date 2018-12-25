@@ -126,6 +126,15 @@ app.post('/setapi', async function(req, res) {
     }
 });
 
+app.get('/api', async function(req, res) {
+    const user_id = req.query.user;
+    if (user_id) {
+        res.send(await user.hasApi(user_id));
+    } else {
+        res.send(false);
+    }
+});
+
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
 });
