@@ -1,5 +1,6 @@
 <template>
-  <v-app dark>
+  <v-app
+    :dark="true">
     <MenuComp
       v-bind:user="user">
     </MenuComp>
