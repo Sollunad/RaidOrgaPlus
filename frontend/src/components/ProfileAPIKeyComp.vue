@@ -9,8 +9,9 @@
         ></v-text-field>
         <v-btn
                 @click="submit"
+                :color=buttonColor
         >
-            Aktualisieren
+            {{ buttonText }}
         </v-btn>
         <v-snackbar
                 v-model="snackbar"
@@ -41,13 +42,19 @@
             apiKeyRules: [
                 v => !!v || 'Bitte gib deinen API-Key an',
             ],
-            snackbar: false
+            snackbar: false,
+            buttonColor: '',
+            buttonText: 'Aktualisieren'
         }),
         methods: {
             async submit() {
                 if (this.$refs.form.validate()) {
                     const success = await db_user.setApi(this.user.id, this.apiKey);
-                    if (!success) this.snackbar = true;
+                    if (success) {
+                        this.buttonColor = 'success';
+                        this.buttonText = 'Success!';
+                    }
+                    else this.snackbar = true;
                 }
             },
         }
