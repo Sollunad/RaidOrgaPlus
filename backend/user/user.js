@@ -26,7 +26,7 @@ async function getApiKey(userId) {
 
 async function hasApiKey(userId) {
     const api_key = await getApiKey(userId);
-    return (api_key && api_key[0].apikey !== '');
+    return (api_key && api_key[0].apikey !== '' && api_key[0].apikey !== null);
 }
 
 async function setApiKey(userId, apiKey) {
