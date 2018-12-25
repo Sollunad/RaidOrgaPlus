@@ -26,6 +26,7 @@
         computed: {
             raidName: function() {
                 if (this.raid) return this.raid.name;
+                else return '';
             }
         }
     }
