@@ -13,23 +13,13 @@ const progress = require('./encounter/progress');
 const feedback = require('./feedback/feedback');
 
 const fs = require('fs');
+const http = require('http');
 const https = require('https');
 
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     //credentials : true
-};
-
-// Certificate
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/chain.pem', 'utf8');
-
-const credentials = {
-    key: privateKey,
-    cert: certificate,
-    ca: ca
 };
 
 app.use(cors(corsOptions));
@@ -160,6 +150,25 @@ app.post('/feedback', async function(req, res) {
     res.send([]);
 });
 
-https.createServer(credentials, app).listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-});
+try {
+    // Certificate
+    const privateKey = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/privkey.pem', 'utf8');
+    const certificate = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/cert.pem', 'utf8');
+    const ca = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/chain.pem', 'utf8');
+
+    const credentials = {
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+    };
+
+    https.createServer(credentials, app).listen(3000, function () {
+        console.log('Server über HTTPS gestartet auf Port 3000!');
+    });
+} catch(e) {
+    console.log('Server konnte über HTTPS nicht gestartet werden');
+    http.createServer(app).listen(3001, function () {
+        console.log('Server über HTTP gestartet auf Port 3001!');
+    });
+}
+
