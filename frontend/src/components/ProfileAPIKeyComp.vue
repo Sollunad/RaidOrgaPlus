@@ -39,13 +39,19 @@
         data: () => ({
             valid: true,
             apiKey: '',
-            apiKeyRules: [
-                v => !!v || 'Bitte gib deinen API-Key an',
-            ],
+            regex: /[A-Z\d]{8}-([A-Z\d]{4}-){3}[A-Z\d]{20}-([A-Z\d]{4}-){3}[A-Z\d]{12}/,
             snackbar: false,
             buttonColor: '',
             buttonText: 'Aktualisieren'
         }),
+        computed: {
+            apiKeyRules: function() {
+                return [
+                    v => !!v || 'Bitte gib einen API-Key an',
+                    v => this.regex.test(v) || 'Bitte gib einen gültigen API-Key an',
+                ]
+            },
+        },
         methods: {
             async submit() {
                 if (this.$refs.form.validate()) {
