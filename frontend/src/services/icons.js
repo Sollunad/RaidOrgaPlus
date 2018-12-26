@@ -1,3 +1,5 @@
+const config = require('./config.json');
+
 export default { classIcon, roleIcon, encIcon };
 
 function classIcon(icon) {
@@ -13,5 +15,5 @@ function encIcon(icon) {
 }
 
 function linkBuilder(subfolder, icon) {
-    return `http://sollunad.de/roplus/icons/${subfolder}/${icon.toLowerCase()}.png`;
+    return `${config.url}icons/${subfolder}/${icon.toLowerCase()}.png`;
 }

@@ -25,6 +25,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
+app.use('/icons', express.static('icons'));
 
 app.get('/', function (req, res) {
     res.send('Hello World!');
@@ -143,7 +144,6 @@ app.get('/api', async function(req, res) {
 app.post('/feedback', async function(req, res) {
     const text = req.body.text;
     const user = req.body.accname;
-    console.log('Hi!');
     if (text) {
         feedback.new(text, user);
     }
