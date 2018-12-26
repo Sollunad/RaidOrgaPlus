@@ -9,6 +9,7 @@ import SkillsPage from "./pages/SkillsPage";
 import EinstellungenPage from "./pages/EinstellungenPage";
 import RaidEinstellungenPage from "./pages/RaidEinstellungenPage";
 import HomePage from "./pages/HomePage";
+import FeedbackPage from "./pages/FeedbackPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -23,7 +24,8 @@ const routes = [
       ]},
     { path: '/profil', component: ProfilPage },
     { path: '/skills', component: SkillsPage },
-    { path: '/einstellungen', component: EinstellungenPage }
+    { path: '/einstellungen', component: EinstellungenPage },
+    { path: '/feedback', component: FeedbackPage },
 ];
 
 export default routes;

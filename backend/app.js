@@ -2,14 +2,15 @@ let express = require('express');
 let cors = require('cors');
 let app = express();
 
-const raids = require('./raids/raids.js');
-const termin = require('./termin/termin.js');
-const login = require('./user/login.js');
-const register = require('./user/register.js');
-const session = require('./user/session.js');
-const user = require('./user/user.js');
+const raids = require('./raids/raids');
+const termin = require('./termin/termin');
+const login = require('./user/login');
+const register = require('./user/register');
+const session = require('./user/session');
+const user = require('./user/user');
 const encounter = require('./encounter/encounter');
 const progress = require('./encounter/progress');
+const feedback = require('./feedback/feedback');
 
 var corsOptions = {
     origin: '*',
@@ -133,6 +134,16 @@ app.get('/api', async function(req, res) {
     } else {
         res.send(false);
     }
+});
+
+app.post('/feedback', async function(req, res) {
+    const text = req.body.text;
+    const user = req.body.accname;
+    console.log('Hi!');
+    if (text) {
+        feedback.new(text, user);
+    }
+    res.send([]);
 });
 
 app.listen(3000, function () {

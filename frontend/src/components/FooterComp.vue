@@ -1,15 +1,39 @@
 <template>
     <v-footer app fixed>
-        <span>v0.0.1 (pre-alpha) - Made with <3 by Sollunad.9780</span>
+        <span class="footerText">{{ footerText }}</span>
+        <span class="feedback" @click="openFeedback">Feedback?</span>
     </v-footer>
 </template>
 
 <script>
     export default {
-        name: "FooterComp"
+        name: "FooterComp",
+        data: () => ({
+            versionNo: '0.0.1',
+            versionTitle: 'pre-alpha'
+        }),
+        computed: {
+            footerText: function() {
+                return `v${this.versionNo} (${this.versionTitle}) - Made with <3 by Sollunad.9780`;
+            }
+        },
+        methods:{
+            openFeedback: function() {
+                this.$router.push('feedback');
+            }
+        }
     }
 </script>
 
 <style scoped>
+    .feedback {
+        margin-left: 10px;
+        text-decoration: underline;
+
+    }
+
+    .feedback:hover {
+        cursor: pointer;
+    }
 
 </style>
