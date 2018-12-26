@@ -43,7 +43,7 @@
             snackbar: false,
             snackbarText: '',
             buttonColor: '',
-            buttonText: 'Aktualisieren'
+            buttonText: 'API-Key aktualisieren'
         }),
         computed: {
             apiKeyRules: function() {

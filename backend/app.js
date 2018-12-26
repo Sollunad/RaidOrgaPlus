@@ -151,6 +151,15 @@ app.post('/feedback', async function(req, res) {
     res.send([]);
 });
 
+app.post('/changeName', async function(req, res) {
+    const name = req.body.name;
+    const user_id = req.body.userId;
+    if (name && user_id) {
+        user.changeName(user_id, name);
+    }
+    res.send([]);
+});
+
 try {
     // Certificate
     const privateKey = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/privkey.pem', 'utf8');

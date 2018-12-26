@@ -38,7 +38,6 @@ async function setApiKey(userId, apiKey) {
     } catch(e) {
         return '';
     }
-
 }
 
 async function enoughPermissions(apiKey){

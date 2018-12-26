@@ -1,7 +1,7 @@
 const sf = require('snekfetch');
 const config = require('./config.json');
 
-export default { get, hasNoApi, setApi };
+export default { get, hasNoApi, setApi, changeName };
 
 async function get(userId) {
     const url = config.url + 'user?id=' + userId;
@@ -17,5 +17,11 @@ async function hasNoApi(userId) {
 async function setApi(userId, apiKey) {
     const url = config.url + 'setapi';
     const response = await sf.post(url).send({"userId": userId, "apiKey": apiKey});
+    return response.body;
+}
+
+async function changeName(userId, name) {
+    const url = config.url + 'changeName';
+    const response = await sf.post(url).send({"userId": userId, "name": name});
     return response.body;
 }
