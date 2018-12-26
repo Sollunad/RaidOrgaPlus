@@ -8,6 +8,7 @@ exports.register = register;
 async function register(accName, pwd, name){
     const response = await userExists(accName);
     const count = response[0].count;
+    console.log(count);
     if (count > 0) return false;
     const pwdHash = hash.generate(pwd);
     registerUser(accName, pwdHash, name);
@@ -15,18 +16,18 @@ async function register(accName, pwd, name){
 }
 
 function registerUser(accName, pwdHash, name) {
-    const stmt = `INSERT INTO Spieler (accname, password, name) VALUES ('${accName}', '${pwdHash}', '${name}')`;
+    const stmt = 'INSERT INTO Spieler (accname, password, name) VALUES (?, ?, ?)';
     try {
-        db.query(stmt);
+        db.queryV(stmt, [accName, pwdHash, name]);
     } catch(e) {
         throw e;
     }
 }
 
 async function userExists(accName) {
-    const stmt = `SELECT COUNT(*) AS count FROM Spieler WHERE Spieler.accname = '${accName}'`;
+    const stmt = 'SELECT COUNT(*) AS count FROM Spieler WHERE Spieler.accname = ?';
     try {
-        return await db.query(stmt);
+        return await db.queryV(stmt, accName);
     } catch(e) {
         throw e;
     }

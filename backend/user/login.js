@@ -19,9 +19,9 @@ async function login(username, pwd){
 }
 
 async function getUserByName(name) {
-    const stmt = `SELECT * FROM Spieler WHERE Spieler.accname = '${name}'`;
+    const stmt = 'SELECT * FROM Spieler WHERE Spieler.accname = ?';
     try {
-        return await db.query(stmt);
+        return await db.queryV(stmt, name);
     } catch(e) {
         throw e;
     }

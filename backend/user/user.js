@@ -7,18 +7,18 @@ exports.setApi = setApiKey;
 exports.hasApi = hasApiKey;
 
 async function getForId(userId) {
-    const stmt = `SELECT id, accname, name FROM Spieler WHERE id = ${userId}`;
+    const stmt = 'SELECT id, accname, name FROM Spieler WHERE id = ?';
     try {
-        return await db.query(stmt);
+        return await db.queryV(stmt, userId);
     } catch(e) {
         throw e;
     }
 }
 
 async function getApiKey(userId) {
-    const stmt = `SELECT apikey FROM Spieler WHERE id = ${userId}`;
+    const stmt = 'SELECT apikey FROM Spieler WHERE id = ?';
     try {
-        return await db.query(stmt);
+        return await db.queryV(stmt, userId);
     } catch(e) {
         throw e;
     }
@@ -34,8 +34,8 @@ async function setApiKey(userId, apiKey) {
     try {
         const keyName = await api.accName(apiKey);
         if (keyName === user.accname) {
-            const stmt = `UPDATE Spieler SET apikey = '${apiKey}' WHERE id = ${userId}`;
-            db.query(stmt);
+            const stmt = 'UPDATE Spieler SET apikey = ? WHERE id = ?';
+            db.queryV(stmt, [apiKey, userId]);
             return true;
         } else {
             return false;

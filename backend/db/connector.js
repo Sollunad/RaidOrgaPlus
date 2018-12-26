@@ -17,6 +17,7 @@ function query(command) {
 }
 
 function queryV(command, values) {
+  console.log(command + " | " + values);
   const con = sql.createConnection(config);
   return new Promise( (resolve, reject) => {
       con.query(command, values, (err,rows) => {
