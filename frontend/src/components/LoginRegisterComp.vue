@@ -32,8 +32,8 @@
             </v-btn>
             <v-snackbar
                     v-model="snackbar"
-                    timeout=5000
-                    top="true"
+                    :timeout="5000"
+                    :top="true"
             >
                 {{ failureText }}
                 <v-btn

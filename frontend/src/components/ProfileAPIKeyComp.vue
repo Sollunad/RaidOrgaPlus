@@ -15,7 +15,7 @@
         </v-btn>
         <v-snackbar
                 v-model="snackbar"
-                :timeout=5000
+                :timeout="5000"
                 :top="true"
         >
             Fehlgeschlagen! Gehört der API-Key zu deinem Account?
