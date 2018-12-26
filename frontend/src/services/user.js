@@ -15,7 +15,6 @@ async function hasNoApi(userId) {
 }
 
 async function setApi(userId, apiKey) {
-    //TODO: Check for API key syntax (regex)
     const url = config.url + 'setapi';
     const response = await sf.post(url).send({"userId": userId, "apiKey": apiKey});
     return response.body;

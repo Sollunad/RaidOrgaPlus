@@ -18,7 +18,7 @@
                 :timeout="5000"
                 :top="true"
         >
-            Fehlgeschlagen! Gehört der API-Key zu deinem Account?
+            {{ snackbarText }}
             <v-btn
                     color="pink"
                     flat
@@ -41,6 +41,7 @@
             apiKey: '',
             regex: /[A-Z\d]{8}-([A-Z\d]{4}-){3}[A-Z\d]{20}-([A-Z\d]{4}-){3}[A-Z\d]{12}/,
             snackbar: false,
+            snackbarText: '',
             buttonColor: '',
             buttonText: 'Aktualisieren'
         }),
@@ -55,12 +56,20 @@
         methods: {
             async submit() {
                 if (this.$refs.form.validate()) {
-                    const success = await db_user.setApi(this.user.id, this.apiKey);
-                    if (success) {
+                    const response = await db_user.setApi(this.user.id, this.apiKey);
+                    if (response === 'Success') {
                         this.buttonColor = 'success';
                         this.buttonText = 'Success!';
+                    } else if (response === 'Permissions') {
+                        this.snackbarText = 'Fehlende Berechtigungen für den API-Key (account, progression)';
+                        this.snackbar = true;
+                    } else if (response === 'Wrong account') {
+                        this.snackbarText = 'Der API-Key gehört nicht zu deinem Account!';
+                        this.snackbar = true;
+                    } else {
+                        this.snackbarText = 'Ein Fehler ist aufgetreten';
+                        this.snackbar = true;
                     }
-                    else this.snackbar = true;
                 }
             },
         }

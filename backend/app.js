@@ -8,6 +8,7 @@ const login = require('./user/login');
 const register = require('./user/register');
 const session = require('./user/session');
 const user = require('./user/user');
+const api = require('./user/apikey');
 const encounter = require('./encounter/encounter');
 const progress = require('./encounter/progress');
 const feedback = require('./feedback/feedback');
@@ -126,7 +127,7 @@ app.post('/setapi', async function(req, res) {
     const user_id = req.body.userId;
     const apiKey = req.body.apiKey;
     if (user_id && apiKey) {
-        res.send(await user.setApi(user_id, apiKey));
+        res.send(await api.setApi(user_id, apiKey));
     } else {
         res.send(false);
     }
@@ -135,7 +136,7 @@ app.post('/setapi', async function(req, res) {
 app.get('/api', async function(req, res) {
     const user_id = req.query.user;
     if (user_id) {
-        res.send(await user.hasApi(user_id));
+        res.send(await api.hasApi(user_id));
     } else {
         res.send(false);
     }
