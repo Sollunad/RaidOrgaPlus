@@ -1,6 +1,12 @@
 let express = require('express');
 let cors = require('cors');
+const fs = require('fs')
+const https = require('https')
 let app = express();
+
+const key = fs.readFileSync('server.key');
+const cert = fs.readFileSync('server.cert');
+const credentials = {key: key, cert: cert};
 
 const raids = require('./raids/raids.js');
 const termin = require('./termin/termin.js');
@@ -135,6 +141,6 @@ app.get('/api', async function(req, res) {
     }
 });
 
-app.listen(3000, function () {
+https.createServer(credentials, app).listen(3000, function () {
     console.log('Example app listening on port 3000!');
 });
