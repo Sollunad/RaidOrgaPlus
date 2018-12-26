@@ -1,3 +1,4 @@
+git pull
 cd frontend
 npm run build
 cp -r src/icons dist
