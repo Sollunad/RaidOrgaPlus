@@ -8,6 +8,7 @@
         <router-view
                 v-bind:raid="raid"
                 v-bind:role="role"
+                v-bind:user="user"
                 v-on:saveTerminId="saveTerminId"
                 v-bind:terminId="terminId"
         >

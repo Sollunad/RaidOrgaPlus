@@ -5,7 +5,7 @@
                 v-bind:archived="false"
                 v-on:saveTerminId="saveTerminId">
         </TerminOverviewComp>
-        <v-btn color="success" class="buttonAdd"
+        <v-btn color="success" class="buttonAdd" :to="'/raid/neuerTermin'"
                v-if="role > 0">
             Neuer Termin
         </v-btn>
@@ -18,7 +18,7 @@
     export default {
         name: "TerminePage",
         components: {TerminOverviewComp},
-        props: ['raid', 'role'],
+        props: ['raid', 'role', 'user'],
         methods: {
             saveTerminId: function(id) {
                 this.$emit('saveTerminId', id);

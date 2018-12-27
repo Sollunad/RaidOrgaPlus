@@ -11,6 +11,7 @@ import RaidEinstellungenPage from "./pages/RaidEinstellungenPage";
 import HomePage from "./pages/HomePage";
 import FeedbackPage from "./pages/FeedbackPage";
 import StatistikenPage from "./pages/StatistikenPage";
+import NeuerTerminPage from "./pages/NeuerTerminPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -23,6 +24,7 @@ const routes = [
           { path: 'archiv', component: ArchivPage },
           { path: 'einstellungen', component: RaidEinstellungenPage },
           { path: 'statistiken', component: StatistikenPage },
+          { path: 'neuerTermin', component: NeuerTerminPage },
       ]},
     { path: '/profil', component: ProfilPage },
     { path: '/skills', component: SkillsPage },
