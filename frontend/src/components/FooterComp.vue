@@ -14,7 +14,7 @@
         }),
         computed: {
             footerText: function() {
-                return `v${this.versionNo} (${this.versionTitle}) - Made with <3 by Sollunad.9780`;
+                return `v${this.versionNo} (${this.versionTitle}) - Made with ❤ by Sollunad.9780`;
             }
         },
         methods:{
