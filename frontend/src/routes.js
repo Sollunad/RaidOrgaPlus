@@ -10,6 +10,7 @@ import EinstellungenPage from "./pages/EinstellungenPage";
 import RaidEinstellungenPage from "./pages/RaidEinstellungenPage";
 import HomePage from "./pages/HomePage";
 import FeedbackPage from "./pages/FeedbackPage";
+import StatistikenPage from "./pages/StatistikenPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -21,6 +22,7 @@ const routes = [
           { path: 'aufstellung', component: AufstellungPage },
           { path: 'archiv', component: ArchivPage },
           { path: 'einstellungen', component: RaidEinstellungenPage },
+          { path: 'statistiken', component: StatistikenPage },
       ]},
     { path: '/profil', component: ProfilPage },
     { path: '/skills', component: SkillsPage },

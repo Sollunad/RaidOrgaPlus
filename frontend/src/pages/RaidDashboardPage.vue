@@ -29,6 +29,7 @@
                 items: [
                     { title: 'Termine', route: '/raid/termine' },
                     { title: 'Archiv', route: '/raid/archiv' },
+                    { title: 'Statistiken', route: '/raid/statistiken' }
                 ]
             }
         }
