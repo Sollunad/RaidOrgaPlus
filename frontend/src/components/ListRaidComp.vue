@@ -1,6 +1,6 @@
 <template>
         <div>
-            <v-list-tile avatar @click="saveId()" :to="'/raid'">
+            <v-list-tile avatar @click="saveId" :to="'/raid'">
                 <v-list-tile-avatar v-if="raid.icon">
                     <img :src="raid.icon">
                 </v-list-tile-avatar>
@@ -33,7 +33,7 @@
         },
         methods: {
             saveId: function() {
-                localStorage.raidId = this.raid.id;
+                this.$emit('saveRaidId', this.raid.id);
             }
         }
     }

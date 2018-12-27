@@ -20,18 +20,14 @@
     export default {
         name: "RaidPage",
         components: {RaidToolbarComp},
-        props: ['user'],
-        computed: {
-            raidId: function() {
-                return localStorage.raidId;
-            }
-        },
+        props: ['user', 'raidId'],
         asyncComputed: {
             raid: function () {
+                if (this.raidId === 0) window.location.href = '/#/raids';
                 return db_raids.give(this.raidId);
             },
             role: function() {
-                if (this.user) {
+                if (this.user && this.raid) {
                     return db_raids.role(this.raidId, this.user.id);
                 }
             }
