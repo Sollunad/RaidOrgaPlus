@@ -8,6 +8,8 @@
         <router-view
                 v-bind:raid="raid"
                 v-bind:role="role"
+                v-on:saveTerminId="saveTerminId"
+                v-bind:terminId="terminId"
         >
         </router-view>
     </div>
@@ -30,6 +32,14 @@
                 if (this.user && this.raid) {
                     return db_raids.role(this.raidId, this.user.id);
                 }
+            }
+        },
+        data: () => ({
+            terminId: 0
+        }),
+        methods: {
+            saveTerminId: function(id) {
+                this.terminId = id;
             }
         }
     }

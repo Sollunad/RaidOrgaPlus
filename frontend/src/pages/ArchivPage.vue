@@ -1,7 +1,8 @@
 <template>
     <TerminOverviewComp
             v-bind:raid="raid"
-            v-bind:archived="true">
+            v-bind:archived="true"
+            v-on:saveTerminId="saveTerminId">
     </TerminOverviewComp>
 </template>
 
@@ -10,7 +11,12 @@
     export default {
         name: "ArchivPage",
         components: {TerminOverviewComp},
-        props: ['raid']
+        props: ['raid'],
+        methods: {
+            saveTerminId: function(id) {
+                this.$emit('saveTerminId', id);
+            }
+        }
     }
 </script>
 

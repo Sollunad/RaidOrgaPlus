@@ -15,6 +15,7 @@
                                 v-for="termin in termine"
                                 v-bind:key="termin.id"
                                 v-bind:termin="termin"
+                                v-on:saveTerminId="saveTerminId"
                         ></ListTerminComp>
                     </v-list>
                 </v-card>
@@ -42,6 +43,11 @@
                 if (this.termine) {
                     return this.termine.length !== 0;
                 }
+            }
+        },
+        methods: {
+            saveTerminId: function(id) {
+                this.$emit('saveTerminId', id);
             }
         }
     }
