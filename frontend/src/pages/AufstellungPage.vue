@@ -8,7 +8,7 @@
         props: ['terminId'],
         asyncComputed: {
             aufstellung: function(){
-                if (this.terminId === 0) window.location.href = '/#/raid';
+                if (this.terminId === 0) window.location.href = '/#/raids';
             }
         }
     }
