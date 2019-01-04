@@ -12,6 +12,8 @@ const api = require('./user/apikey');
 const encounter = require('./encounter/encounter');
 const progress = require('./encounter/progress');
 const feedback = require('./feedback/feedback');
+const aufstellung = require('./aufstellung/aufstellung');
+const classes = require('./class/class');
 
 const fs = require('fs');
 const http = require('http');
@@ -111,7 +113,12 @@ app.post('/login', async function(req, res) {
 });
 
 app.get('/encounter', async function(req, res) {
-    res.send(await encounter.list());
+    const aufstellung = req.query.aufstellung;
+    if (aufstellung) {
+        res.send(await encounter.getForAufstellung(aufstellung));
+    } else {
+        res.send(await encounter.list());
+    }
 });
 
 app.get('/progress', async function(req, res) {
@@ -158,6 +165,24 @@ app.post('/changeName', async function(req, res) {
         user.changeName(user_id, name);
     }
     res.send([]);
+});
+
+app.get('/aufstellungen', async function(req, res) {
+   const termin = req.query.termin;
+   if (termin) {
+       res.send(await aufstellung.getForTermin(termin));
+   } else {
+       res.send([]);
+   }
+});
+
+app.get('/class', async function(req, res) {
+    const base = req.query.base;
+    if (base) {
+        res.send(await classes.getForBase(base));
+    } else {
+        res.send([]);
+    }
 });
 
 try {

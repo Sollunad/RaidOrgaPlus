@@ -9,13 +9,14 @@
 
 <script>
     import icons from '../services/icons.js';
+    import encounter from '../services/encounter';
 
     export default {
         name: "AufstellungHeaderComp",
         props: ['aufstellungId'],
         asyncComputed:{
             encounter: function() {
-                return {name: 'Keep Construct', abbr: 'KC'};
+                return encounter.getForAufstellung(this.aufstellungId);
             },
         },
         methods: {

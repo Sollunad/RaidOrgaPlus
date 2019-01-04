@@ -19,16 +19,17 @@
 </template>
 
 <script>
-    //TODO Aufstellungen für diesen Termin auslesen
     import AufstellungComp from "./AufstellungComp";
     import TerminToolbarComp from "./TerminToolbarComp";
+    import aufstellung from '../services/aufstellung';
+
     export default {
         name: "TerminComp",
         components: {TerminToolbarComp, AufstellungComp},
         props: ['terminId'],
         asyncComputed: {
-            aufstellungen: function() {
-                return [1,2,3,4,5,6,7,8,9]
+            aufstellungen: async function() {
+                return await aufstellung.getForTermin(this.terminId);
             }
         }
     }
