@@ -14,6 +14,7 @@ const progress = require('./encounter/progress');
 const feedback = require('./feedback/feedback');
 const aufstellung = require('./aufstellung/aufstellung');
 const classes = require('./class/class');
+const element = require('./aufstellung/element');
 
 const fs = require('fs');
 const http = require('http');
@@ -180,6 +181,15 @@ app.get('/class', async function(req, res) {
     const base = req.query.base;
     if (base) {
         res.send(await classes.getForBase(base));
+    } else {
+        res.send([]);
+    }
+});
+
+app.get('/element', async function(req, res) {
+    const aufstellung = req.query.aufstellung;
+    if (aufstellung) {
+        res.send(await element.getAll(aufstellung));
     } else {
         res.send([]);
     }
