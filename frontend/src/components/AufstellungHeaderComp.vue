@@ -3,7 +3,7 @@
         <v-avatar class="avatar">
             <img :src="icon()">
         </v-avatar>
-        {{encounter.name}}
+        <span>{{encounter.name}}</span>
     </div>
 </template>
 

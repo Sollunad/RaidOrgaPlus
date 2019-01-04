@@ -9,10 +9,15 @@
                 v-on:pick="pickClass">
             </MenuClassComp>
         </v-menu>
-        <v-avatar :size="20" :tile="true" class="avatar">
-            <span class="white--text headline" v-if="roleIcon === ''">?</span>
-            <img :src="roleIcon" v-else>
-        </v-avatar>
+        <v-menu>
+            <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
+                <span class="white--text headline" v-if="roleIcon === ''">?</span>
+                <img :src="roleIcon" v-else>
+            </v-avatar>
+            <MenuRoleComp
+                    v-on:pick="pickRole">
+            </MenuRoleComp>
+        </v-menu>
         <span>{{name}}</span>
     </div>
 </template>
@@ -20,10 +25,11 @@
 <script>
     import icons from '../services/icons.js';
     import MenuClassComp from "./MenuClassComp";
+    import MenuRoleComp from "./MenuRoleComp";
 
     export default {
         name: "AufstellungElementComp",
-        components: {MenuClassComp},
+        components: {MenuRoleComp, MenuClassComp},
         props: ['aufstellungId', 'position', 'elements'],
         data: () => ({
             classMenuOpen: true,
@@ -50,6 +56,9 @@
         methods: {
             pickClass: function(name) {
                 this.classMenuOpen = false;
+                console.log(name);
+            },
+            pickRole: function(name) {
                 console.log(name);
             }
         }
