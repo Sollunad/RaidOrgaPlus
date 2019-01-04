@@ -36,6 +36,8 @@
                     const weekday = this.weekday(weekdayId);
                     const dateString = ymd.reverse().join('.');
                     return `${weekday}, ${dateString}`;
+                } else {
+                    return '';
                 }
             }
         }

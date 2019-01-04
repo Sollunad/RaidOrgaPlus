@@ -1,10 +1,14 @@
 <template>
-    <p>Aufstellung Nr. {{ terminId }}</p>
+    <TerminComp
+        v-bind:terminId="terminId">
+    </TerminComp>
 </template>
 
 <script>
+    import TerminComp from "../components/TerminComp";
     export default {
         name: "AufstellungPage",
+        components: {TerminComp},
         props: ['terminId'],
         asyncComputed: {
             aufstellung: function(){
