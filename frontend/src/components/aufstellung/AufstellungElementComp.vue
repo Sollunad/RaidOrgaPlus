@@ -19,7 +19,7 @@
             </MenuRoleComp>
         </v-menu>
         <v-menu :lazy="true">
-            <span slot="activator">{{name}}</span>
+            <span slot="activator" class="name">{{name}}</span>
             <MenuNameComp
                 v-on:pick="pickName"
                 v-bind:raid="raid">
@@ -84,5 +84,14 @@
 <style scoped>
     .avatar {
         margin: 0 0.2rem;
+    }
+
+    .name {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
     }
 </style>
