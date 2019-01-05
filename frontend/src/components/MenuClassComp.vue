@@ -7,7 +7,7 @@
                         :key="index"
                         xs4>
                     <v-menu :lazy="true">
-                        <v-avatar :size="30" class="icon" slot="activator">
+                        <v-avatar :size="30" class="icon" slot="activator" :tile="true">
                             <img :src="classIcon(clss.abbr)">
                         </v-avatar>
                         <MenuSubclassComp
