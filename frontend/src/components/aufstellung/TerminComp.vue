@@ -21,7 +21,7 @@
 <script>
     import AufstellungComp from "./AufstellungComp";
     import TerminToolbarComp from "./TerminToolbarComp";
-    import aufstellung from '../services/aufstellung';
+    import aufstellung from '../../services/aufstellung';
 
     export default {
         name: "TerminComp",

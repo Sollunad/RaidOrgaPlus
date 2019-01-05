@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import icons from '../services/icons.js';
+    import icons from '../../services/icons.js';
     import MenuClassComp from "./MenuClassComp";
     import MenuRoleComp from "./MenuRoleComp";
 

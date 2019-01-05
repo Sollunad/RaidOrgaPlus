@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import TerminComp from "../components/TerminComp";
+    import TerminComp from "../components/aufstellung/TerminComp";
     export default {
         name: "AufstellungPage",
         components: {TerminComp},

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-    import icons from '../services/icons.js';
-    import encounter from '../services/encounter';
+    import icons from '../../services/icons.js';
+    import encounter from '../../services/encounter';
 
     export default {
         name: "AufstellungHeaderComp",

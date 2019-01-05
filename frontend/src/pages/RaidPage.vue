@@ -18,7 +18,7 @@
 
 <script>
     import db_raids from '../services/raids.js';
-    import RaidToolbarComp from "../components/RaidToolbarComp";
+    import RaidToolbarComp from "../components/raid/RaidToolbarComp";
 
     export default {
         name: "RaidPage",

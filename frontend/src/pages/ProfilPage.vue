@@ -21,8 +21,8 @@
 <script>
     //TODO: Anzeigenamen ändern
     //TODO: Builds ankreuzen
-    import ProfileAPIKeyComp from "../components/ProfileAPIKeyComp";
-    import ProfileNameComp from "../components/ProfileNameComp";
+    import ProfileAPIKeyComp from "../components/profile/ProfileAPIKeyComp";
+    import ProfileNameComp from "../components/profile/ProfileNameComp";
     export default {
         name: "ProfilPage",
         components: {ProfileNameComp, ProfileAPIKeyComp},

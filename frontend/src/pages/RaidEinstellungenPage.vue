@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import RaidEinstellungenComp from "../components/RaidEinstellungenComp";
+    import RaidEinstellungenComp from "../components/raid/RaidEinstellungenComp";
     export default {
         name: "RaidEinstellungenPage",
         components: {RaidEinstellungenComp},

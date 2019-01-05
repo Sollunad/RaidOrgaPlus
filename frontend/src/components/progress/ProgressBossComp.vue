@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import icons from '../services/icons.js';
+    import icons from '../../services/icons.js';
 
     export default {
         name: "ProgressBossComp",

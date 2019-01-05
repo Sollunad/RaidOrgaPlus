@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import ProgressComp from "../components/ProgressComp";
+    import ProgressComp from "../components/progress/ProgressComp";
     export default {
         name: "HomePage",
         props: ['user'],

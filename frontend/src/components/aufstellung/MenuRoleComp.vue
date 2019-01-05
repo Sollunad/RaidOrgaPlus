@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import icons from '../services/icons';
+    import icons from '../../services/icons';
 
     export default {
         name: "MenuRoleComp",

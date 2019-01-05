@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import db_user from '../services/user';
+    import db_user from '../../services/user';
 
     export default {
         name: "ProfileAPIKeyComp",

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import icons from '../services/icons';
+    import icons from '../../services/icons';
     import MenuSubclassComp from "./MenuSubclassComp";
 
     export default {

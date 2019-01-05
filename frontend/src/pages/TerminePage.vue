@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import TerminOverviewComp from "../components/TerminOverviewComp";
+    import TerminOverviewComp from "../components/raid/TerminOverviewComp";
 
     export default {
         name: "TerminePage",

@@ -15,9 +15,9 @@
 
 <script>
     import ProgressWingComp from "./ProgressWingComp";
-    import encounter from '../services/encounter';
-    import progress from '../services/progress';
-    import user from '../services/user';
+    import encounter from '../../services/encounter';
+    import progress from '../../services/progress';
+    import user from '../../services/user';
 
     export default {
         name: "ProgressComp",
