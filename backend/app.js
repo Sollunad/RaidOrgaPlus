@@ -216,6 +216,26 @@ app.get('/element', async function(req, res) {
     }
 });
 
+app.post('/element/set', async function(req, res) {
+    const aufstellung = req.body.aufstellung;
+    const position = req.body.position;
+    const type = req.body.type;
+    const value = req.body.value;
+    if (aufstellung && position && type && value) {
+        if (type === "class") {
+            res.send(element.setClass(aufstellung, position, value));
+        } else if (type === "role") {
+            res.send(element.setRole(aufstellung, position, value));
+        } else if (type === "name") {
+            res.send(element.setName(aufstellung, position, value));
+        } else {
+            res.send([]);
+        }
+    } else {
+        res.send([]);
+    }
+});
+
 try {
     // Certificate
     const privateKey = fs.readFileSync('/etc/letsencrypt/live/sv.sollunad.de/privkey.pem', 'utf8');

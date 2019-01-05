@@ -24,6 +24,7 @@
 
 <script>
     import icons from '../../services/icons.js';
+    import element from '../../services/element';
     import MenuClassComp from "./MenuClassComp";
     import MenuRoleComp from "./MenuRoleComp";
 
@@ -41,11 +42,11 @@
                 }
             },
             classIcon: function() {
-                if (this.element && this.element.length > 0) return icons.classIcon(this.element[0].class);
+                if (this.element && this.element.length > 0 && this.element[0].class !== '') return icons.classIcon(this.element[0].class);
                 else return '';
             },
             roleIcon: function() {
-                if (this.element && this.element.length > 0) return icons.roleIcon(this.element[0].role);
+                if (this.element && this.element.length > 0 && this.element[0].role !== '') return icons.roleIcon(this.element[0].role);
                 else return '';
             },
             name: function() {
@@ -54,12 +55,14 @@
             }
         },
         methods: {
-            pickClass: function(name) {
+            pickClass: async function(id) {
                 this.classMenuOpen = false;
-                console.log(name);
+                element.setClass(this.aufstellungId, this.position, id);
+                this.$emit('update');
             },
-            pickRole: function(name) {
-                console.log(name);
+            pickRole: async function(id) {
+                element.setRole(this.aufstellungId, this.position, id);
+                this.$emit('update');
             }
         }
     }

@@ -9,7 +9,8 @@
                     <AufstellungElementComp
                         v-bind:position="i"
                         v-bind:aufstellungId="aufstellungId"
-                        v-bind:elements="elements">
+                        v-bind:elements="elements"
+                        v-on:update="update">
                     </AufstellungElementComp>
                 </v-flex>
             </v-layout>
@@ -25,10 +26,16 @@
         name: "AufstellungBodyComp",
         components: {AufstellungElementComp},
         props: ['aufstellungId'],
-        asyncComputed: {
-            elements: function getElements() {
-                return element.getForAufstellung(this.aufstellungId);
+        data: () => ({
+           elements: null
+        }),
+        methods: {
+            update: async function() {
+                this.elements = await element.getForAufstellung(this.aufstellungId);
             }
+        },
+        created: function() {
+            this.update();
         }
     }
 </script>

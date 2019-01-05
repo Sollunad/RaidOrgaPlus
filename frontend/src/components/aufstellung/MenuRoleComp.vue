@@ -6,7 +6,7 @@
                         v-for="(role, index) in roles"
                         :key="index"
                         xs6>
-                    <v-avatar :size="25" class="icon" slot="activator" @click="pick(role.abbr)" :tile="true">
+                    <v-avatar :size="25" class="icon" slot="activator" @click="pick(role.id)" :tile="true">
                         <img :src="roleIcon(role.abbr)">
                     </v-avatar>
                 </v-flex>

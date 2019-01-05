@@ -6,7 +6,7 @@
                         v-for="(clss, index) in classes"
                         :key="index"
                         xs4>
-                        <v-avatar :size="30" class="icon" slot="activator" @click="pick(clss.abbr)" :tile="true">
+                        <v-avatar :size="30" class="icon" slot="activator" @click="pick(clss.id)" :tile="true">
                             <img :src="classIcon(clss.abbr)">
                         </v-avatar>
                 </v-flex>
