@@ -39,6 +39,8 @@
             element: function() {
                 if (this.elements) {
                     return this.elements.filter(e => e.pos === this.position);
+                } else {
+                    return null;
                 }
             },
             classIcon: function() {
