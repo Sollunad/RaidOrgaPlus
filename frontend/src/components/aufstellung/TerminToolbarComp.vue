@@ -5,7 +5,9 @@
             <v-btn flat icon slot="activator">
                 <v-icon>add</v-icon>
             </v-btn>
-            <MenuWingComp></MenuWingComp>
+            <MenuWingComp
+                v-on:pick="addBoss">
+            </MenuWingComp>
         </v-menu>
         <p></p>
         <AnmeldungComp
@@ -28,6 +30,9 @@
         methods: {
             anmelden: function(type) {
                 this.$emit('anmelden', type);
+            },
+            addBoss: function(info) {
+                this.$emit('addBoss', info);
             }
         }
     }

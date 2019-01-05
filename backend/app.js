@@ -91,6 +91,30 @@ app.post('/termin/anmelden', async function(req, res) {
     }
 });
 
+app.post('/termin/addBoss', async function(req, res) {
+    const termin_id = req.body.termin;
+    const boss = req.body.boss;
+    if (termin_id && boss) {
+        termin.addBoss(termin_id, boss).then(async () => {
+            res.send(await aufstellung.getForTermin(termin_id));
+        })
+    } else {
+        res.send([]);
+    }
+});
+
+app.post('/termin/addWing', async function(req, res) {
+    const termin_id = req.body.termin;
+    const wing = req.body.wing;
+    if (termin_id && wing) {
+        termin.addWing(termin_id, wing).then(async () => {
+            res.send(await aufstellung.getForTermin(termin_id));
+        })
+    } else {
+        res.send([]);
+    }
+});
+
 app.get('/termin/anmeldung', async function(req, res) {
     const spieler = req.query.spieler;
     const termin_id = req.query.termin;
@@ -145,8 +169,11 @@ app.post('/login', async function(req, res) {
 
 app.get('/encounter', async function(req, res) {
     const aufstellung = req.query.aufstellung;
+    const wing = req.query.wing;
     if (aufstellung) {
         res.send(await encounter.getForAufstellung(aufstellung));
+    } else if (wing) {
+        res.send(await encounter.listForWing(wing));
     } else {
         res.send(await encounter.list());
     }

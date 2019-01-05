@@ -2,7 +2,8 @@
     <div>
         <TerminToolbarComp
             v-on:anmelden="anmelden"
-            v-bind:anmeldung="anmeldung">
+            v-bind:anmeldung="anmeldung"
+            v-on:addBoss="addBoss">
         </TerminToolbarComp>
         <div v-if="aufstellungen">
             <v-container grid-list-md>
@@ -32,11 +33,10 @@
         name: "AufstellungPage",
         components: {TerminToolbarComp, AufstellungComp},
         props: ['terminId', 'raid', 'role', 'user'],
+        data: () => ({
+            aufstellungen: null
+        }),
         asyncComputed: {
-            aufstellungen: function(){
-                if (this.terminId === 0) window.location.href = '/#/raids';
-                else return aufstellung.getForTermin(this.terminId);
-            },
             anmeldung: function() {
                 if (this.terminId) return termin.getAnmeldung(this.user.id, this.terminId);
                 else return null;
@@ -45,6 +45,20 @@
         methods: {
             anmelden: function(type) {
                 termin.anmelden(this.user.id, this.terminId, type);
+            },
+            addBoss: async function(info) {
+                const [boss, wing] = info;
+                if (boss === 0) {
+                    this.aufstellungen = await termin.addWing(this.terminId, wing);
+                } else {
+                    this.aufstellungen = await termin.addBoss(this.terminId, boss);
+                }
+            }
+        },
+        created: async function() {
+            if (this.terminId === 0) window.location.href = '/#/raids';
+            else {
+                this.aufstellungen = await aufstellung.getForTermin(this.terminId);
             }
         }
     }

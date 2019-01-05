@@ -6,7 +6,10 @@
         >
             <v-menu>
                 <v-list-tile-title slot="activator">Wing {{ wing }}</v-list-tile-title>
-                <MenuBossComp></MenuBossComp>
+                <MenuBossComp
+                    v-bind:wing="wing"
+                    v-on:pick="pick">
+                </MenuBossComp>
             </v-menu>
         </v-list-tile>
     </v-list>
@@ -18,10 +21,22 @@
         name: "MenuWingComp",
         components: {MenuBossComp},
         data: () => ({
-            wings: [
-                1,2,3,4,5,6
-            ]
-        })
+            maxWing: 6
+        }),
+        computed: {
+            wings: function() {
+                let ret = [];
+                for (let i = 1; i <= this.maxWing; i++) {
+                    ret.push(i);
+                }
+                return ret;
+            }
+        },
+        methods: {
+            pick: function(info) {
+                this.$emit('pick',info);
+            }
+        }
     }
 </script>
 
