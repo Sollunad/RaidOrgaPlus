@@ -19,7 +19,7 @@
         },
         methods:{
             openFeedback: function() {
-                this.$router.push('feedback');
+                this.$router.push('/feedback');
             }
         }
     }
