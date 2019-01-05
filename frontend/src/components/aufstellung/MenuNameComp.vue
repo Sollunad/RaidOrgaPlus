@@ -18,7 +18,6 @@
         asyncComputed: {
             users: async function() {
                 if (this.raid) {
-                    console.log(await raids.listPlayers(this.raid.id));
                     return raids.listPlayers(this.raid.id);
                 }
                 else return [];
