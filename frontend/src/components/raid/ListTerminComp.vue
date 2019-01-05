@@ -48,7 +48,7 @@
                 if (this.user) {
                     const anmeldung = await termin.getAnmeldung(this.user.id, this.termin.id);
                     if (anmeldung === null) return 'error';
-                    const icons = ['check_circle', 'help', 'cancel'];
+                    const icons = ['check_circle', 'check_circle_outline', 'cancel'];
                     return icons[anmeldung];
                 } else {
                     return '';

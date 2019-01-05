@@ -4,7 +4,7 @@
             <v-icon>check_circle</v-icon>
         </v-btn>
         <v-btn flat color="yellow">
-            <v-icon>help</v-icon>
+            <v-icon>check_circle_outline</v-icon>
         </v-btn>
         <v-btn flat color="red">
             <v-icon>cancel</v-icon>

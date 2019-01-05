@@ -4,7 +4,8 @@
             v-bind:aufstellungId="aufstellungId">
         </AufstellungHeaderComp>
         <AufstellungBodyComp
-            v-bind:aufstellungId="aufstellungId">
+            v-bind:aufstellungId="aufstellungId"
+            v-bind:raid="raid">
         </AufstellungBodyComp>
     </div>
 </template>
@@ -15,7 +16,7 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellungId']
+        props: ['aufstellungId', 'raid']
     }
 </script>
 

@@ -10,6 +10,7 @@
                         v-bind:position="i"
                         v-bind:aufstellungId="aufstellungId"
                         v-bind:elements="elements"
+                        v-bind:raid="raid"
                         v-on:update="update">
                     </AufstellungElementComp>
                 </v-flex>
@@ -25,7 +26,7 @@
     export default {
         name: "AufstellungBodyComp",
         components: {AufstellungElementComp},
-        props: ['aufstellungId'],
+        props: ['aufstellungId', 'raid'],
         data: () => ({
            elements: null
         }),

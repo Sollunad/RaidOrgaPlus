@@ -12,7 +12,8 @@
                             :key="aufstellungId"
                             xs12 sm6 xl4>
                         <AufstellungComp
-                                v-bind:aufstellungId="aufstellungId">
+                                v-bind:aufstellungId="aufstellungId"
+                                v-bind:raid="raid">
                         </AufstellungComp>
                     </v-flex>
                 </v-layout>

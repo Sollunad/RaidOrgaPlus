@@ -47,6 +47,15 @@ app.get('/raids', async function (req, res) {
     }
 });
 
+app.get('/raids/players', async function (req, res) {
+    const raid_id = req.query.raid;
+    if (raid_id) {
+        res.send(await raids.listPlayers(raid_id));
+    } else {
+        res.send([]);
+    }
+});
+
 app.get('/role', async function (req, res) {
     const user_id = req.query.user;
     const raid_id = req.query.raid;

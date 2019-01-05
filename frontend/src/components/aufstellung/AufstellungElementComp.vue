@@ -15,10 +15,16 @@
                 <img :src="roleIcon" v-else>
             </v-avatar>
             <MenuRoleComp
-                    v-on:pick="pickRole">
+                v-on:pick="pickRole">
             </MenuRoleComp>
         </v-menu>
-        <span>{{name}}</span>
+        <v-menu :lazy="true">
+            <span slot="activator">{{name}}</span>
+            <MenuNameComp
+                v-on:pick="pickName"
+                v-bind:raid="raid">
+            </MenuNameComp>
+        </v-menu>
     </div>
 </template>
 
@@ -27,11 +33,12 @@
     import element from '../../services/element';
     import MenuClassComp from "./MenuClassComp";
     import MenuRoleComp from "./MenuRoleComp";
+    import MenuNameComp from "./MenuNameComp";
 
     export default {
         name: "AufstellungElementComp",
-        components: {MenuRoleComp, MenuClassComp},
-        props: ['aufstellungId', 'position', 'elements'],
+        components: {MenuNameComp, MenuRoleComp, MenuClassComp},
+        props: ['aufstellungId', 'position', 'elements', 'raid'],
         data: () => ({
             classMenuOpen: false,
         }),
@@ -64,6 +71,10 @@
             },
             pickRole: async function(id) {
                 const newElements = await element.setRole(this.aufstellungId, this.position, id);
+                this.$emit('update', newElements);
+            },
+            pickName: async function(id) {
+                const newElements = await element.setName(this.aufstellungId, this.position, id);
                 this.$emit('update', newElements);
             }
         }
