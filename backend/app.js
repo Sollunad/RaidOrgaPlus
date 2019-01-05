@@ -223,14 +223,21 @@ app.post('/element/set', async function(req, res) {
     const value = req.body.value;
     if (aufstellung && position && type && value) {
         if (type === "class") {
-            res.send(element.setClass(aufstellung, position, value));
+            element.setClass(aufstellung, position, value).then(async () => {
+                res.send(await element.getAll(aufstellung));
+            });
         } else if (type === "role") {
-            res.send(element.setRole(aufstellung, position, value));
+            element.setRole(aufstellung, position, value).then(async () => {
+                res.send(await element.getAll(aufstellung));
+            });
         } else if (type === "name") {
-            res.send(element.setName(aufstellung, position, value));
+            element.setName(aufstellung, position, value).then(async () => {
+                res.send(await element.getAll(aufstellung));
+            });
         } else {
             res.send([]);
         }
+
     } else {
         res.send([]);
     }

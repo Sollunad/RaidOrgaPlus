@@ -30,12 +30,12 @@
            elements: null
         }),
         methods: {
-            update: async function() {
-                this.elements = await element.getForAufstellung(this.aufstellungId);
+            update: async function(newElements) {
+                this.elements = newElements;
             }
         },
-        created: function() {
-            this.update();
+        created: async function() {
+            this.elements = await element.getForAufstellung(this.aufstellungId);
         }
     }
 </script>

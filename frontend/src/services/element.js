@@ -5,7 +5,8 @@ export default { getForAufstellung, setClass, setRole, setName };
 
 async function getForAufstellung(aufstellung) {
     const url = config.url + 'element?aufstellung=' + aufstellung;
-    return (await sf.get(url)).body;
+    const response = await sf.get(url);
+    return response.body;
 }
 
 async function setClass(aufstellung, position, value){

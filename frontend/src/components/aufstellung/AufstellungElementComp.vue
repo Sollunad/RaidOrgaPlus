@@ -57,12 +57,12 @@
         methods: {
             pickClass: async function(id) {
                 this.classMenuOpen = false;
-                element.setClass(this.aufstellungId, this.position, id);
-                this.$emit('update');
+                const newElements = await element.setClass(this.aufstellungId, this.position, id);
+                this.$emit('update', newElements);
             },
             pickRole: async function(id) {
-                element.setRole(this.aufstellungId, this.position, id);
-                this.$emit('update');
+                const newElements = await element.setRole(this.aufstellungId, this.position, id);
+                this.$emit('update', newElements);
             }
         }
     }
