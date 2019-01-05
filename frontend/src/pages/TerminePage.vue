@@ -3,6 +3,7 @@
         <TerminOverviewComp
                 v-bind:raid="raid"
                 v-bind:archived="false"
+                v-bind:user="user"
                 v-on:saveTerminId="saveTerminId">
         </TerminOverviewComp>
         <v-btn color="success" class="buttonAdd" :to="'/raid/neuerTermin'"

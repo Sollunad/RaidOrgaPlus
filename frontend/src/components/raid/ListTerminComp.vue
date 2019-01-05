@@ -7,7 +7,7 @@
             </v-list-tile-content>
             <v-list-tile-action>
                 <v-btn icon>
-                    <v-icon>check_circle</v-icon>
+                    <v-icon>{{icon}}</v-icon>
                 </v-btn>
             </v-list-tile-action>
         </v-list-tile>
@@ -15,9 +15,11 @@
 </template>
 
 <script>
+    import termin from '../../services/termin';
+
     export default {
         name: "ListTerminComp",
-        props: ['termin'],
+        props: ['termin', 'user'],
         methods: {
             saveId: function() {
                 this.$emit('saveTerminId', this.termin.id);
@@ -36,6 +38,18 @@
                     const weekday = this.weekday(weekdayId);
                     const dateString = ymd.reverse().join('.');
                     return `${weekday}, ${dateString}`;
+                } else {
+                    return '';
+                }
+            }
+        },
+        asyncComputed: {
+            icon: async function() {
+                if (this.user) {
+                    const anmeldung = await termin.getAnmeldung(this.user.id, this.termin.id);
+                    if (anmeldung === null) return 'error';
+                    const icons = ['check_circle', 'help', 'cancel'];
+                    return icons[anmeldung];
                 } else {
                     return '';
                 }

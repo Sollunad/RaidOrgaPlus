@@ -32,7 +32,7 @@
         components: {MenuRoleComp, MenuClassComp},
         props: ['aufstellungId', 'position', 'elements'],
         data: () => ({
-            classMenuOpen: true,
+            classMenuOpen: false,
         }),
         computed: {
             element: function() {

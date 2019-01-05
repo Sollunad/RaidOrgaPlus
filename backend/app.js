@@ -71,6 +71,27 @@ app.get('/termin', async function (req, res) {
     }
 });
 
+app.post('/termin/anmelden', async function(req, res) {
+    const spieler = req.body.spieler;
+    const termin_id = req.body.termin;
+    const type = req.body.type;
+    if (spieler && termin_id && (type || type === 0)) {
+        res.send(await termin.anmelden(spieler, termin_id, type));
+    } else {
+        res.send([]);
+    }
+});
+
+app.get('/termin/anmeldung', async function(req, res) {
+    const spieler = req.query.spieler;
+    const termin_id = req.query.termin;
+    if (spieler && termin_id) {
+        res.send(await termin.getAnmeldung(spieler, termin_id));
+    } else {
+        res.send([]);
+    }
+});
+
 app.get('/user', async function (req, res) {
     const user_id = req.query.id;
     if (user_id) {

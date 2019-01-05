@@ -15,6 +15,7 @@
                                 v-for="termin in termine"
                                 v-bind:key="termin.id"
                                 v-bind:termin="termin"
+                                v-bind:user="user"
                                 v-on:saveTerminId="saveTerminId"
                         ></ListTerminComp>
                     </v-list>
@@ -31,7 +32,7 @@
     export default {
         name: "TerminOverviewComp",
         components: {ListTerminComp},
-        props: ['raid', 'archived'],
+        props: ['raid', 'archived', 'user'],
         asyncComputed: {
             termine: function() {
                 if (this.raid) {
