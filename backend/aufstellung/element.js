@@ -10,7 +10,7 @@ async function getAll(aufstellung) {
         ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
         ' JOIN Rolle ON Rolle.id = AufstellungElement.fk_role' +
         ' JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler' +
-        ' WHERE fk_aufstellung = ?';
+        ' WHERE fk_aufstellung = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, aufstellung);
     } catch(e) {
