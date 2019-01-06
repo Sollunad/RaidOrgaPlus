@@ -19,7 +19,7 @@ async function isArchived(terminId) {
 }
 
 async function listActive(raidId) {
-    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 0';
+    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 0 ORDER BY Termin.date, Termin.time';
     try {
         return await db.queryV(stmt, raidId);
     } catch(e) {
@@ -28,7 +28,7 @@ async function listActive(raidId) {
 }
 
 async function listArchived(raidId) {
-    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1';
+    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
     try {
         return await db.queryV(stmt, raidId);
     } catch(e) {
