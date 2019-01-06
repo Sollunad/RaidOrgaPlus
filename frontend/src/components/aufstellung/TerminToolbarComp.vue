@@ -1,7 +1,7 @@
 <template>
     <div class="toolbar">
         Wochentag, Datum?
-        <v-menu :close-on-content-click="false" v-model="menuOpen">
+        <v-menu :close-on-content-click="false" v-model="menuOpen" v-if="role > 0">
             <v-btn flat icon slot="activator">
                 <v-icon>add</v-icon>
             </v-btn>
@@ -23,7 +23,7 @@
     export default {
         name: "TerminToolbarComp",
         components: {AnmeldungComp, MenuWingComp},
-        props: ['anmeldung'],
+        props: ['anmeldung', 'role'],
         data: () => ({
             menuOpen: false
         }),

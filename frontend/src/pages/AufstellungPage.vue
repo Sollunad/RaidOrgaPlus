@@ -3,6 +3,7 @@
         <TerminToolbarComp
             v-on:anmelden="anmelden"
             v-bind:anmeldung="anmeldung"
+            v-bind:role="role"
             v-on:addBoss="addBoss">
         </TerminToolbarComp>
         <div v-if="aufstellungen">
@@ -15,6 +16,7 @@
                         <AufstellungComp
                                 v-bind:aufstellungId="aufstellungId"
                                 v-bind:raid="raid"
+                                v-bind:role="role"
                                 v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
                     </v-flex>
