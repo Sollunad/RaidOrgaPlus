@@ -1,7 +1,10 @@
 <template>
-    <NeuerTerminComp
-        v-if="role > 0">
-    </NeuerTerminComp>
+    <div class="form">
+        <NeuerTerminComp
+                v-if="role > 0"
+                v-bind:raid="raid">
+        </NeuerTerminComp>
+    </div>
 </template>
 
 <script>
@@ -14,5 +17,7 @@
 </script>
 
 <style scoped>
-
+    .form {
+        margin: 5%;
+    }
 </style>

@@ -80,6 +80,17 @@ app.get('/termin', async function (req, res) {
     }
 });
 
+app.post('/termin/neu', async function(req, res) {
+    const raid = req.body.raid;
+    const date = req.body.date;
+    const time = req.body.time;
+    if (raid && date && time) {
+        res.send(await termin.newTermin(raid, date, time));
+    } else {
+        res.send([]);
+    }
+});
+
 app.post('/termin/anmelden', async function(req, res) {
     const spieler = req.body.spieler;
     const termin_id = req.body.termin;

@@ -3,7 +3,7 @@
         <v-list-tile avatar @click="saveId" :to="'/raid/aufstellung'">
             <v-list-tile-content>
                 <v-list-tile-title v-html="terminDate"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="termin.time"></v-list-tile-sub-title>
+                <v-list-tile-sub-title v-html="terminTime"></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
                 <v-btn icon>
@@ -34,10 +34,18 @@
                 if (this.termin) {
                     let ymd = this.termin.date.slice(0,10).split('-');
                     ymd[2] = parseInt(ymd[2]) + 1;
+                    if (ymd[2] < 10) ymd[2] = '0' + ymd[2];
                     const weekdayId = new Date(ymd[0], ymd[1] - 1, ymd[2]).getDay();
                     const weekday = this.weekday(weekdayId);
                     const dateString = ymd.reverse().join('.');
                     return `${weekday}, ${dateString}`;
+                } else {
+                    return '';
+                }
+            },
+            terminTime: function() {
+                if (this.termin) {
+                    return this.termin.time.slice(0,5);
                 } else {
                     return '';
                 }
