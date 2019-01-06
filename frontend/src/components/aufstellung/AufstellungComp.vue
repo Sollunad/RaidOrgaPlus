@@ -3,11 +3,13 @@
         <AufstellungHeaderComp
             v-bind:aufstellungId="aufstellungId"
             v-on:deleteBoss="deleteBoss"
-            v-bind:role="role">
+            v-bind:role="role"
+            v-bind:active="active">
         </AufstellungHeaderComp>
         <AufstellungBodyComp
-            v-bind:aufstellungId="aufstellungId"
-            v-bind:raid="raid">
+                v-bind:aufstellungId="aufstellungId"
+                v-bind:raid="raid"
+                v-bind:active="active">
         </AufstellungBodyComp>
     </div>
 </template>
@@ -18,7 +20,7 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellungId', 'raid', 'role'],
+        props: ['aufstellungId', 'raid', 'role', 'active'],
         methods: {
             deleteBoss: function() {
                 this.$emit('deleteBoss', this.aufstellungId);

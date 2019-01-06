@@ -5,7 +5,8 @@
             v-bind:anmeldung="anmeldung"
             v-bind:role="role"
             v-bind:active="isActive"
-            v-on:addBoss="addBoss">
+            v-on:addBoss="addBoss"
+            v-on:archive="archive">
         </TerminToolbarComp>
         <div v-if="aufstellungen">
             <v-container grid-list-md>
@@ -18,12 +19,18 @@
                                 v-bind:aufstellungId="aufstellungId"
                                 v-bind:raid="raid"
                                 v-bind:role="role"
+                                v-bind:active="isActive"
                                 v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
                     </v-flex>
                 </v-layout>
             </v-container>
         </div>
+        <ArchiveDialogComp
+            v-bind:open="archiveDialogOpen"
+            v-on:archiveOK="archiveOK"
+            v-on:archiveCancel="archiveCancel">
+        </ArchiveDialogComp>
     </div>
 </template>
 
@@ -32,13 +39,15 @@
     import AufstellungComp from '../../components/aufstellung/AufstellungComp';
     import aufstellung from '../../services/aufstellung';
     import termin from '../../services/termin';
+    import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
 
     export default {
         name: "AufstellungPage",
-        components: {TerminToolbarComp, AufstellungComp},
+        components: {ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
         props: ['terminId', 'raid', 'role', 'user'],
         data: () => ({
-            aufstellungen: null
+            aufstellungen: null,
+            archiveDialogOpen: false,
         }),
         asyncComputed: {
             anmeldung: function() {
@@ -64,6 +73,18 @@
             },
             deleteBoss: async function(aufstellungId) {
                 this.aufstellungen = await aufstellung.deleteBoss(aufstellungId, this.terminId);
+            },
+            archive: function() {
+                this.archiveDialogOpen = true;
+            },
+            archiveOK: function() {
+                this.archiveDialogOpen = false;
+                termin.archive(this.terminId).then(() => {
+                    window.history.back();
+                });
+            },
+            archiveCancel: function() {
+                this.archiveDialogOpen = false;
             }
         },
         created: async function() {

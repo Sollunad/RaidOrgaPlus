@@ -9,6 +9,9 @@
                 v-on:pick="addBoss">
             </MenuWingComp>
         </v-menu>
+        <v-btn flat icon v-if="role > 0 && active" @click="archive">
+            <v-icon>send</v-icon>
+        </v-btn>
         <p></p>
         <AnmeldungComp
             v-on:anmelden="anmelden"
@@ -34,6 +37,9 @@
             },
             addBoss: function(info) {
                 this.$emit('addBoss', info);
+            },
+            archive: function() {
+                this.$emit('archive');
             }
         }
     }

@@ -4,6 +4,7 @@ exports.isArchived = isArchived;
 exports.listActive = listActive;
 exports.listArchived = listArchived;
 exports.newTermin = newTermin;
+exports.archive = archive;
 exports.anmelden = anmelden;
 exports.getAnmeldung = getAnmeldung;
 exports.addBoss = addBoss;
@@ -40,6 +41,15 @@ async function newTermin(raid, date, time) {
     const stmt = 'INSERT INTO Termin (fk_raid, date, time) VALUES (?,?,?)';
     try {
         return await db.queryV(stmt, [raid, date, time]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function archive(termin) {
+    const stmt = 'UPDATE Termin SET isArchived = 1 WHERE id = ?';
+    try {
+        return await db.queryV(stmt, termin);
     } catch(e) {
         throw e;
     }

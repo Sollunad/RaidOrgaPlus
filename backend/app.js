@@ -100,6 +100,15 @@ app.post('/termin/neu', async function(req, res) {
     }
 });
 
+app.post('/termin/archive', async function(req, res) {
+    const termin_id = req.body.termin;
+    if (termin_id) {
+        res.send(await termin.archive(termin_id));
+    } else {
+        res.send([]);
+    }
+});
+
 app.post('/termin/anmelden', async function(req, res) {
     const spieler = req.body.spieler;
     const termin_id = req.body.termin;

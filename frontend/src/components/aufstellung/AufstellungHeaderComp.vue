@@ -4,7 +4,7 @@
             <img :src="icon()">
         </v-avatar>
         <span>{{encounter.name}}{{isCm? ' CM' : ''}}</span>
-        <v-btn flat icon color="red" @click="deleteBoss" class="button" v-if="role > 0">
+        <v-btn flat icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
             <v-icon>clear</v-icon>
         </v-btn>
     </div>
@@ -16,7 +16,7 @@
 
     export default {
         name: "AufstellungHeaderComp",
-        props: ['aufstellungId', 'role'],
+        props: ['aufstellungId', 'role', 'active'],
         data: () => ({
             isCm: false
         }),

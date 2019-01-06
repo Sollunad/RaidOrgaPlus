@@ -1,7 +1,7 @@
 const sf = require('snekfetch');
 const config = require('./config.json');
 
-export default { isArchived, listActive, listArchived, newTermin, anmelden, getAnmeldung, addBoss, addWing };
+export default { isArchived, listActive, listArchived, newTermin, archive, anmelden, getAnmeldung, addBoss, addWing };
 
 async function isArchived(termin) {
     const url = config.url + 'termin/isArchived?termin=' + termin;
@@ -24,6 +24,12 @@ async function listArchived(raidId) {
 async function newTermin(raid, date, time) {
     const url = config.url + 'termin/neu';
     const response = await sf.post(url).send({"raid": raid, "date": date, "time": time});
+    return response.body;
+}
+
+async function archive(termin) {
+    const url = config.url + 'termin/archive';
+    const response = await sf.post(url).send({"termin": termin});
     return response.body;
 }
 
