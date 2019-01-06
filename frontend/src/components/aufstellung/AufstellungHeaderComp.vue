@@ -3,8 +3,8 @@
         <v-avatar class="avatar">
             <img :src="icon()">
         </v-avatar>
-        <span>{{encounter.name}}</span>
-        <v-btn flat icon color="red" @click="deleteBoss">
+        <span>{{encounter.name}}{{isCm? ' CM' : ''}}</span>
+        <v-btn flat icon color="red" @click="deleteBoss" class="button">
             <v-icon>clear</v-icon>
         </v-btn>
     </div>
@@ -17,6 +17,9 @@
     export default {
         name: "AufstellungHeaderComp",
         props: ['aufstellungId'],
+        data: () => ({
+            isCm: false
+        }),
         asyncComputed:{
             encounter: function() {
                 return encounter.getForAufstellung(this.aufstellungId);
@@ -42,7 +45,6 @@
     .header {
         font-size: 20px;
         font-weight: bold;
-        width: fit-content;
         padding: 0.5rem 1rem;
     }
 
