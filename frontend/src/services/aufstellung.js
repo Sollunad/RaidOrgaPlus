@@ -1,7 +1,7 @@
 const sf = require('snekfetch');
 const config = require('./config.json');
 
-export default { getForTermin, deleteBoss };
+export default { getForTermin, deleteBoss, getSuccess, setSuccess };
 
 async function getForTermin(termin) {
     const url = config.url + 'aufstellungen?termin=' + termin;
@@ -9,7 +9,25 @@ async function getForTermin(termin) {
 }
 
 async function deleteBoss(aufstellung, termin) {
-    const url = config.url + 'aufstellungen/delete?aufstellung=' + aufstellung + '&termin=' + termin;
+    const url = config.url + 'aufstellungen/delete';
     const response = await sf.post(url).send({"aufstellung": aufstellung, "termin": termin});
     return response.body.map(e => e.id);
+}
+
+async function getSuccess(aufstellung){
+    const url = config.url + 'aufstellungen/success?aufstellung=' + aufstellung;
+    const response = await sf.get(url);
+    if (response.body.length > 0) {
+        const successValue = response.body[0].success;
+        return successValue === 1;
+    } else {
+        return false;
+    }
+}
+
+async function setSuccess(aufstellung, success) {
+    const url = config.url + 'aufstellungen/success';
+    const successValue = success? 1 : 0;
+    const response = await sf.post(url).send({"aufstellung": aufstellung, "success": successValue});
+    return response.body;
 }

@@ -7,6 +7,9 @@
         <v-btn flat icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
             <v-icon>clear</v-icon>
         </v-btn>
+        <v-btn flat icon :color="successColor" @click="toggleSuccess" class="button" v-if="role > 0 && !active">
+            <v-icon>done</v-icon>
+        </v-btn>
     </div>
 </template>
 
@@ -16,7 +19,7 @@
 
     export default {
         name: "AufstellungHeaderComp",
-        props: ['aufstellungId', 'role', 'active'],
+        props: ['aufstellungId', 'role', 'active', 'success'],
         data: () => ({
             isCm: false
         }),
@@ -25,6 +28,12 @@
                 return encounter.getForAufstellung(this.aufstellungId);
             },
         },
+        computed: {
+            successColor: function() {
+                if (this.success) return 'green';
+                else return 'white';
+            }
+        },
         methods: {
             icon: function() {
                 if (this.encounter) return icons.encIcon(this.encounter.abbr);
@@ -32,6 +41,9 @@
             },
             deleteBoss: function() {
                 this.$emit('deleteBoss');
+            },
+            toggleSuccess: function() {
+                this.$emit('toggleSuccess');
             }
         }
     }

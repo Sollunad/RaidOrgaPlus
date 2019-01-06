@@ -263,9 +263,28 @@ app.get('/aufstellungen', async function(req, res) {
    }
 });
 
+app.get('/aufstellungen/success', async function(req, res) {
+    const aufstellung_id = req.query.aufstellung;
+    if (aufstellung_id) {
+        res.send(await aufstellung.getSuccess(aufstellung_id));
+    } else {
+        res.send([]);
+    }
+});
+
+app.post('/aufstellungen/success', async function(req, res) {
+    const aufstellung_id = req.body.aufstellung;
+    const success = req.body.success;
+    if (aufstellung_id && success) {
+        res.send(await aufstellung.setSuccess(aufstellung_id, success));
+    } else {
+        res.send([]);
+    }
+});
+
 app.post('/aufstellungen/delete', async function(req, res) {
     const aufstellung_id = req.body.aufstellung;
-    const termin_id = req.query.termin;
+    const termin_id = req.body.termin;
     if (aufstellung_id && termin_id) {
         aufstellung.delete(aufstellung_id).then(async () => {
             res.send(await aufstellung.getForTermin(termin_id));
