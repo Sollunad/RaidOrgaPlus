@@ -1,5 +1,5 @@
 <template>
-    <div v-if="encounter" class="header">
+    <div v-if="encounter" class="header unselectable">
         <v-avatar class="avatar">
             <img :src="icon()">
         </v-avatar>
@@ -62,5 +62,14 @@
 
     .button {
         float: right;
+    }
+
+    .unselectable {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
     }
 </style>
