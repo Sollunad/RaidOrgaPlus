@@ -28,10 +28,10 @@
 </template>
 
 <script>
-    import TerminToolbarComp from "../components/aufstellung/TerminToolbarComp";
-    import AufstellungComp from '../components/aufstellung/AufstellungComp';
-    import aufstellung from '../services/aufstellung';
-    import termin from '../services/termin';
+    import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp";
+    import AufstellungComp from '../../components/aufstellung/AufstellungComp';
+    import aufstellung from '../../services/aufstellung';
+    import termin from '../../services/termin';
 
     export default {
         name: "AufstellungPage",

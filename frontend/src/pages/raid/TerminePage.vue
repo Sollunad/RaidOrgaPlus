@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import TerminOverviewComp from "../components/raid/TerminOverviewComp";
+    import TerminOverviewComp from "../../components/raid/TerminOverviewComp";
 
     export default {
         name: "TerminePage",

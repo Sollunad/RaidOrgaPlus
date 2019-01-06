@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import NeuerTerminComp from "../components/raid/NeuerTerminComp";
+    import NeuerTerminComp from "../../components/raid/NeuerTerminComp";
     export default {
         name: "NeuerTerminPage",
         props: ['raid', 'role'],

@@ -1,18 +1,18 @@
 import MeineRaidsPage from './pages/MeineRaidsPage.vue';
-import RaidDashboardPage from "./pages/RaidDashboardPage";
+import RaidDashboardPage from "./pages/raid/RaidDashboardPage";
 import RaidPage from './pages/RaidPage';
-import TerminePage from "./pages/TerminePage";
-import AufstellungPage from "./pages/AufstellungPage";
-import ArchivPage from "./pages/ArchivPage";
+import TerminePage from "./pages/raid/TerminePage";
+import AufstellungPage from "./pages/raid/AufstellungPage";
+import ArchivPage from "./pages/raid/ArchivPage";
 import ProfilPage from "./pages/ProfilPage";
 import SkillsPage from "./pages/SkillsPage";
 import EinstellungenPage from "./pages/EinstellungenPage";
-import RaidEinstellungenPage from "./pages/RaidEinstellungenPage";
+import RaidEinstellungenPage from "./pages/raid/RaidEinstellungenPage";
 import HomePage from "./pages/HomePage";
 import FeedbackPage from "./pages/FeedbackPage";
-import StatistikenPage from "./pages/StatistikenPage";
-import NeuerTerminPage from "./pages/NeuerTerminPage";
-import SpielerlistePage from "./pages/SpielerlistePage";
+import StatistikenPage from "./pages/raid/StatistikenPage";
+import NeuerTerminPage from "./pages/raid/NeuerTerminPage";
+import SpielerlistePage from "./pages/raid/SpielerlistePage";
 
 const routes = [
     { path: '/', component: HomePage },

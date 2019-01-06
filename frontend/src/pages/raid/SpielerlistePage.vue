@@ -1,5 +1,5 @@
 <template>
-    
+    <p>Coming soon: Die Spielerliste! (ist ja nicht wichtig oder so lul)</p>
 </template>
 
 <script>
