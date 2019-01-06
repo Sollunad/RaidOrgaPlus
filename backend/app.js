@@ -80,6 +80,15 @@ app.get('/termin', async function (req, res) {
     }
 });
 
+app.get('/termin/isArchived', async function (req, res) {
+    const termin_id = req.query.termin;
+    if (termin_id) {
+        res.send(await termin.isArchived(termin_id));
+    } else {
+        res.send([]);
+    }
+});
+
 app.post('/termin/neu', async function(req, res) {
     const raid = req.body.raid;
     const date = req.body.date;

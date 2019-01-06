@@ -1,5 +1,6 @@
 const db = require('../db/connector.js');
 
+exports.isArchived = isArchived;
 exports.listActive = listActive;
 exports.listArchived = listArchived;
 exports.newTermin = newTermin;
@@ -7,6 +8,15 @@ exports.anmelden = anmelden;
 exports.getAnmeldung = getAnmeldung;
 exports.addBoss = addBoss;
 exports.addWing = addWing;
+
+async function isArchived(terminId) {
+    const stmt = 'SELECT isArchived FROM Termin WHERE id = ?';
+    try {
+        return await db.queryV(stmt, terminId);
+    } catch(e) {
+        throw e;
+    }
+}
 
 async function listActive(raidId) {
     const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 0';

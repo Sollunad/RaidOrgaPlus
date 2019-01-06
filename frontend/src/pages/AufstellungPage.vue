@@ -4,6 +4,7 @@
             v-on:anmelden="anmelden"
             v-bind:anmeldung="anmeldung"
             v-bind:role="role"
+            v-bind:active="isActive"
             v-on:addBoss="addBoss">
         </TerminToolbarComp>
         <div v-if="aufstellungen">
@@ -43,6 +44,10 @@
             anmeldung: function() {
                 if (this.terminId) return termin.getAnmeldung(this.user.id, this.terminId);
                 else return null;
+            },
+            isActive: async function() {
+                if (this.terminId) return (!await termin.isArchived(this.terminId));
+                else return false;
             }
         },
         methods: {
