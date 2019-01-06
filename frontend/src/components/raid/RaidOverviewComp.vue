@@ -23,8 +23,8 @@
 </template>
 
 <script>
-    import ListRaidComp from '../components/ListRaidComp';
-    import db_raids from '../services/raids.js';
+    import ListRaidComp from './ListRaidComp';
+    import db_raids from '../../services/raids.js';
 
     export default {
         name: "RaidOverviewComp",

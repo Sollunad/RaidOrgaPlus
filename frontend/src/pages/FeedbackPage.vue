@@ -4,7 +4,7 @@
 </template>
 
 <script>
-    import FeedbackComp from "../components/FeedbackComp";
+    import FeedbackComp from "../components/menu/FeedbackComp";
     export default {
         name: "FeedbackPage",
         components: {FeedbackComp},

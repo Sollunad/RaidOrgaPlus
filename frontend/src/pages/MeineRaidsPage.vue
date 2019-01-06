@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import RaidOverviewComp from "../components/RaidOverviewComp";
+    import RaidOverviewComp from "../components/raid/RaidOverviewComp";
 
     export default {
         name: "MeineRaidsPage",

@@ -20,8 +20,8 @@
   import VueRouter from 'vue-router';
   import VueAsync from 'vue-async-computed';
 
-  import MenuComp from './components/MenuComp.vue';
-  import FooterComp from './components/FooterComp';
+  import MenuComp from './components/menu/MenuComp.vue';
+  import FooterComp from './components/menu/FooterComp';
 
   import user from './services/user.js';
   import session from './services/session.js';

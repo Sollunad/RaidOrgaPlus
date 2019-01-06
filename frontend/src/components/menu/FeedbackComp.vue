@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import feedback from '../services/feedback';
+    import feedback from '../../services/feedback';
 
     export default {
         name: "FeedbackComp",

@@ -61,8 +61,8 @@
 </template>
 
 <script>
-    import login from '../services/login.js';
-    import register from '../services/register.js';
+    import login from '../../services/login.js';
+    import register from '../../services/register.js';
 
     export default {
         name: "LoginComp",

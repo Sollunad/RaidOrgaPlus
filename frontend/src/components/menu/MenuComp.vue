@@ -50,7 +50,7 @@
 <script>
     import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
-    import session from '../services/session.js';
+    import session from '../../services/session.js';
 
     export default {
         name: "MenuComp",
