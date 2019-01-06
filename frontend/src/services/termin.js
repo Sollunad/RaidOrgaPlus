@@ -6,7 +6,6 @@ export default { isArchived, listActive, listArchived, newTermin, anmelden, getA
 async function isArchived(termin) {
     const url = config.url + 'termin/isArchived?termin=' + termin;
     const response = await sf.get(url);
-    console.log(response.body);
     return response.body[0].isArchived;
 }
 
