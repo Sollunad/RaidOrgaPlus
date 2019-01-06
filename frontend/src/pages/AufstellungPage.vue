@@ -14,7 +14,8 @@
                             xs12 sm6 xl4>
                         <AufstellungComp
                                 v-bind:aufstellungId="aufstellungId"
-                                v-bind:raid="raid">
+                                v-bind:raid="raid"
+                                v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
                     </v-flex>
                 </v-layout>
@@ -53,6 +54,9 @@
                 } else {
                     this.aufstellungen = await termin.addBoss(this.terminId, boss);
                 }
+            },
+            deleteBoss: async function(aufstellungId) {
+                this.aufstellungen = await aufstellung.deleteBoss(aufstellungId, this.terminId);
             }
         },
         created: async function() {

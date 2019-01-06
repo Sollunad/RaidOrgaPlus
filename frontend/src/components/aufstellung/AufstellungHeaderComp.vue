@@ -4,6 +4,9 @@
             <img :src="icon()">
         </v-avatar>
         <span>{{encounter.name}}</span>
+        <v-btn flat icon color="red" @click="deleteBoss">
+            <v-icon>clear</v-icon>
+        </v-btn>
     </div>
 </template>
 
@@ -23,6 +26,9 @@
             icon: function() {
                 if (this.encounter) return icons.encIcon(this.encounter.abbr);
                 else return '';
+            },
+            deleteBoss: function() {
+                this.$emit('deleteBoss');
             }
         }
     }
@@ -38,5 +44,9 @@
         font-weight: bold;
         width: fit-content;
         padding: 0.5rem 1rem;
+    }
+
+    .button {
+        float: right;
     }
 </style>

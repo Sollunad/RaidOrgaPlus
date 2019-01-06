@@ -1,7 +1,8 @@
 <template>
     <div class="aufstellung">
         <AufstellungHeaderComp
-            v-bind:aufstellungId="aufstellungId">
+            v-bind:aufstellungId="aufstellungId"
+            v-on:deleteBoss="deleteBoss">
         </AufstellungHeaderComp>
         <AufstellungBodyComp
             v-bind:aufstellungId="aufstellungId"
@@ -16,7 +17,12 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellungId', 'raid']
+        props: ['aufstellungId', 'raid'],
+        methods: {
+            deleteBoss: function() {
+                this.$emit('deleteBoss', this.aufstellungId);
+            }
+        }
     }
 </script>
 

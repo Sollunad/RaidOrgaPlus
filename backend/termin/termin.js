@@ -44,7 +44,7 @@ async function getAnmeldung(spieler, termin) {
 }
 
 async function addBoss(termin, boss) {
-    const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss, isCm) VALUES (?,?,0)';
+    const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss) VALUES (?,?)';
     try {
         return await db.queryV(stmt, [termin, boss]);
     } catch(e) {
@@ -53,7 +53,7 @@ async function addBoss(termin, boss) {
 }
 
 async function addWing(termin, wing) {
-    const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss, isCm) SELECT ?, id, 0 FROM Encounter WHERE wing = ? AND main = 1';
+    const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss) SELECT ?, id FROM Encounter WHERE wing = ? AND main = 1';
     try {
         return await db.queryV(stmt, [termin, wing]);
     } catch(e) {

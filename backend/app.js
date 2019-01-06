@@ -226,12 +226,24 @@ app.post('/changeName', async function(req, res) {
 });
 
 app.get('/aufstellungen', async function(req, res) {
-   const termin = req.query.termin;
-   if (termin) {
-       res.send(await aufstellung.getForTermin(termin));
+   const termin_id = req.query.termin;
+   if (termin_id) {
+       res.send(await aufstellung.getForTermin(termin_id));
    } else {
        res.send([]);
    }
+});
+
+app.post('/aufstellungen/delete', async function(req, res) {
+    const aufstellung_id = req.body.aufstellung;
+    const termin_id = req.query.termin;
+    if (aufstellung_id && termin_id) {
+        aufstellung.delete(aufstellung_id).then(async () => {
+            res.send(await aufstellung.getForTermin(termin_id));
+        })
+    } else {
+        res.send([]);
+    }
 });
 
 app.get('/class', async function(req, res) {
