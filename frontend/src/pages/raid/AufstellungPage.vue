@@ -5,6 +5,7 @@
             v-bind:anmeldung="anmeldung"
             v-bind:role="role"
             v-bind:active="isActive"
+            v-bind:termin="termin"
             v-on:addBoss="addBoss"
             v-on:archive="archive">
         </TerminToolbarComp>
@@ -38,48 +39,48 @@
     import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp";
     import AufstellungComp from '../../components/aufstellung/AufstellungComp';
     import aufstellung from '../../services/aufstellung';
-    import termin from '../../services/termin';
+    import db_termin from '../../services/termin';
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
 
     export default {
         name: "AufstellungPage",
         components: {ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
-        props: ['terminId', 'raid', 'role', 'user'],
+        props: ['termin', 'raid', 'role', 'user'],
         data: () => ({
             aufstellungen: null,
             archiveDialogOpen: false,
         }),
         asyncComputed: {
             anmeldung: function() {
-                if (this.terminId) return termin.getAnmeldung(this.user.id, this.terminId);
+                if (this.termin) return db_termin.getAnmeldung(this.user.id, this.termin.id);
                 else return null;
             },
             isActive: async function() {
-                if (this.terminId) return (!await termin.isArchived(this.terminId));
+                if (this.termin) return (!await db_termin.isArchived(this.termin.id));
                 else return false;
             }
         },
         methods: {
             anmelden: function(type) {
-                termin.anmelden(this.user.id, this.terminId, type);
+                db_termin.anmelden(this.user.id, this.termin.id, type);
             },
             addBoss: async function(info) {
                 const [boss, wing] = info;
                 if (boss === 0) {
-                    this.aufstellungen = await termin.addWing(this.terminId, wing);
+                    this.aufstellungen = await db_termin.addWing(this.termin.id, wing);
                 } else {
-                    this.aufstellungen = await termin.addBoss(this.terminId, boss);
+                    this.aufstellungen = await db_termin.addBoss(this.termin.id, boss);
                 }
             },
             deleteBoss: async function(aufstellungId) {
-                this.aufstellungen = await aufstellung.deleteBoss(aufstellungId, this.terminId);
+                this.aufstellungen = await aufstellung.deleteBoss(aufstellungId, this.termin.id);
             },
             archive: function() {
                 this.archiveDialogOpen = true;
             },
             archiveOK: function() {
                 this.archiveDialogOpen = false;
-                termin.archive(this.terminId).then(() => {
+                db_termin.archive(this.termin.id).then(() => {
                     window.history.back();
                 });
             },
@@ -88,9 +89,9 @@
             }
         },
         created: async function() {
-            if (this.terminId === 0) window.location.href = '/#/raids';
+            if (!this.termin) window.location.href = '/#/raids';
             else {
-                this.aufstellungen = await aufstellung.getForTermin(this.terminId);
+                this.aufstellungen = await aufstellung.getForTermin(this.termin.id);
             }
         }
     }

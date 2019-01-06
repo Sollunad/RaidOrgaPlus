@@ -2,7 +2,7 @@
     <TerminOverviewComp
             v-bind:raid="raid"
             v-bind:archived="true"
-            v-on:saveTerminId="saveTerminId">
+            v-on:saveTermin="saveTermin">
     </TerminOverviewComp>
 </template>
 
@@ -13,8 +13,8 @@
         components: {TerminOverviewComp},
         props: ['raid'],
         methods: {
-            saveTerminId: function(id) {
-                this.$emit('saveTerminId', id);
+            saveTermin: function(termin) {
+                this.$emit('saveTermin', termin);
             }
         }
     }

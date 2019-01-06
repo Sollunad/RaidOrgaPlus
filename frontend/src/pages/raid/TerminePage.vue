@@ -4,7 +4,7 @@
                 v-bind:raid="raid"
                 v-bind:archived="false"
                 v-bind:user="user"
-                v-on:saveTerminId="saveTerminId">
+                v-on:saveTermin="saveTermin">
         </TerminOverviewComp>
         <v-btn color="success" class="buttonAdd" :to="'/raid/neuerTermin'"
                v-if="role > 0">
@@ -21,8 +21,8 @@
         components: {TerminOverviewComp},
         props: ['raid', 'role', 'user'],
         methods: {
-            saveTerminId: function(id) {
-                this.$emit('saveTerminId', id);
+            saveTermin: function(termin) {
+                this.$emit('saveTermin', termin);
             }
         }
     }

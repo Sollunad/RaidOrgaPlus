@@ -9,8 +9,8 @@
                 v-bind:raid="raid"
                 v-bind:role="role"
                 v-bind:user="user"
-                v-on:saveTerminId="saveTerminId"
-                v-bind:terminId="terminId"
+                v-on:saveTermin="saveTermin"
+                v-bind:termin="termin"
         >
         </router-view>
     </div>
@@ -36,11 +36,11 @@
             }
         },
         data: () => ({
-            terminId: 0
+            termin: null
         }),
         methods: {
-            saveTerminId: function(id) {
-                this.terminId = id;
+            saveTermin: function(termin) {
+                this.termin = termin;
             }
         }
     }

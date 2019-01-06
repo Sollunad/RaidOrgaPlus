@@ -16,7 +16,7 @@
                                 v-bind:key="termin.id"
                                 v-bind:termin="termin"
                                 v-bind:user="user"
-                                v-on:saveTerminId="saveTerminId"
+                                v-on:saveTermin="saveTermin"
                         ></ListTerminComp>
                     </v-list>
                 </v-card>
@@ -47,8 +47,8 @@
             }
         },
         methods: {
-            saveTerminId: function(id) {
-                this.$emit('saveTerminId', id);
+            saveTermin: function(termin) {
+                this.$emit('saveTermin', termin);
             }
         }
     }

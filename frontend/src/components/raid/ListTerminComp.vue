@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-list-tile avatar @click="saveId" :to="'/raid/aufstellung'">
+        <v-list-tile avatar @click="save" :to="'/raid/aufstellung'">
             <v-list-tile-content>
                 <v-list-tile-title v-html="terminDate"></v-list-tile-title>
                 <v-list-tile-sub-title v-html="terminTime"></v-list-tile-sub-title>
@@ -21,8 +21,8 @@
         name: "ListTerminComp",
         props: ['termin', 'user'],
         methods: {
-            saveId: function() {
-                this.$emit('saveTerminId', this.termin.id);
+            save: function() {
+                this.$emit('saveTermin', this.termin);
             },
             weekday: function(id) {
                 const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
