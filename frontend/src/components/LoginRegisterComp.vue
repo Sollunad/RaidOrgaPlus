@@ -24,6 +24,14 @@
                     label="Passwort"
                     required
             ></v-text-field>
+            <v-text-field
+                    @keypress.enter="submit"
+                    v-if="registerMode"
+                    :rules="passwordRepeatRules"
+                    :type="'password'"
+                    label="Passwort wiederholen"
+                    required
+            ></v-text-field>
             <v-btn
                     @click="submit"
                     :color=buttonColor
@@ -86,6 +94,11 @@
                 if (this.registerMode) return 'Registrieren';
                 else return 'Anmelden';
             },
+            passwordRepeatRules: function() {
+                return [
+                    v => v === this.password || 'Passwörter müssen übereinstimmen'
+                ]
+            }
         },
         methods: {
             async submit () {
