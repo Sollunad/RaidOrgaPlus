@@ -1,10 +1,11 @@
 <template>
-    <p>Coming soon: Statistiken!</p>
+    
 </template>
 
 <script>
+    //Data iterator?
     export default {
-        name: "StatistikenPage"
+        name: "SpielerlistePage"
     }
 </script>
 

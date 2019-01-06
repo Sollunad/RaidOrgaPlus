@@ -12,6 +12,7 @@ import HomePage from "./pages/HomePage";
 import FeedbackPage from "./pages/FeedbackPage";
 import StatistikenPage from "./pages/StatistikenPage";
 import NeuerTerminPage from "./pages/NeuerTerminPage";
+import SpielerlistePage from "./pages/SpielerlistePage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -19,6 +20,7 @@ const routes = [
     { path: '/raid', component: RaidPage,
       children: [
           { path: '', component: RaidDashboardPage },
+          { path: 'spielerliste', component: SpielerlistePage },
           { path: 'termine', component: TerminePage },
           { path: 'aufstellung', component: AufstellungPage },
           { path: 'archiv', component: ArchivPage },

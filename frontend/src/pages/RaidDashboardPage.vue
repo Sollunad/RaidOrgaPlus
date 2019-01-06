@@ -9,6 +9,9 @@
                             avatar
                             :to="item.route"
                     >
+                        <v-list-tile-action>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title v-text="item.title"></v-list-tile-title>
                         </v-list-tile-content>
@@ -27,9 +30,10 @@
         data () {
             return {
                 items: [
-                    { title: 'Termine', route: '/raid/termine' },
-                    { title: 'Archiv', route: '/raid/archiv' },
-                    { title: 'Statistiken', route: '/raid/statistiken' }
+                    { title: 'Spielerliste', route: '/raid/spielerliste', icon: 'people' },
+                    { title: 'Termine', route: '/raid/termine', icon: 'calendar_today'},
+                    { title: 'Archiv', route: '/raid/archiv', icon: 'book' },
+                    { title: 'Statistiken', route: '/raid/statistiken', icon: 'show_chart' }
                 ]
             }
         }

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import MenuItemComp from './aufstellung/MenuItemComp.vue';
+    import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
     import session from '../services/session.js';
 
