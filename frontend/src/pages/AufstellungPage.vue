@@ -13,7 +13,7 @@
                     <v-flex
                             v-for="aufstellungId in aufstellungen"
                             :key="aufstellungId"
-                            xs12 sm6 xl4>
+                            xs12 md6 lg4 xl3>
                         <AufstellungComp
                                 v-bind:aufstellungId="aufstellungId"
                                 v-bind:raid="raid"
