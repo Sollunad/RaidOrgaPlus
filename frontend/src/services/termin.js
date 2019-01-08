@@ -29,7 +29,7 @@ async function newTermin(raid, date, time) {
 
 async function archive(termin) {
     const url = config.url + 'termine/' + termin + '/archive';
-    const response = await sf.put(url).send;
+    const response = await sf.put(url);
     return response.body;
 }
 
