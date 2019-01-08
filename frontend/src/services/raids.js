@@ -22,7 +22,7 @@ async function role(raidId, userId) {
 }
 
 async function listPlayers(raidId) {
-    const url = config.url + 'raids/players?raid=' + raidId;
+    const url = config.url + 'players?raid=' + raidId;
     const response = await sf.get(url);
     return response.body;
 }

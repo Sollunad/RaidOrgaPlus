@@ -3,7 +3,6 @@ let cors = require('cors');
 let app = express();
 
 const raids = require('./raids/raids');
-const termin = require('./termin/termin');
 const login = require('./user/login');
 const register = require('./user/register');
 const session = require('./user/session');
@@ -15,6 +14,8 @@ const feedback = require('./feedback/feedback');
 const aufstellung = require('./aufstellung/aufstellung');
 const classes = require('./class/class');
 const element = require('./aufstellung/element');
+
+const termine = require('./termine/controller');
 
 const fs = require('fs');
 const http = require('http');
@@ -47,7 +48,7 @@ app.get('/raids', async function (req, res) {
     }
 });
 
-app.get('/raids/players', async function (req, res) {
+app.get('/players', async function (req, res) {
     const raid_id = req.query.raid;
     if (raid_id) {
         res.send(await raids.listPlayers(raid_id));
@@ -66,93 +67,13 @@ app.get('/role', async function (req, res) {
     }
 });
 
-app.get('/termin', async function (req, res) {
-    const raid_id = req.query.raid;
-    const archive = req.query.archive;
-    if (raid_id) {
-        if (archive && archive === "1") {
-            res.send(await termin.listArchived(raid_id));
-        } else {
-            res.send(await termin.listActive(raid_id));
-        }
-    } else {
-        res.send([]);
-    }
-});
-
-app.get('/termin/isArchived', async function (req, res) {
-    const termin_id = req.query.termin;
-    if (termin_id) {
-        res.send(await termin.isArchived(termin_id));
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/termin/neu', async function(req, res) {
-    const raid = req.body.raid;
-    const date = req.body.date;
-    const time = req.body.time;
-    if (raid && date && time) {
-        res.send(await termin.newTermin(raid, date, time));
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/termin/archive', async function(req, res) {
-    const termin_id = req.body.termin;
-    if (termin_id) {
-        res.send(await termin.archive(termin_id));
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/termin/anmelden', async function(req, res) {
-    const spieler = req.body.spieler;
-    const termin_id = req.body.termin;
-    const type = req.body.type;
-    if (spieler && termin_id && (type || type === 0)) {
-        res.send(await termin.anmelden(spieler, termin_id, type));
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/termin/addBoss', async function(req, res) {
-    const termin_id = req.body.termin;
-    const boss = req.body.boss;
-    if (termin_id && boss) {
-        termin.addBoss(termin_id, boss).then(async () => {
-            res.send(await aufstellung.getForTermin(termin_id));
-        })
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/termin/addWing', async function(req, res) {
-    const termin_id = req.body.termin;
-    const wing = req.body.wing;
-    if (termin_id && wing) {
-        termin.addWing(termin_id, wing).then(async () => {
-            res.send(await aufstellung.getForTermin(termin_id));
-        })
-    } else {
-        res.send([]);
-    }
-});
-
-app.get('/termin/anmeldung', async function(req, res) {
-    const spieler = req.query.spieler;
-    const termin_id = req.query.termin;
-    if (spieler && termin_id) {
-        res.send(await termin.getAnmeldung(spieler, termin_id));
-    } else {
-        res.send([]);
-    }
-});
+app.get('/termine', termine.getTermine);
+app.post('/termine', termine.postTermin);
+app.get('/termine/isArchived', termine.isArchived);
+app.put('/termine/:id/archive', termine.archive);
+app.post('/termine/:id/bosses', termine.addBoss);
+app.put('/termine/:id/anmeldungen', termine.putAnmeldung);
+app.get('/termine/:id/anmeldungen', termine.getAnmeldungen);
 
 app.get('/user', async function (req, res) {
     const user_id = req.query.id;
