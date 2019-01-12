@@ -24,7 +24,6 @@
   import FooterComp from './components/menu/FooterComp';
 
   import user from './services/user.js';
-  import session from './services/session.js';
   import MainPage from "./pages/MainPage";
   import LoginRegisterPage from "./pages/LoginRegisterPage";
 

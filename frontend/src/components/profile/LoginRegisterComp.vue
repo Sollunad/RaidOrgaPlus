@@ -108,10 +108,10 @@
                 }
             },
             async login() {
-                const session = await session.login(this.accName, this.password);
-                if (session) {
+                const uuid = await session.login(this.accName, this.password);
+                if (uuid) {
                     this.buttonColor = 'success';
-                    localStorage.session = session;
+                    localStorage.session = uuid;
                     window.location.href = '/';
                 } else {
                     this.snackbar = true;

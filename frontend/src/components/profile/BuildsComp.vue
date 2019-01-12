@@ -2,6 +2,7 @@
     <div class="container">
         <BuildChipComp close
             v-for="build in builds"
+            v-bind:key="`${build.class.id} ${build.role.id}`"
             v-bind:clss="build.class"
             v-bind:role="build.role"
             v-on:close="close">

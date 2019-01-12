@@ -15,7 +15,6 @@
 
 <script>
     import icons from '../../services/icons.js';
-    import aufstellung from '../../services/aufstellung';
 
     export default {
         name: "AufstellungHeaderComp",

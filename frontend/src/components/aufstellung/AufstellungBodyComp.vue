@@ -22,7 +22,6 @@
 
 <script>
     import AufstellungElementComp from "./AufstellungElementComp";
-    import element from '../../services/element';
 
     export default {
         name: "AufstellungBodyComp",

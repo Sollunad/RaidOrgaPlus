@@ -22,12 +22,15 @@
         computed: {
             classIcon: function() {
                 if (this.clss) return icons.classIcon(this.clss.abbr);
+                else return '';
             },
             roleIcon: function() {
                 if (this.role) return icons.roleIcon(this.role.abbr);
+                else return '';
             },
             color: function() {
                 if (this.clss) return this.clss.color;
+                else return '';
             }
         },
         watch: {
