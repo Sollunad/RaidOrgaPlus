@@ -2,20 +2,18 @@ let express = require('express');
 let cors = require('cors');
 let app = express();
 
-const raids = require('./raids/raids');
-const login = require('./user/login');
-const register = require('./user/register');
-const session = require('./user/session');
-const user = require('./user/user');
-const api = require('./user/apikey');
-const encounter = require('./encounter/encounter');
-const progress = require('./encounter/progress');
-const feedback = require('./feedback/feedback');
-const aufstellung = require('./aufstellung/aufstellung');
-const classes = require('./class/class');
-const element = require('./aufstellung/element');
-
-const termine = require('./termine/controller');
+const raids = require('./endpoints/raids/raids');
+const login = require('./endpoints/user/login');
+const register = require('./endpoints/user/register');
+const session = require('./endpoints/user/session');
+const user = require('./endpoints/user/user');
+const api = require('./endpoints/user/apikey');
+const encounter = require('./endpoints/encounter/encounter');
+const progress = require('./endpoints/encounter/progress');
+const feedback = require('./endpoints/feedback/feedback');
+const aufstellung = require('./endpoints/aufstellung/aufstellung');
+const classes = require('./endpoints/class/class');
+const element = require('./endpoints/aufstellung/element');
 
 const fs = require('fs');
 const http = require('http');
@@ -32,21 +30,30 @@ app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use('/icons', express.static('icons'));
 
-app.get('/', function (req, res) {
-    res.send('Hello World!');
+fs.readdir('./endpoints/', (err, folders) => {
+    folders.forEach(folder => {
+        fs.readdir(`./endpoints/${folder}`, (err, files) => {
+            files.forEach(file => {
+                if (file === 'controller.js') {
+                    const endpoints = require(`./endpoints/${folder}/controller.js`);
+                    endpoints.forEach(endpoint => {
+                        registerEndpoint(folder, endpoint);
+                    })
+                }
+            });
+        });
+    });
 });
 
-app.get('/raids', async function (req, res) {
-    const user_id = req.query.user;
-    const raid_id = req.query.raid;
-    if (user_id) {
-        res.send(await raids.listForPlayer(user_id));
-    } else if (raid_id) {
-        res.send(await raids.get(raid_id));
-    } else {
-        res.send([]);
+function registerEndpoint(path, endpoint) {
+    console.log(endpoint);
+    switch (endpoint.method) {
+        case 'get': app.get(`/${path}${endpoint.path}`, endpoint.function); break;
+        case 'post': app.post(`/${path}${endpoint.path}`, endpoint.function); break;
+        case 'put': app.put(`/${path}${endpoint.path}`, endpoint.function); break;
+        default: break;
     }
-});
+}
 
 app.get('/players', async function (req, res) {
     const raid_id = req.query.raid;
@@ -66,14 +73,6 @@ app.get('/role', async function (req, res) {
         res.send([]);
     }
 });
-
-app.get('/termine', termine.getTermine);
-app.post('/termine', termine.postTermin);
-app.get('/termine/isArchived', termine.isArchived);
-app.put('/termine/:id/archive', termine.archive);
-app.post('/termine/:id/bosses', termine.addBoss);
-app.put('/termine/:id/anmeldungen', termine.putAnmeldung);
-app.get('/termine/:id/anmeldungen', termine.getAnmeldungen);
 
 app.get('/user', async function (req, res) {
     const user_id = req.query.id;

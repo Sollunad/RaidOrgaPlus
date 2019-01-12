@@ -1,6 +1,6 @@
 const uuidv4 = require('uuid/v4');
 const hash = require('password-hash');
-const db = require('../db/connector.js');
+const db = require('../../db/connector.js');
 const session = require('./session.js');
 
 exports.register = register;

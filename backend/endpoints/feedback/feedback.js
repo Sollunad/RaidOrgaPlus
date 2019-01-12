@@ -1,4 +1,4 @@
-const db = require('../db/connector.js');
+const db = require('../../db/connector.js');
 
 exports.new = newFeedback;
 

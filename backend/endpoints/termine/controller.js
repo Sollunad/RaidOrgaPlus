@@ -1,12 +1,14 @@
 const termin = require('./termin');
 
-exports.getTermine = getTermine;
-exports.isArchived = isArchived;
-exports.postTermin = postTermin;
-exports.archive = archive;
-exports.addBoss = addBoss;
-exports.putAnmeldung = putAnmeldung;
-exports.getAnmeldungen = getAnmeldungen;
+module.exports = [
+    {function: getTermine, path: '', method: 'get'},
+    {function: postTermin, path: '', method: 'post'},
+    {function: isArchived, path: '/isArchived', method: 'get'},
+    {function: archive, path: '/:id/archive', method: 'put'},
+    {function: addBoss, path: '/:id/bosses', method: 'post'},
+    {function: putAnmeldung, path: '/:id/anmeldungen', method: 'put'},
+    {function: getAnmeldungen, path: '/:id/anmeldungen', method: 'get'},
+];
 
 async function getTermine(req, res) {
     const raid_id = req.query.raid;
