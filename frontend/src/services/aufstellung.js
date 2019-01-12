@@ -11,7 +11,7 @@ async function getForTermin(termin) {
 async function deleteBoss(aufstellung, termin) {
     const url = config.url + 'aufstellungen';
     const response = await sf.delete(url).send({"aufstellung": aufstellung, "termin": termin});
-    return response.body.map(e => e.id);
+    return response.body;
 }
 
 async function getSuccess(aufstellung){

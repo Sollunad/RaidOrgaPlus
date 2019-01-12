@@ -79,6 +79,7 @@
             },
             deleteBoss: async function(aufstellungId) {
                 this.aufstellungen = await aufstellung.deleteBoss(aufstellungId, this.termin.id);
+                this.elements = await element.getForTermin(this.termin.id);
             },
             archive: function() {
                 this.archiveDialogOpen = true;
