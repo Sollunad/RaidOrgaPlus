@@ -37,7 +37,7 @@ fs.readdir('./endpoints/', (err, folders) => {
 });
 
 function registerEndpoint(path, endpoint) {
-    console.log(endpoint);
+    console.log(`Register ${endpoint.method} @ /${path}${endpoint.path}`);
     switch (endpoint.method) {
         case 'get': app.get(`/${path}${endpoint.path}`, endpoint.function); break;
         case 'post': app.post(`/${path}${endpoint.path}`, endpoint.function); break;
