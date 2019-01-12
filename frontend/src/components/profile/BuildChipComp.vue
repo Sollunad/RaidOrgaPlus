@@ -24,7 +24,6 @@
                 if (this.role) return icons.roleIcon(this.role.abbr);
             },
             color: function() {
-                console.log(this.clss);
                 if (this.clss) return this.clss.color;
             }
         },

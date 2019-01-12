@@ -17,7 +17,7 @@
                 v-bind:clss="clss"
                 v-bind:role="role">
             </BuildChipComp>
-            <v-btn color="green" fab small>
+            <v-btn color="green" fab small @click="addBuild">
                 <v-icon>add</v-icon>
             </v-btn>
         </div>
@@ -42,6 +42,11 @@
             pickRole: function(role) {
                 this.role = role;
             },
+            addBuild: function() {
+                this.$emit('add', {clss: this.clss, role: this.role});
+                this.clss = null;
+                this.role = null;
+            }
         }
     }
 </script>

@@ -1,11 +1,13 @@
 <template>
     <div>
         <BuildChipComp close></BuildChipComp>
-        <v-dialog width="fit-content">
+        <v-dialog width="fit-content"
+            v-model="addBuildDialog">
             <v-btn slot="activator" color="green" fab small>
                 <v-icon>add</v-icon>
             </v-btn>
-            <AddBuildComp></AddBuildComp>
+            <AddBuildComp
+                v-on:add="add"></AddBuildComp>
         </v-dialog>
     </div>
 </template>
@@ -16,7 +18,15 @@
     export default {
         name: "BuildsComp",
         components: {BuildChipComp, AddBuildComp},
-        props: ['user']
+        props: ['user'],
+        data: () => ({
+            addBuildDialog: false
+        }),
+        methods: {
+            add: function(build) {
+                this.addBuildDialog = false;
+            }
+        }
     }
 </script>
 
