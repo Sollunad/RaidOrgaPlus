@@ -7,9 +7,9 @@
         </BuildChipComp>
         <v-dialog width="fit-content"
             v-model="addBuildDialog">
-            <v-btn slot="activator" color="green" fab small>
+            <v-chip slot="activator">
                 <v-icon>add</v-icon>
-            </v-btn>
+            </v-chip>
             <AddBuildComp
                 v-on:add="add"></AddBuildComp>
         </v-dialog>
