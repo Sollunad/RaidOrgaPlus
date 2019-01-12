@@ -2,13 +2,7 @@ let express = require('express');
 let cors = require('cors');
 let app = express();
 
-const login = require('./endpoints/users/login');
-const register = require('./endpoints/users/register');
-const session = require('./endpoints/users/session');
-const user = require('./endpoints/users/user');
-const api = require('./endpoints/users/apikey');
 const encounter = require('./endpoints/encounter/encounter');
-const progress = require('./endpoints/progress/progress');
 const feedback = require('./endpoints/feedback/feedback');
 const classes = require('./endpoints/class/class');
 
@@ -53,48 +47,6 @@ function registerEndpoint(path, endpoint) {
     }
 }
 
-app.get('/user', async function (req, res) {
-    const user_id = req.query.id;
-    if (user_id) {
-        res.send(await user.get(user_id));
-    } else {
-        res.send([]);
-    }
-});
-
-app.get('/session', async function (req, res) {
-    const uuid = req.query.uuid;
-    const invalidate = req.query.invalidate;
-    if (uuid) {
-        if (invalidate && invalidate === "1") {
-            res.send(await session.invalidate(uuid));
-        } else {
-            res.send(await session.getUser(uuid));
-        }
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/register', async function(req, res) {
-    const accName = req.body.accName;
-    const pwd = req.body.pwd;
-    const name = req.body.name;
-    if (accName && pwd && name) {
-        res.send(await register.register(accName, pwd, name));
-    }
-});
-
-app.post('/login', async function(req, res) {
-    const accName = req.body.accName;
-    const pwd = req.body.pwd;
-    if (accName && pwd) {
-        res.send(await login.login(accName, pwd));
-    } else {
-        res.send([]);
-    }
-});
-
 app.get('/encounter', async function(req, res) {
     const wing = req.query.wing;
     if (wing) {
@@ -104,39 +56,12 @@ app.get('/encounter', async function(req, res) {
     }
 });
 
-app.post('/setapi', async function(req, res) {
-    const user_id = req.body.userId;
-    const apiKey = req.body.apiKey;
-    if (user_id && apiKey) {
-        res.send(await api.setApi(user_id, apiKey));
-    } else {
-        res.send(false);
-    }
-});
-
-app.get('/api', async function(req, res) {
-    const user_id = req.query.user;
-    if (user_id) {
-        res.send(await api.hasApi(user_id));
-    } else {
-        res.send(false);
-    }
-});
 
 app.post('/feedback', async function(req, res) {
     const text = req.body.text;
     const user = req.body.accname;
     if (text) {
         feedback.new(text, user);
-    }
-    res.send([]);
-});
-
-app.post('/changeName', async function(req, res) {
-    const name = req.body.name;
-    const user_id = req.body.userId;
-    if (name && user_id) {
-        user.changeName(user_id, name);
     }
     res.send([]);
 });
@@ -171,4 +96,3 @@ try {
         console.log('Server über HTTP gestartet auf Port 3001!');
     });
 }
-

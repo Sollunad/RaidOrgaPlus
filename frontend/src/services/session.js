@@ -1,18 +1,10 @@
 const sf = require('snekfetch');
 const config = require('./config.json');
 
-export default { getUser, invalidate };
-
-async function getUser(session) {
-    if (!session) return 0;
-    const url = config.url + 'session?uuid=' + session;
-    const response = await sf.get(url);
-    if (response.body.length === 0) return 0;
-    else return response.body[0].user;
-}
+export default { invalidate };
 
 async function invalidate(session) {
-    const url = config.url + 'session?invalidate=1&uuid=' + session;
-    const response = await sf.get(url);
+    const url = config.url + 'users/sessions';
+    const response = await sf.delete(url).send({"uuid": session});
     return response.body;
 }

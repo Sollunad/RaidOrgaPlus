@@ -8,7 +8,6 @@ exports.register = register;
 async function register(accName, pwd, name){
     const response = await userExists(accName);
     const count = response[0].count;
-    console.log(count);
     if (count > 0) return false;
     const pwdHash = hash.generate(pwd);
     registerUser(accName, pwdHash, name);

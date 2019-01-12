@@ -46,16 +46,10 @@
     },
     asyncComputed: {
       user: function() {
-        if (this.loggedIn) return user.get(this.userId);
-      },
-      userId: function() {
-        return session.getUser(localStorage.session);
-      },
-      loggedIn: function() {
-        return this.userId !== 0 && this.userId !== null;
+        return user.get(localStorage.session);
       },
       showLogin: function() {
-        return this.userId === 0;
+        return this.user === undefined;
       }
     },
     router
