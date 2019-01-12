@@ -2,18 +2,15 @@ let express = require('express');
 let cors = require('cors');
 let app = express();
 
-const raids = require('./endpoints/raids/raids');
-const login = require('./endpoints/user/login');
-const register = require('./endpoints/user/register');
-const session = require('./endpoints/user/session');
-const user = require('./endpoints/user/user');
-const api = require('./endpoints/user/apikey');
+const login = require('./endpoints/users/login');
+const register = require('./endpoints/users/register');
+const session = require('./endpoints/users/session');
+const user = require('./endpoints/users/user');
+const api = require('./endpoints/users/apikey');
 const encounter = require('./endpoints/encounter/encounter');
-const progress = require('./endpoints/encounter/progress');
+const progress = require('./endpoints/progress/progress');
 const feedback = require('./endpoints/feedback/feedback');
-const aufstellung = require('./endpoints/aufstellung/aufstellung');
 const classes = require('./endpoints/class/class');
-const element = require('./endpoints/aufstellung/element');
 
 const fs = require('fs');
 const http = require('http');
@@ -51,28 +48,10 @@ function registerEndpoint(path, endpoint) {
         case 'get': app.get(`/${path}${endpoint.path}`, endpoint.function); break;
         case 'post': app.post(`/${path}${endpoint.path}`, endpoint.function); break;
         case 'put': app.put(`/${path}${endpoint.path}`, endpoint.function); break;
+        case 'delete': app.delete(`/${path}${endpoint.path}`, endpoint.function); break;
         default: break;
     }
 }
-
-app.get('/players', async function (req, res) {
-    const raid_id = req.query.raid;
-    if (raid_id) {
-        res.send(await raids.listPlayers(raid_id));
-    } else {
-        res.send([]);
-    }
-});
-
-app.get('/role', async function (req, res) {
-    const user_id = req.query.user;
-    const raid_id = req.query.raid;
-    if (user_id && raid_id) {
-        res.send(await raids.role(raid_id, user_id));
-    } else {
-        res.send([]);
-    }
-});
 
 app.get('/user', async function (req, res) {
     const user_id = req.query.id;
@@ -117,23 +96,11 @@ app.post('/login', async function(req, res) {
 });
 
 app.get('/encounter', async function(req, res) {
-    const aufstellung = req.query.aufstellung;
     const wing = req.query.wing;
-    if (aufstellung) {
-        res.send(await encounter.getForAufstellung(aufstellung));
-    } else if (wing) {
+    if (wing) {
         res.send(await encounter.listForWing(wing));
     } else {
         res.send(await encounter.list());
-    }
-});
-
-app.get('/progress', async function(req, res) {
-    const user_id = req.query.user;
-    if (user_id) {
-        res.send(await progress.progress(user_id));
-    } else {
-        res.send([]);
     }
 });
 
@@ -174,86 +141,10 @@ app.post('/changeName', async function(req, res) {
     res.send([]);
 });
 
-app.get('/aufstellungen', async function(req, res) {
-   const termin_id = req.query.termin;
-   if (termin_id) {
-       res.send(await aufstellung.getForTermin(termin_id));
-   } else {
-       res.send([]);
-   }
-});
-
-app.get('/aufstellungen/success', async function(req, res) {
-    const aufstellung_id = req.query.aufstellung;
-    if (aufstellung_id) {
-        res.send(await aufstellung.getSuccess(aufstellung_id));
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/aufstellungen/success', async function(req, res) {
-    const aufstellung_id = req.body.aufstellung;
-    const success = req.body.success;
-    if (aufstellung_id && success) {
-        res.send(await aufstellung.setSuccess(aufstellung_id, success));
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/aufstellungen/delete', async function(req, res) {
-    const aufstellung_id = req.body.aufstellung;
-    const termin_id = req.body.termin;
-    if (aufstellung_id && termin_id) {
-        aufstellung.delete(aufstellung_id).then(async () => {
-            res.send(await aufstellung.getForTermin(termin_id));
-        })
-    } else {
-        res.send([]);
-    }
-});
-
 app.get('/class', async function(req, res) {
     const base = req.query.base;
     if (base) {
         res.send(await classes.getForBase(base));
-    } else {
-        res.send([]);
-    }
-});
-
-app.get('/element', async function(req, res) {
-    const aufstellung = req.query.aufstellung;
-    if (aufstellung) {
-        res.send(await element.getAll(aufstellung));
-    } else {
-        res.send([]);
-    }
-});
-
-app.post('/element/set', async function(req, res) {
-    const aufstellung = req.body.aufstellung;
-    const position = req.body.position;
-    const type = req.body.type;
-    const value = req.body.value;
-    if (aufstellung && position && type && value) {
-        if (type === "class") {
-            element.setClass(aufstellung, position, value).then(async () => {
-                res.send(await element.getAll(aufstellung));
-            });
-        } else if (type === "role") {
-            element.setRole(aufstellung, position, value).then(async () => {
-                res.send(await element.getAll(aufstellung));
-            });
-        } else if (type === "name") {
-            element.setName(aufstellung, position, value).then(async () => {
-                res.send(await element.getAll(aufstellung));
-            });
-        } else {
-            res.send([]);
-        }
-
     } else {
         res.send([]);
     }

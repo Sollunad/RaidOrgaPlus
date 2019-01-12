@@ -16,13 +16,13 @@ async function give(raidId) {
 }
 
 async function role(raidId, userId) {
-    const url = config.url + 'role?raid=' + raidId + '&user=' + userId;
+    const url = config.url + 'raids/role?raid=' + raidId + '&user=' + userId;
     const response = await sf.get(url);
     return response.body[0].role;
 }
 
 async function listPlayers(raidId) {
-    const url = config.url + 'players?raid=' + raidId;
+    const url = config.url + 'raids/players?raid=' + raidId;
     const response = await sf.get(url);
     return response.body;
 }

@@ -1,4 +1,5 @@
 const termin = require('./termin');
+const aufstellung = require('../aufstellungen/aufstellung');
 
 module.exports = [
     {function: getTermine, path: '', method: 'get'},

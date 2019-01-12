@@ -1,4 +1,4 @@
-const user = require('../user/apikey');
+const user = require('../users/apikey');
 const api = require('../../gw2api/api');
 
 exports.progress = raidProgress;

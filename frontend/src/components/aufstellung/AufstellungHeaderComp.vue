@@ -15,7 +15,7 @@
 
 <script>
     import icons from '../../services/icons.js';
-    import encounter from '../../services/encounter';
+    import aufstellung from '../../services/aufstellung';
 
     export default {
         name: "AufstellungHeaderComp",
@@ -25,7 +25,7 @@
         }),
         asyncComputed:{
             encounter: function() {
-                return encounter.getForAufstellung(this.aufstellungId);
+                return aufstellung.getEncounter(this.aufstellungId);
             },
         },
         computed: {

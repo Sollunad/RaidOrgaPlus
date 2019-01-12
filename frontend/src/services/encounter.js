@@ -1,7 +1,7 @@
 const sf = require('snekfetch');
 const config = require('./config.json');
 
-export default { list, getForAufstellung, listForWing };
+export default { list, listForWing };
 
 async function list() {
     const url = config.url + 'encounter';
@@ -19,9 +19,4 @@ async function list() {
 async function listForWing(wing) {
     const url = config.url + 'encounter?wing=' + wing;
     return (await sf.get(url)).body;
-}
-
-async function getForAufstellung(aufstellung) {
-    const url = config.url + 'encounter?aufstellung=' + aufstellung;
-    return (await sf.get(url)).body[0];
 }
