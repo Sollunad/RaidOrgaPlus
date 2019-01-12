@@ -61,9 +61,9 @@ async function getEncounter(req, res) {
 }
 
 async function getElement(req, res) {
-    const aufstellung = req.query.aufstellung;
-    if (aufstellung) {
-        res.send(await element.getAll(aufstellung));
+    const termin_id = req.query.termin;
+    if (termin_id) {
+        res.send(await element.getForTermin(termin_id));
     } else {
         res.send([]);
     }
@@ -77,15 +77,15 @@ async function postElement(req, res) {
     if (aufstellung && position && type && value) {
         if (type === "class") {
             element.setClass(aufstellung, position, value).then(async () => {
-                res.send(await element.getAll(aufstellung));
+                res.send(await element.getForAufstellung(aufstellung));
             });
         } else if (type === "role") {
             element.setRole(aufstellung, position, value).then(async () => {
-                res.send(await element.getAll(aufstellung));
+                res.send(await element.getForAufstellung(aufstellung));
             });
         } else if (type === "name") {
             element.setName(aufstellung, position, value).then(async () => {
-                res.send(await element.getAll(aufstellung));
+                res.send(await element.getForAufstellung(aufstellung));
             });
         } else {
             res.send([]);

@@ -1,9 +1,9 @@
 <template>
-    <div v-if="encounter" class="header unselectable">
+    <div class="header unselectable">
         <v-avatar class="avatar">
             <img :src="icon()">
         </v-avatar>
-        <span>{{encounter.name}}{{isCm? ' CM' : ''}}</span>
+        <span>{{aufstellung.name}}{{isCm? ' CM' : ''}}</span>
         <v-btn flat icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
             <v-icon>clear</v-icon>
         </v-btn>
@@ -19,15 +19,10 @@
 
     export default {
         name: "AufstellungHeaderComp",
-        props: ['aufstellungId', 'role', 'active', 'success'],
+        props: ['aufstellung', 'role', 'active', 'success'],
         data: () => ({
             isCm: false
         }),
-        asyncComputed:{
-            encounter: function() {
-                return aufstellung.getEncounter(this.aufstellungId);
-            },
-        },
         computed: {
             successColor: function() {
                 if (this.success) return 'green';
@@ -36,7 +31,7 @@
         },
         methods: {
             icon: function() {
-                if (this.encounter) return icons.encIcon(this.encounter.abbr);
+                if (this.aufstellung) return icons.encIcon(this.aufstellung.abbr);
                 else return '';
             },
             deleteBoss: function() {

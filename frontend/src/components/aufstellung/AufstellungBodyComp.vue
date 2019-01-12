@@ -8,7 +8,7 @@
                         xs6>
                     <AufstellungElementComp
                         v-bind:position="i"
-                        v-bind:aufstellungId="aufstellungId"
+                        v-bind:aufstellung="aufstellung"
                         v-bind:elements="elements"
                         v-bind:raid="raid"
                         v-bind:active="active"
@@ -27,7 +27,7 @@
     export default {
         name: "AufstellungBodyComp",
         components: {AufstellungElementComp},
-        props: ['aufstellungId', 'raid', 'active'],
+        props: ['aufstellung', 'raid', 'active', 'propElements'],
         data: () => ({
            elements: null
         }),
@@ -36,8 +36,10 @@
                 this.elements = newElements;
             }
         },
-        created: async function() {
-            this.elements = await element.getForAufstellung(this.aufstellungId);
+        watch: {
+            propElements: function(newV, oldV) {
+                this.elements = newV;
+            }
         }
     }
 </script>

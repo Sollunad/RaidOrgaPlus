@@ -5,7 +5,7 @@ export default { getForTermin, deleteBoss, getSuccess, setSuccess, getEncounter 
 
 async function getForTermin(termin) {
     const url = config.url + 'aufstellungen?termin=' + termin;
-    return (await sf.get(url)).body.map(e => e.id);
+    return (await sf.get(url)).body;
 }
 
 async function deleteBoss(aufstellung, termin) {

@@ -1,7 +1,7 @@
 <template>
     <div class="aufstellung">
         <AufstellungHeaderComp
-            v-bind:aufstellungId="aufstellungId"
+            v-bind:aufstellung="aufstellung"
             v-bind:role="role"
             v-bind:active="active"
             v-bind:success="success"
@@ -9,9 +9,10 @@
             v-on:toggleSuccess="toggleSuccess">
         </AufstellungHeaderComp>
         <AufstellungBodyComp
-                v-bind:aufstellungId="aufstellungId"
+                v-bind:aufstellung="aufstellung"
                 v-bind:raid="raid"
-                v-bind:active="active">
+                v-bind:active="active"
+                v-bind:propElements="elements">
         </AufstellungBodyComp>
     </div>
 </template>
@@ -24,22 +25,22 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellungId', 'raid', 'role', 'active'],
+        props: ['aufstellung', 'raid', 'role', 'active', 'elements'],
         data: () => ({
             success: false
         }),
         methods: {
             deleteBoss: function() {
-                this.$emit('deleteBoss', this.aufstellungId);
+                this.$emit('deleteBoss', this.aufstellung.id);
             },
             toggleSuccess: function() {
                 this.success = !this.success;
-                aufstellung.setSuccess(this.aufstellungId, this.success);
+                aufstellung.setSuccess(this.aufstellung.id, this.success);
             }
         },
         created: async function() {
             if (!this.active) {
-                this.success = await aufstellung.getSuccess(this.aufstellungId);
+                this.success = await aufstellung.getSuccess(this.aufstellung.id);
             }
         }
     }

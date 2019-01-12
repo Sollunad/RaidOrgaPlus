@@ -1,4 +1,4 @@
 Skills mit Vuetify Rating
-AufstellungPage: Rework Aufstellung/Element services to reduce db usage
+Wo Skills anzeigen?
 MeineBuilds Button mit Popup, einzelne Builds mit Chips
 Spielerliste Builds mit Chips

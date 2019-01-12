@@ -47,7 +47,7 @@
     export default {
         name: "AufstellungElementComp",
         components: {MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellungId', 'position', 'elements', 'raid', 'active'],
+        props: ['aufstellung', 'position', 'elements', 'raid', 'active'],
         data: () => ({
             classMenuOpen: false,
         }),
@@ -75,15 +75,15 @@
         methods: {
             pickClass: async function(id) {
                 this.classMenuOpen = false;
-                const newElements = await element.setClass(this.aufstellungId, this.position, id);
+                const newElements = await element.setClass(this.aufstellung.id, this.position, id);
                 this.$emit('update', newElements);
             },
             pickRole: async function(id) {
-                const newElements = await element.setRole(this.aufstellungId, this.position, id);
+                const newElements = await element.setRole(this.aufstellung.id, this.position, id);
                 this.$emit('update', newElements);
             },
             pickName: async function(id) {
-                const newElements = await element.setName(this.aufstellungId, this.position, id);
+                const newElements = await element.setName(this.aufstellung.id, this.position, id);
                 this.$emit('update', newElements);
             }
         }

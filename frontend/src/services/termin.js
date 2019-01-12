@@ -52,11 +52,11 @@ async function getAnmeldung(spieler, termin) {
 async function addBoss(termin, boss) {
     const url = config.url + 'termine/' + termin + '/bosses';
     const response = await sf.post(url).send({"boss": boss});
-    return response.body.map(e => e.id);
+    return response.body;
 }
 
 async function addWing(termin, wing) {
     const url = config.url + 'termine/' + termin + '/bosses';
     const response = await sf.post(url).send({"wing": wing});
-    return response.body.map(e => e.id);
+    return response.body;
 }

@@ -13,14 +13,15 @@
             <v-container grid-list-md>
                 <v-layout row wrap>
                     <v-flex
-                            v-for="aufstellungId in aufstellungen"
-                            :key="aufstellungId"
+                            v-for="aufstellung in aufstellungen"
+                            :key="aufstellung.id"
                             xs12 md6 lg4 xl3>
                         <AufstellungComp
-                                v-bind:aufstellungId="aufstellungId"
+                                v-bind:aufstellung="aufstellung"
                                 v-bind:raid="raid"
                                 v-bind:role="role"
                                 v-bind:active="isActive"
+                                v-bind:elements="elementsForAufstellung(aufstellung.id)"
                                 v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
                     </v-flex>
@@ -39,6 +40,7 @@
     import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp";
     import AufstellungComp from '../../components/aufstellung/AufstellungComp';
     import aufstellung from '../../services/aufstellung';
+    import element from '../../services/element';
     import db_termin from '../../services/termin';
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
 
@@ -49,6 +51,7 @@
         data: () => ({
             aufstellungen: null,
             archiveDialogOpen: false,
+            elements: []
         }),
         asyncComputed: {
             anmeldung: function() {
@@ -68,8 +71,10 @@
                 const [boss, wing] = info;
                 if (boss === 0) {
                     this.aufstellungen = await db_termin.addWing(this.termin.id, wing);
+                    this.elements = await element.getForTermin(this.termin.id);
                 } else {
                     this.aufstellungen = await db_termin.addBoss(this.termin.id, boss);
+                    this.elements = await element.getForTermin(this.termin.id);
                 }
             },
             deleteBoss: async function(aufstellungId) {
@@ -86,12 +91,16 @@
             },
             archiveCancel: function() {
                 this.archiveDialogOpen = false;
+            },
+            elementsForAufstellung: function(aufstellung) {
+                return this.elements.filter(e => e.aufstellung === aufstellung);
             }
         },
         created: async function() {
             if (!this.termin) window.location.href = '/#/raids';
             else {
                 this.aufstellungen = await aufstellung.getForTermin(this.termin.id);
+                this.elements = await element.getForTermin(this.termin.id);
             }
         }
     }

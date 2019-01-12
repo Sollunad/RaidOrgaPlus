@@ -1,10 +1,10 @@
 const sf = require('snekfetch');
 const config = require('./config.json');
 
-export default { getForAufstellung, setClass, setRole, setName };
+export default { getForTermin, setClass, setRole, setName };
 
-async function getForAufstellung(aufstellung) {
-    const url = config.url + 'aufstellungen/element?aufstellung=' + aufstellung;
+async function getForTermin(termin) {
+    const url = config.url + 'aufstellungen/element?termin=' + termin;
     const response = await sf.get(url);
     return response.body;
 }
