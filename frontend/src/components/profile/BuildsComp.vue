@@ -39,7 +39,6 @@
         },
         created: async function() {
             this.builds = await builds.getBuilds(10);
-            console.log(this.builds);
         }
     }
 </script>
