@@ -6,7 +6,7 @@
                         v-for="(clss, index) in classes"
                         :key="index"
                         xs4>
-                        <v-avatar :size="30" class="icon" slot="activator" @click="pick(clss.id)" :tile="true">
+                        <v-avatar :size="30" class="icon" slot="activator" @click="pick(clss)" :tile="true">
                             <img :src="classIcon(clss.abbr)">
                         </v-avatar>
                 </v-flex>
@@ -31,8 +31,8 @@
             classIcon: function(name) {
                 return icons.classIcon(name);
             },
-            pick: function(name) {
-                this.$emit('pick', name);
+            pick: function(clss) {
+                this.$emit('pick', clss);
             }
         }
     }

@@ -45,8 +45,8 @@
             classIcon: function(name) {
                 return icons.classIcon(name);
             },
-            pick: function(name) {
-                this.$emit('pick', name);
+            pick: function(clss) {
+                this.$emit('pick', clss);
             }
         }
     }

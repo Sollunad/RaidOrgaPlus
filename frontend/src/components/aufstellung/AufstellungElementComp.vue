@@ -73,13 +73,13 @@
             }
         },
         methods: {
-            pickClass: async function(id) {
+            pickClass: async function(clss) {
                 this.classMenuOpen = false;
-                const newElements = await element.setClass(this.aufstellung.id, this.position, id);
+                const newElements = await element.setClass(this.aufstellung.id, this.position, clss.id);
                 this.$emit('update', newElements);
             },
-            pickRole: async function(id) {
-                const newElements = await element.setRole(this.aufstellung.id, this.position, id);
+            pickRole: async function(role) {
+                const newElements = await element.setRole(this.aufstellung.id, this.position, role.id);
                 this.$emit('update', newElements);
             },
             pickName: async function(id) {

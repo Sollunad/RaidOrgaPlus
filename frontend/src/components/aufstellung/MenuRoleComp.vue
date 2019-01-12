@@ -6,7 +6,7 @@
                         v-for="(role, index) in roles"
                         :key="index"
                         xs6>
-                    <v-avatar :size="25" class="icon" slot="activator" @click="pick(role.id)" :tile="true">
+                    <v-avatar :size="30" class="icon" slot="activator" @click="pick(role)" :tile="true">
                         <img :src="roleIcon(role.abbr)">
                     </v-avatar>
                 </v-flex>
@@ -33,8 +33,8 @@
             roleIcon: function(name) {
                 return icons.roleIcon(name);
             },
-            pick: function(name) {
-                this.$emit('pick', name);
+            pick: function(role) {
+                this.$emit('pick', role);
             }
         }
     }
