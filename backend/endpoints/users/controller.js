@@ -3,6 +3,7 @@ const register = require('./register');
 const session = require('./session');
 const user = require('./user');
 const api = require('./apikey');
+const builds = require('./builds');
 
 module.exports = [
     {function: getUser, path: '', method: 'get'},
@@ -12,6 +13,9 @@ module.exports = [
     {function: setApi, path: '/api', method: 'post'},
     {function: hasApi, path: '/api', method: 'get'},
     {function: setName, path: '/name', method: 'post'},
+    {function: getBuilds, path: '/builds', method: 'get'},
+    {function: addBuild, path: '/builds', method: 'post'},
+    {function: deleteBuild, path: '/builds', method: 'delete'},
 ];
 
 async function getUser(req, res) {
@@ -85,4 +89,39 @@ async function setName(req, res) {
         user.changeName(user_id, name);
     }
     res.send([]);
+}
+
+async function getBuilds(req, res) {
+    const user = req.query.user;
+    if (user) {
+        res.send(await builds.getBuilds(user));
+    } else {
+        res.send([]);
+    }
+}
+
+async function addBuild(req, res) {
+    const user = req.body.user;
+    const clss = req.body.clss;
+    const role = req.body.role;
+    if (user && clss && role) {
+        builds.addBuild(user, clss, role).then(async () => {
+            res.send(await builds.getBuilds(user));
+        });
+    } else {
+        res.send([]);
+    }
+}
+
+async function deleteBuild(req, res) {
+    const user = req.body.user;
+    const clss = req.body.clss;
+    const role = req.body.role;
+    if (user && clss && role) {
+        builds.deleteBuild(user, clss, role).then(async () => {
+            res.send(await builds.getBuilds(user));
+        });
+    } else {
+        res.send([]);
+    }
 }
