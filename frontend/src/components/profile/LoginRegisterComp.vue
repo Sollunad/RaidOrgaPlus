@@ -61,8 +61,8 @@
 </template>
 
 <script>
-    import login from '../../services/login.js';
-    import register from '../../services/register.js';
+    import session from '../../services/session.js';
+    import user from '../../services/user.js';
 
     export default {
         name: "LoginComp",
@@ -108,7 +108,7 @@
                 }
             },
             async login() {
-                const session = await login.login(this.accName, this.password);
+                const session = await session.login(this.accName, this.password);
                 if (session) {
                     this.buttonColor = 'success';
                     localStorage.session = session;
@@ -118,7 +118,7 @@
                 }
             },
             async register() {
-                const success = await register.register(this.accName, this.password, this.name);
+                const success = await user.register(this.accName, this.password, this.name);
                 if (success) {
                     this.login();
                 } else {
