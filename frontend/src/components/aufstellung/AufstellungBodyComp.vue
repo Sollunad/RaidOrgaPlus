@@ -37,8 +37,8 @@
             }
         },
         watch: {
-            propElements: function(newV, oldV) {
-                this.elements = newV;
+            propElements: function(elements) {
+                this.elements = elements;
             }
         }
     }

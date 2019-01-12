@@ -3,7 +3,8 @@
         <BuildChipComp close
             v-for="build in builds"
             v-bind:clss="build.class"
-            v-bind:role="build.role">
+            v-bind:role="build.role"
+            v-on:close="close">
         </BuildChipComp>
         <v-dialog width="fit-content"
             v-model="addBuildDialog">
@@ -35,6 +36,9 @@
             add: async function(build) {
                 this.addBuildDialog = false;
                 this.builds = await builds.addBuild(this.user.id, build.clss.id, build.role.id);
+            },
+            close: function(build) {
+                builds.deleteBuild(this.user.id, build.clss.id, build.role.id);
             }
         },
         created: async function() {

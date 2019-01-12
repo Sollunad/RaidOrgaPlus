@@ -1,6 +1,6 @@
 <template>
     <v-chip
-            :close="close" :color="color">
+            :close="close" :color="color" v-model="chip">
         <v-avatar class="classIcon" tile>
             <img :src="classIcon" v-if="classIcon">
         </v-avatar>
@@ -16,6 +16,9 @@
     export default {
         name: "BuildChipComp",
         props: ['close', 'clss', 'role'],
+        data: () => ({
+            chip: true,
+        }),
         computed: {
             classIcon: function() {
                 if (this.clss) return icons.classIcon(this.clss.abbr);
@@ -27,6 +30,11 @@
                 if (this.clss) return this.clss.color;
             }
         },
+        watch: {
+            chip: function(value) {
+                if (!value) this.$emit('close', {clss: this.clss, role: this.role});
+            }
+        }
     }
 </script>
 

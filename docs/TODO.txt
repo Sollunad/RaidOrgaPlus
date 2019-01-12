@@ -1,4 +1,3 @@
 Skills mit Vuetify Rating
 Wo Skills anzeigen?
-MeineBuilds Button mit Popup, einzelne Builds mit Chips
 Spielerliste Builds mit Chips
