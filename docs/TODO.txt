@@ -1,3 +1,5 @@
-Skills mit Vuetify Rating
-Wo Skills anzeigen?
-Spielerliste Builds mit Chips
+TODO: Skills mit Vuetify Rating
+TODO: Wo Skills anzeigen?
+TODO: Spielerliste Builds mit Chips
+TODO: TerminOverview mit Kalender?
+TODO: Bilder hochladen

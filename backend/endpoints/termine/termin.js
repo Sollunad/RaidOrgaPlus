@@ -22,10 +22,29 @@ async function isArchived(terminId) {
 async function listActive(raidId) {
     const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 0 ORDER BY Termin.date, Termin.time';
     try {
-        return await db.queryV(stmt, raidId);
+        return (await db.queryV(stmt, raidId)).map(mapTerminDate);
     } catch(e) {
         throw e;
     }
+}
+
+function mapTerminDate(termin) {
+    let newTerminObject = {id: termin.id};
+
+    let day = termin.date.getDate();
+    if (day < 10) day = '0' + day;
+    let month = termin.date.getMonth() + 1;
+    if (month < 10) month = '0' + month;
+    const year = termin.date.getFullYear();
+    const dateString = `${day}.${month}.${year}`;
+
+    const weekdayId = termin.date.getDay();
+    const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+    const weekday = days[weekdayId];
+
+    newTerminObject.date = `${weekday}, ${dateString}`;
+    newTerminObject.time = termin.time.slice(0,5);
+    return newTerminObject;
 }
 
 async function listArchived(raidId) {
