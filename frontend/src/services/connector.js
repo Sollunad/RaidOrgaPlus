@@ -5,7 +5,6 @@ export default fetch;
 
 async function fetch(endpoint, method, params) {
     let url = config.url + endpoint;
-    console.log(params);
     if (method === 'get') {
         let queryParams = '';
         if (Object.keys(params).length > 0) {

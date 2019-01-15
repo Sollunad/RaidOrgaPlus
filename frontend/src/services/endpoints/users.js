@@ -10,11 +10,11 @@ async function hasApi(user) {
     return await con('users/api', 'get', {user: user});
 }
 
-async function setApi(userId, apiKey) {
+async function setApi(user, apiKey) {
     return await con('users/api', 'post', {user: user, apiKey: apiKey});
 }
 
-async function changeName(userId, name) {
+async function changeName(user, name) {
     return await con('users/name', 'post', {user: user, name: name});
 }
 

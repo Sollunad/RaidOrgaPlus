@@ -43,6 +43,7 @@ async function setApiKey(userId, apiKey) {
 async function enoughPermissions(apiKey){
     try {
         const permissions = await api.permissions(apiKey);
+        console.log(permissions);
         const required = ['progression'];
         for (req of required) {
             if (!permissions.includes(req)) return false;
