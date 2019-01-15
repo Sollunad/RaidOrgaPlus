@@ -1,11 +1,40 @@
 <template>
-    <p>Coming soon: Die Spielerliste! (ist ja nicht wichtig oder so lul)</p>
+    <div>
+        <v-list>
+            <template
+                v-for="(user, index) in users">
+                <ListSpielerComp
+                        v-bind:user="user"
+                        v-bind:key="user.id">
+                </ListSpielerComp>
+                <v-divider
+                    v-if="index < users.length - 1"></v-divider>
+            </template>
+        </v-list>
+        <v-btn
+                v-if="role === 2"
+                color="success">
+            Spieler einladen
+        </v-btn>
+    </div>
 </template>
 
 <script>
-    //Data iterator?
+    import ListSpielerComp from "../../components/raid/ListSpielerComp";
+    import raids from '../../services/endpoints/raids';
+
     export default {
-        name: "SpielerlistePage"
+        name: "SpielerlistePage",
+        components: {ListSpielerComp},
+        props: ['raid', 'role'],
+        asyncComputed: {
+            users: async function() {
+                if (this.raid) {
+                    return raids.listPlayers(this.raid.id);
+                }
+                else return [];
+            }
+        }
     }
 </script>
 

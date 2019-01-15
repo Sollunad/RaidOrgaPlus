@@ -27,6 +27,7 @@
                 { id: 3, abbr: 'T' },
                 { id: 4, abbr: 'H' },
                 { id: 5, abbr: 'U' },
+                { id: 6, abbr: 'B' },
             ]
         }),
         methods: {
