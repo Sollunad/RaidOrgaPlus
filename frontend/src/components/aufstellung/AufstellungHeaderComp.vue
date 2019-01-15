@@ -8,7 +8,7 @@
             <v-icon>clear</v-icon>
         </v-btn>
         <v-btn flat icon :color="successColor" @click="toggleSuccess" class="button" v-if="role > 0 && !active">
-            <v-icon>done</v-icon>
+            <v-icon>{{successIcon}}</v-icon>
         </v-btn>
     </div>
 </template>
@@ -26,6 +26,10 @@
             successColor: function() {
                 if (this.success) return 'green';
                 else return 'white';
+            },
+            successIcon: function() {
+                if (this.success) return 'check_circle';
+                else return 'check_circle_outline';
             }
         },
         methods: {
