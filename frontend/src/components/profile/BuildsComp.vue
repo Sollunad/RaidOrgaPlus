@@ -2,6 +2,13 @@
     <div>
         <h2>Meine Builds</h2>
         <p></p>
+        <BuildChipComp close
+            v-for="build in builds"
+            v-bind:key="`${build.class.id} ${build.role.id}`"
+            v-bind:clss="build.class"
+            v-bind:role="build.role"
+            v-on:close="close">
+        </BuildChipComp>
         <v-dialog width="fit-content"
                   v-model="addBuildDialog">
             <v-chip slot="activator">
@@ -10,13 +17,6 @@
             <AddBuildComp
                     v-on:add="add"></AddBuildComp>
         </v-dialog>
-        <BuildChipComp close
-            v-for="build in builds"
-            v-bind:key="`${build.class.id} ${build.role.id}`"
-            v-bind:clss="build.class"
-            v-bind:role="build.role"
-            v-on:close="close">
-        </BuildChipComp>
     </div>
 </template>
 
