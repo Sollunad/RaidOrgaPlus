@@ -22,15 +22,6 @@ async function getUserId(uuid) {
     }
 }
 
-async function invalidateUser(id) {
-    const stmt = 'DELETE FROM Session WHERE user = ?';
-    try {
-        return await db.queryV(stmt, id);
-    } catch(e) {
-        throw e;
-    }
-}
-
 async function invalidateUuid(uuid) {
     const stmt = 'DELETE FROM Session WHERE uuid = ?';
     try {

@@ -17,7 +17,7 @@ async function listForPlayerId(userId) {
 async function getForRaidId(raidId) {
     const stmt = 'SELECT * FROM Raid WHERE id = ?';
     try {
-        return await db.queryV(stmt, raidId);
+        return (await db.queryV(stmt, raidId))[0];
     } catch(e) {
         throw e;
     }
@@ -26,7 +26,7 @@ async function getForRaidId(raidId) {
 async function getRole(raidId, userId) {
     const stmt = 'SELECT role FROM Spieler_Raid WHERE fk_spieler = ? AND fk_raid = ?';
     try {
-        return await db.queryV(stmt, [userId, raidId]);
+        return (await db.queryV(stmt, [userId, raidId]))[0];
     } catch(e) {
         throw e;
     }

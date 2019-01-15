@@ -4,7 +4,6 @@ exports.getForTermin = getForTermin;
 exports.delete = deleteBoss;
 exports.getSuccess = getSuccess;
 exports.setSuccess = setSuccess;
-exports.getEncounter = getEncounter;
 
 async function getForTermin(termin) {
     const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
@@ -27,7 +26,8 @@ async function deleteBoss(aufstellung) {
 async function getSuccess(aufstellung) {
     const stmt = 'SELECT success FROM Aufstellung WHERE id = ?';
     try {
-        return await db.queryV(stmt, aufstellung);
+        const response = await db.queryV(stmt, aufstellung);
+        return response[0].success === 1;
     } catch(e) {
         throw e;
     }
@@ -36,16 +36,8 @@ async function getSuccess(aufstellung) {
 async function setSuccess(aufstellung, success) {
     const stmt = 'UPDATE Aufstellung SET success = ? WHERE id = ?';
     try {
-        return await db.queryV(stmt, [success, aufstellung]);
-    } catch(e) {
-        throw e;
-    }
-}
-
-async function getEncounter(aufstellung) {
-    const stmt = 'SELECT Encounter.name, Encounter.abbr FROM Encounter JOIN Aufstellung ON Encounter.id = Aufstellung.fk_boss WHERE Aufstellung.id = ?';
-    try {
-        return await db.queryV(stmt, aufstellung);
+        const successValue = success? 1 : 0;
+        return await db.queryV(stmt, [successValue, aufstellung]);
     } catch(e) {
         throw e;
     }

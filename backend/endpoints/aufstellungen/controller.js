@@ -6,7 +6,6 @@ module.exports = [
     {function: getSuccess, path: '/success', method: 'get'},
     {function: putSuccess, path: '/success', method: 'put'},
     {function: deleteTermin, path: '', method: 'delete'},
-    {function: getEncounter, path: '/encounter', method: 'get'},
     {function: getElement, path: '/element', method: 'get'},
     {function: postElement, path: '/element', method: 'post'},
 ];
@@ -32,7 +31,7 @@ async function getSuccess(req, res) {
 async function putSuccess(req, res) {
     const aufstellung_id = req.body.aufstellung;
     const success = req.body.success;
-    if (aufstellung_id && (success === 1 || success === 0)) {
+    if (aufstellung_id && (success || success === false)) {
         res.send(await aufstellung.setSuccess(aufstellung_id, success));
     } else {
         res.send([]);
@@ -46,15 +45,6 @@ async function deleteTermin(req, res) {
         aufstellung.delete(aufstellung_id).then(async () => {
             res.send(await aufstellung.getForTermin(termin_id));
         })
-    } else {
-        res.send([]);
-    }
-}
-
-async function getEncounter(req, res) {
-    const aufstellung_id = req.query.aufstellung;
-    if (aufstellung_id) {
-        res.send(await aufstellung.getEncounter(aufstellung_id));
     } else {
         res.send([]);
     }

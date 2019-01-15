@@ -1,38 +1,19 @@
-const sf = require('snekfetch');
-const config = require('./config.json');
+import con from './connector';
 
-export default { getForTermin, deleteBoss, getSuccess, setSuccess, getEncounter };
+export default { getForTermin, deleteBoss, getSuccess, setSuccess };
 
 async function getForTermin(termin) {
-    const url = config.url + 'aufstellungen?termin=' + termin;
-    return (await sf.get(url)).body;
+    return await con('aufstellungen', 'get', {termin: termin});
 }
 
 async function deleteBoss(aufstellung, termin) {
-    const url = config.url + 'aufstellungen';
-    const response = await sf.delete(url).send({"aufstellung": aufstellung, "termin": termin});
-    return response.body;
+    return await con('aufstellungen', 'delete', {aufstellung: aufstellung, termin: termin});
 }
 
 async function getSuccess(aufstellung){
-    const url = config.url + 'aufstellungen/success?aufstellung=' + aufstellung;
-    const response = await sf.get(url);
-    if (response.body.length > 0) {
-        const successValue = response.body[0].success;
-        return successValue === 1;
-    } else {
-        return false;
-    }
+    return await con('aufstellungen/success', 'get', {aufstellung: aufstellung});
 }
 
 async function setSuccess(aufstellung, success) {
-    const url = config.url + 'aufstellungen/success';
-    const successValue = success? 1 : 0;
-    const response = await sf.put(url).send({"aufstellung": aufstellung, "success": successValue});
-    return response.body;
-}
-
-async function getEncounter(aufstellung) {
-    const url = config.url + 'aufstellungen/encounter?aufstellung=' + aufstellung;
-    return (await sf.get(url)).body[0];
+    return await con('aufstellungen/success', 'put', {aufstellung: aufstellung, success: success});
 }

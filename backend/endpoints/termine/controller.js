@@ -5,10 +5,10 @@ module.exports = [
     {function: getTermine, path: '', method: 'get'},
     {function: postTermin, path: '', method: 'post'},
     {function: isArchived, path: '/isArchived', method: 'get'},
-    {function: archive, path: '/:id/archive', method: 'put'},
-    {function: addBoss, path: '/:id/bosses', method: 'post'},
-    {function: putAnmeldung, path: '/:id/anmeldungen', method: 'put'},
-    {function: getAnmeldungen, path: '/:id/anmeldungen', method: 'get'},
+    {function: archive, path: '/archive', method: 'put'},
+    {function: addBoss, path: '/bosses', method: 'post'},
+    {function: putAnmeldung, path: '/anmeldungen', method: 'put'},
+    {function: getAnmeldungen, path: '/anmeldungen', method: 'get'},
 ];
 
 async function getTermine(req, res) {
@@ -46,7 +46,7 @@ async function postTermin(req, res) {
 }
 
 async function archive(req, res) {
-    const termin_id = req.params.id;
+    const termin_id = req.body.termin;
     if (termin_id) {
         res.send(await termin.archive(termin_id));
     } else {
@@ -55,7 +55,7 @@ async function archive(req, res) {
 }
 
 async function addBoss(req, res) {
-    const termin_id = req.params.id;
+    const termin_id = req.body.termin;
     const boss = req.body.boss;
     const wing = req.body.wing;
     if (termin_id) {
@@ -75,7 +75,7 @@ async function addBoss(req, res) {
 
 async function putAnmeldung(req, res) {
     const spieler = req.body.spieler;
-    const termin_id = req.params.id;
+    const termin_id = req.body.termin;
     const type = req.body.type;
     if (spieler && termin_id && (type || type === 0)) {
         res.send(await termin.anmelden(spieler, termin_id, type));
@@ -86,7 +86,7 @@ async function putAnmeldung(req, res) {
 
 async function getAnmeldungen(req, res) {
     const spieler = req.query.spieler;
-    const termin_id = req.params.id;
+    const termin_id = req.query.termin;
     if (spieler && termin_id) {
         res.send(await termin.getAnmeldung(spieler, termin_id));
     } else {

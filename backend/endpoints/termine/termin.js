@@ -13,7 +13,8 @@ exports.addWing = addWing;
 async function isArchived(terminId) {
     const stmt = 'SELECT isArchived FROM Termin WHERE id = ?';
     try {
-        return await db.queryV(stmt, terminId);
+        const response = await db.queryV(stmt, terminId);
+        return response[0].isArchived === 1;
     } catch(e) {
         throw e;
     }
@@ -21,6 +22,15 @@ async function isArchived(terminId) {
 
 async function listActive(raidId) {
     const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 0 ORDER BY Termin.date, Termin.time';
+    try {
+        return (await db.queryV(stmt, raidId)).map(mapTerminDate);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function listArchived(raidId) {
+    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
     try {
         return (await db.queryV(stmt, raidId)).map(mapTerminDate);
     } catch(e) {
@@ -45,15 +55,6 @@ function mapTerminDate(termin) {
     newTerminObject.date = `${weekday}, ${dateString}`;
     newTerminObject.time = termin.time.slice(0,5);
     return newTerminObject;
-}
-
-async function listArchived(raidId) {
-    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
-    try {
-        return await db.queryV(stmt, raidId);
-    } catch(e) {
-        throw e;
-    }
 }
 
 async function newTermin(raid, date, time) {
@@ -86,7 +87,9 @@ async function anmelden(spieler, termin, type) {
 async function getAnmeldung(spieler, termin) {
     const stmt = 'SELECT type FROM Spieler_Termin WHERE fk_spieler = ? AND fk_termin = ?';
     try {
-        return await db.queryV(stmt, [spieler, termin]);
+        const response = await db.queryV(stmt, [spieler, termin]);
+        if (response.length === 0) return {type: null};
+        else return {type: response[0].type};
     } catch(e) {
         throw e;
     }

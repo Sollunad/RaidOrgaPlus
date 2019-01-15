@@ -1,28 +1,19 @@
-const sf = require('snekfetch');
-const config = require('./config.json');
+import con from './connector';
 
-export default { listForPlayer, give, role, listPlayers };
+export default { listForPlayer, get, role, listPlayers };
 
-async function listForPlayer(userId) {
-    const url = config.url + 'raids?user=' + userId;
-    const response = await sf.get(url);
-    return response.body;
+async function listForPlayer(user) {
+    return await con('raids', 'get', {user: user});
 }
 
-async function give(raidId) {
-    const url = config.url + 'raids?raid=' + raidId;
-    const response = await sf.get(url);
-    return response.body[0];
+async function get(raid) {
+    return await con('raids', 'get', {raid: raid});
 }
 
-async function role(raidId, userId) {
-    const url = config.url + 'raids/role?raid=' + raidId + '&user=' + userId;
-    const response = await sf.get(url);
-    return response.body[0].role;
+async function role(raid, user) {
+    return (await con('raids/role', 'get', {raid: raid, user: user})).role;
 }
 
-async function listPlayers(raidId) {
-    const url = config.url + 'raids/players?raid=' + raidId;
-    const response = await sf.get(url);
-    return response.body;
+async function listPlayers(raid) {
+    return await con('raids/players', 'get', {raid: raid});
 }

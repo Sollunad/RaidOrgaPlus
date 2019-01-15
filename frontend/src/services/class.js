@@ -1,9 +1,7 @@
-const sf = require('snekfetch');
-const config = require('./config.json');
+import con from './connector';
 
 export default { getForBase };
 
 async function getForBase(base) {
-    const url = config.url + 'class?base=' + base;
-    return (await sf.get(url)).body;
+    return await con('class', 'get', {base: base});
 }

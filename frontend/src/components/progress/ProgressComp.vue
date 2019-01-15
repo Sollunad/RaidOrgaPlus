@@ -17,7 +17,7 @@
     import ProgressWingComp from "./ProgressWingComp";
     import encounter from '../../services/encounter';
     import progress from '../../services/progress';
-    import user from '../../services/user';
+    import user from '../../services/users';
 
     export default {
         name: "ProgressComp",
@@ -30,8 +30,8 @@
             progress: function() {
                 if (this.user) return progress.progress(this.user.id);
             },
-            hasNoApi: function() {
-                if (this.user) return user.hasNoApi(this.user.id);
+            hasNoApi: async function() {
+                if (this.user) return !(await user.hasApi(this.user.id));
             }
         }
 

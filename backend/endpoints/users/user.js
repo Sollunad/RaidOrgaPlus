@@ -6,6 +6,8 @@ exports.changeName = changeName;
 async function getForId(userId) {
     const stmt = 'SELECT id, accname, name FROM Spieler WHERE id = ?';
     try {
+        console.log("Hi");
+        console.log(await db.queryV(stmt, userId));
         return await db.queryV(stmt, userId);
     } catch(e) {
         throw e;

@@ -1,28 +1,23 @@
-const sf = require('snekfetch');
-const config = require('./config.json');
+import con from './connector';
 
 export default { getForTermin, setClass, setRole, setName };
 
 async function getForTermin(termin) {
-    const url = config.url + 'aufstellungen/element?termin=' + termin;
-    const response = await sf.get(url);
-    return response.body;
+    return await con('aufstellungen/element', 'get', {termin: termin});
 }
 
 async function setClass(aufstellung, position, value){
-    const url = config.url + 'aufstellungen/element';
-    const response = await sf.post(url).send({"aufstellung": aufstellung, "position": position, "value": value, "type": "class"});
-    return response.body;
+    return await setElement(aufstellung, position, value, 'class');
 }
 
 async function setRole(aufstellung, position, value){
-    const url = config.url + 'aufstellungen/element';
-    const response = await sf.post(url).send({"aufstellung": aufstellung, "position": position, "value": value, "type": "role"});
-    return response.body;
+    return await setElement(aufstellung, position, value, 'role');
 }
 
 async function setName(aufstellung, position, value){
-    const url = config.url + 'aufstellungen/element';
-    const response = await sf.post(url).send({"aufstellung": aufstellung, "position": position, "value": value, "type": "name"});
-    return response.body;
+    return await setElement(aufstellung, position, value, 'name');
+}
+
+function setElement(aufstellung, position, value, type) {
+    return con('aufstellungen/element', 'post', {aufstellung: aufstellung, position: position, value: value, type: type});
 }

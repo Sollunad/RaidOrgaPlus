@@ -11,7 +11,7 @@ async function getBuilds(user) {
         ' JOIN Rolle ON Rolle.id = Spieler_Build.fk_role' +
         ' WHERE fk_spieler = ? ORDER BY base.id, sub.id FOR UPDATE';
     try {
-        return await db.queryV(stmt, user);
+        return (await db.queryV(stmt, user)).map(classRoleMapper);
     } catch(e) {
         throw e;
     }
@@ -33,4 +33,8 @@ async function deleteBuild(user, clss, role) {
     } catch(e) {
         throw e;
     }
+}
+
+function classRoleMapper(element) {
+    return {class: {abbr: element.classAbbr, id: element.classId, color: element.classColor}, role: {abbr: element.roleAbbr, id: element.roleId}};
 }

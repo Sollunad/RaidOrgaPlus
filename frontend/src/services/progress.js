@@ -1,9 +1,7 @@
-const sf = require('snekfetch');
-const config = require('./config.json');
+import con from './connector';
 
 export default { progress };
 
 async function progress(userId) {
-    const url = config.url + 'progress?user=' + userId;
-    return (await sf.get(url)).body;
+    return await con('progress', 'get', {user: userId});
 }

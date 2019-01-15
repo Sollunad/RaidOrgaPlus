@@ -64,7 +64,7 @@ async function loginUser(req, res) {
 
 
 async function setApi(req, res) {
-    const user_id = req.body.userId;
+    const user_id = req.body.user;
     const apiKey = req.body.apiKey;
     if (user_id && apiKey) {
         res.send(await api.setApi(user_id, apiKey));
@@ -84,7 +84,7 @@ async function hasApi(req, res) {
 
 async function setName(req, res) {
     const name = req.body.name;
-    const user_id = req.body.userId;
+    const user_id = req.body.user;
     if (name && user_id) {
         user.changeName(user_id, name);
     }

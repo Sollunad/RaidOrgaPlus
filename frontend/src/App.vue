@@ -23,7 +23,7 @@
   import MenuComp from './components/menu/MenuComp.vue';
   import FooterComp from './components/menu/FooterComp';
 
-  import user from './services/user.js';
+  import _user from './services/users.js';
   import MainPage from "./pages/MainPage";
   import LoginRegisterPage from "./pages/LoginRegisterPage";
 
@@ -45,7 +45,7 @@
     },
     asyncComputed: {
       user: function() {
-        return user.get(localStorage.session);
+        return _user.get(localStorage.session);
       },
       showLogin: function() {
         return this.user === undefined;

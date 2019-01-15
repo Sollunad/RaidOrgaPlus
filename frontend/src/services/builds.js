@@ -1,26 +1,16 @@
-const sf = require('snekfetch');
-const config = require('./config.json');
+import con from './connector';
 
 export default { getBuilds, addBuild, deleteBuild };
 
 async function getBuilds(user) {
-    const url = config.url + 'users/builds?user=' + user;
-    const response = await sf.get(url);
-    return response.body.map(classRoleMapper);
+    return await con('users/builds', 'get', {user: user});
 }
 
 async function addBuild(user, clss, role){
-    const url = config.url + 'users/builds';
-    const response = await sf.post(url).send({"user": user, "clss": clss, "role": role});
-    return response.body.map(classRoleMapper);
+    return await con('users/builds', 'post', {user: user, clss: clss, role: role});
 }
 
 async function deleteBuild(user, clss, role){
-    const url = config.url + 'users/builds';
-    const response = await sf.delete(url).send({"user": user, "clss": clss, "role": role});
-    return response.body.map(classRoleMapper);
+    return await con('users/builds', 'delete', {user: user, clss: clss, role: role});
 }
 
-function classRoleMapper(element) {
-    return {class: {abbr: element.classAbbr, id: element.classId, color: element.classColor}, role: {abbr: element.roleAbbr, id: element.roleId}};
-}

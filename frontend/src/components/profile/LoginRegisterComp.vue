@@ -61,8 +61,7 @@
 </template>
 
 <script>
-    import session from '../../services/session.js';
-    import user from '../../services/user.js';
+    import user from '../../services/users.js';
 
     export default {
         name: "LoginComp",
@@ -108,7 +107,7 @@
                 }
             },
             async login() {
-                const uuid = await session.login(this.accName, this.password);
+                const uuid = await user.login(this.accName, this.password);
                 if (uuid) {
                     this.buttonColor = 'success';
                     localStorage.session = uuid;

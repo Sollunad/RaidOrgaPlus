@@ -41,7 +41,7 @@
     import AufstellungComp from '../../components/aufstellung/AufstellungComp';
     import aufstellung from '../../services/aufstellung';
     import element from '../../services/element';
-    import db_termin from '../../services/termin';
+    import db_termin from '../../services/termine';
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
 
     export default {

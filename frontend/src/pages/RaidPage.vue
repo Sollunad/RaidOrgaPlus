@@ -27,7 +27,7 @@
         asyncComputed: {
             raid: function () {
                 if (this.raidId === 0) window.location.href = '/#/raids';
-                return db_raids.give(this.raidId);
+                return db_raids.get(this.raidId);
             },
             role: function() {
                 if (this.user && this.raid) {
