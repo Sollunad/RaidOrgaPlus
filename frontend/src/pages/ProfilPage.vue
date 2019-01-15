@@ -1,16 +1,8 @@
 <template>
     <div class="profile">
-        <v-dialog
-                v-model="buildDialog"
-                width="500"
-        >
-            <v-btn slot="activator">
-                Deine Builds
-            </v-btn>
-            <BuildsComp
+        <BuildsComp
                 v-bind:user="user">
-            </BuildsComp>
-        </v-dialog>
+        </BuildsComp>
         <p></p>
         <v-divider></v-divider>
         <p></p>

@@ -1,5 +1,15 @@
 <template>
-    <div class="container">
+    <div>
+        <h2>Meine Builds</h2>
+        <p></p>
+        <v-dialog width="fit-content"
+                  v-model="addBuildDialog">
+            <v-chip slot="activator">
+                <v-icon>add</v-icon>
+            </v-chip>
+            <AddBuildComp
+                    v-on:add="add"></AddBuildComp>
+        </v-dialog>
         <BuildChipComp close
             v-for="build in builds"
             v-bind:key="`${build.class.id} ${build.role.id}`"
@@ -7,14 +17,6 @@
             v-bind:role="build.role"
             v-on:close="close">
         </BuildChipComp>
-        <v-dialog width="fit-content"
-            v-model="addBuildDialog">
-            <v-chip slot="activator">
-                <v-icon>add</v-icon>
-            </v-chip>
-            <AddBuildComp
-                v-on:add="add"></AddBuildComp>
-        </v-dialog>
     </div>
 </template>
 
@@ -49,7 +51,5 @@
 </script>
 
 <style scoped>
-    .container {
-        background-color: #444444;
-    }
+
 </style>
