@@ -23,7 +23,7 @@
   import MenuComp from './components/menu/MenuComp.vue';
   import FooterComp from './components/menu/FooterComp';
 
-  import _user from './services/users.js';
+  import _user from './services/endpoints/users.js';
   import MainPage from "./pages/MainPage";
   import LoginRegisterPage from "./pages/LoginRegisterPage";
 

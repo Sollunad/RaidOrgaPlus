@@ -39,9 +39,8 @@
 <script>
     import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp";
     import AufstellungComp from '../../components/aufstellung/AufstellungComp';
-    import aufstellung from '../../services/aufstellung';
-    import element from '../../services/element';
-    import db_termin from '../../services/termine';
+    import aufstellung from '../../services/endpoints/aufstellungen';
+    import db_termin from '../../services/endpoints/termine';
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
 
     export default {
@@ -71,15 +70,15 @@
                 const [boss, wing] = info;
                 if (boss === 0) {
                     this.aufstellungen = await db_termin.addWing(this.termin.id, wing);
-                    this.elements = await element.getForTermin(this.termin.id);
+                    this.elements = await aufstellung.getElements(this.termin.id);
                 } else {
                     this.aufstellungen = await db_termin.addBoss(this.termin.id, boss);
-                    this.elements = await element.getForTermin(this.termin.id);
+                    this.elements = await aufstellung.getElements(this.termin.id);
                 }
             },
             deleteBoss: async function(aufstellungId) {
                 this.aufstellungen = await aufstellung.deleteBoss(aufstellungId, this.termin.id);
-                this.elements = await element.getForTermin(this.termin.id);
+                this.elements = await aufstellung.getElements(this.termin.id);
             },
             archive: function() {
                 this.archiveDialogOpen = true;
@@ -101,7 +100,7 @@
             if (!this.termin) window.location.href = '/#/raids';
             else {
                 this.aufstellungen = await aufstellung.getForTermin(this.termin.id);
-                this.elements = await element.getForTermin(this.termin.id);
+                this.elements = await aufstellung.getElements(this.termin.id);
             }
         }
     }

@@ -68,7 +68,7 @@
 </template>
 
 <script>
-    import termin from '../../services/termine';
+    import termin from '../../services/endpoints/termine';
 
     export default {
         name: "NeuerTerminComp",

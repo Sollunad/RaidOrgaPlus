@@ -1,4 +1,4 @@
-import con from './connector';
+import con from '../connector';
 
 export default { feedback };
 

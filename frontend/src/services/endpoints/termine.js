@@ -1,7 +1,7 @@
 const sf = require('snekfetch');
-const config = require('./config.json');
+const config = require('../config.json');
 
-import con from './connector';
+import con from '../connector';
 
 export default { isArchived, listActive, listArchived, newTermin, archive, anmelden, getAnmeldung, addBoss, addWing };
 

@@ -20,7 +20,7 @@
 <script>
     import AufstellungHeaderComp from "./AufstellungHeaderComp";
     import AufstellungBodyComp from "./AufstellungBodyComp";
-    import aufstellung from '../../services/aufstellung';
+    import aufstellung from '../../services/endpoints/aufstellungen';
 
     export default {
         name: "AufstellungComp",

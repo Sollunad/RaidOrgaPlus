@@ -17,7 +17,7 @@
 
 <script>
     import icons from '../../services/icons';
-    import classes from '../../services/class';
+    import classes from '../../services/endpoints/class';
 
     export default {
         name: "MenuSubclassComp",

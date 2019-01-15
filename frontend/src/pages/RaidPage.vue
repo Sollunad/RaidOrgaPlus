@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import db_raids from '../services/raids.js';
+    import db_raids from '../services/endpoints/raids.js';
     import RaidToolbarComp from "../components/raid/RaidToolbarComp";
 
     export default {

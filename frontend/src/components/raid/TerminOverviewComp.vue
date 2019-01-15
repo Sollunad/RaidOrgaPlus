@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import db_termine from '../../services/termine.js';
+    import db_termine from '../../services/endpoints/termine.js';
     import ListTerminComp from "./ListTerminComp";
 
     export default {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import encounter from '../../services/encounter';
+    import encounter from '../../services/endpoints/encounter';
 
     export default {
         name: "MenuBossComp",

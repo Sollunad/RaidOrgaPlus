@@ -39,7 +39,7 @@
 
 <script>
     import icons from '../../services/icons.js';
-    import element from '../../services/element';
+    import aufstellungen from '../../services/endpoints/aufstellungen';
     import MenuClassComp from "./MenuClassComp";
     import MenuRoleComp from "./MenuRoleComp";
     import MenuNameComp from "./MenuNameComp";
@@ -75,15 +75,15 @@
         methods: {
             pickClass: async function(clss) {
                 this.classMenuOpen = false;
-                const newElements = await element.setClass(this.aufstellung.id, this.position, clss.id);
+                const newElements = await aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
                 this.$emit('update', newElements);
             },
             pickRole: async function(role) {
-                const newElements = await element.setRole(this.aufstellung.id, this.position, role.id);
+                const newElements = await aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
                 this.$emit('update', newElements);
             },
             pickName: async function(id) {
-                const newElements = await element.setName(this.aufstellung.id, this.position, id);
+                const newElements = await aufstellungen.setName(this.aufstellung.id, this.position, id);
                 this.$emit('update', newElements);
             }
         }

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import raids from '../../services/raids';
+    import raids from '../../services/endpoints/raids';
 
     export default {
         name: "MenuNameComp",

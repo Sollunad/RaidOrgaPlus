@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import db_user from '../../services/users';
+    import db_user from '../../services/endpoints/users';
 
     export default {
         name: "ProfileNameComp",

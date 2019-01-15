@@ -50,7 +50,7 @@
 <script>
     import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
-    import _user from '../../services/users';
+    import _user from '../../services/endpoints/users';
 
     export default {
         name: "MenuComp",
