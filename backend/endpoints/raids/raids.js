@@ -33,7 +33,7 @@ async function getRole(raidId, userId) {
 }
 
 async function listPlayers(raidId) {
-    const stmt = 'SELECT Spieler_Raid.fk_spieler AS id, Spieler.name AS name, Spieler.accname AS accname FROM Spieler_Raid JOIN Spieler ON Spieler.id = Spieler_Raid.fk_spieler WHERE fk_raid = ?';
+    const stmt = 'SELECT Spieler_Raid.fk_spieler AS id, Spieler.name AS name, Spieler.accname AS accname FROM Spieler_Raid JOIN Spieler ON Spieler.id = Spieler_Raid.fk_spieler WHERE fk_raid = ? ORDER BY name';
     try {
         return await db.queryV(stmt, raidId);
     } catch(e) {
