@@ -21,7 +21,7 @@
             >
             </BuildChipComp>
         </div>
-        <div v-else-if="builds" class="nobuilds">
+        <div v-else-if="builds" class="builds">
             Keine Builds vorhanden
         </div>
     </div>
@@ -67,9 +67,5 @@
 
     .builds {
         padding: 0 0 1rem 1rem;
-    }
-
-    .nobuilds {
-        padding-left: 1rem;
     }
 </style>

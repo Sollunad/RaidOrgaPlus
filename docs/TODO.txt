@@ -1,7 +1,5 @@
 Release v1.0 - Februar 2019
 
-    TODO: !!! Builds als preferred anhaken (Anzeige in Spielerliste ist schon done)
-
     TODO: !!! Spieler einladen / Anmeldungen annehmen und ablehnen
 
     TODO: !!  Termin löschen
