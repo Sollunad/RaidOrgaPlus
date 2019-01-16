@@ -2,8 +2,8 @@ TODO: !!! BuildsComp UserID übergeben
 
 TODO: !!  Spielerliste layout fixen (evtl keine List, sondern PlayerCardComp)
 
-TODO: !  Skills mit Vuetify Rating
-TODO: !  Wo Skills anzeigen (PlayerCard aufklappen?)
+TODO: !   Skills mit Vuetify Rating
+TODO: !   Wo Skills anzeigen (PlayerCard aufklappen?)
 
 TODO: TerminOverview als Kalender?
 
