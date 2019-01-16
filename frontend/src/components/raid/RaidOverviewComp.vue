@@ -24,7 +24,7 @@
 
 <script>
     import ListRaidComp from './ListRaidComp';
-    import _raids from '../../services/endpoints/raids.js';
+    import _raids from '../../services/endpoints/raids';
 
     export default {
         name: "RaidOverviewComp",

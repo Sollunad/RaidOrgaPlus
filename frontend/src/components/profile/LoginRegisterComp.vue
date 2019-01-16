@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import _users from '../../services/endpoints/users.js';
+    import _users from '../../services/endpoints/users';
 
     export default {
         name: "LoginComp",
