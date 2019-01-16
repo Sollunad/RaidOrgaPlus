@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import icons from '../../services/icons.js';
+    import _icons from '../../services/icons.js';
 
     export default {
         name: "ProgressBossComp",
@@ -22,7 +22,7 @@
         },
         methods: {
             icon: function(enc) {
-                if (enc) return icons.encIcon(enc);
+                if (enc) return _icons.encIcon(enc);
             }
         }
     }

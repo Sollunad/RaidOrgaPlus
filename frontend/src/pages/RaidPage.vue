@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import db_raids from '../services/endpoints/raids.js';
+    import _raids from '../services/endpoints/raids.js';
     import RaidToolbarComp from "../components/raid/RaidToolbarComp";
 
     export default {
@@ -27,11 +27,11 @@
         asyncComputed: {
             raid: function () {
                 if (this.raidId === 0) window.location.href = '/#/raids';
-                return db_raids.get(this.raidId);
+                return _raids.get(this.raidId);
             },
             role: function() {
                 if (this.user && this.raid) {
-                    return db_raids.role(this.raidId, this.user.id);
+                    return _raids.role(this.raidId, this.user.id);
                 }
             }
         },

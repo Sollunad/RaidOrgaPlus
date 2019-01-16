@@ -11,6 +11,7 @@
 
 <script>
     import ProgressBossComp from "./ProgressBossComp";
+
     export default {
         name: "ProgressWingComp",
         components: {ProgressBossComp},

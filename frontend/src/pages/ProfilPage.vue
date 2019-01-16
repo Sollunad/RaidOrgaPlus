@@ -22,6 +22,7 @@
     import ProfileAPIKeyComp from "../components/profile/ProfileAPIKeyComp";
     import ProfileNameComp from "../components/profile/ProfileNameComp";
     import BuildsComp from "../components/profile/BuildsComp";
+
     export default {
         name: "ProfilPage",
         components: {BuildsComp, ProfileNameComp, ProfileAPIKeyComp},

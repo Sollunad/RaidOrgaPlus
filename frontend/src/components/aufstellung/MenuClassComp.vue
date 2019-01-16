@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import icons from '../../services/icons';
+    import _icons from '../../services/icons';
     import MenuSubclassComp from "./MenuSubclassComp";
 
     export default {
@@ -43,7 +43,7 @@
         }),
         methods: {
             classIcon: function(name) {
-                return icons.classIcon(name);
+                return _icons.classIcon(name);
             },
             pick: function(clss) {
                 this.$emit('pick', clss);

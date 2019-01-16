@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import encounter from '../../services/endpoints/encounter';
+    import _encounter from '../../services/endpoints/encounter';
 
     export default {
         name: "MenuBossComp",
@@ -19,7 +19,7 @@
         asyncComputed: {
             bosses: async function() {
                 if (this.wing) {
-                    const singleBosses = await encounter.listForWing(this.wing);
+                    const singleBosses = await _encounter.listForWing(this.wing);
                     const fc = [{id:0, name:'Full Clear'}];
                     return fc.concat(singleBosses);
                 }

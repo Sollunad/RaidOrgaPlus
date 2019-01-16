@@ -20,7 +20,7 @@
 <script>
     import AufstellungHeaderComp from "./AufstellungHeaderComp";
     import AufstellungBodyComp from "./AufstellungBodyComp";
-    import aufstellung from '../../services/endpoints/aufstellungen';
+    import _aufstellungen from '../../services/endpoints/aufstellungen';
 
     export default {
         name: "AufstellungComp",
@@ -35,12 +35,12 @@
             },
             toggleSuccess: function() {
                 this.success = !this.success;
-                aufstellung.setSuccess(this.aufstellung.id, this.success);
+                _aufstellungen.setSuccess(this.aufstellung.id, this.success);
             }
         },
         created: async function() {
             if (!this.active) {
-                this.success = await aufstellung.getSuccess(this.aufstellung.id);
+                this.success = await _aufstellungen.getSuccess(this.aufstellung.id);
             }
         }
     }

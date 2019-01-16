@@ -8,6 +8,7 @@
 
 <script>
     import ProgressComp from "../components/progress/ProgressComp";
+
     export default {
         name: "HomePage",
         props: ['user'],

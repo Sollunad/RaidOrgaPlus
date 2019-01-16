@@ -8,6 +8,7 @@
 
 <script>
     import TerminOverviewComp from "../../components/raid/TerminOverviewComp";
+
     export default {
         name: "ArchivPage",
         components: {TerminOverviewComp},

@@ -23,7 +23,6 @@
 </template>
 
 <script>
-
     export default {
         name: "RaidDashboardPage",
         props: ['raid'],

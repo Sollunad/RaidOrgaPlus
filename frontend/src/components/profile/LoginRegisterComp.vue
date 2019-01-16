@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import user from '../../services/endpoints/users.js';
+    import _users from '../../services/endpoints/users.js';
 
     export default {
         name: "LoginComp",
@@ -107,7 +107,7 @@
                 }
             },
             async login() {
-                const uuid = await user.login(this.accName, this.password);
+                const uuid = await _users.login(this.accName, this.password);
                 if (uuid) {
                     this.buttonColor = 'success';
                     localStorage.session = uuid;
@@ -117,7 +117,7 @@
                 }
             },
             async register() {
-                const success = await user.register(this.accName, this.password, this.name);
+                const success = await _users.register(this.accName, this.password, this.name);
                 if (success) {
                     this.login();
                 } else {

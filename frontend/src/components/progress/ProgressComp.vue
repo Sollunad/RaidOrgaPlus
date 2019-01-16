@@ -15,9 +15,9 @@
 
 <script>
     import ProgressWingComp from "./ProgressWingComp";
-    import encounter from '../../services/endpoints/encounter';
-    import progress from '../../services/endpoints/progress';
-    import user from '../../services/endpoints/users';
+    import _encounter from '../../services/endpoints/encounter';
+    import _progress from '../../services/endpoints/progress';
+    import _users from '../../services/endpoints/users';
 
     export default {
         name: "ProgressComp",
@@ -25,13 +25,13 @@
         props: ['user'],
         asyncComputed: {
             bosses: function() {
-                return encounter.list();
+                return _encounter.list();
             },
             progress: function() {
-                if (this.user) return progress.progress(this.user.id);
+                if (this.user) return _progress.progress(this.user.id);
             },
             hasNoApi: async function() {
-                if (this.user) return !(await user.hasApi(this.user.id));
+                if (this.user) return !(await _users.hasApi(this.user.id));
             }
         }
 

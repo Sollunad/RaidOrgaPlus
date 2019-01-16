@@ -16,20 +16,20 @@
 </template>
 
 <script>
-    import icons from '../../services/icons';
-    import classes from '../../services/endpoints/class';
+    import _icons from '../../services/icons';
+    import _classes from '../../services/endpoints/class';
 
     export default {
         name: "MenuSubclassComp",
         props: ['base'],
         asyncComputed: {
             classes: async function() {
-                return await classes.getForBase(this.base);
+                return await _classes.getForBase(this.base);
             }
         },
         methods: {
             classIcon: function(name) {
-                return icons.classIcon(name);
+                return _icons.classIcon(name);
             },
             pick: function(clss) {
                 this.$emit('pick', clss);

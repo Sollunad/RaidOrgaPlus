@@ -68,7 +68,7 @@
 </template>
 
 <script>
-    import termin from '../../services/endpoints/termine';
+    import _termin from '../../services/endpoints/termine';
 
     export default {
         name: "NeuerTerminComp",
@@ -95,7 +95,7 @@
             submit: function() {
                 if (this.$refs.form.validate()) {
                     this.buttonColor = 'success';
-                    termin.newTermin(this.raid.id, this.date, this.time).then(() => {
+                    _termin.newTermin(this.raid.id, this.date, this.time).then(() => {
                         window.history.back();
                     });
                 }

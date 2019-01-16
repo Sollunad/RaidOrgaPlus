@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import icons from '../../services/icons';
+    import _icons from '../../services/icons';
 
     export default {
         name: "MenuRoleComp",
@@ -32,7 +32,7 @@
         }),
         methods: {
             roleIcon: function(name) {
-                return icons.roleIcon(name);
+                return _icons.roleIcon(name);
             },
             pick: function(role) {
                 this.$emit('pick', role);

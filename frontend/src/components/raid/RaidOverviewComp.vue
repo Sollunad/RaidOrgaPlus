@@ -24,7 +24,7 @@
 
 <script>
     import ListRaidComp from './ListRaidComp';
-    import db_raids from '../../services/endpoints/raids.js';
+    import _raids from '../../services/endpoints/raids.js';
 
     export default {
         name: "RaidOverviewComp",
@@ -32,7 +32,7 @@
         props: ['user'],
         asyncComputed: {
             raids: function () {
-                return db_raids.listForPlayer(this.user.id);
+                return _raids.listForPlayer(this.user.id);
             }
         },
         methods: {

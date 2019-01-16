@@ -38,8 +38,8 @@
 </template>
 
 <script>
-    import icons from '../../services/icons.js';
-    import aufstellungen from '../../services/endpoints/aufstellungen';
+    import _icons from '../../services/icons.js';
+    import _aufstellungen from '../../services/endpoints/aufstellungen';
     import MenuClassComp from "./MenuClassComp";
     import MenuRoleComp from "./MenuRoleComp";
     import MenuNameComp from "./MenuNameComp";
@@ -60,11 +60,11 @@
                 }
             },
             classIcon: function() {
-                if (this.element && this.element.length > 0 && this.element[0].class !== '') return icons.classIcon(this.element[0].class);
+                if (this.element && this.element.length > 0 && this.element[0].class !== '') return _icons.classIcon(this.element[0].class);
                 else return '';
             },
             roleIcon: function() {
-                if (this.element && this.element.length > 0 && this.element[0].role !== '') return icons.roleIcon(this.element[0].role);
+                if (this.element && this.element.length > 0 && this.element[0].role !== '') return _icons.roleIcon(this.element[0].role);
                 else return '';
             },
             name: function() {
@@ -75,15 +75,15 @@
         methods: {
             pickClass: async function(clss) {
                 this.classMenuOpen = false;
-                const newElements = await aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
+                const newElements = await _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
                 this.$emit('update', newElements);
             },
             pickRole: async function(role) {
-                const newElements = await aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
+                const newElements = await _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
                 this.$emit('update', newElements);
             },
             pickName: async function(id) {
-                const newElements = await aufstellungen.setName(this.aufstellung.id, this.position, id);
+                const newElements = await _aufstellungen.setName(this.aufstellung.id, this.position, id);
                 this.$emit('update', newElements);
             }
         }

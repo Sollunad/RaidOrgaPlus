@@ -50,7 +50,7 @@
 <script>
     import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
-    import _user from '../../services/endpoints/users';
+    import _users from '../../services/endpoints/users';
 
     export default {
         name: "MenuComp",
@@ -75,7 +75,7 @@
         },
         methods: {
             logout: function() {
-                _user.invalidateSession(localStorage.session);
+                _users.invalidateSession(localStorage.session);
                 localStorage.session = "";
                 window.location.reload();
             }

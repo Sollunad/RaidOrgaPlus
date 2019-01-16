@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import db_user from '../../services/endpoints/users';
+    import _users from '../../services/endpoints/users';
 
     export default {
         name: "ProfileNameComp",
@@ -35,7 +35,7 @@
             async submit() {
                 if (this.$refs.form.validate()) {
                     if (this.user) {
-                        db_user.changeName(this.user.id, this.name);
+                        _users.changeName(this.user.id, this.name);
                         this.buttonText = 'success';
                         this.buttonColor = 'success';
                     }

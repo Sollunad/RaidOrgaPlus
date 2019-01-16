@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import users from '../../services/endpoints/users';
+    import _users from '../../services/endpoints/users';
     import BuildChipComp from "../profile/BuildChipComp";
     import NameComp from "../menu/NameComp";
 
@@ -31,7 +31,7 @@
         props: ['user'],
         asyncComputed: {
             builds: function() {
-                if (this.user) return users.getBuilds(this.user.id);
+                if (this.user) return _users.getBuilds(this.user.id);
             }
         }
     }

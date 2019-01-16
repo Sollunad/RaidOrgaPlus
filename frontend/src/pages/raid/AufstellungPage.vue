@@ -39,8 +39,8 @@
 <script>
     import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp";
     import AufstellungComp from '../../components/aufstellung/AufstellungComp';
-    import aufstellung from '../../services/endpoints/aufstellungen';
-    import db_termin from '../../services/endpoints/termine';
+    import _aufstellungen from '../../services/endpoints/aufstellungen';
+    import _termine from '../../services/endpoints/termine';
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
 
     export default {
@@ -54,38 +54,38 @@
         }),
         asyncComputed: {
             anmeldung: function() {
-                if (this.termin) return db_termin.getAnmeldung(this.user.id, this.termin.id);
+                if (this.termin) return _termine.getAnmeldung(this.user.id, this.termin.id);
                 else return null;
             },
             isActive: async function() {
-                if (this.termin) return (!await db_termin.isArchived(this.termin.id));
+                if (this.termin) return (!await _termine.isArchived(this.termin.id));
                 else return false;
             }
         },
         methods: {
             anmelden: function(type) {
-                db_termin.anmelden(this.user.id, this.termin.id, type);
+                _termine.anmelden(this.user.id, this.termin.id, type);
             },
             addBoss: async function(info) {
                 const [boss, wing] = info;
                 if (boss === 0) {
                     this.aufstellungen = await db_termin.addWing(this.termin.id, wing);
-                    this.elements = await aufstellung.getElements(this.termin.id);
+                    this.elements = await _aufstellungen.getElements(this.termin.id);
                 } else {
                     this.aufstellungen = await db_termin.addBoss(this.termin.id, boss);
-                    this.elements = await aufstellung.getElements(this.termin.id);
+                    this.elements = await _aufstellungen.getElements(this.termin.id);
                 }
             },
             deleteBoss: async function(aufstellungId) {
-                this.aufstellungen = await aufstellung.deleteBoss(aufstellungId, this.termin.id);
-                this.elements = await aufstellung.getElements(this.termin.id);
+                this.aufstellungen = await _aufstellungen.deleteBoss(aufstellungId, this.termin.id);
+                this.elements = await _aufstellungen.getElements(this.termin.id);
             },
             archive: function() {
                 this.archiveDialogOpen = true;
             },
             archiveOK: function() {
                 this.archiveDialogOpen = false;
-                db_termin.archive(this.termin.id).then(() => {
+                _termine.archive(this.termin.id).then(() => {
                     window.history.back();
                 });
             },
@@ -99,8 +99,8 @@
         created: async function() {
             if (!this.termin) window.location.href = '/#/raids';
             else {
-                this.aufstellungen = await aufstellung.getForTermin(this.termin.id);
-                this.elements = await aufstellung.getElements(this.termin.id);
+                this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
+                this.elements = await _aufstellungen.getElements(this.termin.id);
             }
         }
     }

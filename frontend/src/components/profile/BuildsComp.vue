@@ -23,7 +23,7 @@
 <script>
     import AddBuildComp from "./AddBuildComp";
     import BuildChipComp from "./BuildChipComp";
-    import users from '../../services/endpoints/users';
+    import _users from '../../services/endpoints/users';
 
     export default {
         name: "BuildsComp",
@@ -38,10 +38,10 @@
         methods: {
             add: async function(build) {
                 this.addBuildDialog = false;
-                this.builds = await users.addBuild(this.user.id, build.clss.id, build.role.id);
+                this.builds = await _users.addBuild(this.user.id, build.clss.id, build.role.id);
             },
             close: function(build) {
-                users.deleteBuild(this.user.id, build.clss.id, build.role.id);
+                _users.deleteBuild(this.user.id, build.clss.id, build.role.id);
             }
         },
         created: async function() {

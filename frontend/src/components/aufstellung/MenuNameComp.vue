@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import raids from '../../services/endpoints/raids';
+    import _raids from '../../services/endpoints/raids';
 
     export default {
         name: "MenuNameComp",
@@ -19,7 +19,7 @@
         asyncComputed: {
             users: async function() {
                 if (this.raid) {
-                    return raids.listPlayers(this.raid.id);
+                    return _raids.listPlayers(this.raid.id);
                 }
                 else return [];
             }

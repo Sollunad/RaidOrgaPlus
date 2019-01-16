@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import icons from '../../services/icons';
+    import _icons from '../../services/icons';
 
     export default {
         name: "BuildChipComp",
@@ -21,11 +21,11 @@
         }),
         computed: {
             classIcon: function() {
-                if (this.clss) return icons.classIcon(this.clss.abbr);
+                if (this.clss) return _icons.classIcon(this.clss.abbr);
                 else return '';
             },
             roleIcon: function() {
-                if (this.role) return icons.roleIcon(this.role.abbr);
+                if (this.role) return _icons.roleIcon(this.role.abbr);
                 else return '';
             },
             color: function() {

@@ -5,6 +5,7 @@
 
 <script>
     import FeedbackComp from "../components/menu/FeedbackComp";
+
     export default {
         name: "FeedbackPage",
         components: {FeedbackComp},

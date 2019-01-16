@@ -24,6 +24,7 @@
 <script>
     import MenuWingComp from "./MenuWingComp";
     import AnmeldungComp from "./AnmeldungComp";
+
     export default {
         name: "TerminToolbarComp",
         components: {AnmeldungComp, MenuWingComp},

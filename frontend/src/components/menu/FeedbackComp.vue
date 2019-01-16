@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import feedback from '../../services/endpoints/feedback';
+    import _feedback from '../../services/endpoints/feedback';
 
     export default {
         name: "FeedbackComp",
@@ -43,7 +43,7 @@
             submit: function() {
                 if (this.$refs.form.validate()) {
                     this.submitted = true;
-                    feedback.feedback(this.feedbackText, this.user.accname);
+                    _feedback.feedback(this.feedbackText, this.user.accname);
                 }
             }
         }

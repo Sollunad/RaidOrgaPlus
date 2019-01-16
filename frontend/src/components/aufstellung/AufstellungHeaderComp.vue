@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import icons from '../../services/icons.js';
+    import _icons from '../../services/icons.js';
 
     export default {
         name: "AufstellungHeaderComp",
@@ -34,7 +34,7 @@
         },
         methods: {
             icon: function() {
-                if (this.aufstellung) return icons.encIcon(this.aufstellung.abbr);
+                if (this.aufstellung) return _icons.encIcon(this.aufstellung.abbr);
                 else return '';
             },
             deleteBoss: function() {

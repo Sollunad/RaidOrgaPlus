@@ -18,6 +18,7 @@
 
 <script>
     import MenuBossComp from "./MenuBossComp";
+
     export default {
         name: "MenuWingComp",
         components: {MenuBossComp},

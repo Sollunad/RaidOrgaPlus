@@ -21,7 +21,7 @@
 
 <script>
     import ListSpielerComp from "../../components/raid/ListSpielerComp";
-    import raids from '../../services/endpoints/raids';
+    import _raids from '../../services/endpoints/raids';
 
     export default {
         name: "SpielerlistePage",
@@ -30,7 +30,7 @@
         asyncComputed: {
             users: async function() {
                 if (this.raid) {
-                    return raids.listPlayers(this.raid.id);
+                    return _raids.listPlayers(this.raid.id);
                 }
                 else return [];
             }

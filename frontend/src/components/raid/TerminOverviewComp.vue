@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import db_termine from '../../services/endpoints/termine.js';
+    import _termine from '../../services/endpoints/termine';
     import ListTerminComp from "./ListTerminComp";
 
     export default {
@@ -36,8 +36,8 @@
         asyncComputed: {
             termine: function() {
                 if (this.raid) {
-                    if (this.archived) return db_termine.listArchived(this.raid.id);
-                    else return db_termine.listActive(this.raid.id);
+                    if (this.archived) return _termine.listArchived(this.raid.id);
+                    else return _termine.listActive(this.raid.id);
                 }
             },
             listNotEmpty: function() {

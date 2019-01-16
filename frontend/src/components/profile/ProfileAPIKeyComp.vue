@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import db_user from '../../services/endpoints/users';
+    import _users from '../../services/endpoints/users';
 
     export default {
         name: "ProfileAPIKeyComp",
@@ -56,7 +56,7 @@
         methods: {
             async submit() {
                 if (this.$refs.form.validate()) {
-                    const response = await db_user.setApi(this.user.id, this.apiKey);
+                    const response = await _users.setApi(this.user.id, this.apiKey);
                     if (response === 'Success') {
                         this.buttonColor = 'success';
                         this.buttonText = 'Success!';

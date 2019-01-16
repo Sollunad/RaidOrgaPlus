@@ -28,6 +28,7 @@
     import MenuClassComp from "../aufstellung/MenuClassComp";
     import MenuRoleComp from "../aufstellung/MenuRoleComp";
     import BuildChipComp from "./BuildChipComp";
+
     export default {
         name: "AddBuildComp",
         data: () => ({
