@@ -45,7 +45,7 @@
             }
         },
         created: async function() {
-            this.builds = await users.getBuilds(10);
+            this.builds = await _users.getBuilds(10);
         }
     }
 </script>

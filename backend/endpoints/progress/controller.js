@@ -18,8 +18,7 @@ async function getProgress(req, res) {
 async function getInsights(req, res) {
     const user = req.query.user;
     if (user) {
-        const li = await _insights.insights(user);
-        res.send({li: li});
+        res.send(await _insights.insights(user));
     } else {
         res.send([]);
     }
