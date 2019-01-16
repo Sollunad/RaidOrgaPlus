@@ -22,8 +22,7 @@ Release v1.1 - März 2019
     TODO:     Aufstellung: evtc-Files hochladen / Logfiles anzeigen
     TODO:     Aufstellung: Video hinzufügen / anzeigen
 
-    TODO:     Bilder hochladen im Profil
-    TODO:     Bilder anzeigen in Spielerliste und Menü
+    TODO:     Bilder hochladen / anzeigen (Für User und Raid)
 
     TODO:     Statistiken (LI-Graph, filter by boss/wing, Spieler-Aktivität)
 
@@ -38,9 +37,6 @@ Release v1.3 - April/Mai 2019
 ...
 
     TODO:     Discord Bot
-
     TODO:     Admin-Frontend
-
     TODO:     Profil: Angabe zu zeitlichen Präferenzen, wo benutzen? Spielerliste, Termin, Neuer Termin?
-
     TODO:     TerminOverview als Kalender?
