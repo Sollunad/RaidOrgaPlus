@@ -2,10 +2,6 @@ let express = require('express');
 let cors = require('cors');
 let app = express();
 
-const encounter = require('./endpoints/encounter/encounter');
-const feedback = require('./endpoints/feedback/feedback');
-const classes = require('./endpoints/class/class');
-
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
@@ -46,34 +42,6 @@ function registerEndpoint(path, endpoint) {
         default: break;
     }
 }
-
-app.get('/encounter', async function(req, res) {
-    const wing = req.query.wing;
-    if (wing) {
-        res.send(await encounter.listForWing(wing));
-    } else {
-        res.send(await encounter.list());
-    }
-});
-
-
-app.post('/feedback', async function(req, res) {
-    const text = req.body.text;
-    const user = req.body.accname;
-    if (text) {
-        feedback.new(text, user);
-    }
-    res.send([]);
-});
-
-app.get('/class', async function(req, res) {
-    const base = req.query.base;
-    if (base) {
-        res.send(await classes.getForBase(base));
-    } else {
-        res.send([]);
-    }
-});
 
 try {
     // Certificate

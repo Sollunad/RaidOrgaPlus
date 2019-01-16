@@ -1,0 +1,14 @@
+const _feedback = require('./feedback');
+
+module.exports = [
+    {function: postFeedback, path: '/', method: 'post'},
+];
+
+async function postFeedback(req, res) {
+    const text = req.body.text;
+    const user = req.body.accname;
+    if (text) {
+        _feedback.new(text, user);
+    }
+    res.send([]);
+}

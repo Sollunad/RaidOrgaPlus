@@ -9,8 +9,8 @@
     export default {
         name: "FooterComp",
         data: () => ({
-            versionNo: '0.0.1',
-            versionTitle: 'pre-alpha'
+            versionNo: '0.1',
+            versionTitle: 'alpha'
         }),
         computed: {
             footerText: function() {

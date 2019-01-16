@@ -12,7 +12,7 @@
 
 <script>
     import ProgressWingComp from "./ProgressWingComp";
-    import _encounter from '../../services/endpoints/encounter';
+    import _encounter from '../../services/endpoints/gamedata';
     import _progress from '../../services/endpoints/progress';
 
     export default {
@@ -21,7 +21,7 @@
         props: ['user'],
         asyncComputed: {
             bosses: function() {
-                return _encounter.list();
+                return _encounter.listEncounter();
             },
             progress: function() {
                 if (this.user) return _progress.progress(this.user.id);

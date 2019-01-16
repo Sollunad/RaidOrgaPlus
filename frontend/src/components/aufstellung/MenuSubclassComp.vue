@@ -17,14 +17,14 @@
 
 <script>
     import _icons from '../../services/icons';
-    import _classes from '../../services/endpoints/class';
+    import _gamedata from '../../services/endpoints/gamedata';
 
     export default {
         name: "MenuSubclassComp",
         props: ['base'],
         asyncComputed: {
             classes: async function() {
-                return await _classes.getForBase(this.base);
+                return await _gamedata.getClassesForBase(this.base);
             }
         },
         methods: {
