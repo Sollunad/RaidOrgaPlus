@@ -7,7 +7,8 @@
             v-bind:active="isActive"
             v-bind:termin="termin"
             v-on:addBoss="addBoss"
-            v-on:archive="archive">
+            v-on:archive="archive"
+            v-on:refresh="refresh">
         </TerminToolbarComp>
         <div v-if="aufstellungen">
             <v-container grid-list-md>
@@ -94,6 +95,10 @@
             },
             elementsForAufstellung: function(aufstellung) {
                 return this.elements.filter(e => e.aufstellung === aufstellung);
+            },
+            refresh: async function() {
+                this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
+                this.elements = await _aufstellungen.getElements(this.termin.id);
             }
         },
         created: async function() {

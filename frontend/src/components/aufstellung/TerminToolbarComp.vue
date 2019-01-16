@@ -9,6 +9,9 @@
                 v-on:pick="addBoss">
             </MenuWingComp>
         </v-menu>
+        <v-btn flat icon v-if="active" @click="refresh">
+            <v-icon>refresh</v-icon>
+        </v-btn>
         <v-btn flat icon v-if="role > 0 && active" @click="archive">
             <v-icon>send</v-icon>
         </v-btn>
@@ -41,7 +44,10 @@
             },
             archive: function() {
                 this.$emit('archive');
-            }
+            },
+            refresh: function() {
+                this.$emit('refresh');
+            },
         }
     }
 </script>
