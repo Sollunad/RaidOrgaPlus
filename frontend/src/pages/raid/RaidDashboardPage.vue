@@ -32,7 +32,7 @@
                     { title: 'Spielerliste', route: '/raid/spielerliste', icon: 'people' },
                     { title: 'Termine', route: '/raid/termine', icon: 'calendar_today'},
                     { title: 'Archiv', route: '/raid/archiv', icon: 'book' },
-                    { title: 'Statistiken', route: '/raid/statistiken', icon: 'show_chart' }
+                    //{ title: 'Statistiken', route: '/raid/statistiken', icon: 'show_chart' },
                 ]
             }
         }

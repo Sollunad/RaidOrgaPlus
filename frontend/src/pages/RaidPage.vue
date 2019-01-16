@@ -2,7 +2,6 @@
     <div>
         <RaidToolbarComp
                 v-bind:raid="raid"
-                v-bind:role="role"
         >
         </RaidToolbarComp>
         <router-view

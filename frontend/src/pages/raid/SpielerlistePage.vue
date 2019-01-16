@@ -13,7 +13,8 @@
                         xs12 sm6 lg4 xl3>
                     <ListSpielerComp
                             v-bind:user="user"
-                            v-bind:key="user.id">
+                            v-bind:key="user.id"
+                            v-bind:filter="filter">
                     </ListSpielerComp>
                 </v-flex>
             </v-layout>
@@ -29,6 +30,9 @@
         name: "SpielerlistePage",
         components: {ListSpielerComp},
         props: ['raid', 'role'],
+        data: () => ({
+            filter: ''
+        }),
         asyncComputed: {
             users: async function() {
                 if (this.raid) {

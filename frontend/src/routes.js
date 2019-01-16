@@ -6,8 +6,6 @@ import AufstellungPage from "./pages/raid/AufstellungPage";
 import ArchivPage from "./pages/raid/ArchivPage";
 import ProfilPage from "./pages/ProfilPage";
 import SkillsPage from "./pages/SkillsPage";
-import EinstellungenPage from "./pages/EinstellungenPage";
-import RaidEinstellungenPage from "./pages/raid/RaidEinstellungenPage";
 import HomePage from "./pages/HomePage";
 import FeedbackPage from "./pages/FeedbackPage";
 import StatistikenPage from "./pages/raid/StatistikenPage";
@@ -24,13 +22,11 @@ const routes = [
           { path: 'termine', component: TerminePage },
           { path: 'aufstellung', component: AufstellungPage },
           { path: 'archiv', component: ArchivPage },
-          { path: 'einstellungen', component: RaidEinstellungenPage },
           { path: 'statistiken', component: StatistikenPage },
           { path: 'neuerTermin', component: NeuerTerminPage },
       ]},
     { path: '/profil', component: ProfilPage },
     { path: '/skills', component: SkillsPage },
-    { path: '/einstellungen', component: EinstellungenPage },
     { path: '/feedback', component: FeedbackPage },
 ];
 

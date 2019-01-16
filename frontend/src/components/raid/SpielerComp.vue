@@ -4,7 +4,7 @@
             v-bind:user="user"
             class="name">
         </NameComp>
-        <div class="builds" v-if="builds && builds.length > 0">
+        <div class="builds" v-if="builds && filtered.length > 0">
             <BuildChipComp
                     v-for="build in prefer"
                     v-bind:key="`${build.class.id} ${build.role.id}`"
@@ -35,18 +35,22 @@
     export default {
         name: "ListSpielerComp",
         components: {NameComp, BuildChipComp},
-        props: ['user'],
+        props: ['user', 'filter'],
         asyncComputed: {
             builds: function() {
                 if (this.user) return _users.getBuilds(this.user.id);
             }
         },
         computed: {
+            filtered: function() {
+                if (this.filter) return this.builds.filter(b => b.role.abbr === this.filter);
+                else return this.builds;
+            },
             prefer: function() {
-                return this.builds.filter(b => b.prefer);
+                return this.filtered.filter(b => b.prefer);
             },
             notPrefer: function() {
-                return this.builds.filter(b => !b.prefer);
+                return this.filtered.filter(b => !b.prefer);
             }
         }
     }
