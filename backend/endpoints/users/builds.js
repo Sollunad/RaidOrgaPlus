@@ -5,7 +5,7 @@ exports.deleteBuild = deleteBuild;
 exports.getBuilds = getBuilds;
 
 async function getBuilds(user) {
-    const stmt = 'SELECT fk_class AS classId, sub.abbr AS classAbbr, base.color AS classColor, fk_role AS roleId, Rolle.abbr AS roleAbbr FROM Spieler_Build' +
+    const stmt = 'SELECT fk_class AS classId, sub.abbr AS classAbbr, base.color AS classColor, fk_role AS roleId, Rolle.abbr AS roleAbbr, prefer FROM Spieler_Build' +
         ' JOIN Klasse sub ON sub.id = Spieler_Build.fk_class' +
         ' JOIN Klasse base ON base.id = sub.fk_base' +
         ' JOIN Rolle ON Rolle.id = Spieler_Build.fk_role' +
@@ -36,5 +36,10 @@ async function deleteBuild(user, clss, role) {
 }
 
 function classRoleMapper(element) {
-    return {class: {abbr: element.classAbbr, id: element.classId, color: element.classColor}, role: {abbr: element.roleAbbr, id: element.roleId}};
+    return {class:
+                {abbr: element.classAbbr, id: element.classId, color: element.classColor},
+            role:
+                {abbr: element.roleAbbr, id: element.roleId},
+            prefer: element.prefer
+    };
 }

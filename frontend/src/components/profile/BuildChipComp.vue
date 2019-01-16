@@ -1,6 +1,6 @@
 <template>
     <v-chip
-            :close="close" :color="color" v-model="chip">
+            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" >
         <v-avatar class="classIcon" tile>
             <img :src="classIcon" v-if="classIcon">
         </v-avatar>
@@ -15,7 +15,7 @@
 
     export default {
         name: "BuildChipComp",
-        props: ['close', 'clss', 'role'],
+        props: ['close', 'clss', 'role', 'small', 'disabled'],
         data: () => ({
             chip: true,
         }),

@@ -1,26 +1,28 @@
 <template>
     <div>
-        <v-list>
-            <template
-                v-for="(user, index) in users">
-                <ListSpielerComp
-                        v-bind:user="user"
-                        v-bind:key="user.id">
-                </ListSpielerComp>
-                <v-divider
-                    v-if="index < users.length - 1"></v-divider>
-            </template>
-        </v-list>
         <v-btn
                 v-if="role === 2"
                 color="success">
             Spieler einladen
         </v-btn>
+        <v-container grid-list-md>
+            <v-layout row wrap>
+                <v-flex
+                        v-for="user in users"
+                        :key="user.id"
+                        xs12 sm6 lg4 xl3>
+                    <ListSpielerComp
+                            v-bind:user="user"
+                            v-bind:key="user.id">
+                    </ListSpielerComp>
+                </v-flex>
+            </v-layout>
+        </v-container>
     </div>
 </template>
 
 <script>
-    import ListSpielerComp from "../../components/raid/ListSpielerComp";
+    import ListSpielerComp from "../../components/raid/SpielerComp";
     import _raids from '../../services/endpoints/raids';
 
     export default {

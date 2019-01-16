@@ -49,6 +49,7 @@
 <style scoped>
     .aufstellung {
         background-color: #222222;
-        width: fit-content;
+        width: 100%;
+        height: 100%;
     }
 </style>
