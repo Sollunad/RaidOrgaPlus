@@ -1,9 +1,9 @@
-const login = require('./login');
-const register = require('./register');
-const session = require('./session');
-const user = require('./user');
-const api = require('./apikey');
-const builds = require('./builds');
+const _login = require('./login');
+const _register = require('./register');
+const _session = require('./session');
+const _user = require('./user');
+const _api = require('./apikey');
+const _builds = require('./builds');
 
 module.exports = [
     {function: getUser, path: '', method: 'get'},
@@ -21,10 +21,10 @@ module.exports = [
 async function getUser(req, res) {
     const uuid = req.query.uuid;
     if (uuid) {
-        const response = (await session.getUser(uuid))[0];
+        const response = (await _session.getUser(uuid))[0];
         if (response) {
-            const user_id = response.user;
-            res.send(await user.get(user_id));
+            const user = response.user;
+            res.send(await _user.get(user));
         }
         else {
             res.send([]);
@@ -37,7 +37,7 @@ async function getUser(req, res) {
 async function invalidateSession(req, res) {
     const uuid = req.body.uuid;
     if (uuid) {
-        res.send(await session.invalidate(uuid));
+        res.send(await _session.invalidate(uuid));
     } else {
         res.send([]);
     }
@@ -48,7 +48,7 @@ async function registerUser(req, res) {
     const pwd = req.body.pwd;
     const name = req.body.name;
     if (accName && pwd && name) {
-        res.send(await register.register(accName, pwd, name));
+        res.send(await _register.register(accName, pwd, name));
     }
 }
 
@@ -56,7 +56,7 @@ async function loginUser(req, res) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     if (accName && pwd) {
-        res.send(await login.login(accName, pwd));
+        res.send(await _login.login(accName, pwd));
     } else {
         res.send([]);
     }
@@ -64,19 +64,19 @@ async function loginUser(req, res) {
 
 
 async function setApi(req, res) {
-    const user_id = req.body.user;
+    const user = req.body.user;
     const apiKey = req.body.apiKey;
-    if (user_id && apiKey) {
-        res.send(await api.setApi(user_id, apiKey));
+    if (user && apiKey) {
+        res.send(await _api.setApi(user, apiKey));
     } else {
         res.send(false);
     }
 }
 
 async function hasApi(req, res) {
-    const user_id = req.query.user;
-    if (user_id) {
-        res.send(await api.hasApi(user_id));
+    const user = req.query.user;
+    if (user) {
+        res.send(await _api.hasApi(user));
     } else {
         res.send(false);
     }
@@ -84,9 +84,9 @@ async function hasApi(req, res) {
 
 async function setName(req, res) {
     const name = req.body.name;
-    const user_id = req.body.user;
-    if (name && user_id) {
-        user.changeName(user_id, name);
+    const user = req.body.user;
+    if (name && user) {
+        _user.changeName(user, name);
     }
     res.send([]);
 }
@@ -94,7 +94,7 @@ async function setName(req, res) {
 async function getBuilds(req, res) {
     const user = req.query.user;
     if (user) {
-        res.send(await builds.getBuilds(user));
+        res.send(await _builds.getBuilds(user));
     } else {
         res.send([]);
     }
@@ -105,8 +105,8 @@ async function addBuild(req, res) {
     const clss = req.body.clss;
     const role = req.body.role;
     if (user && clss && role) {
-        builds.addBuild(user, clss, role).then(async () => {
-            res.send(await builds.getBuilds(user));
+        _builds.addBuild(user, clss, role).then(async () => {
+            res.send(await _builds.getBuilds(user));
         });
     } else {
         res.send([]);
@@ -118,8 +118,8 @@ async function deleteBuild(req, res) {
     const clss = req.body.clss;
     const role = req.body.role;
     if (user && clss && role) {
-        builds.deleteBuild(user, clss, role).then(async () => {
-            res.send(await builds.getBuilds(user));
+        _builds.deleteBuild(user, clss, role).then(async () => {
+            res.send(await _builds.getBuilds(user));
         });
     } else {
         res.send([]);

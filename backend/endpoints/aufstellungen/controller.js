@@ -1,5 +1,5 @@
-const aufstellung = require('./aufstellung');
-const element = require('./element');
+const _aufstellung = require('./aufstellung');
+const _element = require('./element');
 
 module.exports = [
     {function: getTermin, path: '', method: 'get'},
@@ -11,39 +11,39 @@ module.exports = [
 ];
 
 async function getTermin(req, res) {
-    const termin_id = req.query.termin;
-    if (termin_id) {
-        res.send(await aufstellung.getForTermin(termin_id));
+    const termin = req.query.termin;
+    if (termin) {
+        res.send(await _aufstellung.getForTermin(termin));
     } else {
         res.send([]);
     }
 }
 
 async function getSuccess(req, res) {
-    const aufstellung_id = req.query.aufstellung;
-    if (aufstellung_id) {
-        res.send(await aufstellung.getSuccess(aufstellung_id));
+    const aufstellung = req.query.aufstellung;
+    if (aufstellung) {
+        res.send(await _aufstellung.getSuccess(aufstellung));
     } else {
         res.send([]);
     }
 }
 
 async function putSuccess(req, res) {
-    const aufstellung_id = req.body.aufstellung;
+    const aufstellung = req.body.aufstellung;
     const success = req.body.success;
-    if (aufstellung_id && (success || success === false)) {
-        res.send(await aufstellung.setSuccess(aufstellung_id, success));
+    if (aufstellung && (success || success === false)) {
+        res.send(await _aufstellung.setSuccess(aufstellung, success));
     } else {
         res.send([]);
     }
 }
 
 async function deleteTermin(req, res) {
-    const aufstellung_id = req.body.aufstellung;
-    const termin_id = req.body.termin;
-    if (aufstellung_id && termin_id) {
-        aufstellung.delete(aufstellung_id).then(async () => {
-            res.send(await aufstellung.getForTermin(termin_id));
+    const aufstellung = req.body.aufstellung;
+    const termin = req.body.termin;
+    if (aufstellung && termin) {
+        _aufstellung.delete(aufstellung).then(async () => {
+            res.send(await _aufstellung.getForTermin(termin));
         })
     } else {
         res.send([]);
@@ -51,9 +51,9 @@ async function deleteTermin(req, res) {
 }
 
 async function getElement(req, res) {
-    const termin_id = req.query.termin;
-    if (termin_id) {
-        res.send(await element.getForTermin(termin_id));
+    const termin = req.query.termin;
+    if (termin) {
+        res.send(await _element.getForTermin(termin));
     } else {
         res.send([]);
     }
@@ -66,16 +66,16 @@ async function postElement(req, res) {
     const value = req.body.value;
     if (aufstellung && position && type && value) {
         if (type === "class") {
-            element.setClass(aufstellung, position, value).then(async () => {
-                res.send(await element.getForAufstellung(aufstellung));
+            _element.setClass(aufstellung, position, value).then(async () => {
+                res.send(await _element.getForAufstellung(aufstellung));
             });
         } else if (type === "role") {
-            element.setRole(aufstellung, position, value).then(async () => {
-                res.send(await element.getForAufstellung(aufstellung));
+            _element.setRole(aufstellung, position, value).then(async () => {
+                res.send(await _element.getForAufstellung(aufstellung));
             });
         } else if (type === "name") {
-            element.setName(aufstellung, position, value).then(async () => {
-                res.send(await element.getForAufstellung(aufstellung));
+            _element.setName(aufstellung, position, value).then(async () => {
+                res.send(await _element.getForAufstellung(aufstellung));
             });
         } else {
             res.send([]);
