@@ -14,8 +14,7 @@
         </v-container>
         <div class="chip">
             <BuildChipComp
-                v-bind:clss="clss"
-                v-bind:role="role">
+                v-bind:build="build">
             </BuildChipComp>
             <v-btn color="green" fab small @click="addBuild">
                 <v-icon>add</v-icon>
@@ -32,21 +31,23 @@
     export default {
         name: "AddBuildComp",
         data: () => ({
-           clss: null,
-           role: null
+           build: {
+               class: null,
+               role: null
+           }
         }),
         components: {BuildChipComp, MenuRoleComp, MenuClassComp},
         methods: {
             pickClass: function(clss) {
-                this.clss = clss;
+                this.build.class = clss;
             },
             pickRole: function(role) {
-                this.role = role;
+                this.build.role = role;
             },
             addBuild: function() {
-                this.$emit('add', {clss: this.clss, role: this.role});
-                this.clss = null;
-                this.role = null;
+                this.$emit('add', {class: this.build.class, role: this.build.role});
+                this.build.class = null;
+                this.build.role = null;
             }
         }
     }

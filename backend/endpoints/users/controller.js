@@ -16,6 +16,7 @@ module.exports = [
     {function: getBuilds, path: '/builds', method: 'get'},
     {function: addBuild, path: '/builds', method: 'post'},
     {function: deleteBuild, path: '/builds', method: 'delete'},
+    {function: putPrefer, path: '/builds/prefer', method: 'put'},
 ];
 
 async function getUser(req, res) {
@@ -121,6 +122,18 @@ async function deleteBuild(req, res) {
         _builds.deleteBuild(user, clss, role).then(async () => {
             res.send(await _builds.getBuilds(user));
         });
+    } else {
+        res.send([]);
+    }
+}
+
+async function putPrefer(req, res) {
+    const user = req.body.user;
+    const clss = req.body.clss;
+    const role = req.body.role;
+    const pref = req.body.pref;
+    if (user && clss && role) {
+        res.send(await _builds.putPrefer(user, clss, role, pref));
     } else {
         res.send([]);
     }

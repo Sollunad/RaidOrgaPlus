@@ -8,8 +8,7 @@
             <BuildChipComp
                     v-for="build in prefer"
                     v-bind:key="`${build.class.id} ${build.role.id}`"
-                    v-bind:clss="build.class"
-                    v-bind:role="build.role"
+                    v-bind:build="build"
                     disabled
             >
             </BuildChipComp>
@@ -17,8 +16,7 @@
             <BuildChipComp
                     v-for="build in notPrefer"
                     v-bind:key="`${build.class.id} ${build.role.id}`"
-                    v-bind:clss="build.class"
-                    v-bind:role="build.role"
+                    v-bind:build="build"
                     small disabled
             >
             </BuildChipComp>

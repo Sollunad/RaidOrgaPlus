@@ -7,6 +7,9 @@
         <v-avatar class="roleIcon" tile>
             <img :src="roleIcon" v-if="roleIcon">
         </v-avatar>
+        <v-avatar v-if="star" class="star" tile @click="togglePrefer">
+            <v-icon :color="starColor">{{starIcon}}</v-icon>
+        </v-avatar>
     </v-chip>
 </template>
 
@@ -15,27 +18,40 @@
 
     export default {
         name: "BuildChipComp",
-        props: ['close', 'clss', 'role', 'small', 'disabled'],
+        props: ['close', 'build', 'small', 'disabled', 'star'],
         data: () => ({
             chip: true,
         }),
         computed: {
             classIcon: function() {
-                if (this.clss) return _icons.classIcon(this.clss.abbr);
+                if (this.build && this.build.class) return _icons.classIcon(this.build.class.abbr);
                 else return '';
             },
             roleIcon: function() {
-                if (this.role) return _icons.roleIcon(this.role.abbr);
+                if (this.build && this.build.role) return _icons.roleIcon(this.build.role.abbr);
                 else return '';
             },
             color: function() {
-                if (this.clss) return this.clss.color;
+                if (this.build && this.build.class) return this.build.class.color;
                 else return '';
+            },
+            starColor: function() {
+                if (this.build && this.build.prefer) return 'amber darken-1';
+                else return 'black';
+            },
+            starIcon: function() {
+                if (this.build && this.build.prefer) return 'star';
+                else return 'star_outline';
             }
         },
         watch: {
             chip: function(value) {
-                if (!value) this.$emit('close', {clss: this.clss, role: this.role});
+                if (!value) this.$emit('close');
+            }
+        },
+        methods: {
+            togglePrefer: function() {
+                this.$emit('togglePrefer');
             }
         }
     }
@@ -48,6 +64,11 @@
     }
 
     .roleIcon {
+        margin-right: 0;
+    }
+
+    .star {
+        margin-left: 0;
         margin-right: 0;
     }
 </style>

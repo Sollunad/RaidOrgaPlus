@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { get, hasApi, setApi, changeName, register, login, invalidateSession, getBuilds, addBuild, deleteBuild };
+export default { get, hasApi, setApi, changeName, register, login, invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer };
 
 async function get(uuid) {
     return (await con('users', 'get', {uuid: uuid}))[0];
@@ -40,4 +40,8 @@ async function addBuild(user, clss, role){
 
 async function deleteBuild(user, clss, role){
     return await con('users/builds', 'delete', {user: user, clss: clss, role: role});
+}
+
+async function putPrefer(user, clss, role, pref){
+    return await con('users/builds/prefer', 'put', {user: user, clss: clss, role: role, pref: pref});
 }

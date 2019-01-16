@@ -5,9 +5,10 @@
         <BuildChipComp close
             v-for="build in builds"
             v-bind:key="`${build.class.id} ${build.role.id}`"
-            v-bind:clss="build.class"
-            v-bind:role="build.role"
-            v-on:close="close">
+            v-bind:build="build"
+            v-bind:star="true"
+            v-on:close="close(build)"
+            v-on:togglePrefer="togglePrefer(build)">
         </BuildChipComp>
         <v-dialog width="fit-content"
                   v-model="addBuildDialog">
@@ -38,10 +39,15 @@
         methods: {
             add: async function(build) {
                 this.addBuildDialog = false;
-                this.builds = await _users.addBuild(this.user.id, build.clss.id, build.role.id);
+                this.builds = await _users.addBuild(this.user.id, build.class.id, build.role.id);
             },
             close: function(build) {
-                _users.deleteBuild(this.user.id, build.clss.id, build.role.id);
+                _users.deleteBuild(this.user.id, build.class.id, build.role.id);
+            },
+            togglePrefer: function(build) {
+                let toggled = this.builds.filter(b => b.class.id === build.class.id && b.role.id === build.role.id)[0];
+                toggled.prefer = 1 - toggled.prefer;
+                _users.putPrefer(this.user.id, build.class.id, build.role.id, toggled.prefer);
             }
         },
         created: async function() {
