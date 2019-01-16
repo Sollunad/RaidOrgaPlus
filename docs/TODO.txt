@@ -1,5 +1,11 @@
-TODO: Skills mit Vuetify Rating
-TODO: Wo Skills anzeigen?
-TODO: Spielerliste Builds mit Chips
-TODO: TerminOverview mit Kalender?
-TODO: Bilder hochladen
+TODO: !!! BuildsComp UserID übergeben
+
+TODO: !!  Spielerliste layout fixen (evtl keine List, sondern PlayerCardComp)
+
+TODO: !  Skills mit Vuetify Rating
+TODO: !  Wo Skills anzeigen (PlayerCard aufklappen?)
+
+TODO: TerminOverview als Kalender?
+
+TODO: Bilder hochladen im Profil
+TODO: Bilder anzeigen in Spielerliste und Menü
