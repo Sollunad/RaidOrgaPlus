@@ -23,7 +23,7 @@ async function register(accName, pwd, name){
 }
 
 async function login(accName, pwd){
-    return await con('users/sessions', 'post', {"accName": accName, "pwd": pwd})
+    return await con('users/sessions', 'post', {accName: accName, pwd: pwd})
 }
 
 async function invalidateSession(uuid) {

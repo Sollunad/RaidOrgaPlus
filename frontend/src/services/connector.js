@@ -8,7 +8,7 @@ async function fetch(endpoint, method, params) {
     if (method === 'get') {
         let queryParams = '';
         if (Object.keys(params).length > 0) {
-            queryParams = '?' + Object.entries(params).map(mapToQueryParam).join('&');
+            queryParams = `?${Object.entries(params).map(mapToQueryParam).join('&')}`;
             url = url + queryParams;
         }
         return (await sf.get(url)).body;
