@@ -1,11 +1,46 @@
-TODO: !!! BuildsComp UserID übergeben
+Release v1.0 - Februar 2019
 
-TODO: !!  Spielerliste layout fixen (evtl keine List, sondern PlayerCardComp)
+    TODO: !!! BuildsComp UserID übergeben (die ist noch hard codiert auf meine, ups)
 
-TODO: !   Skills mit Vuetify Rating
-TODO: !   Wo Skills anzeigen (PlayerCard aufklappen?)
+    TODO: !!! Spielerliste layout fixen (evtl keine List, sondern PlayerCardComp)
 
-TODO: TerminOverview als Kalender?
+    TODO: !!  Spieler einladen / Anmeldungen annehmen und ablehnen
 
-TODO: Bilder hochladen im Profil
-TODO: Bilder anzeigen in Spielerliste und Menü
+    TODO: !!  Blankos erzeugen / importieren für Aufstellungen (noch viel Refinement nötig) - Blanko-Manager je Raid
+
+    TODO: !!  Termin löschen
+
+    TODO: !   Spielerliste: Raidleiter kann Lieutenants ernennen / entfernen
+
+    TODO: !   Skills mit Vuetify Rating
+    TODO: !   Wo Skills anzeigen (PlayerCard aufklappen?)
+
+    TODO: !   Aufstellung: Raidleiter kann editieren sperren
+
+Release v1.1 - März 2019
+
+    TODO:     Aufstellung: evtc-Files hochladen / Logfiles anzeigen
+    TODO:     Aufstellung: Video hinzufügen / anzeigen
+
+    TODO:     Bilder hochladen im Profil
+    TODO:     Bilder anzeigen in Spielerliste und Menü
+
+    TODO:     Statistiken (LI-Graph, filter by boss/wing, Spieler-Aktivität)
+
+Release v1.2 - März/April 2019
+
+    TODO:     CompRechner
+
+Release v1.3 - April/Mai 2019
+
+    TODO:     LFG
+
+...
+
+    TODO:     Discord Bot
+
+    TODO:     Admin-Frontend
+
+    TODO:     Profil: Angabe zu zeitlichen Präferenzen, wo benutzen? Spielerliste, Termin, Neuer Termin?
+
+    TODO:     TerminOverview als Kalender?
