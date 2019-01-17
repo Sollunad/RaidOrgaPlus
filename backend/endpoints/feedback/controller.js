@@ -4,7 +4,7 @@ module.exports = [
     {function: postFeedback, path: '/', method: 'post'},
 ];
 
-async function postFeedback(req) {
+async function postFeedback(req, authentication) {
     const text = req.body.text;
     const user = req.body.accname;
     if (text) {

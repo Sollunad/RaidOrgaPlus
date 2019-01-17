@@ -1,6 +1,6 @@
 <template>
         <div>
-            <v-list-tile avatar @click="saveId" :to="'/raid'">
+            <v-list-tile avatar @click="saveRaid" :to="'/raid'">
                 <v-list-tile-avatar v-if="raid.icon">
                     <img :src="raid.icon">
                 </v-list-tile-avatar>
@@ -27,8 +27,8 @@
             }
         },
         methods: {
-            saveId: function() {
-                this.$emit('saveRaidId', this.raid.id);
+            saveRaid: function() {
+                this.$emit('saveRaid', this.raid);
             }
         }
     }

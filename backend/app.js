@@ -6,6 +6,8 @@ const fs = require('fs');
 const http = require('http');
 const https = require('https');
 
+const auth = require('./authentication/auth').auth;
+
 let endpoints = [];
 endpoints['get'] = [];
 endpoints['post'] = [];
@@ -60,9 +62,24 @@ app.delete('*', async function(req, res) {
 });
 
 async function requestHandler(method, request) {
-    return await endpoints[method][request._parsedUrl.pathname](request);
+    let uuid, authentication;
+    if (!skipAuth(request)) {
+        if (method === 'get') uuid = request.query.auth;
+        else uuid = request.body.auth;
+        authentication = await auth(uuid);
+        console.log(`Request ${request._parsedUrl.pathname} as ${authentication.user}`);
+    } else {
+        console.log(`Request ${request._parsedUrl.pathname} unauthenticated`);
+    }
+
+    return await endpoints[method][request._parsedUrl.pathname](request, authentication);
 }
 
+function skipAuth(request) {
+    const basePath = request._parsedUrl.pathname.split('/')[1];
+    const skipFor = ['gamedata'];
+    return skipFor.includes(basePath);
+}
 
 try {
     // Certificate

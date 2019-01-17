@@ -19,7 +19,7 @@ module.exports = [
     {function: putPrefer, path: '/builds/prefer', method: 'put'},
 ];
 
-async function getUser(req) {
+async function getUser(req, authentication) {
     const uuid = req.query.uuid;
     if (uuid) {
         const response = (await _session.getUser(uuid))[0];
@@ -35,7 +35,7 @@ async function getUser(req) {
     }
 }
 
-async function invalidateSession(req) {
+async function invalidateSession(req, authentication) {
     const uuid = req.body.uuid;
     if (uuid) {
         return await _session.invalidate(uuid);
@@ -44,7 +44,7 @@ async function invalidateSession(req) {
     }
 }
 
-async function registerUser(req) {
+async function registerUser(req, authentication) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     const name = req.body.name;
@@ -53,7 +53,7 @@ async function registerUser(req) {
     }
 }
 
-async function loginUser(req) {
+async function loginUser(req, authentication) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     if (accName && pwd) {
@@ -64,17 +64,16 @@ async function loginUser(req) {
 }
 
 
-async function setApi(req) {
-    const user = req.body.user;
+async function setApi(req, authentication) {
     const apiKey = req.body.apiKey;
-    if (user && apiKey) {
-        return await _api.setApi(user, apiKey);
+    if (authentication && apiKey) {
+        return await _api.setApi(authentication.user, apiKey);
     } else {
         return false;
     }
 }
 
-async function hasApi(req) {
+async function hasApi(req, authentication) {
     const user = req.query.user;
     if (user) {
         return await _api.hasApi(user);
@@ -83,7 +82,7 @@ async function hasApi(req) {
     }
 }
 
-async function setName(req) {
+async function setName(req, authentication) {
     const name = req.body.name;
     const user = req.body.user;
     if (name && user) {
@@ -92,7 +91,7 @@ async function setName(req) {
     return [];
 }
 
-async function getBuilds(req) {
+async function getBuilds(req, authentication) {
     const user = req.query.user;
     if (user) {
         return await _builds.getBuilds(user);
@@ -101,7 +100,7 @@ async function getBuilds(req) {
     }
 }
 
-async function addBuild(req) {
+async function addBuild(req, authentication) {
     const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
@@ -114,7 +113,7 @@ async function addBuild(req) {
     }
 }
 
-async function deleteBuild(req) {
+async function deleteBuild(req, authentication) {
     const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
@@ -127,7 +126,7 @@ async function deleteBuild(req) {
     }
 }
 
-async function putPrefer(req) {
+async function putPrefer(req, authentication) {
     const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;

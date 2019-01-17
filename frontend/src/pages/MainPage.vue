@@ -1,8 +1,8 @@
 <template>
     <router-view
             v-bind:user="user"
-            v-on:saveRaidId="saveRaidId"
-            v-bind:raidId="raidId"></router-view>
+            v-on:saveRaid="saveRaid"
+            v-bind:raid="raid"></router-view>
 </template>
 
 <script>
@@ -10,11 +10,11 @@
         name: "MainPage",
         props: ['user'],
         data: () => ({
-            raidId: 0
+            raid: null
         }),
         methods: {
-            saveRaidId: function(id) {
-                this.raidId = id;
+            saveRaid: function(raid) {
+                this.raid = raid;
             }
         }
     }

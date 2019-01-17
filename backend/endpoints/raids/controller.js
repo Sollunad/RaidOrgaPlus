@@ -1,34 +1,29 @@
 const _raids = require('./raids');
 
 module.exports = [
-    {function: getRaid, path: '', method: 'get'},
+    {function: getRaids, path: '', method: 'get'},
     {function: getRole, path: '/role', method: 'get'},
     {function: listPlayers, path: '/players', method: 'get'},
 ];
 
-async function getRaid(req) {
-    const user = req.query.user;
-    const raid = req.query.raid;
-    if (user) {
-        return await _raids.listForPlayer(user);
-    } else if (raid) {
-        return await _raids.get(raid);
+async function getRaids(req, authentication) {
+    if (authentication) {
+        return await _raids.listForPlayer(authentication.user);
     } else {
         return [];
     }
 }
 
-async function getRole(req) {
-    const user = req.query.user;
+async function getRole(req, authentication) {
     const raid = req.query.raid;
-    if (user && raid) {
-        return await _raids.role(raid, user);
+    if (authentication && raid) {
+        return {role: authentication.roles[raid]};
     } else {
         return [];
     }
 }
 
-async function listPlayers(req) {
+async function listPlayers(req, authentication) {
     const raid = req.query.raid;
     if (raid) {
         return await _raids.listPlayers(raid);

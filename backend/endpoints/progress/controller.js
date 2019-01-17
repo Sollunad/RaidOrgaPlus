@@ -6,7 +6,7 @@ module.exports = [
     {function: getInsights, path: '/li', method: 'get'},
 ];
 
-async function getProgress(req) {
+async function getProgress(req, authentication) {
     const user = req.query.user;
     if (user) {
         return await _progress.progress(user);
@@ -15,7 +15,7 @@ async function getProgress(req) {
     }
 }
 
-async function getInsights(req) {
+async function getInsights(req, authentication) {
     const user = req.query.user;
     if (user) {
         return await _insights.insights(user);

@@ -22,15 +22,11 @@
     export default {
         name: "RaidPage",
         components: {RaidToolbarComp},
-        props: ['user', 'raidId'],
+        props: ['user', 'raid'],
         asyncComputed: {
-            raid: function () {
-                if (this.raidId === 0) window.location.href = '/#/raids';
-                return _raids.get(this.raidId);
-            },
             role: function() {
                 if (this.user && this.raid) {
-                    return _raids.role(this.raidId, this.user.id);
+                    return _raids.role(this.raid.id, this.user.id);
                 }
             }
         },
@@ -41,6 +37,9 @@
             saveTermin: function(termin) {
                 this.termin = termin;
             }
+        },
+        created: function() {
+            if (!this.raid) window.location.href = '/#/raids';
         }
     }
 </script>

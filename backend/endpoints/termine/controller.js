@@ -12,7 +12,7 @@ module.exports = [
     {function: getAnmeldungen, path: '/anmeldungen', method: 'get'},
 ];
 
-async function getTermine(req) {
+async function getTermine(req, authentication) {
     const raid = req.query.raid;
     const archive = req.query.archive;
     if (raid) {
@@ -26,7 +26,7 @@ async function getTermine(req) {
     }
 }
 
-async function isArchived(req) {
+async function isArchived(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         return await _termin.isArchived(termin);
@@ -35,7 +35,7 @@ async function isArchived(req) {
     }
 }
 
-async function isLocked(req) {
+async function isLocked(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         return await _termin.isLocked(termin);
@@ -44,7 +44,7 @@ async function isLocked(req) {
     }
 }
 
-async function postTermin(req) {
+async function postTermin(req, authentication) {
     const raid = req.body.raid;
     const date = req.body.date;
     const time = req.body.time;
@@ -55,7 +55,7 @@ async function postTermin(req) {
     }
 }
 
-async function archive(req) {
+async function archive(req, authentication) {
     const termin = req.body.termin;
     if (termin) {
         return await _termin.archive(termin);
@@ -64,7 +64,7 @@ async function archive(req) {
     }
 }
 
-async function addBoss(req) {
+async function addBoss(req, authentication) {
     const termin = req.body.termin;
     const boss = req.body.boss;
     const wing = req.body.wing;
@@ -83,7 +83,7 @@ async function addBoss(req) {
     }
 }
 
-async function putAnmeldung(req) {
+async function putAnmeldung(req, authentication) {
     const spieler = req.body.spieler;
     const termin = req.body.termin;
     const type = req.body.type;
@@ -94,7 +94,7 @@ async function putAnmeldung(req) {
     }
 }
 
-async function getAnmeldungen(req) {
+async function getAnmeldungen(req, authentication) {
     const spieler = req.query.spieler;
     const termin = req.query.termin;
     if (spieler && termin) {

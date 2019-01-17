@@ -56,12 +56,12 @@
         methods: {
             async submit() {
                 if (this.$refs.form.validate()) {
-                    const response = await _users.setApi(this.user.id, this.apiKey);
+                    const response = await _users.setApi(this.apiKey);
                     if (response === 'Success') {
                         this.buttonColor = 'success';
                         this.buttonText = 'Success!';
                     } else if (response === 'Permissions') {
-                        this.snackbarText = 'Fehlende Berechtigungen für den API-Key (account, progression)';
+                        this.snackbarText = 'Fehlende Berechtigungen für den API-Key';
                         this.snackbar = true;
                     } else if (response === 'Wrong account') {
                         this.snackbarText = 'Der API-Key gehört nicht zu deinem Account!';

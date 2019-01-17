@@ -13,7 +13,7 @@
                                 v-for="raid in raids"
                                 v-bind:key="raid.id"
                                 v-bind:raid="raid"
-                                v-on:saveRaidId="saveRaidId"
+                                v-on:saveRaid="saveRaid"
                         ></ListRaidComp>
                     </v-list>
                 </v-card>
@@ -29,15 +29,14 @@
     export default {
         name: "RaidOverviewComp",
         components: {ListRaidComp},
-        props: ['user'],
         asyncComputed: {
             raids: function () {
-                return _raids.listForPlayer(this.user.id);
+                return _raids.listForPlayer();
             }
         },
         methods: {
-            saveRaidId: function(id) {
-                this.$emit('saveRaidId', id);
+            saveRaid: function(raid) {
+                this.$emit('saveRaid', raid);
             }
         }
     }

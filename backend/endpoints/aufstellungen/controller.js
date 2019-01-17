@@ -10,7 +10,7 @@ module.exports = [
     {function: postElement, path: '/element', method: 'post'},
 ];
 
-async function getTermin(req) {
+async function getTermin(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         return await _aufstellung.getForTermin(termin);
@@ -19,7 +19,7 @@ async function getTermin(req) {
     }
 }
 
-async function getSuccess(req) {
+async function getSuccess(req, authentication) {
     const aufstellung = req.query.aufstellung;
     if (aufstellung) {
         return await _aufstellung.getSuccess(aufstellung);
@@ -28,7 +28,7 @@ async function getSuccess(req) {
     }
 }
 
-async function putSuccess(req) {
+async function putSuccess(req, authentication) {
     const aufstellung = req.body.aufstellung;
     const success = req.body.success;
     if (aufstellung && (success || success === false)) {
@@ -38,7 +38,7 @@ async function putSuccess(req) {
     }
 }
 
-async function deleteTermin(req) {
+async function deleteTermin(req, authentication) {
     const aufstellung = req.body.aufstellung;
     const termin = req.body.termin;
     if (aufstellung && termin) {
@@ -50,7 +50,7 @@ async function deleteTermin(req) {
     }
 }
 
-async function getElement(req) {
+async function getElement(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         return await _element.getForTermin(termin);
@@ -59,7 +59,7 @@ async function getElement(req) {
     }
 }
 
-async function postElement(req) {
+async function postElement(req, authentication) {
     const aufstellung = req.body.aufstellung;
     const position = req.body.position;
     const type = req.body.type;

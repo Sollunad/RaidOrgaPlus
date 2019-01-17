@@ -1,17 +1,13 @@
 import con from '../connector';
 
-export default { listForPlayer, get, role, listPlayers };
+export default { listForPlayer, role, listPlayers };
 
-async function listForPlayer(user) {
-    return await con('raids', 'get', {user: user});
+async function listForPlayer() {
+    return await con('raids', 'get', {});
 }
 
-async function get(raid) {
-    return await con('raids', 'get', {raid: raid});
-}
-
-async function role(raid, user) {
-    return (await con('raids/role', 'get', {raid: raid, user: user})).role;
+async function role(raid) {
+    return (await con('raids/role', 'get', {raid: raid})).role;
 }
 
 async function listPlayers(raid) {
