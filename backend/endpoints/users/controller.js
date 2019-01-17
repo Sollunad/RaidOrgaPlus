@@ -84,9 +84,8 @@ async function hasApi(req, authentication) {
 
 async function setName(req, authentication) {
     const name = req.body.name;
-    const user = req.body.user;
-    if (name && user) {
-        _user.changeName(user, name);
+    if (name && authentication) {
+        _user.changeName(authentication.user, name);
     }
     return [];
 }
@@ -101,12 +100,11 @@ async function getBuilds(req, authentication) {
 }
 
 async function addBuild(req, authentication) {
-    const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
-    if (user && clss && role) {
-        return _builds.addBuild(user, clss, role).then(async () => {
-            return await _builds.getBuilds(user);
+    if (authentication && clss && role) {
+        return _builds.addBuild(authentication.user, clss, role).then(async () => {
+            return await _builds.getBuilds(authentication.user);
         });
     } else {
         return [];
@@ -114,25 +112,21 @@ async function addBuild(req, authentication) {
 }
 
 async function deleteBuild(req, authentication) {
-    const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
-    if (user && clss && role) {
-        return _builds.deleteBuild(user, clss, role).then(async () => {
-            return await _builds.getBuilds(user);
-        });
+    if (authentication && clss && role) {
+        return _builds.deleteBuild(authentication.user, clss, role);
     } else {
         return [];
     }
 }
 
 async function putPrefer(req, authentication) {
-    const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
     const pref = req.body.pref;
-    if (user && clss && role) {
-        return await _builds.putPrefer(user, clss, role, pref);
+    if (authentication && clss && role) {
+        return await _builds.putPrefer(authentication.user, clss, role, pref);
     } else {
         return [];
     }

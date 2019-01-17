@@ -14,8 +14,8 @@ async function setApi(apiKey) {
     return await con('users/api', 'post', {apiKey: apiKey});
 }
 
-async function changeName(user, name) {
-    return await con('users/name', 'post', {user: user, name: name});
+async function changeName(name) {
+    return await con('users/name', 'post', {name: name});
 }
 
 async function register(accName, pwd, name){
@@ -34,14 +34,14 @@ async function getBuilds(user) {
     return await con('users/builds', 'get', {user: user});
 }
 
-async function addBuild(user, clss, role){
-    return await con('users/builds', 'post', {user: user, clss: clss, role: role});
+async function addBuild(clss, role){
+    return await con('users/builds', 'post', {clss: clss, role: role});
 }
 
-async function deleteBuild(user, clss, role){
-    return await con('users/builds', 'delete', {user: user, clss: clss, role: role});
+async function deleteBuild(clss, role){
+    return await con('users/builds', 'delete', {clss: clss, role: role});
 }
 
-async function putPrefer(user, clss, role, pref){
-    return await con('users/builds/prefer', 'put', {user: user, clss: clss, role: role, pref: pref});
+async function putPrefer(clss, role, pref){
+    return await con('users/builds/prefer', 'put', {clss: clss, role: role, pref: pref});
 }

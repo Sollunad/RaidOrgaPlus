@@ -63,7 +63,7 @@ app.delete('*', async function(req, res) {
 
 async function requestHandler(method, request) {
     let uuid, authentication;
-    if (!skipAuth(request)) {
+    if (!skipAuth(method, request)) {
         if (method === 'get') uuid = request.query.auth;
         else uuid = request.body.auth;
         authentication = await auth(uuid);
@@ -75,10 +75,11 @@ async function requestHandler(method, request) {
     return await endpoints[method][request._parsedUrl.pathname](request, authentication);
 }
 
-function skipAuth(request) {
+function skipAuth(method, request) {
     const basePath = request._parsedUrl.pathname.split('/')[1];
-    const skipFor = ['gamedata'];
-    return skipFor.includes(basePath);
+    const skipForEvery = ['gamedata'];
+    const authGet = ['raids'];
+    return skipForEvery.includes(basePath) || (method === 'get' && !authGet.includes(basePath));
 }
 
 try {
