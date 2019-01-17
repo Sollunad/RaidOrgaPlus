@@ -6,33 +6,33 @@ module.exports = [
     {function: listPlayers, path: '/players', method: 'get'},
 ];
 
-async function getRaid(req, res) {
+async function getRaid(req) {
     const user = req.query.user;
     const raid = req.query.raid;
     if (user) {
-        res.send(await _raids.listForPlayer(user));
+        return await _raids.listForPlayer(user);
     } else if (raid) {
-        res.send(await _raids.get(raid));
+        return await _raids.get(raid);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function getRole(req, res) {
+async function getRole(req) {
     const user = req.query.user;
     const raid = req.query.raid;
     if (user && raid) {
-        res.send(await _raids.role(raid, user));
+        return await _raids.role(raid, user);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function listPlayers(req, res) {
+async function listPlayers(req) {
     const raid = req.query.raid;
     if (raid) {
-        res.send(await _raids.listPlayers(raid));
+        return await _raids.listPlayers(raid);
     } else {
-        res.send([]);
+        return [];
     }
 }

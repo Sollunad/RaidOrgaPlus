@@ -9,12 +9,23 @@ exports.anmelden = anmelden;
 exports.getAnmeldung = getAnmeldung;
 exports.addBoss = addBoss;
 exports.addWing = addWing;
+exports.isLocked = isLocked;
 
 async function isArchived(terminId) {
     const stmt = 'SELECT isArchived FROM Termin WHERE id = ?';
     try {
         const response = await db.queryV(stmt, terminId);
-        return response[0].isArchived === 1;
+        return (response[0] && response[0].isArchived === 1);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function isLocked(terminId) {
+    const stmt = 'SELECT isLocked FROM Termin WHERE id = ?';
+    try {
+        const response = await db.queryV(stmt, terminId);
+        return (response[0] && response[0].isLocked === 1);
     } catch(e) {
         throw e;
     }

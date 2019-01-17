@@ -4,11 +4,11 @@ module.exports = [
     {function: postFeedback, path: '/', method: 'post'},
 ];
 
-async function postFeedback(req, res) {
+async function postFeedback(req) {
     const text = req.body.text;
     const user = req.body.accname;
     if (text) {
         _feedback.new(text, user);
     }
-    res.send([]);
+    return [];
 }

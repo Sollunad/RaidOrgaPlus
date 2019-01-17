@@ -6,6 +6,12 @@ const fs = require('fs');
 const http = require('http');
 const https = require('https');
 
+let endpoints = [];
+endpoints['get'] = [];
+endpoints['post'] = [];
+endpoints['put'] = [];
+endpoints['delete'] = [];
+
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -34,14 +40,29 @@ fs.readdir('./endpoints/', (err, folders) => {
 
 function registerEndpoint(path, endpoint) {
     console.log(`Register ${endpoint.method} @ /${path}${endpoint.path}`);
-    switch (endpoint.method) {
-        case 'get': app.get(`/${path}${endpoint.path}`, endpoint.function); break;
-        case 'post': app.post(`/${path}${endpoint.path}`, endpoint.function); break;
-        case 'put': app.put(`/${path}${endpoint.path}`, endpoint.function); break;
-        case 'delete': app.delete(`/${path}${endpoint.path}`, endpoint.function); break;
-        default: break;
-    }
+    endpoints[endpoint.method][`/${path}${endpoint.path}`] = endpoint.function;
 }
+
+app.get('*', async function(req, res) {
+    res.send(await requestHandler('get', req));
+});
+
+app.post('*', async function(req, res) {
+    res.send(await requestHandler('post', req));
+});
+
+app.put('*', async function(req, res) {
+    res.send(await requestHandler('put', req));
+});
+
+app.delete('*', async function(req, res) {
+    res.send(await requestHandler('delete', req));
+});
+
+async function requestHandler(method, request) {
+    return await endpoints[method][request._parsedUrl.pathname](request);
+}
+
 
 try {
     // Certificate

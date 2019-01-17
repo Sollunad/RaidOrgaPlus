@@ -1,12 +1,13 @@
-const sf = require('snekfetch');
-const config = require('../config.json');
-
 import con from '../connector';
 
-export default { isArchived, listActive, listArchived, newTermin, archive, anmelden, getAnmeldung, addBoss, addWing };
+export default { isArchived, isLocked, listActive, listArchived, newTermin, archive, anmelden, getAnmeldung, addBoss, addWing };
 
 async function isArchived(termin) {
     return await con('termine/isArchived', 'get', {termin: termin});
+}
+
+async function isLocked(termin) {
+    return await con('termine/isLocked', 'get', {termin: termin});
 }
 
 async function listActive(raid) {

@@ -19,122 +19,122 @@ module.exports = [
     {function: putPrefer, path: '/builds/prefer', method: 'put'},
 ];
 
-async function getUser(req, res) {
+async function getUser(req) {
     const uuid = req.query.uuid;
     if (uuid) {
         const response = (await _session.getUser(uuid))[0];
         if (response) {
             const user = response.user;
-            res.send(await _user.get(user));
+            return await _user.get(user);
         }
         else {
-            res.send([]);
+            return [];
         }
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function invalidateSession(req, res) {
+async function invalidateSession(req) {
     const uuid = req.body.uuid;
     if (uuid) {
-        res.send(await _session.invalidate(uuid));
+        return await _session.invalidate(uuid);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function registerUser(req, res) {
+async function registerUser(req) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     const name = req.body.name;
     if (accName && pwd && name) {
-        res.send(await _register.register(accName, pwd, name));
+        return await _register.register(accName, pwd, name);
     }
 }
 
-async function loginUser(req, res) {
+async function loginUser(req) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     if (accName && pwd) {
-        res.send(await _login.login(accName, pwd));
+        return await _login.login(accName, pwd);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
 
-async function setApi(req, res) {
+async function setApi(req) {
     const user = req.body.user;
     const apiKey = req.body.apiKey;
     if (user && apiKey) {
-        res.send(await _api.setApi(user, apiKey));
+        return await _api.setApi(user, apiKey);
     } else {
-        res.send(false);
+        return false;
     }
 }
 
-async function hasApi(req, res) {
+async function hasApi(req) {
     const user = req.query.user;
     if (user) {
-        res.send(await _api.hasApi(user));
+        return await _api.hasApi(user);
     } else {
-        res.send(false);
+        return false;
     }
 }
 
-async function setName(req, res) {
+async function setName(req) {
     const name = req.body.name;
     const user = req.body.user;
     if (name && user) {
         _user.changeName(user, name);
     }
-    res.send([]);
+    return [];
 }
 
-async function getBuilds(req, res) {
+async function getBuilds(req) {
     const user = req.query.user;
     if (user) {
-        res.send(await _builds.getBuilds(user));
+        return await _builds.getBuilds(user);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function addBuild(req, res) {
+async function addBuild(req) {
     const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
     if (user && clss && role) {
-        _builds.addBuild(user, clss, role).then(async () => {
-            res.send(await _builds.getBuilds(user));
+        return _builds.addBuild(user, clss, role).then(async () => {
+            return await _builds.getBuilds(user);
         });
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function deleteBuild(req, res) {
+async function deleteBuild(req) {
     const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
     if (user && clss && role) {
-        _builds.deleteBuild(user, clss, role).then(async () => {
-            res.send(await _builds.getBuilds(user));
+        return _builds.deleteBuild(user, clss, role).then(async () => {
+            return await _builds.getBuilds(user);
         });
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function putPrefer(req, res) {
+async function putPrefer(req) {
     const user = req.body.user;
     const clss = req.body.clss;
     const role = req.body.role;
     const pref = req.body.pref;
     if (user && clss && role) {
-        res.send(await _builds.putPrefer(user, clss, role, pref));
+        return await _builds.putPrefer(user, clss, role, pref);
     } else {
-        res.send([]);
+        return [];
     }
 }

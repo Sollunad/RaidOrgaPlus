@@ -10,78 +10,78 @@ module.exports = [
     {function: postElement, path: '/element', method: 'post'},
 ];
 
-async function getTermin(req, res) {
+async function getTermin(req) {
     const termin = req.query.termin;
     if (termin) {
-        res.send(await _aufstellung.getForTermin(termin));
+        return await _aufstellung.getForTermin(termin);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function getSuccess(req, res) {
+async function getSuccess(req) {
     const aufstellung = req.query.aufstellung;
     if (aufstellung) {
-        res.send(await _aufstellung.getSuccess(aufstellung));
+        return await _aufstellung.getSuccess(aufstellung);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function putSuccess(req, res) {
+async function putSuccess(req) {
     const aufstellung = req.body.aufstellung;
     const success = req.body.success;
     if (aufstellung && (success || success === false)) {
-        res.send(await _aufstellung.setSuccess(aufstellung, success));
+        return await _aufstellung.setSuccess(aufstellung, success);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function deleteTermin(req, res) {
+async function deleteTermin(req) {
     const aufstellung = req.body.aufstellung;
     const termin = req.body.termin;
     if (aufstellung && termin) {
-        _aufstellung.delete(aufstellung).then(async () => {
-            res.send(await _aufstellung.getForTermin(termin));
+        return _aufstellung.delete(aufstellung).then(async () => {
+            return await _aufstellung.getForTermin(termin);
         })
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function getElement(req, res) {
+async function getElement(req) {
     const termin = req.query.termin;
     if (termin) {
-        res.send(await _element.getForTermin(termin));
+        return await _element.getForTermin(termin);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function postElement(req, res) {
+async function postElement(req) {
     const aufstellung = req.body.aufstellung;
     const position = req.body.position;
     const type = req.body.type;
     const value = req.body.value;
     if (aufstellung && position && type && value) {
         if (type === "class") {
-            _element.setClass(aufstellung, position, value).then(async () => {
-                res.send(await _element.getForAufstellung(aufstellung));
+            return _element.setClass(aufstellung, position, value).then(async () => {
+                return await _element.getForAufstellung(aufstellung);
             });
         } else if (type === "role") {
-            _element.setRole(aufstellung, position, value).then(async () => {
-                res.send(await _element.getForAufstellung(aufstellung));
+            return _element.setRole(aufstellung, position, value).then(async () => {
+                return await _element.getForAufstellung(aufstellung);
             });
         } else if (type === "name") {
-            _element.setName(aufstellung, position, value).then(async () => {
-                res.send(await _element.getForAufstellung(aufstellung));
+            return _element.setName(aufstellung, position, value).then(async () => {
+                return await _element.getForAufstellung(aufstellung);
             });
         } else {
-            res.send([]);
+            return [];
         }
 
     } else {
-        res.send([]);
+        return [];
     }
 }

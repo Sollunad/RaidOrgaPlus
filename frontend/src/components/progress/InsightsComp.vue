@@ -7,7 +7,8 @@
                 indeterminate
                 color="primary"
         ></v-progress-circular>
-        <template v-for="type in insights">
+        <div v-for="type in insights"
+            v-bind:key="type.name">
             <v-avatar :size="40" tile class="typeicon">
                 <img :src="icon(type.name)">
             </v-avatar>
@@ -20,7 +21,7 @@
             </v-avatar>
             <span>{{type.crafted}}</span>
             <p></p>
-        </template>
+        </div>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div v-if="element">
-        <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="active">
+        <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed">
             <v-avatar :size="20" :tile="true" class="avatar unselectable" slot="activator">
                 <span class="white--text headline" v-if="classIcon === ''">?</span>
                 <img :src="classIcon" v-else>
@@ -13,7 +13,7 @@
             <span class="white--text headline" v-if="classIcon === ''">?</span>
             <img :src="classIcon" v-else>
         </v-avatar>
-        <v-menu v-if="active">
+        <v-menu v-if="editAllowed">
             <v-avatar :size="20" :tile="true" class="avatar unselectable" slot="activator">
                 <span class="white--text headline" v-if="roleIcon === ''">?</span>
                 <img :src="roleIcon" v-else>
@@ -26,7 +26,7 @@
             <span class="white--text headline" v-if="roleIcon === ''">?</span>
             <img :src="roleIcon" v-else>
         </v-avatar>
-        <v-menu :lazy="true" v-if="active">
+        <v-menu :lazy="true" v-if="editAllowed">
             <span slot="activator" class="unselectable">{{name}}</span>
             <MenuNameComp
                 v-on:pick="pickName"
@@ -47,11 +47,14 @@
     export default {
         name: "AufstellungElementComp",
         components: {MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position', 'elements', 'raid', 'active'],
+        props: ['aufstellung', 'position', 'elements', 'raid', 'active', 'locked', 'role'],
         data: () => ({
             classMenuOpen: false,
         }),
         computed: {
+            editAllowed: function() {
+                return this.active && (!this.locked || this.role > 0);
+            },
             element: function() {
                 if (this.elements) {
                     return this.elements.filter(e => e.pos === this.position);

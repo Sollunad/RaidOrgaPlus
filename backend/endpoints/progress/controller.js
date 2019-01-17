@@ -6,20 +6,20 @@ module.exports = [
     {function: getInsights, path: '/li', method: 'get'},
 ];
 
-async function getProgress(req, res) {
+async function getProgress(req) {
     const user = req.query.user;
     if (user) {
-        res.send(await _progress.progress(user));
+        return await _progress.progress(user);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function getInsights(req, res) {
+async function getInsights(req) {
     const user = req.query.user;
     if (user) {
-        res.send(await _insights.insights(user));
+        return await _insights.insights(user);
     } else {
-        res.send([]);
+        return [];
     }
 }

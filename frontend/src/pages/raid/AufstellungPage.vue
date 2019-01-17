@@ -22,6 +22,7 @@
                                 v-bind:raid="raid"
                                 v-bind:role="role"
                                 v-bind:active="isActive"
+                                v-bind:locked="isLocked"
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
                                 v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
@@ -60,6 +61,10 @@
             },
             isActive: async function() {
                 if (this.termin) return (!await _termine.isArchived(this.termin.id));
+                else return false;
+            },
+            isLocked: async function() {
+                if (this.termin) return (await _termine.isLocked(this.termin.id));
                 else return false;
             }
         },

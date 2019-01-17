@@ -6,20 +6,20 @@ module.exports = [
     {function: getEncounter, path: '/encounter', method: 'get'},
 ];
 
-async function getForBase(req, res) {
+async function getForBase(req) {
     const base = req.query.base;
     if (base) {
-        res.send(await _classes.getForBase(base));
+        return await _classes.getForBase(base);
     } else {
-        res.send([]);
+        return [];
     }
 }
 
-async function getEncounter(req, res) {
+async function getEncounter(req) {
     const wing = req.query.wing;
     if (wing) {
-        res.send(await _encounter.listForWing(wing));
+        return await _encounter.listForWing(wing);
     } else {
-        res.send(await _encounter.list());
+        return await _encounter.list();
     }
 }
