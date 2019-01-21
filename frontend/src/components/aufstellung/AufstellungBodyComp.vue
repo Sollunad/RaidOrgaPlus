@@ -13,8 +13,7 @@
                         v-bind:raid="raid"
                         v-bind:active="active"
                         v-bind:locked="locked"
-                        v-bind:role="role"
-                        v-on:update="update">
+                        v-bind:role="role">
                     </AufstellungElementComp>
                 </v-flex>
             </v-layout>
@@ -32,11 +31,6 @@
         data: () => ({
            elements: null
         }),
-        methods: {
-            update: async function(newElements) {
-                this.elements = newElements;
-            }
-        },
         watch: {
             propElements: function(elements) {
                 this.elements = elements;
