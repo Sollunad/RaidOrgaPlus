@@ -2,6 +2,7 @@
     <div>
         <v-navigation-drawer
                 v-model="drawer"
+                v-if="show"
                 clipped
                 fixed
                 app
@@ -24,9 +25,7 @@
                 </v-list>
             </v-toolbar>
 
-            <v-list dense
-                    v-if="loggedIn"
-            >
+            <v-list dense>
                 <MenuItemComp
                     v-for="menuItem in menuItems"
                     v-bind:key="menuItem.id"
@@ -63,15 +62,10 @@
                 //{ id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
             ]
         }),
-        props: ['user'],
+        props: ['user', 'show'],
         components: {
             NameComp,
             MenuItemComp
-        },
-        computed: {
-            loggedIn: function() {
-                return this.user !== undefined;
-            }
         },
         methods: {
             logout: function() {
