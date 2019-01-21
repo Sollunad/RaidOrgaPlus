@@ -1,5 +1,5 @@
 <template>
-    <div v-if="element">
+    <div>
         <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed">
             <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
                 <span class="white--text headline" v-if="classIcon === ''">?</span>
@@ -50,44 +50,62 @@
         props: ['aufstellung', 'position', 'elements', 'raid', 'active', 'locked', 'role'],
         data: () => ({
             classMenuOpen: false,
+            editedElement: null
         }),
         computed: {
             editAllowed: function() {
                 return this.active && (!this.locked || this.role > 0);
             },
             element: function() {
-                if (this.elements) {
-                    return this.elements.filter(e => e.pos === this.position);
+                if (this.editedElement) {
+                    return this.editedElement;
+                } else if (this.elements) {
+                    return this.elements.filter(e => e.pos === this.position)[0];
                 } else {
                     return null;
                 }
             },
             classIcon: function() {
-                if (this.element && this.element.length > 0 && this.element[0].class !== '') return _icons.classIcon(this.element[0].class);
+                if (this.element && this.element.class !== '') return _icons.classIcon(this.element.class);
                 else return '';
             },
             roleIcon: function() {
-                if (this.element && this.element.length > 0 && this.element[0].role !== '') return _icons.roleIcon(this.element[0].role);
+                if (this.element && this.element.role !== '') return _icons.roleIcon(this.element.role);
                 else return '';
             },
             name: function() {
-                if (this.element && this.element.length > 0) return this.element[0].spieler;
+                if (this.element) return this.element.spieler;
                 else return '???';
             }
         },
         methods: {
             pickClass: async function(clss) {
                 this.classMenuOpen = false;
-                const newElements = await _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
-                this.$emit('update', newElements);
+                this.prepareEditedElement();
+                this.editedElement.class = clss.abbr;
+                _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
             },
             pickRole: async function(role) {
-                const newElements = await _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
-                this.$emit('update', newElements);
+                this.prepareEditedElement();
+                this.editedElement.role = role.abbr;
+                _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
             },
-            pickName: async function(id) {
-                const newElements = await _aufstellungen.setName(this.aufstellung.id, this.position, id);
-                this.$emit('update', newElements);
+            pickName: async function(user) {
+                this.prepareEditedElement();
+                this.editedElement.spieler = user.name;
+                _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
+            },
+            prepareEditedElement: function() {
+                if (!this.element) {
+                    this.editedElement = {class: '', role: '', spieler: '???'};
+                } else {
+                    this.editedElement = this.element;
+                }
+            },
+        },
+        watch: {
+            elements: function(value) {
+                this.editedElement = null;
             }
         }
     }

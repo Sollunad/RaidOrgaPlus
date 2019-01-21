@@ -5,7 +5,7 @@
                 :key="index"
 
         >
-            <v-list-tile-title @click="pick(user.id)">{{ user.name }}</v-list-tile-title>
+            <v-list-tile-title @click="pick(user)">{{ user.name }}</v-list-tile-title>
         </v-list-tile>
     </v-list>
 </template>
@@ -25,8 +25,8 @@
             }
         },
         methods: {
-            pick: function(id) {
-                this.$emit('pick', id);
+            pick: function(user) {
+                this.$emit('pick', user);
             }
         }
     }

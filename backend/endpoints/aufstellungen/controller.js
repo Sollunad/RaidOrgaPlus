@@ -66,17 +66,11 @@ async function postElement(req, authentication) {
     const value = req.body.value;
     if (aufstellung && position && type && value) {
         if (type === "class") {
-            return _element.setClass(aufstellung, position, value).then(async () => {
-                return await _element.getForAufstellung(aufstellung);
-            });
+            return _element.setClass(aufstellung, position, value);
         } else if (type === "role") {
-            return _element.setRole(aufstellung, position, value).then(async () => {
-                return await _element.getForAufstellung(aufstellung);
-            });
+            return _element.setRole(aufstellung, position, value);
         } else if (type === "name") {
-            return _element.setName(aufstellung, position, value).then(async () => {
-                return await _element.getForAufstellung(aufstellung);
-            });
+            return _element.setName(aufstellung, position, value);
         } else {
             return [];
         }
