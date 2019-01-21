@@ -1,6 +1,8 @@
 <template>
     <p @mouseenter="showName = user.accname"
-       @mouseleave="showName = user.name">{{ showName }}</p>
+       @mouseleave="showName = user.name">
+        {{ showName }}
+    </p>
 </template>
 
 <script>

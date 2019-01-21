@@ -1,7 +1,7 @@
 <template>
     <div v-if="element">
         <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed">
-            <v-avatar :size="20" :tile="true" class="avatar unselectable" slot="activator">
+            <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
                 <span class="white--text headline" v-if="classIcon === ''">?</span>
                 <img :src="classIcon" v-else>
             </v-avatar>
@@ -9,12 +9,12 @@
                 v-on:pick="pickClass">
             </MenuClassComp>
         </v-menu>
-        <v-avatar :size="20" :tile="true" class="avatar unselectable" v-else>
+        <v-avatar :size="20" :tile="true" class="avatar" v-else>
             <span class="white--text headline" v-if="classIcon === ''">?</span>
             <img :src="classIcon" v-else>
         </v-avatar>
         <v-menu v-if="editAllowed">
-            <v-avatar :size="20" :tile="true" class="avatar unselectable" slot="activator">
+            <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
                 <span class="white--text headline" v-if="roleIcon === ''">?</span>
                 <img :src="roleIcon" v-else>
             </v-avatar>
@@ -22,18 +22,18 @@
                 v-on:pick="pickRole">
             </MenuRoleComp>
         </v-menu>
-        <v-avatar :size="20" :tile="true" class="avatar unselectable" v-else>
+        <v-avatar :size="20" :tile="true" class="avatar" v-else>
             <span class="white--text headline" v-if="roleIcon === ''">?</span>
             <img :src="roleIcon" v-else>
         </v-avatar>
         <v-menu :lazy="true" v-if="editAllowed">
-            <span slot="activator" class="unselectable">{{name}}</span>
+            <span slot="activator">{{name}}</span>
             <MenuNameComp
                 v-on:pick="pickName"
                 v-bind:raid="raid">
             </MenuNameComp>
         </v-menu>
-        <span v-else class="unselectable">{{name}}</span>
+        <span v-else>{{name}}</span>
     </div>
 </template>
 
@@ -96,14 +96,5 @@
 <style scoped>
     .avatar {
         margin: 0 0.2rem;
-    }
-
-    .unselectable {
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
     }
 </style>
