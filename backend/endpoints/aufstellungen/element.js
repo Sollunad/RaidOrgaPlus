@@ -1,7 +1,6 @@
 const db = require('../../db/connector.js');
 
 exports.getForTermin = getForTermin;
-exports.getForAufstellung = getForAufstellung;
 exports.setClass = setClass;
 exports.setRole = setRole;
 exports.setName = setName;
@@ -15,19 +14,6 @@ async function getForTermin(termin) {
         ' WHERE Aufstellung.fk_termin = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, termin);
-    } catch(e) {
-        throw e;
-    }
-}
-
-async function getForAufstellung(aufstellung) {
-    const stmt = 'SELECT AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.name AS spieler FROM AufstellungElement ' +
-        ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
-        ' JOIN Rolle ON Rolle.id = AufstellungElement.fk_role' +
-        ' JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler' +
-        ' WHERE fk_aufstellung = ? FOR UPDATE';
-    try {
-        return await db.queryV(stmt, aufstellung);
     } catch(e) {
         throw e;
     }

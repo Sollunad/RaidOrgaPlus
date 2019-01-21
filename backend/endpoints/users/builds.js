@@ -10,7 +10,7 @@ async function getBuilds(user) {
         ' JOIN Klasse sub ON sub.id = Spieler_Build.fk_class' +
         ' JOIN Klasse base ON base.id = sub.fk_base' +
         ' JOIN Rolle ON Rolle.id = Spieler_Build.fk_role' +
-        ' WHERE fk_spieler = ? ORDER BY base.id, sub.id';
+        ' WHERE fk_spieler = ? ORDER BY base.id, sub.id, Rolle.id';
     try {
         return (await db.queryV(stmt, user)).map(classRoleMapper);
     } catch(e) {

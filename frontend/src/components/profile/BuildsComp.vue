@@ -39,15 +39,41 @@
         methods: {
             add: async function(build) {
                 this.addBuildDialog = false;
-                this.builds = await _users.addBuild(build.class.id, build.role.id);
+                if (!this.buildExists(build)) {
+                    build.prefer = 0;
+                    this.builds.push(build);
+                    this.builds.sort(this.compareBuilds);
+                    _users.addBuild(build.class.id, build.role.id);
+                }
             },
             close: function(build) {
                 _users.deleteBuild(build.class.id, build.role.id);
             },
             togglePrefer: function(build) {
-                let toggled = this.builds.filter(b => b.class.id === build.class.id && b.role.id === build.role.id)[0];
-                toggled.prefer = 1 - toggled.prefer;
-                _users.putPrefer(build.class.id, build.role.id, toggled.prefer);
+                build.prefer = 1 - build.prefer;
+                _users.putPrefer(build.class.id, build.role.id, build.prefer);
+            },
+            compareBuilds: function(buildA, buildB) {
+                if (this.baseId(buildA) === this.baseId(buildB)) {
+                    if (buildA.class.id === buildB.class.id) {
+                        if (buildA.role.id === buildB.role.id) {
+                            return 0;
+                        } else {
+                            return buildA.role.id < buildB.role.id? -1: 1;
+                        }
+                    } else {
+                        return buildA.class.id < buildB.class.id? -1: 1;
+                    }
+                } else {
+                    return this.baseId(buildA) < this.baseId(buildB)? -1 : 1;
+                }
+            },
+            baseId: function(build) {
+                return (build.class.id - 1) % 9 + 1;
+            },
+            buildExists: function(build) {
+                let search = this.builds.filter(b => b.class.id === build.class.id && b.role.id === build.role.id);
+                return search.length > 0;
             }
         },
         created: async function() {

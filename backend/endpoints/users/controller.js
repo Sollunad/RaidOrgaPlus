@@ -103,9 +103,7 @@ async function addBuild(req, authentication) {
     const clss = req.body.clss;
     const role = req.body.role;
     if (authentication && clss && role) {
-        return _builds.addBuild(authentication.user, clss, role).then(async () => {
-            return await _builds.getBuilds(authentication.user);
-        });
+        return _builds.addBuild(authentication.user, clss, role);
     } else {
         return [];
     }
