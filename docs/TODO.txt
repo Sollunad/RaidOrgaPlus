@@ -1,4 +1,8 @@
-Release v1.0 - Ende Januar 2019
+TODO: Elements updaten direkt in AufstellungElementComp, ohne emit
+TODO: Neues Build in MeineBuildsComp im Frontend integrieren, sortieren nach Baseclass mit (class - 1)%9
+TODO: Vuex?
+
+Release v1.0 - 24. Februar 2019
 
     TODO: !!! Spieler einladen / Anmeldungen annehmen und ablehnen
 
@@ -12,35 +16,32 @@ Release v1.0 - Ende Januar 2019
 
     TODO: !   User-Doku schreiben
 
-Release v1.1 - Februar 2019
+Release v1.1 - 24. März 2019
 
     TODO: !   Aufstellungen: Zeige nur Spieler, die das entsprechende Build spielen können
     TODO: !   Aufstellungen: Synchron halten mit WebSockets?
 
     TODO: !   Spielerliste: Raidleiter kann Lieutenants ernennen / entfernen
-    TODO: !   Spielerliste: Builds nach Rollen filtern
+    TODO: !   Spielerliste: Builds nach Rollen/Klassen filtern
 
     TODO: !   Skills mit Vuetify Rating
     TODO: !   Wo Skills anzeigen (PlayerCard aufklappen?)
 
-Release v1.2 - März 2019
+    TODO:     Profile öffnen, andere Einstellungen nach Einstellungen auslagern
+    TODO:     Bilder hochladen / anzeigen (Für User und Raid)
+
+Release v1.2 - 21. April 2019
 
     TODO:     Aufstellung: evtc-Files hochladen / Logfiles anzeigen
     TODO:     Aufstellung: Video hinzufügen / anzeigen
 
-    TODO:     Bilder hochladen / anzeigen (Für User und Raid)
-
-    TODO:     Profile öffnen, andere Einstellungen nach Einstellungen auslagern
-
-    TODO:     Spielerliste: Builds nach Klassen filtern
-
     TODO:     Statistiken (LI-Graph, filter by boss/wing, Spieler-Aktivität)
 
-Release v1.3 - März/April 2019
+Release v1.3 - 19. Mai 2019
 
     TODO:     CompRechner
 
-Release v1.4 - April/Mai 2019
+Release v1.4 - 16. Juni 2019
 
     TODO:     LFG
 
