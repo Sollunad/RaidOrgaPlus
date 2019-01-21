@@ -67,7 +67,9 @@ async function requestHandler(method, request) {
         if (method === 'get') uuid = request.query.auth;
         else uuid = request.body.auth;
         authentication = await auth(uuid);
-        console.log(`Request ${request._parsedUrl.pathname} as ${authentication.user}`);
+        if (authentication) {
+            console.log(`Request ${request._parsedUrl.pathname} as ${authentication.user}`);
+        }
     } else {
         console.log(`Request ${request._parsedUrl.pathname} unauthenticated`);
     }

@@ -2,14 +2,17 @@
   <v-app
     :dark="true">
     <MenuComp
-      v-bind:user="user">
+      v-bind:user="user"
+      v-bind:show="showContent">
     </MenuComp>
     <v-content>
-      <MainPage
-              v-if="!showLogin"
-              v-bind:user="user"
-      ></MainPage>
-      <LoginRegisterPage v-else></LoginRegisterPage>
+        <MainPage
+                v-if="showContent"
+                v-bind:user="user">
+        </MainPage>
+        <LoginRegisterPage
+          v-if="showLogin">
+        </LoginRegisterPage>
     </v-content>
     <FooterComp></FooterComp>
   </v-app>
@@ -43,13 +46,19 @@
     props: {
       source: String
     },
-    asyncComputed: {
-      user: function() {
-        return _users.get(localStorage.session);
-      },
-      showLogin: function() {
-        return this.user === undefined;
+    data: () => ({
+      user: {},
+      showLogin: false
+    }),
+    computed: {
+      showContent: function() {
+        return Object.keys(this.user).length > 0;
       }
+    },
+    created: async function() {
+        const user = await _users.get(localStorage.session);
+        if (user) this.user = user;
+        else this.showLogin = true;
     },
     router
   }
