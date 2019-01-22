@@ -12,6 +12,11 @@
             v-on:refresh="refresh"
             v-on:changeLocked="changeLocked">
         </TerminToolbarComp>
+        <v-progress-circular
+                v-if="!aufstellungen"
+                indeterminate
+                color="primary"
+        ></v-progress-circular>
         <div v-if="aufstellungen">
             <v-container grid-list-md>
                 <v-layout row wrap>
