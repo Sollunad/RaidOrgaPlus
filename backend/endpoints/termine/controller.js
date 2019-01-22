@@ -6,6 +6,7 @@ module.exports = [
     {function: postTermin, path: '', method: 'post'},
     {function: isArchived, path: '/isArchived', method: 'get'},
     {function: isLocked, path: '/isLocked', method: 'get'},
+    {function: putLocked, path: '/isLocked', method: 'put'},
     {function: archive, path: '/archive', method: 'put'},
     {function: addBoss, path: '/bosses', method: 'post'},
     {function: putAnmeldung, path: '/anmeldungen', method: 'put'},
@@ -41,6 +42,15 @@ async function isLocked(req, authentication) {
         return await _termin.isLocked(termin);
     } else {
         return [];
+    }
+}
+
+async function putLocked(req, authentication) {
+    const termin = req.body.termin;
+    const locked = req.body.locked;
+    if (termin && (locked === true || locked === false)) {
+        const lockId = locked? 1 : 0;
+        return await _termin.setLocked(termin, lockId);
     }
 }
 

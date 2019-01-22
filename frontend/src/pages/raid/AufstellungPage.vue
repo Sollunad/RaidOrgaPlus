@@ -6,9 +6,11 @@
             v-bind:role="role"
             v-bind:active="isActive"
             v-bind:termin="termin"
+            v-bind:locked="locked"
             v-on:addBoss="addBoss"
             v-on:archive="archive"
-            v-on:refresh="refresh">
+            v-on:refresh="refresh"
+            v-on:changeLocked="changeLocked">
         </TerminToolbarComp>
         <div v-if="aufstellungen">
             <v-container grid-list-md>
@@ -22,7 +24,7 @@
                                 v-bind:raid="raid"
                                 v-bind:role="role"
                                 v-bind:active="isActive"
-                                v-bind:locked="isLocked"
+                                v-bind:locked="locked"
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
                                 v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
@@ -52,7 +54,8 @@
         data: () => ({
             aufstellungen: null,
             archiveDialogOpen: false,
-            elements: []
+            elements: [],
+            locked: false,
         }),
         asyncComputed: {
             anmeldung: function() {
@@ -61,10 +64,6 @@
             },
             isActive: async function() {
                 if (this.termin) return (!await _termine.isArchived(this.termin.id));
-                else return false;
-            },
-            isLocked: async function() {
-                if (this.termin) return (await _termine.isLocked(this.termin.id));
                 else return false;
             }
         },
@@ -104,6 +103,10 @@
             refresh: async function() {
                 this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
                 this.elements = await _aufstellungen.getElements(this.termin.id);
+            },
+            changeLocked: function() {
+                this.locked = !this.locked;
+                _termine.putLocked(this.termin.id, this.locked);
             }
         },
         created: async function() {
@@ -111,6 +114,7 @@
             else {
                 this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
                 this.elements = await _aufstellungen.getElements(this.termin.id);
+                this.locked = await _termine.isLocked(this.termin.id);
             }
         }
     }

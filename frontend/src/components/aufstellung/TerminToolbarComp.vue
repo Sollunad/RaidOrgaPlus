@@ -1,26 +1,47 @@
 <template>
     <div class="toolbar">
-        {{termin.date}} {{termin.time}}
-        <v-menu :close-on-content-click="false" v-model="menuOpen" v-if="role > 0 && active">
-            <v-btn flat icon slot="activator">
-                <v-icon>add</v-icon>
-            </v-btn>
-            <MenuWingComp
-                v-on:pick="addBoss">
-            </MenuWingComp>
-        </v-menu>
-        <v-btn flat icon v-if="active" @click="refresh">
-            <v-icon>refresh</v-icon>
-        </v-btn>
-        <v-btn flat icon v-if="role > 0 && active" @click="archive">
-            <v-icon>send</v-icon>
-        </v-btn>
-        <p></p>
+        <div class="datetime">
+            {{termin.date}} {{termin.time}}
+        </div>
         <AnmeldungComp
-            v-on:anmelden="anmelden"
-            v-bind:anmeldung="anmeldung"
-            v-if="active">
+                v-on:anmelden="anmelden"
+                v-bind:anmeldung="anmeldung"
+                v-if="active"
+                class="anmeldung">
         </AnmeldungComp>
+        <p></p>
+        <template
+            v-if="active">
+            <v-btn flat icon v-if="active" @click="refresh">
+                <v-icon>refresh</v-icon>
+            </v-btn>
+            <template
+                v-if="role > 0">
+                <v-menu :close-on-content-click="false">
+                    <v-btn flat icon slot="activator">
+                        <v-icon>add</v-icon>
+                    </v-btn>
+                    <MenuWingComp
+                            v-on:pick="addBoss">
+                    </MenuWingComp>
+                </v-menu>
+                <v-btn flat icon @click="changeLock">
+                    <v-icon>{{ lockIcon }}</v-icon>
+                </v-btn>
+                <v-btn flat icon @click="archive">
+                    <v-icon>send</v-icon>
+                </v-btn>
+            </template>
+            <template
+                v-if="role === 0 && locked">
+                <v-btn flat icon>
+                    <v-icon>lock</v-icon>
+                </v-btn>
+            </template>
+        </template>
+
+
+
     </div>
 </template>
 
@@ -31,10 +52,12 @@
     export default {
         name: "TerminToolbarComp",
         components: {AnmeldungComp, MenuWingComp},
-        props: ['anmeldung', 'role', 'active', 'termin'],
-        data: () => ({
-            menuOpen: false
-        }),
+        props: ['anmeldung', 'role', 'active', 'termin', 'locked'],
+        computed: {
+            lockIcon: function() {
+                return this.locked? 'lock' : 'lock_open';
+            }
+        },
         methods: {
             anmelden: function(type) {
                 this.$emit('anmelden', type);
@@ -48,6 +71,9 @@
             refresh: function() {
                 this.$emit('refresh');
             },
+            changeLock: function() {
+                this.$emit('changeLocked');
+            }
         }
     }
 </script>
@@ -57,5 +83,12 @@
         font-size: 20px;
         font-weight: bold;
         padding: 0.5rem 1rem;
+    }
+
+    .anmeldung {
+        margin: 1rem 0 0 0.5rem;
+    }
+
+    .datetime {
     }
 </style>

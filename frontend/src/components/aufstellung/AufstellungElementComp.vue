@@ -104,7 +104,7 @@
             },
         },
         watch: {
-            elements: function(value) {
+            elements: function() {
                 this.editedElement = null;
             }
         }

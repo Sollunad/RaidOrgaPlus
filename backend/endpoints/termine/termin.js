@@ -10,6 +10,7 @@ exports.getAnmeldung = getAnmeldung;
 exports.addBoss = addBoss;
 exports.addWing = addWing;
 exports.isLocked = isLocked;
+exports.setLocked = setLocked;
 
 async function isArchived(terminId) {
     const stmt = 'SELECT isArchived FROM Termin WHERE id = ?';
@@ -26,6 +27,15 @@ async function isLocked(terminId) {
     try {
         const response = await db.queryV(stmt, terminId);
         return (response[0] && response[0].isLocked === 1);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function setLocked(terminId, locked) {
+    const stmt = 'UPDATE Termin SET isLocked = ? WHERE id = ?';
+    try {
+        return await db.queryV(stmt, [locked, terminId]);
     } catch(e) {
         throw e;
     }
