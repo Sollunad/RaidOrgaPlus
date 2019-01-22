@@ -18,7 +18,7 @@ async function getTermine(req, authentication) {
     const raid = req.query.raid;
     const archive = req.query.archive;
     if (raid) {
-        const role = _roles.forRaid(authentication, raid);
+        const role = await _roles.forRaid(authentication, raid);
         if (role >= 0) {
             if (archive === "1") {
                 return await _termin.listArchived(raid);
@@ -33,7 +33,7 @@ async function getTermine(req, authentication) {
 async function isArchived(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
-        const role = _roles.forTermin(authentication, termin);
+        const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) return await _termin.isArchived(termin);
     }
     return [];
@@ -42,7 +42,7 @@ async function isArchived(req, authentication) {
 async function isLocked(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
-        const role = _roles.forTermin(authentication, termin);
+        const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) return await _termin.isLocked(termin);
     }
     return [];
@@ -52,7 +52,7 @@ async function putLocked(req, authentication) {
     const termin = req.body.termin;
     const locked = req.body.locked;
     if (termin && (locked === true || locked === false)) {
-        const role = _roles.forTermin(authentication, termin);
+        const role = await _roles.forTermin(authentication, termin);
         if (role > 0) {
             const lockId = locked? 1 : 0;
             return await _termin.setLocked(termin, lockId);
@@ -66,7 +66,7 @@ async function postTermin(req, authentication) {
     const date = req.body.date;
     const time = req.body.time;
     if (raid && date && time) {
-        const role = _roles.forRaid(authentication, raid);
+        const role = await _roles.forRaid(authentication, raid);
         if (role > 0) return await _termin.newTermin(raid, date, time);
     }
     return [];
@@ -75,7 +75,7 @@ async function postTermin(req, authentication) {
 async function archive(req, authentication) {
     const termin = req.body.termin;
     if (termin) {
-        const role = _roles.forTermin(authentication, termin);
+        const role = await _roles.forTermin(authentication, termin);
         if (role > 0) return await _termin.archive(termin);
     }
     return [];
@@ -86,7 +86,7 @@ async function addBoss(req, authentication) {
     const boss = req.body.boss;
     const wing = req.body.wing;
     if (termin) {
-        const role = _roles.forTermin(authentication, termin);
+        const role = await _roles.forTermin(authentication, termin);
         if (role > 0) {
             if (boss) {
                 return _termin.addBoss(termin, boss).then(async () => {
@@ -107,7 +107,7 @@ async function putAnmeldung(req, authentication) {
     const termin = req.body.termin;
     const type = req.body.type;
     if (spieler && termin && (type || type === 0)) {
-        const role = _roles.forTermin(authentication, termin);
+        const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) return await _termin.anmelden(spieler, termin, type);
     }
     return [];
@@ -117,7 +117,7 @@ async function getAnmeldungen(req, authentication) {
     const spieler = req.query.spieler;
     const termin = req.query.termin;
     if (spieler && termin) {
-        const role = _roles.forTermin(authentication, termin);
+        const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) return await _termin.getAnmeldung(spieler, termin);
     }
     return [];

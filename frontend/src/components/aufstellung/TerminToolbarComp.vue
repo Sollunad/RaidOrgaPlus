@@ -3,15 +3,14 @@
         <div class="datetime">
             {{termin.date}} {{termin.time}}
         </div>
-        <AnmeldungComp
-                v-on:anmelden="anmelden"
-                v-bind:anmeldung="anmeldung"
-                v-if="active"
-                class="anmeldung">
-        </AnmeldungComp>
-        <p></p>
         <template
             v-if="active">
+            <AnmeldungComp
+                    v-on:anmelden="anmelden"
+                    v-bind:anmeldung="anmeldung"
+                    class="anmeldung">
+            </AnmeldungComp>
+            <p></p>
             <v-btn flat icon v-if="active" @click="refresh">
                 <v-icon>refresh</v-icon>
             </v-btn>

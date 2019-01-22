@@ -14,7 +14,7 @@ async function getRaids(req, authentication) {
 async function getRole(req, authentication) {
     const raid = req.query.raid;
     if (raid) {
-        const role = _roles.forRaid(authentication, raid);
+        const role = await _roles.forRaid(authentication, raid);
         return {role: role};
     } else {
         return [];
@@ -24,7 +24,7 @@ async function getRole(req, authentication) {
 async function listPlayers(req, authentication) {
     const raid = req.query.raid;
     if (raid) {
-        const role = _roles.forRaid(authentication, raid);
+        const role = await _roles.forRaid(authentication, raid);
         if (role >= 0) return await _raids.listPlayers(raid);
     }
     return [];

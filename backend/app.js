@@ -73,7 +73,6 @@ async function requestHandler(method, request) {
     const authNeeded = endpoint.authed;
 
     if (authentication) {
-        console.log(authentication);
         console.log(`Request ${method} ${request._parsedUrl.pathname} as ${authentication.user}`);
         return await endpoint.function(request, authentication);
     }
