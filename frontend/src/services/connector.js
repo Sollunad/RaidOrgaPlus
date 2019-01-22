@@ -3,9 +3,9 @@ const config = require('./config.json');
 
 export default fetch;
 
-async function fetch(endpoint, method, params) {
+async function fetch(endpoint, method, params, authed) {
     let url = config.url + endpoint;
-    params.auth = localStorage.session;
+    if (authed) params.auth = localStorage.session;
     if (method === 'get') {
         let queryParams = '';
         if (Object.keys(params).length > 0) {

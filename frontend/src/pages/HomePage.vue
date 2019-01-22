@@ -27,7 +27,7 @@
         components: {InsightsComp, ProgressComp},
         asyncComputed: {
             hasNoApi: async function() {
-                if (this.user) return !(await _users.hasApi(this.user.id));
+                if (this.user) return !(await _users.hasApi());
             }
         }
     }

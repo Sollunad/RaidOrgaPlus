@@ -4,47 +4,32 @@ const _session = require('./session');
 const _user = require('./user');
 const _api = require('./apikey');
 const _builds = require('./builds');
+const _auth = require('../../authentication/auth');
 
 module.exports = [
-    {function: getUser, path: '', method: 'get'},
+    {function: getUser, path: '', method: 'get', authed: true},
+    {function: invalidateSession, path: '/sessions', method: 'delete', authed: true},
     {function: registerUser, path: '', method: 'post'},
-    {function: invalidateSession, path: '/sessions', method: 'delete'},
     {function: loginUser, path: '/sessions', method: 'post'},
-    {function: setApi, path: '/api', method: 'post'},
-    {function: hasApi, path: '/api', method: 'get'},
-    {function: setName, path: '/name', method: 'post'},
-    {function: getBuilds, path: '/builds', method: 'get'},
-    {function: addBuild, path: '/builds', method: 'post'},
-    {function: deleteBuild, path: '/builds', method: 'delete'},
-    {function: putPrefer, path: '/builds/prefer', method: 'put'},
+    {function: setApi, path: '/api', method: 'post', authed: true},
+    {function: hasApi, path: '/api', method: 'get', authed: true},
+    {function: setName, path: '/name', method: 'post', authed: true},
+    {function: getBuilds, path: '/builds', method: 'get', authed: true},
+    {function: addBuild, path: '/builds', method: 'post', authed: true},
+    {function: deleteBuild, path: '/builds', method: 'delete', authed: true},
+    {function: putPrefer, path: '/builds/prefer', method: 'put', authed: true},
 ];
 
 async function getUser(req, authentication) {
-    const uuid = req.query.uuid;
-    if (uuid) {
-        const response = (await _session.getUser(uuid))[0];
-        if (response) {
-            const user = response.user;
-            return await _user.get(user);
-        }
-        else {
-            return [];
-        }
-    } else {
-        return [];
-    }
+    return await _user.get(authentication.user);
 }
 
 async function invalidateSession(req, authentication) {
-    const uuid = req.body.uuid;
-    if (uuid) {
-        return await _session.invalidate(uuid);
-    } else {
-        return [];
-    }
+    _auth.deleteCache(authentication.uuid);
+    return await _session.invalidate(authentication.uuid);
 }
 
-async function registerUser(req, authentication) {
+async function registerUser(req) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     const name = req.body.name;
@@ -53,7 +38,7 @@ async function registerUser(req, authentication) {
     }
 }
 
-async function loginUser(req, authentication) {
+async function loginUser(req) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     if (accName && pwd) {
@@ -66,7 +51,7 @@ async function loginUser(req, authentication) {
 
 async function setApi(req, authentication) {
     const apiKey = req.body.apiKey;
-    if (authentication && apiKey) {
+    if (apiKey) {
         return await _api.setApi(authentication.user, apiKey);
     } else {
         return false;
@@ -74,35 +59,25 @@ async function setApi(req, authentication) {
 }
 
 async function hasApi(req, authentication) {
-    const user = req.query.user;
-    if (user) {
-        return await _api.hasApi(user);
-    } else {
-        return false;
-    }
+    return await _api.hasApi(authentication.user);
 }
 
 async function setName(req, authentication) {
     const name = req.body.name;
-    if (name && authentication) {
+    if (name) {
         _user.changeName(authentication.user, name);
     }
     return [];
 }
 
 async function getBuilds(req, authentication) {
-    const user = req.query.user;
-    if (user) {
-        return await _builds.getBuilds(user);
-    } else {
-        return [];
-    }
+    return await _builds.getBuilds(authentication.user);
 }
 
 async function addBuild(req, authentication) {
     const clss = req.body.clss;
     const role = req.body.role;
-    if (authentication && clss && role) {
+    if (clss && role) {
         return _builds.addBuild(authentication.user, clss, role);
     } else {
         return [];
@@ -112,7 +87,7 @@ async function addBuild(req, authentication) {
 async function deleteBuild(req, authentication) {
     const clss = req.body.clss;
     const role = req.body.role;
-    if (authentication && clss && role) {
+    if (clss && role) {
         return _builds.deleteBuild(authentication.user, clss, role);
     } else {
         return [];

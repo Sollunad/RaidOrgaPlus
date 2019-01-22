@@ -3,23 +3,23 @@ import con from '../connector';
 export default { getForTermin, deleteBoss, getSuccess, setSuccess, getElements, setClass, setName, setRole };
 
 async function getForTermin(termin) {
-    return await con('aufstellungen', 'get', {termin: termin});
+    return await con('aufstellungen', 'get', {termin: termin}, true);
 }
 
 async function deleteBoss(aufstellung, termin) {
-    return await con('aufstellungen', 'delete', {aufstellung: aufstellung, termin: termin});
+    return await con('aufstellungen', 'delete', {aufstellung: aufstellung, termin: termin}, true);
 }
 
 async function getSuccess(aufstellung){
-    return await con('aufstellungen/success', 'get', {aufstellung: aufstellung});
+    return await con('aufstellungen/success', 'get', {aufstellung: aufstellung}, true);
 }
 
 async function setSuccess(aufstellung, success) {
-    return await con('aufstellungen/success', 'put', {aufstellung: aufstellung, success: success});
+    return await con('aufstellungen/success', 'put', {aufstellung: aufstellung, success: success}, true);
 }
 
 async function getElements(termin) {
-    return await con('aufstellungen/element', 'get', {termin: termin});
+    return await con('aufstellungen/element', 'get', {termin: termin}, true);
 }
 
 async function setClass(aufstellung, position, value){
@@ -35,5 +35,5 @@ async function setName(aufstellung, position, value){
 }
 
 function setElement(aufstellung, position, value, type) {
-    return con('aufstellungen/element', 'post', {aufstellung: aufstellung, position: position, value: value, type: type});
+    return con('aufstellungen/element', 'post', {aufstellung: aufstellung, position: position, value: value, type: type}, true);
 }

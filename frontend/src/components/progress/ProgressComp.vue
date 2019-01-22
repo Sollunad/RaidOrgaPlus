@@ -24,7 +24,7 @@
                 return _encounter.listEncounter();
             },
             progress: function() {
-                if (this.user) return _progress.progress(this.user.id);
+                if (this.user) return _progress.progress();
             }
         }
     }

@@ -57,7 +57,7 @@
       }
     },
     created: async function() {
-        const user = await _users.get(localStorage.session);
+        const user = await _users.get();
         if (user) this.user = user;
         else this.showLogin = true;
     },

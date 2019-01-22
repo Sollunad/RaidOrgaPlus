@@ -3,6 +3,8 @@ const db = require('../../db/connector.js');
 exports.isArchived = isArchived;
 exports.listActive = listActive;
 exports.listArchived = listArchived;
+exports.listAllIds = listAllIds;
+exports.getRaidId = getRaidId;
 exports.newTermin = newTermin;
 exports.archive = archive;
 exports.anmelden = anmelden;
@@ -36,6 +38,24 @@ async function setLocked(terminId, locked) {
     const stmt = 'UPDATE Termin SET isLocked = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [locked, terminId]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function getRaidId(terminId) {
+    const stmt = 'SELECT Raid.id FROM Raid JOIN Termin ON Termin.fk_raid = Raid.id WHERE Termin.id = ?';
+    try {
+        return (await db.queryV(stmt, terminId));
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function listAllIds(raidId) {
+    const stmt = 'SELECT Termin.id FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ?';
+    try {
+        return (await db.queryV(stmt, raidId));
     } catch(e) {
         throw e;
     }

@@ -42,7 +42,7 @@ fs.readdir('./endpoints/', (err, folders) => {
 
 function registerEndpoint(path, endpoint) {
     console.log(`Register ${endpoint.method} @ /${path}${endpoint.path}`);
-    endpoints[endpoint.method][`/${path}${endpoint.path}`] = endpoint.function;
+    endpoints[endpoint.method][`/${path}${endpoint.path}`] = endpoint;
 }
 
 app.get('*', async function(req, res) {
@@ -62,26 +62,30 @@ app.delete('*', async function(req, res) {
 });
 
 async function requestHandler(method, request) {
+    const endpoint = endpoints[method][request._parsedUrl.pathname];
+    if (!endpoint) return [];
+
     let uuid, authentication;
-    if (!skipAuth(method, request)) {
-        if (method === 'get') uuid = request.query.auth;
-        else uuid = request.body.auth;
-        authentication = await auth(uuid);
-        if (authentication) {
-            console.log(`Request ${request._parsedUrl.pathname} as ${authentication.user}`);
-        }
-    } else {
-        console.log(`Request ${request._parsedUrl.pathname} unauthenticated`);
+    if (method === 'get') uuid = request.query.auth;
+    else uuid = request.body.auth;
+    if (uuid) authentication = await auth(uuid);
+
+    const authNeeded = endpoint.authed;
+
+    if (authentication) {
+        console.log(authentication);
+        console.log(`Request ${method} ${request._parsedUrl.pathname} as ${authentication.user}`);
+        return await endpoint.function(request, authentication);
     }
-
-    return await endpoints[method][request._parsedUrl.pathname](request, authentication);
-}
-
-function skipAuth(method, request) {
-    const basePath = request._parsedUrl.pathname.split('/')[1];
-    const skipForEvery = ['gamedata'];
-    const authGet = ['raids'];
-    return skipForEvery.includes(basePath) || (method === 'get' && !authGet.includes(basePath));
+    else {
+        if (!authNeeded) {
+            console.log(`Request ${method} ${request._parsedUrl.pathname} unauthenticated`);
+            return await endpoint.function(request);
+        } else {
+            console.log(`Request ${method} ${request._parsedUrl.pathname} with missing authentication`);
+            return [];
+        }
+    }
 }
 
 try {

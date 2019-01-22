@@ -1,62 +1,68 @@
 const _aufstellung = require('./aufstellung');
+const _termine = require('../termine/termin');
 const _element = require('./element');
+const _roles = require('../../authentication/role');
 
 module.exports = [
-    {function: getTermin, path: '', method: 'get'},
-    {function: getSuccess, path: '/success', method: 'get'},
-    {function: putSuccess, path: '/success', method: 'put'},
-    {function: deleteTermin, path: '', method: 'delete'},
-    {function: getElement, path: '/element', method: 'get'},
-    {function: postElement, path: '/element', method: 'post'},
+    {function: getForTermin, path: '', method: 'get', authed: true},
+    {function: getSuccess, path: '/success', method: 'get', authed: true},
+    {function: putSuccess, path: '/success', method: 'put', authed: true},
+    {function: deleteTermin, path: '', method: 'delete', authed: true},
+    {function: getElement, path: '/element', method: 'get', authed: true},
+    {function: postElement, path: '/element', method: 'post', authed: true},
 ];
 
-async function getTermin(req, authentication) {
+async function getForTermin(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
-        return await _aufstellung.getForTermin(termin);
-    } else {
-        return [];
+        const role = await _roles.forTermin(authentication, termin);
+        if (role >= 0) return await _aufstellung.getForTermin(termin);
     }
+    return [];
 }
 
 async function getSuccess(req, authentication) {
     const aufstellung = req.query.aufstellung;
     if (aufstellung) {
-        return await _aufstellung.getSuccess(aufstellung);
-    } else {
-        return [];
+        const role = await _roles.forAufstellung(authentication, aufstellung);
+        if (role >= 0) return await _aufstellung.getSuccess(aufstellung);
     }
+    return [];
 }
 
 async function putSuccess(req, authentication) {
     const aufstellung = req.body.aufstellung;
     const success = req.body.success;
-    if (aufstellung && (success || success === false)) {
-        return await _aufstellung.setSuccess(aufstellung, success);
-    } else {
-        return [];
+    if (aufstellung && (success === true || success === false)) {
+        const role = await _roles.forAufstellung(authentication, aufstellung);
+        if (role > 0) return await _aufstellung.setSuccess(aufstellung, success);
     }
+    return [];
 }
 
 async function deleteTermin(req, authentication) {
     const aufstellung = req.body.aufstellung;
     const termin = req.body.termin;
     if (aufstellung && termin) {
-        return _aufstellung.delete(aufstellung).then(async () => {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role > 0) {
+            return _aufstellung.delete(aufstellung).then(async () => {
+                return await _aufstellung.getForTermin(termin);
+            })
+        } else {
             return await _aufstellung.getForTermin(termin);
-        })
-    } else {
-        return [];
+        }
     }
+    return [];
 }
 
 async function getElement(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
-        return await _element.getForTermin(termin);
-    } else {
-        return [];
+        const role = await _roles.forTermin(authentication, termin);
+        if (role >= 0) return await _element.getForTermin(termin);
     }
+    return [];
 }
 
 async function postElement(req, authentication) {
@@ -65,17 +71,16 @@ async function postElement(req, authentication) {
     const type = req.body.type;
     const value = req.body.value;
     if (aufstellung && position && type && value) {
-        if (type === "class") {
-            return _element.setClass(aufstellung, position, value);
-        } else if (type === "role") {
-            return _element.setRole(aufstellung, position, value);
-        } else if (type === "name") {
-            return _element.setName(aufstellung, position, value);
-        } else {
-            return [];
+        const role = await _roles.forAufstellung(authentication, aufstellung);
+        if (role >= 0) {
+            if (type === "class") {
+                return _element.setClass(aufstellung, position, value);
+            } else if (type === "role") {
+                return _element.setRole(aufstellung, position, value);
+            } else if (type === "name") {
+                return _element.setName(aufstellung, position, value);
+            }
         }
-
-    } else {
-        return [];
     }
+    return [];
 }

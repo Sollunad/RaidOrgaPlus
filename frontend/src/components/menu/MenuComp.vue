@@ -69,7 +69,7 @@
         },
         methods: {
             logout: function() {
-                _users.invalidateSession(localStorage.session);
+                _users.invalidateSession();
                 localStorage.session = "";
                 window.location.reload();
             }

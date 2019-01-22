@@ -1,5 +1,6 @@
 const _termin = require('./termin');
 const _aufstellung = require('../aufstellungen/aufstellung');
+const _roles = require('../../authentication/role');
 
 module.exports = [
     {function: getTermine, path: '', method: 'get'},
@@ -17,41 +18,47 @@ async function getTermine(req, authentication) {
     const raid = req.query.raid;
     const archive = req.query.archive;
     if (raid) {
-        if (archive === "1") {
-            return await _termin.listArchived(raid);
-        } else {
-            return await _termin.listActive(raid);
+        const role = _roles.forRaid(authentication, raid);
+        if (role >= 0) {
+            if (archive === "1") {
+                return await _termin.listArchived(raid);
+            } else {
+                return await _termin.listActive(raid);
+            }
         }
-    } else {
-        return [];
     }
+    return [];
 }
 
 async function isArchived(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
-        return await _termin.isArchived(termin);
-    } else {
-        return [];
+        const role = _roles.forTermin(authentication, termin);
+        if (role >= 0) return await _termin.isArchived(termin);
     }
+    return [];
 }
 
 async function isLocked(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
-        return await _termin.isLocked(termin);
-    } else {
-        return [];
+        const role = _roles.forTermin(authentication, termin);
+        if (role >= 0) return await _termin.isLocked(termin);
     }
+    return [];
 }
 
 async function putLocked(req, authentication) {
     const termin = req.body.termin;
     const locked = req.body.locked;
     if (termin && (locked === true || locked === false)) {
-        const lockId = locked? 1 : 0;
-        return await _termin.setLocked(termin, lockId);
+        const role = _roles.forTermin(authentication, termin);
+        if (role > 0) {
+            const lockId = locked? 1 : 0;
+            return await _termin.setLocked(termin, lockId);
+        }
     }
+    return [];
 }
 
 async function postTermin(req, authentication) {
@@ -59,19 +66,19 @@ async function postTermin(req, authentication) {
     const date = req.body.date;
     const time = req.body.time;
     if (raid && date && time) {
-        return await _termin.newTermin(raid, date, time);
-    } else {
-        return [];
+        const role = _roles.forRaid(authentication, raid);
+        if (role > 0) return await _termin.newTermin(raid, date, time);
     }
+    return [];
 }
 
 async function archive(req, authentication) {
     const termin = req.body.termin;
     if (termin) {
-        return await _termin.archive(termin);
-    } else {
-        return [];
+        const role = _roles.forTermin(authentication, termin);
+        if (role > 0) return await _termin.archive(termin);
     }
+    return [];
 }
 
 async function addBoss(req, authentication) {
@@ -79,18 +86,20 @@ async function addBoss(req, authentication) {
     const boss = req.body.boss;
     const wing = req.body.wing;
     if (termin) {
-        if (boss) {
-            return _termin.addBoss(termin, boss).then(async () => {
-                return await _aufstellung.getForTermin(termin);
-            })
-        } else if (wing) {
-            return _termin.addWing(termin, wing).then(async () => {
-                return await _aufstellung.getForTermin(termin);
-            })
+        const role = _roles.forTermin(authentication, termin);
+        if (role > 0) {
+            if (boss) {
+                return _termin.addBoss(termin, boss).then(async () => {
+                    return await _aufstellung.getForTermin(termin);
+                })
+            } else if (wing) {
+                return _termin.addWing(termin, wing).then(async () => {
+                    return await _aufstellung.getForTermin(termin);
+                })
+            }
         }
-    } else {
-        return [];
     }
+    return [];
 }
 
 async function putAnmeldung(req, authentication) {
@@ -98,18 +107,18 @@ async function putAnmeldung(req, authentication) {
     const termin = req.body.termin;
     const type = req.body.type;
     if (spieler && termin && (type || type === 0)) {
-        return await _termin.anmelden(spieler, termin, type);
-    } else {
-        return [];
+        const role = _roles.forTermin(authentication, termin);
+        if (role >= 0) return await _termin.anmelden(spieler, termin, type);
     }
+    return [];
 }
 
 async function getAnmeldungen(req, authentication) {
     const spieler = req.query.spieler;
     const termin = req.query.termin;
     if (spieler && termin) {
-        return await _termin.getAnmeldung(spieler, termin);
-    } else {
-        return [];
+        const role = _roles.forTermin(authentication, termin);
+        if (role >= 0) return await _termin.getAnmeldung(spieler, termin);
     }
+    return [];
 }

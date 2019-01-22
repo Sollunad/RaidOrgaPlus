@@ -7,7 +7,7 @@
         <v-btn flat icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
             <v-icon>clear</v-icon>
         </v-btn>
-        <v-btn flat icon :color="successColor" @click="toggleSuccess" class="button" v-if="role > 0 && !active">
+        <v-btn flat icon :color="successColor" @click="toggleSuccess" class="button" v-if="!active">
             <v-icon>{{successIcon}}</v-icon>
         </v-btn>
     </div>
@@ -41,7 +41,9 @@
                 this.$emit('deleteBoss');
             },
             toggleSuccess: function() {
-                this.$emit('toggleSuccess');
+                if (this.role > 0) {
+                    this.$emit('toggleSuccess');
+                }
             }
         }
     }

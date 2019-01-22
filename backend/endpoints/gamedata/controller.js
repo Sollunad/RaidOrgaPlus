@@ -6,7 +6,7 @@ module.exports = [
     {function: getEncounter, path: '/encounter', method: 'get'},
 ];
 
-async function getForBase(req, authentication) {
+async function getForBase(req) {
     const base = req.query.base;
     if (base) {
         return await _classes.getForBase(base);
@@ -15,7 +15,7 @@ async function getForBase(req, authentication) {
     }
 }
 
-async function getEncounter(req, authentication) {
+async function getEncounter(req) {
     const wing = req.query.wing;
     if (wing) {
         return await _encounter.listForWing(wing);

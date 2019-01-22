@@ -34,7 +34,7 @@
         props: ['user'],
         asyncComputed: {
             insights: function() {
-                if (this.user) return _progress.insights(this.user.id);
+                if (this.user) return _progress.insights();
             }
         },
         methods: {
