@@ -109,7 +109,8 @@
                 this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
                 this.elements = await _aufstellungen.getElements(this.termin.id);
             },
-            changeLocked: function() {
+            changeLocked: async function() {
+                this.elements = await _aufstellungen.getElements(this.termin.id);
                 this.locked = !this.locked;
                 _termine.putLocked(this.termin.id, this.locked);
             }
