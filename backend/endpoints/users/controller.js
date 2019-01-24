@@ -70,8 +70,12 @@ async function setName(req, authentication) {
     return [];
 }
 
-async function getBuilds(req, authentication) {
-    return await _builds.getBuilds(authentication.user);
+async function getBuilds(req) {
+    const user = req.query.user;
+    if (user) {
+        return await _builds.getBuilds(user);
+    }
+    return [];
 }
 
 async function addBuild(req, authentication) {
