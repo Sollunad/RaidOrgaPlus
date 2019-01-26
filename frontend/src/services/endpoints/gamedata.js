@@ -8,9 +8,9 @@ async function listEncounter() {
 }
 
 async function listEncounterForWing(wing) {
-    return await con('gamedata/encounter', 'get', {wing: wing});
+    return await con('gamedata/encounter', 'get', {wing});
 }
 
 async function getClassesForBase(base) {
-    return await con('gamedata/classes', 'get', {base: base});
+    return await con('gamedata/classes', 'get', {base});
 }
