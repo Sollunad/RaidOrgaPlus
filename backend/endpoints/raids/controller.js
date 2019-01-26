@@ -58,15 +58,15 @@ async function getPendingInvites(req, authentication) {
     const raid = req.query.raid;
     if (raid) {
         const role = await _roles.forRaid(authentication, raid);
-        if (role > 0) return await _invites.pendingForRaid(raid);
+        if (role > 0) return (await _invites.pendingForRaid(raid)).map(p => p.spieler);
     } else {
-        return await _invites.pendingForPlayer(authentication.user);
+        return (await _invites.pendingForPlayer(authentication.user)).map(p => p.spieler);
     }
     return [];
 }
 
 async function acceptInvite(req, authentication) {
-    const raid = req.query.raid;
+    const raid = req.body.raid;
     if (raid) {
         if (await _invites.isInvited(raid, authentication.user)){
             return await _invites.accept(raid, authentication.user);
@@ -76,8 +76,8 @@ async function acceptInvite(req, authentication) {
 }
 
 async function deleteInvite(req, authentication) {
-    const raid = req.query.raid;
-    const user = req.query.user;
+    const raid = req.body.raid;
+    const user = req.body.user;
     if (raid) {
         if (user){
             const role = await _roles.forRaid(authentication, raid);

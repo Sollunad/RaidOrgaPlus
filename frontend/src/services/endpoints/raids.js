@@ -1,6 +1,7 @@
 import con from '../connector';
 
-export default { listForPlayer, role, listPlayers, invitePlayer };
+export default { listForPlayer, role, listPlayers, invitePlayer, invitablePlayers,
+    pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf };
 
 async function listForPlayer() {
     return await con('raids', 'get', {}, true);
@@ -22,11 +23,11 @@ async function invitablePlayers(raid) {
     return await con('raids/invitable', 'get', {raid: raid}, true);
 }
 
-async function getPendingInvitesForPlayer() {
+async function pendingInvitesForPlayer() {
     return await con('raids/invites', 'get', {}, true);
 }
 
-async function getPendingInvitesForRaid(raid) {
+async function pendingInvitesForRaid(raid) {
     return await con('raids/invites', 'get', {raid: raid}, true);
 }
 

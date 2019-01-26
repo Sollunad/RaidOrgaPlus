@@ -1,10 +1,9 @@
 <template>
     <div>
-        <v-btn
-                v-if="role === 2"
-                color="success">
-            Spieler einladen
-        </v-btn>
+        <SpielerEinladenComp
+            v-if="role > 0"
+            v-bind:raid="raid">
+        </SpielerEinladenComp>
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex
@@ -25,10 +24,11 @@
 <script>
     import ListSpielerComp from "../../components/raid/SpielerComp";
     import _raids from '../../services/endpoints/raids';
+    import SpielerEinladenComp from "../../components/raid/SpielerEinladenComp";
 
     export default {
         name: "SpielerlistePage",
-        components: {ListSpielerComp},
+        components: {SpielerEinladenComp, ListSpielerComp},
         props: ['raid', 'role'],
         data: () => ({
             filter: ''

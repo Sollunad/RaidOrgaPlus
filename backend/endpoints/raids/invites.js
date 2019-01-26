@@ -20,8 +20,6 @@ async function invitePlayer(user, raid) {
 async function invitablePlayers(raid) {
     const stmt = 'SELECT Spieler.id, Spieler.name FROM Spieler ' +
         'WHERE NOT Spieler.id IN (' +
-            'SELECT fk_spieler FROM Einladung WHERE fk_raid = ?' +
-        ') AND NOT Spieler.id IN (' +
             'SELECT fk_spieler FROM Spieler_Raid WHERE fk_raid = ?' +
         ') AND NOT Spieler.id = 0';
     try {
@@ -43,7 +41,7 @@ async function pendingInvitesForPlayer(spieler) {
 async function pendingInvitesForRaid(raid) {
     const stmt = 'SELECT fk_spieler as spieler FROM Einladung WHERE fk_raid = ?';
     try {
-        return await db.queryV(stmt, spieler);
+        return await db.queryV(stmt, raid);
     } catch(e) {
         throw e;
     }
