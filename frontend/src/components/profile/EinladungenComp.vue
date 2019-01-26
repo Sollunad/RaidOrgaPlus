@@ -42,7 +42,6 @@
         },
         created: async function() {
             this.invites = await _raids.pendingInvitesForPlayer();
-            console.log(this.invites);
         }
     }
 </script>

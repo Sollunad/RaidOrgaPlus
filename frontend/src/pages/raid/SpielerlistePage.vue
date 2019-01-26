@@ -7,14 +7,15 @@
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex
-                        v-for="user in users"
-                        :key="user.id"
+                        v-for="listuser in users"
+                        :key="listuser.id"
                         xs12 sm6 lg4 xl3>
-                    <ListSpielerComp
-                            v-bind:user="user"
-                            v-bind:key="user.id"
+                    <SpielerComp
+                            v-bind:user="listuser"
+                            v-bind:role="role"
+                            v-bind:self="isSelf(listuser)"
                             v-bind:filter="filter">
-                    </ListSpielerComp>
+                    </SpielerComp>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -22,17 +23,22 @@
 </template>
 
 <script>
-    import ListSpielerComp from "../../components/raid/SpielerComp";
+    import SpielerComp from "../../components/raid/SpielerComp";
     import _raids from '../../services/endpoints/raids';
     import SpielerEinladenComp from "../../components/raid/SpielerEinladenComp";
 
     export default {
         name: "SpielerlistePage",
-        components: {SpielerEinladenComp, ListSpielerComp},
-        props: ['raid', 'role'],
+        components: {SpielerEinladenComp, SpielerComp},
+        props: ['raid', 'role', 'user'],
         data: () => ({
             filter: ''
         }),
+        methods: {
+            isSelf: function(user) {
+                return user.id === this.user.id;
+            }
+        },
         asyncComputed: {
             users: async function() {
                 if (this.raid) {

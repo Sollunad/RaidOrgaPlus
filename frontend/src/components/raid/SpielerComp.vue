@@ -1,5 +1,8 @@
 <template>
     <div class="spieler">
+        <v-avatar v-if="isRaidLead" size="25" tile class="comm">
+            <img :src="icon('comm')">
+        </v-avatar>
         <NameComp
             v-bind:user="user"
             class="name">
@@ -12,7 +15,7 @@
                     disabled
             >
             </BuildChipComp>
-            <p></p>
+            <p v-if="prefer.length > 0"></p>
             <BuildChipComp
                     v-for="build in notPrefer"
                     v-bind:key="`${build.class.id} ${build.role.id}`"
@@ -31,17 +34,21 @@
     import _users from '../../services/endpoints/users';
     import BuildChipComp from "../profile/BuildChipComp";
     import NameComp from "../menu/NameComp";
+    import _icons from '../../services/icons';
 
     export default {
         name: "ListSpielerComp",
         components: {NameComp, BuildChipComp},
-        props: ['user', 'filter'],
+        props: ['user', 'filter', 'self', 'role'],
         asyncComputed: {
             builds: function() {
                 if (this.user) return _users.getBuilds(this.user.id);
             }
         },
         computed: {
+            isRaidLead: function() {
+                return this.user.role === 2;
+            },
             filtered: function() {
                 if (this.filter) return this.builds.filter(b => b.role.abbr === this.filter);
                 else return this.builds;
@@ -52,6 +59,11 @@
             notPrefer: function() {
                 return this.filtered.filter(b => !b.prefer);
             }
+        },
+        methods: {
+            icon: function(name) {
+                return _icons.miscIcon(name);
+            }
         }
     }
 </script>
@@ -61,6 +73,7 @@
         background-color: #222222;
         width: 100%;
         height: 100%;
+        padding: 0.5rem 0 1rem 1rem;
     }
 
     .name {
@@ -70,6 +83,10 @@
     }
 
     .builds {
-        padding: 0 0 1rem 1rem;
+        padding-top: 0.5rem;
+    }
+
+    .comm {
+        margin-top: -0.5rem;
     }
 </style>
