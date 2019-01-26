@@ -32,7 +32,7 @@
         data: () => ({
             disabled: false,
             invited: null,
-            invitablePlayers: [{id: 5, name: 'Daniel'}, {id: 6, name: 'Lili'}, {id: 7, name: 'Nico'}],
+            invitablePlayers: [],
         }),
         watch: {
             invited: async function (newValue, oldValue) {

@@ -6,11 +6,11 @@ import AufstellungPage from "./pages/raid/AufstellungPage";
 import ArchivPage from "./pages/raid/ArchivPage";
 import ProfilPage from "./pages/ProfilPage";
 import SkillsPage from "./pages/SkillsPage";
-import HomePage from "./pages/HomePage";
 import FeedbackPage from "./pages/FeedbackPage";
 import StatistikenPage from "./pages/raid/StatistikenPage";
 import NeuerTerminPage from "./pages/raid/NeuerTerminPage";
 import SpielerlistePage from "./pages/raid/SpielerlistePage";
+import HomePage from "./pages/HomePage";
 
 const routes = [
     { path: '/', component: HomePage },

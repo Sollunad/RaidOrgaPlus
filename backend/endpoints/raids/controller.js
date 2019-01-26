@@ -60,7 +60,7 @@ async function getPendingInvites(req, authentication) {
         const role = await _roles.forRaid(authentication, raid);
         if (role > 0) return (await _invites.pendingForRaid(raid)).map(p => p.spieler);
     } else {
-        return (await _invites.pendingForPlayer(authentication.user)).map(p => p.spieler);
+        return (await _invites.pendingForPlayer(authentication.user));
     }
     return [];
 }

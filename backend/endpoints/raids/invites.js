@@ -30,7 +30,7 @@ async function invitablePlayers(raid) {
 }
 
 async function pendingInvitesForPlayer(spieler) {
-    const stmt = 'SELECT fk_raid as raid FROM Einladung WHERE fk_spieler = ?';
+    const stmt = 'SELECT Einladung.fk_raid as id, Raid.name as name FROM Einladung JOIN Raid ON Raid.id = Einladung.fk_raid WHERE fk_spieler = ?';
     try {
         return await db.queryV(stmt, spieler);
     } catch(e) {
