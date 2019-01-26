@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { listForPlayer, role, listPlayers };
+export default { listForPlayer, role, listPlayers, invitePlayer };
 
 async function listForPlayer() {
     return await con('raids', 'get', {}, true);
@@ -12,4 +12,32 @@ async function role(raid) {
 
 async function listPlayers(raid) {
     return await con('raids/players', 'get', {raid: raid}, true);
+}
+
+async function invitePlayer(raid, user) {
+    return await con('raids/invites', 'post', {raid: raid, user: user}, true);
+}
+
+async function invitablePlayers(raid) {
+    return await con('raids/invitable', 'get', {raid: raid}, true);
+}
+
+async function getPendingInvitesForPlayer() {
+    return await con('raids/invites', 'get', {}, true);
+}
+
+async function getPendingInvitesForRaid(raid) {
+    return await con('raids/invites', 'get', {raid: raid}, true);
+}
+
+async function acceptInvite(raid) {
+    return await con('raids/invites/accept', 'post', {raid: raid}, true);
+}
+
+async function deleteInviteAsLead(raid, user) {
+    return await con('raids/invites', 'delete', {raid: raid, user: user}, true);
+}
+
+async function deleteInviteAsSelf(raid) {
+    return await con('raids/invites', 'delete', {raid: raid}, true);
 }
