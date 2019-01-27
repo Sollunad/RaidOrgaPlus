@@ -12,7 +12,7 @@
                 <v-card>
                     <v-list two-line>
                         <ListTerminComp
-                                v-for="termin in termine"
+                                v-for="termin in viewTermine"
                                 v-bind:key="termin.id"
                                 v-bind:termin="termin"
                                 v-bind:user="user"
@@ -33,6 +33,20 @@
         name: "TerminOverviewComp",
         components: {ListTerminComp},
         props: ['raid', 'archived', 'user'],
+        computed: {
+            viewTermine: function() {
+                if (this.archived) {
+                    let viewTermine = [];
+                    this.termine.forEach((termin, index) => {
+                        termin.no = this.termine.length - index;
+                        viewTermine.push(termin);
+                    });
+                    return viewTermine;
+                } else {
+                    return this.termine;
+                }
+            }
+        },
         asyncComputed: {
             termine: function() {
                 if (this.raid) {
