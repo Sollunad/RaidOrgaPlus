@@ -37,7 +37,7 @@
         asyncComputed: {
             icon: async function() {
                 if (this.user) {
-                    const anmeldung = await _termine.getAnmeldung(this.user.id, this.termin.id);
+                    const anmeldung = await _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
                     if (anmeldung === null) return 'error';
                     const icons = ['check_circle', 'check_circle_outline', 'cancel'];
                     return icons[anmeldung];

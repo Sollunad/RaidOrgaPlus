@@ -8,7 +8,8 @@ exports.getRaidId = getRaidId;
 exports.newTermin = newTermin;
 exports.archive = archive;
 exports.anmelden = anmelden;
-exports.getAnmeldung = getAnmeldung;
+exports.getAnmeldungForSpieler = getAnmeldungForSpieler;
+exports.getAnmeldungenForTermin = getAnmeldungenForTermin;
 exports.addBoss = addBoss;
 exports.addWing = addWing;
 exports.isLocked = isLocked;
@@ -125,12 +126,21 @@ async function anmelden(spieler, termin, type) {
     }
 }
 
-async function getAnmeldung(spieler, termin) {
+async function getAnmeldungForSpieler(spieler, termin) {
     const stmt = 'SELECT type FROM Spieler_Termin WHERE fk_spieler = ? AND fk_termin = ?';
     try {
         const response = await db.queryV(stmt, [spieler, termin]);
         if (response.length === 0) return {type: null};
         else return {type: response[0].type};
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function getAnmeldungenForTermin(termin) {
+    const stmt = 'SELECT Spieler.id, Spieler.name, Spieler_Termin.type FROM Spieler_Termin JOIN Spieler ON Spieler.id = Spieler_Termin.fk_spieler WHERE fk_termin = ?';
+    try {
+        return await db.queryV(stmt, termin);
     } catch(e) {
         throw e;
     }

@@ -30,6 +30,7 @@
                                 v-bind:role="role"
                                 v-bind:active="isActive"
                                 v-bind:locked="locked"
+                                v-bind:termin="termin"
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
                                 v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
@@ -64,7 +65,7 @@
         }),
         asyncComputed: {
             anmeldung: function() {
-                if (this.termin) return _termine.getAnmeldung(this.user.id, this.termin.id);
+                if (this.termin) return _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
                 else return null;
             },
             isActive: async function() {

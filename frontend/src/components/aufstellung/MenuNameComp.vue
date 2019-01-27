@@ -11,15 +11,16 @@
 </template>
 
 <script>
-    import _raids from '../../services/endpoints/raids';
+    import _termine from '../../services/endpoints/termine';
 
     export default {
         name: "MenuNameComp",
-        props: ['raid'],
+        props: ['termin'],
         asyncComputed: {
             users: async function() {
-                if (this.raid) {
-                    return _raids.listPlayers(this.raid.id);
+                if (this.termin) {
+                    const allUsers = await _termine.getAnmeldungenForTermin(this.termin.id);
+                    return allUsers.filter(player => player.type < 2);
                 }
                 else return [];
             }

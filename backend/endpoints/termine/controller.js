@@ -103,12 +103,11 @@ async function addBoss(req, authentication) {
 }
 
 async function putAnmeldung(req, authentication) {
-    const spieler = req.body.spieler;
     const termin = req.body.termin;
     const type = req.body.type;
-    if (spieler && termin && (type || type === 0)) {
+    if (termin && (type || type === 0)) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _termin.anmelden(spieler, termin, type);
+        if (role >= 0) return await _termin.anmelden(authentication.user, termin, type);
     }
     return [];
 }
@@ -116,9 +115,13 @@ async function putAnmeldung(req, authentication) {
 async function getAnmeldungen(req, authentication) {
     const spieler = req.query.spieler;
     const termin = req.query.termin;
-    if (spieler && termin) {
-        const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _termin.getAnmeldung(spieler, termin);
+    if (termin) {
+        if (spieler) {
+            if (authentication.user === parseInt(spieler)) return await _termin.getAnmeldungForSpieler(spieler, termin);
+        } else {
+            const role = await _roles.forTermin(authentication, termin);
+            if (role >= 0) return await _termin.getAnmeldungenForTermin(termin);
+        }
     }
     return [];
 }

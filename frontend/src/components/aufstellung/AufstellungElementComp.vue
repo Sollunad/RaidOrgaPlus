@@ -30,7 +30,7 @@
             <span slot="activator">{{name}}</span>
             <MenuNameComp
                 v-on:pick="pickName"
-                v-bind:raid="raid">
+                v-bind:termin="termin">
             </MenuNameComp>
         </v-menu>
         <span v-else>{{name}}</span>
@@ -47,7 +47,7 @@
     export default {
         name: "AufstellungElementComp",
         components: {MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position', 'elements', 'raid', 'active', 'locked', 'role'],
+        props: ['aufstellung', 'position', 'elements', 'raid', 'active', 'locked', 'role', 'termin'],
         data: () => ({
             classMenuOpen: false,
             editedElement: null

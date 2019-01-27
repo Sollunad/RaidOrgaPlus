@@ -14,6 +14,7 @@
                 v-bind:active="active"
                 v-bind:locked="locked"
                 v-bind:role="role"
+                v-bind:termin="termin"
                 v-bind:propElements="elements">
         </AufstellungBodyComp>
     </div>
@@ -27,7 +28,7 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellung', 'raid', 'role', 'active', 'locked', 'elements'],
+        props: ['aufstellung', 'raid', 'role', 'active', 'locked', 'elements', 'termin'],
         data: () => ({
             success: false
         }),

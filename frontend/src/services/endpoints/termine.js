@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { isArchived, isLocked, putLocked, listActive, listArchived, newTermin, archive, anmelden, getAnmeldung, addBoss, addWing };
+export default { isArchived, isLocked, putLocked, listActive, listArchived, newTermin, archive, anmelden, getAnmeldungForSpieler, getAnmeldungenForTermin, addBoss, addWing };
 
 async function isArchived(termin) {
     return await con('termine/isArchived', 'get', {termin}, true);
@@ -34,8 +34,12 @@ async function anmelden(spieler, termin, type) {
     return await con('termine/anmeldungen', 'put', {termin, spieler, type}, true);
 }
 
-async function getAnmeldung(spieler, termin) {
+async function getAnmeldungForSpieler(spieler, termin) {
     return (await con('termine/anmeldungen', 'get', {termin, spieler}, true)).type;
+}
+
+async function getAnmeldungenForTermin(termin) {
+    return (await con('termine/anmeldungen', 'get', {termin}, true));
 }
 
 async function addBoss(termin, boss) {
