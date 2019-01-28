@@ -1,7 +1,7 @@
 const _feedback = require('./feedback');
 
 module.exports = [
-    {function: postFeedback, path: '/', method: 'post'},
+    {function: postFeedback, path: '', method: 'post'},
 ];
 
 async function postFeedback(req) {
