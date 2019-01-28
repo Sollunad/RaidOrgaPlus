@@ -7,7 +7,8 @@
         <v-divider></v-divider>
         <p></p>
         <ProfileNameComp
-                v-bind:user="user">
+                v-bind:user="user"
+                v-on:changeName="changeName">
         </ProfileNameComp>
         <p></p>
         <v-divider></v-divider>
@@ -29,7 +30,12 @@
         props: ['user'],
         data: () => ({
             buildDialog: false
-        })
+        }),
+        methods: {
+            changeName: function(name) {
+                this.$emit('changeName', name);
+            }
+        }
     }
 </script>
 

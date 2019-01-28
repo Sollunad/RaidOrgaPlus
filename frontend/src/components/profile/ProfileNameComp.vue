@@ -6,6 +6,7 @@
                 :rules="nameRules"
                 label="Neuer Anzeigename"
                 required
+                counter="10"
         ></v-text-field>
         <v-btn
                 @click="submit"
@@ -26,7 +27,8 @@
             valid: true,
             name: '',
             nameRules: [
-                v => !!v || 'Bitte gib einen Namen an'
+                v => !!v || 'Bitte gib einen Namen an',
+                v => v.length <= 10 || 'Bitte wähle einen kürzeren Namen'
             ],
             buttonColor: '',
             buttonText: 'Anzeigenamen aktualisieren'
@@ -38,6 +40,7 @@
                         _users.changeName(this.name);
                         this.buttonText = 'success';
                         this.buttonColor = 'success';
+                        this.$emit('changeName', this.name);
                     }
                 }
             },

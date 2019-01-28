@@ -1,6 +1,6 @@
 <template>
-    <span @mouseenter="showName = user.accname"
-       @mouseleave="showName = user.name">
+    <span @mouseenter="entered = true"
+       @mouseleave="entered = false">
         {{ showName }}
     </span>
 </template>
@@ -9,9 +9,12 @@
     export default {
         name: "NameComp",
         props: ['user'],
-        data: function() {
-            return {
-                showName: this.user.name
+        data: () => ({
+            entered: false,
+        }),
+        computed: {
+            showName: function() {
+                return this.entered? this.user.accname : this.user.name;
             }
         }
     }

@@ -2,6 +2,7 @@
     <router-view
             v-bind:user="user"
             v-on:saveRaid="saveRaid"
+            v-on:changeName="changeName"
             v-bind:raid="raid"></router-view>
 </template>
 
@@ -15,6 +16,9 @@
         methods: {
             saveRaid: function(raid) {
                 this.raid = raid;
+            },
+            changeName: function(name) {
+                this.$emit('changeName', name);
             }
         }
     }

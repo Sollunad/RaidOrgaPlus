@@ -9,6 +9,7 @@
     <v-content>
         <MainPage
                 v-if="showContent"
+                v-on:changeName="changeName"
                 v-bind:user="user">
         </MainPage>
         <LoginRegisterPage
@@ -55,6 +56,11 @@
       showContent: function() {
         return Object.keys(this.user).length > 0;
       }
+    },
+    methods: {
+        changeName: async function(name) {
+            this.user.name = name;
+        }
     },
     created: async function() {
         const user = await _users.get();
