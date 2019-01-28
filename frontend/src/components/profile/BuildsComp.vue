@@ -46,12 +46,13 @@
                     _users.addBuild(build.class.id, build.role.id);
                 }
             },
-            close: function(build) {
-                _users.deleteBuild(build.class.id, build.role.id);
+            close: async function(build) {
+                await _users.deleteBuild(build.class.id, build.role.id);
+                this.builds = this.builds.filter(b => b.class.id !== build.class.id || b.role.id !== build.role.id);
             },
-            togglePrefer: function(build) {
+            togglePrefer: async function(build) {
                 build.prefer = 1 - build.prefer;
-                _users.putPrefer(build.class.id, build.role.id, build.prefer);
+                await _users.putPrefer(build.class.id, build.role.id, build.prefer);
             },
             compareBuilds: function(buildA, buildB) {
                 if (this.baseId(buildA) === this.baseId(buildB)) {
