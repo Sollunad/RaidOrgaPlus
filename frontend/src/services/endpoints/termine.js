@@ -1,6 +1,7 @@
 import con from '../connector';
 
-export default { isArchived, isLocked, putLocked, listActive, listArchived, newTermin, archive, anmelden, getAnmeldungForSpieler, getAnmeldungenForTermin, addBoss, addWing };
+export default { isArchived, isLocked, putLocked, listActive, listArchived, newTermin, archive, anmelden,
+    getAnmeldungForSpieler, getAnmeldungenForTermin, addBoss, addWing, deleteTermin };
 
 async function isArchived(termin) {
     return await con('termine/isArchived', 'get', {termin}, true);
@@ -24,6 +25,10 @@ async function listArchived(raid) {
 
 async function newTermin(raid, date, time) {
     return await con('termine', 'post', {raid, date, time}, true);
+}
+
+async function deleteTermin(termin) {
+    return await con('termine', 'delete', {termin}, true);
 }
 
 async function archive(termin) {

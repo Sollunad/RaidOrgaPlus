@@ -4,10 +4,10 @@
             max-width="290"
     >
         <v-card>
-            <v-card-title class="headline">Termin archivieren?</v-card-title>
+            <v-card-title class="headline">Termin löschen?</v-card-title>
 
             <v-card-text>
-                Dadurch wird der Termin ins Archiv verschoben und kann nicht mehr bearbeitet werden!
+                Dadurch wird der Termin gelöscht!
                 Dieser Vorgang kann nicht rückgängig gemacht werden!
             </v-card-text>
 
@@ -16,7 +16,7 @@
 
                 <v-btn
                         flat="flat"
-                        @click="archiveCancel"
+                        @click="deleteCancel"
                 >
                     Abbrechen
                 </v-btn>
@@ -24,9 +24,9 @@
                 <v-btn
                         color="red darken-1"
                         flat="flat"
-                        @click="archiveOK"
+                        @click="deleteOK"
                 >
-                    Archivieren
+                    Löschen
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -35,16 +35,16 @@
 
 <script>
     export default {
-        name: "ArchiveDialogComp",
+        name: "DeleteDialogComp",
         props: ['open'],
         methods: {
-            archiveOK: function() {
-                this.$emit('archiveOK');
+            deleteOK: function() {
+                this.$emit('deleteOK');
             },
-            archiveCancel: function() {
-                this.$emit('archiveCancel');
+            deleteCancel: function() {
+                this.$emit('deleteCancel');
             }
-        }
+        },
     }
 </script>
 

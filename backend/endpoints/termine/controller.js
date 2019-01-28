@@ -5,6 +5,7 @@ const _roles = require('../../authentication/role');
 module.exports = [
     {function: getTermine, path: '', method: 'get'},
     {function: postTermin, path: '', method: 'post'},
+    {function: deleteTermin, path: '', method: 'delete'},
     {function: isArchived, path: '/isArchived', method: 'get'},
     {function: isLocked, path: '/isLocked', method: 'get'},
     {function: putLocked, path: '/isLocked', method: 'put'},
@@ -124,4 +125,12 @@ async function getAnmeldungen(req, authentication) {
         }
     }
     return [];
+}
+
+async function deleteTermin(req, authentication) {
+    const termin = req.body.termin;
+    if (termin) {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role > 0) return await _termin.delete(termin);
+    }
 }

@@ -11,7 +11,8 @@
             v-on:addBoss="addBoss"
             v-on:archive="archive"
             v-on:refresh="refresh"
-            v-on:changeLocked="changeLocked">
+            v-on:changeLocked="changeLocked"
+            v-on:deleteTermin="deleteTermin">
         </TerminToolbarComp>
         <v-progress-circular
                 v-if="!aufstellungen"
@@ -44,6 +45,11 @@
             v-on:archiveOK="archiveOK"
             v-on:archiveCancel="archiveCancel">
         </ArchiveDialogComp>
+        <DeleteDialogComp
+            v-bind:open="deleteDialogOpen"
+            v-on:deleteOK="deleteOK"
+            v-on:deleteCancel="deleteCancel">
+        </DeleteDialogComp>
     </div>
 </template>
 
@@ -53,14 +59,16 @@
     import _aufstellungen from '../../services/endpoints/aufstellungen';
     import _termine from '../../services/endpoints/termine';
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
+    import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp";
 
     export default {
         name: "AufstellungPage",
-        components: {ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
+        components: {DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
         props: ['termin', 'raid', 'role', 'user'],
         data: () => ({
             aufstellungen: null,
             archiveDialogOpen: false,
+            deleteDialogOpen: false,
             elements: [],
             locked: false,
         }),
@@ -115,7 +123,18 @@
                 this.elements = await _aufstellungen.getElements(this.termin.id);
                 this.locked = !this.locked;
                 await _termine.putLocked(this.termin.id, this.locked);
-            }
+            },
+            deleteTermin: function() {
+                this.deleteDialogOpen = true;
+            },
+            deleteOK: async function() {
+                this.deleteDialogOpen = false;
+                await _termine.deleteTermin(this.termin.id);
+                window.location.href = '/#/raid/termine';
+            },
+            deleteCancel: function() {
+                this.deleteDialogOpen = false;
+            },
         },
         created: async function() {
             if (!this.termin) window.location.href = '/#/raids';

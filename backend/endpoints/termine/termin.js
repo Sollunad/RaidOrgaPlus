@@ -14,6 +14,7 @@ exports.addBoss = addBoss;
 exports.addWing = addWing;
 exports.isLocked = isLocked;
 exports.setLocked = setLocked;
+exports.delete = deleteTermin;
 
 async function isArchived(terminId) {
     const stmt = 'SELECT isArchived FROM Termin WHERE id = ?';
@@ -159,6 +160,15 @@ async function addWing(termin, wing) {
     const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss) SELECT ?, id FROM Encounter WHERE wing = ? AND main = 1';
     try {
         return await db.queryV(stmt, [termin, wing]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function deleteTermin(termin) {
+    const stmt = 'DELETE FROM Termin WHERE id = ?';
+    try {
+        return await db.queryV(stmt, termin);
     } catch(e) {
         throw e;
     }

@@ -36,6 +36,9 @@
                 <v-btn flat icon @click="archive">
                     <v-icon>send</v-icon>
                 </v-btn>
+                <v-btn flat icon color="red" @click="deleteTermin">
+                    <v-icon>clear</v-icon>
+                </v-btn>
             </template>
             <template
                 v-if="role === 0 && locked">
@@ -83,6 +86,9 @@
             },
             changeLock: function() {
                 this.$emit('changeLocked');
+            },
+            deleteTermin: function() {
+                this.$emit('deleteTermin');
             }
         },
         created: async function() {
