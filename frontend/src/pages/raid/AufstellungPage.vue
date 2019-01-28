@@ -7,6 +7,7 @@
             v-bind:active="isActive"
             v-bind:termin="termin"
             v-bind:locked="locked"
+            v-bind:user="user"
             v-on:addBoss="addBoss"
             v-on:archive="archive"
             v-on:refresh="refresh"
@@ -74,8 +75,8 @@
             }
         },
         methods: {
-            anmelden: function(type) {
-                _termine.anmelden(this.user.id, this.termin.id, type);
+            anmelden: async function(type) {
+                await _termine.anmelden(this.user.id, this.termin.id, type);
             },
             addBoss: async function(info) {
                 const [boss, wing] = info;
@@ -113,7 +114,7 @@
             changeLocked: async function() {
                 this.elements = await _aufstellungen.getElements(this.termin.id);
                 this.locked = !this.locked;
-                _termine.putLocked(this.termin.id, this.locked);
+                await _termine.putLocked(this.termin.id, this.locked);
             }
         },
         created: async function() {

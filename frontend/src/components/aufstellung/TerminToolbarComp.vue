@@ -11,6 +11,12 @@
                     class="anmeldung">
             </AnmeldungComp>
             <p></p>
+            <v-tooltip right class="anmeldungen">
+                <v-icon slot="activator">people</v-icon>
+                <ListAnmeldungComp
+                    v-bind:anmeldungen="anmeldungen">
+                </ListAnmeldungComp>
+            </v-tooltip>
             <v-btn flat icon v-if="active" @click="refresh">
                 <v-icon>refresh</v-icon>
             </v-btn>
@@ -38,20 +44,22 @@
                 </v-btn>
             </template>
         </template>
-
-
-
     </div>
 </template>
 
 <script>
     import MenuWingComp from "./MenuWingComp";
     import AnmeldungComp from "./AnmeldungComp";
+    import _termine from '../../services/endpoints/termine';
+    import ListAnmeldungComp from "./ListAnmeldungComp";
 
     export default {
         name: "TerminToolbarComp",
-        components: {AnmeldungComp, MenuWingComp},
-        props: ['anmeldung', 'role', 'active', 'termin', 'locked'],
+        components: {ListAnmeldungComp, AnmeldungComp, MenuWingComp},
+        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user'],
+        data: () => ({
+            anmeldungen: [{id: 10, name: 'Daniel', type: 1}, {id: 11, name: 'Lili', type: 2}, {id: 12, name: 'Nico', type: 0}]
+        }),
         computed: {
             lockIcon: function() {
                 return this.locked? 'lock' : 'lock_open';
@@ -59,6 +67,8 @@
         },
         methods: {
             anmelden: function(type) {
+                const changedAnmeldung = this.anmeldungen.filter(a => a.id === this.user.id)[0];
+                changedAnmeldung.type = type;
                 this.$emit('anmelden', type);
             },
             addBoss: function(info) {
@@ -73,6 +83,9 @@
             changeLock: function() {
                 this.$emit('changeLocked');
             }
+        },
+        created: async function() {
+            this.anmeldungen = await _termine.getAnmeldungenForTermin(this.termin.id);
         }
     }
 </script>
@@ -88,6 +101,7 @@
         margin: 1rem 0 0 0.5rem;
     }
 
-    .datetime {
+    .anmeldungen {
+        margin: 0 1rem 0 1rem;
     }
 </style>
