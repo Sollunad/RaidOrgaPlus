@@ -42,7 +42,7 @@
             icon: async function() {
                 if (this.user) {
                     const anmeldung = await _raids.getAnmeldungState(this.raid.id);
-                    if (anmeldung === null) return 'error';
+                    if (anmeldung === null) return 'warning';
                     const icons = ['check_circle', 'check_circle_outline', 'cancel'];
                     return icons[anmeldung];
                 } else {
