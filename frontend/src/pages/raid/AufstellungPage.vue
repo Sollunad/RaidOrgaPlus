@@ -130,7 +130,7 @@
             deleteOK: async function() {
                 this.deleteDialogOpen = false;
                 await _termine.deleteTermin(this.termin.id);
-                window.location.href = '/#/raid/termine';
+                window.history.back();
             },
             deleteCancel: function() {
                 this.deleteDialogOpen = false;
