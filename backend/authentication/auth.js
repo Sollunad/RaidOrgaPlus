@@ -1,11 +1,10 @@
 const _users = require('../endpoints/users/session');
 const _raids = require('../endpoints/raids/raids');
-const _termin = require('../endpoints/termine/termin');
 
 exports.auth = authenticate;
 exports.deleteCache = deleteFromCache;
 
-const CACHE_FOR = 1000 * 60 * 5;
+const CACHE_FOR = 1000 * 60;
 let _cache = {};
 
 async function authenticate(uuid) {
