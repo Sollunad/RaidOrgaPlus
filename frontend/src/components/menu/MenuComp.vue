@@ -12,7 +12,7 @@
                     <v-list-tile avatar>
                         <v-list-tile-avatar
                             v-if="user">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5WHNC1-MDjlPoM7tOuZgb8L_fKr4WC4GtHUxy-4cY5pRnGtoR">
+                            <v-img :src="raidIcon"/>
                         </v-list-tile-avatar>
 
                         <v-list-tile-content>
@@ -50,6 +50,7 @@
     import MenuItemComp from './MenuItemComp.vue';
     import NameComp from "./NameComp";
     import _users from '../../services/endpoints/users';
+    import _icons from '../../services/icons';
 
     export default {
         name: "MenuComp",
@@ -66,6 +67,11 @@
         components: {
             NameComp,
             MenuItemComp
+        },
+        computed: {
+            raidIcon: function() {
+                return _icons.miscIcon('raid');
+            }
         },
         methods: {
             logout: function() {
