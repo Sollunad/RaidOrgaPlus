@@ -68,7 +68,8 @@
         methods: {
             anmelden: function(type) {
                 const changedAnmeldung = this.anmeldungen.filter(a => a.id === this.user.id)[0];
-                changedAnmeldung.type = type;
+                if (changedAnmeldung) changedAnmeldung.type = type;
+                else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
                 this.$emit('anmelden', type);
             },
             addBoss: function(info) {

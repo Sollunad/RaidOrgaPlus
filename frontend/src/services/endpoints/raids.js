@@ -1,7 +1,7 @@
 import con from '../connector';
 
 export default { listForPlayer, role, listPlayers, invitePlayer, invitablePlayers,
-    pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf };
+    pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf, getAnmeldungState };
 
 async function listForPlayer() {
     return await con('raids', 'get', {}, true);
@@ -41,4 +41,8 @@ async function deleteInviteAsLead(raid, user) {
 
 async function deleteInviteAsSelf(raid) {
     return await con('raids/invites', 'delete', {raid}, true);
+}
+
+async function getAnmeldungState(raid) {
+    return (await con('raids/anmeldungen', 'get', {raid}, true)).type;
 }

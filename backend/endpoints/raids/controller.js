@@ -11,6 +11,7 @@ module.exports = [
     {function: getPendingInvites, path: '/invites', method: 'get', authed: true},
     {function: acceptInvite, path: '/invites/accept', method: 'post', authed: true},
     {function: deleteInvite, path: '/invites', method: 'delete', authed: true},
+    {function: anmeldungStateForRaid, path: '/anmeldungen', method: 'get', authed: true},
 ];
 
 async function getRaids(req, authentication) {
@@ -85,6 +86,15 @@ async function deleteInvite(req, authentication) {
         } else {
             return await _invites.delete(raid, authentication.user);
         }
+    }
+    return [];
+}
+
+async function anmeldungStateForRaid(req, authentication) {
+    const raid = req.query.raid;
+    if (raid) {
+        const anmeldungTypes = (await _raids.anmeldungStateForRaid(raid, authentication.user)).map(e => e.type);
+        return {type: anmeldungTypes[0]};
     }
     return [];
 }

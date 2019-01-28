@@ -1,7 +1,8 @@
 <template>
     <div>
         <RaidOverviewComp
-            v-on:saveRaid="saveRaid">
+            v-on:saveRaid="saveRaid"
+            v-bind:user="user">
         </RaidOverviewComp>
     </div>
 </template>
@@ -12,6 +13,7 @@
     export default {
         name: "MeineRaidsPage",
         components: {RaidOverviewComp},
+        props: ['user'],
         methods: {
             saveRaid: function(raid) {
                 this.$emit('saveRaid', raid);

@@ -14,6 +14,7 @@
                                 v-bind:key="raid.id"
                                 v-bind:raid="raid"
                                 v-on:saveRaid="saveRaid"
+                                v-bind:user="user"
                         ></ListRaidComp>
                     </v-list>
                 </v-card>
@@ -29,6 +30,7 @@
     export default {
         name: "RaidOverviewComp",
         components: {ListRaidComp},
+        props: ['user'],
         asyncComputed: {
             raids: function () {
                 return _raids.listForPlayer();
