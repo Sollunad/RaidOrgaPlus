@@ -34,7 +34,8 @@
         data: () => ({
             buttonColor: '',
             feedbackRules: [
-                v => !!v || 'Dieses Feld darf nicht leer sein'
+                v => !!v || 'Dieses Feld darf nicht leer sein',
+                v => v.length <= 1000 || 'Bitte halte dich etwas zurück ;)'
             ],
             submitted: false,
             feedbackText: ''
