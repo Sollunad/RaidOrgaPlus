@@ -1,6 +1,6 @@
 <template>
     <v-chip
-            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" >
+            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" light>
         <v-avatar class="classIcon" tile>
             <img :src="classIcon" v-if="classIcon">
         </v-avatar>
