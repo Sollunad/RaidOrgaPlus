@@ -38,6 +38,11 @@
             >
                 {{ buttonText }}
             </v-btn>
+            <v-progress-circular
+                    v-if="loading"
+                    indeterminate
+                    color="primary"
+            ></v-progress-circular>
             <v-snackbar
                     v-model="snackbar"
                     :timeout="5000"
@@ -82,7 +87,8 @@
             ],
             buttonColor: '',
             snackbar: false,
-            registerMode: false
+            registerMode: false,
+            loading: false
         }),
         computed: {
             failureText: function() {
@@ -102,6 +108,7 @@
         methods: {
             async submit () {
                 if (this.$refs.form.validate()) {
+                    this.loading = true;
                     if (this.registerMode) this.register();
                     else this.login();
                 }
