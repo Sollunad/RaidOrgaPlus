@@ -9,15 +9,21 @@
                         v-model="invited"
                         :disabled="disabled"
                         :items="invitablePlayers"
+                        :filter="customFilter"
                         color="white"
                         label="Eingeladene Spieler"
+                        no-data-text="Keine Spieler vorhanden"
                         item-text="name"
                         item-value="id"
                         multiple
                         chips
                         deletable-chips
                         hide-selected
-                ></v-autocomplete>
+                >
+                    <template slot="item" slot-scope="invitable">
+                        <NameComp :user="invitable.item"></NameComp>
+                    </template>
+                </v-autocomplete>
             </div>
         </v-dialog>
     </div>
@@ -25,15 +31,27 @@
 
 <script>
     import _raids from '../../services/endpoints/raids';
+    import NameComp from "../menu/NameComp";
 
     export default {
         name: "SpielerEinladenComp",
+        components: {NameComp},
         props: ['raid'],
         data: () => ({
             disabled: false,
             invited: null,
             invitablePlayers: [],
         }),
+        methods: {
+            customFilter: function (item, queryText) {
+                const name = item.name.toLowerCase();
+                const accname = item.accname.toLowerCase();
+                const searchText = queryText.toLowerCase();
+
+                return name.indexOf(searchText) > -1 ||
+                    accname.indexOf(searchText) > -1
+            }
+        },
         watch: {
             invited: async function (newValue, oldValue) {
                 if (oldValue === null) return;

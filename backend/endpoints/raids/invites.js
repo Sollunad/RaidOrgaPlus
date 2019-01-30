@@ -18,7 +18,7 @@ async function invitePlayer(user, raid) {
 }
 
 async function invitablePlayers(raid) {
-    const stmt = 'SELECT Spieler.id, Spieler.name FROM Spieler ' +
+    const stmt = 'SELECT Spieler.id, Spieler.name, Spieler.accname FROM Spieler ' +
         'WHERE NOT Spieler.id IN (' +
             'SELECT fk_spieler FROM Spieler_Raid WHERE fk_raid = ?' +
         ') AND NOT Spieler.id = 0';
