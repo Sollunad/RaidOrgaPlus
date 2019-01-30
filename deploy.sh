@@ -1,14 +1,9 @@
 git reset --hard
 git pull
-cd backend
-npm i
-cd ..
-cd frontend
-npm i
+npm run install
 npm run build
 rm -r /var/www/html
 mv dist /var/www/html
 service apache2 restart
 
-cd ../backend
-nodejs app.js
+nodejs backend/app.js
