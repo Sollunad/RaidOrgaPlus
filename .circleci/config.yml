@@ -7,7 +7,5 @@ jobs:
       - checkout
       - run: npm run install
       - run: npm run build
-      - run:
-          name: Store Artifacts
-          command: |
-            echo frontend/dist > /tmp/artifacts;
+      - store_artifacts:
+          path: frontend/dist
