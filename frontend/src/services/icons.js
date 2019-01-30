@@ -19,5 +19,6 @@ function miscIcon(icon) {
 }
 
 function linkBuilder(subfolder, icon) {
-    return `${config.url}icons/${subfolder}/${icon.toLowerCase()}.png`;
+    const environment = process.env.NODE_ENV;
+    return `${config[environment]}icons/${subfolder}/${icon.toLowerCase()}.png`;
 }

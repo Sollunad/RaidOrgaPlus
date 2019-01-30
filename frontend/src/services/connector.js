@@ -4,7 +4,8 @@ const config = require('./config.json');
 export default fetch;
 
 async function fetch(endpoint, method, params, authed) {
-    let url = config.url + endpoint;
+    const environment = process.env.NODE_ENV;
+    let url = config[environment] + endpoint;
     if (authed) params.auth = localStorage.session;
     if (method === 'get') {
         let queryParams = '';
