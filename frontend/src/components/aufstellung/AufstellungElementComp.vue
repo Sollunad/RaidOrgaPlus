@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed">
+        <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed" :lazy="true">
             <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
                 <span class="white--text headline" v-if="classIcon === ''">?</span>
                 <img :src="classIcon" v-else>
@@ -13,7 +13,7 @@
             <span class="white--text headline" v-if="classIcon === ''">?</span>
             <img :src="classIcon" v-else>
         </v-avatar>
-        <v-menu v-if="editAllowed">
+        <v-menu v-if="editAllowed" :lazy="true">
             <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
                 <span class="white--text headline" v-if="roleIcon === ''">?</span>
                 <img :src="roleIcon" v-else>
