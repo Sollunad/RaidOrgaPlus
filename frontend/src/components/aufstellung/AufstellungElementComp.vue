@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed" :lazy="true">
-            <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
+            <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearClass">
                 <span class="white--text headline" v-if="classIcon === ''">?</span>
                 <img :src="classIcon" v-else>
             </v-avatar>
@@ -14,7 +14,7 @@
             <img :src="classIcon" v-else>
         </v-avatar>
         <v-menu v-if="editAllowed" :lazy="true">
-            <v-avatar :size="20" :tile="true" class="avatar" slot="activator">
+            <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearRole">
                 <span class="white--text headline" v-if="roleIcon === ''">?</span>
                 <img :src="roleIcon" v-else>
             </v-avatar>
@@ -27,7 +27,7 @@
             <img :src="roleIcon" v-else>
         </v-avatar>
         <v-menu :lazy="true" v-if="editAllowed">
-            <NameComp slot="activator" v-bind:user="user" :truncate="true"></NameComp>
+            <NameComp slot="activator" v-bind:user="user" :truncate="true" v-on:rightclick="clearName"></NameComp>
             <MenuNameComp
                 v-on:pick="pickName"
                 v-bind:termin="termin">
@@ -90,16 +90,32 @@
                 this.editedElement.class = clss.abbr;
                 await _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
             },
+            clearClass: async function() {
+                this.prepareEditedElement();
+                this.editedElement.class = '';
+                await _aufstellungen.setClass(this.aufstellung.id, this.position, 0);
+            },
             pickRole: async function(role) {
                 this.prepareEditedElement();
                 this.editedElement.role = role.abbr;
                 await _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
+            },
+            clearRole: async function() {
+                this.prepareEditedElement();
+                this.editedElement.role = '';
+                await _aufstellungen.setRole(this.aufstellung.id, this.position, 0);
             },
             pickName: async function(user) {
                 this.prepareEditedElement();
                 this.editedElement.name = user.name;
                 this.editedElement.accname = user.accname;
                 await _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
+            },
+            clearName: async function() {
+                this.prepareEditedElement();
+                this.editedElement.name = '???';
+                this.editedElement.accname = '???';
+                await _aufstellungen.setName(this.aufstellung.id, this.position, 0);
             },
             prepareEditedElement: function() {
                 if (!this.element) {

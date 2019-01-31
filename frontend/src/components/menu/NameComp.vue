@@ -1,6 +1,7 @@
 <template>
-    <span @mouseenter="entered = true"
-       @mouseleave="entered = false">
+    <span   @mouseenter="entered = true"
+            @mouseleave="entered = false"
+            @contextmenu.prevent="$emit('rightclick')">
         {{ showName }}
     </span>
 </template>
