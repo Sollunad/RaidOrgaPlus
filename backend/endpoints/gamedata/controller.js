@@ -17,9 +17,15 @@ async function getForBase(req) {
 
 async function getEncounter(req) {
     const wing = req.query.wing;
+    const grouped = req.query.grouped;
     if (wing) {
         return await _encounter.listForWing(wing);
     } else {
-        return await _encounter.list();
+        if (grouped) {
+            return await _encounter.listByWing();
+        } else {
+            return await _encounter.list();
+        }
+
     }
 }

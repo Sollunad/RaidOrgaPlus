@@ -11,6 +11,7 @@ import StatistikenPage from "./pages/raid/StatistikenPage";
 import NeuerTerminPage from "./pages/raid/NeuerTerminPage";
 import SpielerlistePage from "./pages/raid/SpielerlistePage";
 import HomePage from "./pages/HomePage";
+import BlankoPage from "./pages/raid/BlankoPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -24,6 +25,7 @@ const routes = [
           { path: 'archiv', component: ArchivPage },
           { path: 'statistiken', component: StatistikenPage },
           { path: 'neuerTermin', component: NeuerTerminPage },
+          { path: 'blankos', component: BlankoPage },
       ]},
     { path: '/profil', component: ProfilPage },
     { path: '/skills', component: SkillsPage },

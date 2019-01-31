@@ -19,7 +19,7 @@ async function setSuccess(aufstellung, success) {
 }
 
 async function getElements(termin) {
-    return await con('aufstellungen/element', 'get', {termin}, true);
+    return await con('aufstellungen/elements', 'get', {termin}, true);
 }
 
 async function setClass(aufstellung, position, value){
@@ -35,5 +35,5 @@ async function setName(aufstellung, position, value){
 }
 
 function setElement(aufstellung, position, value, type) {
-    return con('aufstellungen/element', 'post', {aufstellung, position, value, type}, true);
+    return con('aufstellungen/elements', 'post', {aufstellung, position, value, type}, true);
 }

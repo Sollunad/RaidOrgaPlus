@@ -8,8 +8,8 @@ module.exports = [
     {function: getSuccess, path: '/success', method: 'get', authed: true},
     {function: putSuccess, path: '/success', method: 'put', authed: true},
     {function: deleteTermin, path: '', method: 'delete', authed: true},
-    {function: getElement, path: '/element', method: 'get', authed: true},
-    {function: postElement, path: '/element', method: 'post', authed: true},
+    {function: getElement, path: '/elements', method: 'get', authed: true},
+    {function: postElement, path: '/elements', method: 'post', authed: true},
 ];
 
 async function getForTermin(req, authentication) {
@@ -70,7 +70,7 @@ async function postElement(req, authentication) {
     const position = req.body.position;
     const type = req.body.type;
     const value = req.body.value;
-    if (aufstellung && position && type && value) {
+    if (aufstellung && position && type && (value || value === 0)) {
         const role = await _roles.forAufstellung(authentication, aufstellung);
         if (role >= 0) {
             if (type === "class") {

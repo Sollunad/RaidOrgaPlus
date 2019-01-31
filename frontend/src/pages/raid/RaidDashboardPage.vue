@@ -5,7 +5,7 @@
                 <v-list>
                     <v-list-tile
                             v-for="item in items"
-                            :key="item.title"
+                            :key="item.id"
                             avatar
                             :to="item.route"
                     >
@@ -29,10 +29,11 @@
         data () {
             return {
                 items: [
-                    { title: 'Spielerliste', route: '/raid/spielerliste', icon: 'people' },
-                    { title: 'Termine', route: '/raid/termine', icon: 'calendar_today'},
-                    { title: 'Archiv', route: '/raid/archiv', icon: 'book' },
-                    //{ title: 'Statistiken', route: '/raid/statistiken', icon: 'show_chart' },
+                    { id: 1, title: 'Spielerliste', route: '/raid/spielerliste', icon: 'people' },
+                    { id: 2, title: 'Termine', route: '/raid/termine', icon: 'calendar_today'},
+                    { id: 3, title: 'Archiv', route: '/raid/archiv', icon: 'book' },
+                    { id: 4, title: 'Blankos', route: '/raid/blankos', icon: 'border_clear' },
+                    //{ id: 5, title: 'Statistiken', route: '/raid/statistiken', icon: 'show_chart' },
                 ]
             }
         }

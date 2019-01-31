@@ -21,7 +21,7 @@
         props: ['user'],
         asyncComputed: {
             bosses: function() {
-                return _encounter.listEncounter();
+                return _encounter.listEncounterGrouped();
             },
             progress: function() {
                 if (this.user) return _progress.progress();
