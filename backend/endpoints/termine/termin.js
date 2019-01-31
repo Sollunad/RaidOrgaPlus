@@ -139,7 +139,7 @@ async function getAnmeldungForSpieler(spieler, termin) {
 }
 
 async function getAnmeldungenForTermin(termin) {
-    const stmt = 'SELECT Spieler.id, Spieler.name, Spieler_Termin.type FROM Spieler_Termin JOIN Spieler ON Spieler.id = Spieler_Termin.fk_spieler WHERE fk_termin = ? ORDER BY Spieler.name';
+    const stmt = 'SELECT Spieler.id, Spieler.name, Spieler.accname, Spieler_Termin.type FROM Spieler_Termin JOIN Spieler ON Spieler.id = Spieler_Termin.fk_spieler WHERE fk_termin = ? ORDER BY Spieler.name';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {

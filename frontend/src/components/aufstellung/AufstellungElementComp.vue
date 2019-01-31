@@ -27,13 +27,13 @@
             <img :src="roleIcon" v-else>
         </v-avatar>
         <v-menu :lazy="true" v-if="editAllowed">
-            <span slot="activator">{{name}}</span>
+            <NameComp slot="activator" v-bind:user="user" :truncate="true"></NameComp>
             <MenuNameComp
                 v-on:pick="pickName"
                 v-bind:termin="termin">
             </MenuNameComp>
         </v-menu>
-        <span v-else>{{name}}</span>
+        <NameComp v-else v-bind:user="user" :truncate="true"></NameComp>
     </div>
 </template>
 
@@ -43,10 +43,11 @@
     import MenuClassComp from "./MenuClassComp";
     import MenuRoleComp from "./MenuRoleComp";
     import MenuNameComp from "./MenuNameComp";
+    import NameComp from "../menu/NameComp";
 
     export default {
         name: "AufstellungElementComp",
-        components: {MenuNameComp, MenuRoleComp, MenuClassComp},
+        components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
         props: ['aufstellung', 'position', 'elements', 'raid', 'active', 'locked', 'role', 'termin'],
         data: () => ({
             classMenuOpen: false,
@@ -73,9 +74,13 @@
                 if (this.element && this.element.role !== '') return _icons.roleIcon(this.element.role);
                 else return '';
             },
-            name: function() {
-                if (this.element) return this.element.spieler;
-                else return '???';
+            user: function() {
+                if (this.element) return {
+                    name: this.element.name, accname: this.element.accname
+                };
+                else return {
+                    name: '???', accname: '???'
+                };
             }
         },
         methods: {
@@ -83,17 +88,17 @@
                 this.classMenuOpen = false;
                 this.prepareEditedElement();
                 this.editedElement.class = clss.abbr;
-                _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
+                await _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
             },
             pickRole: async function(role) {
                 this.prepareEditedElement();
                 this.editedElement.role = role.abbr;
-                _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
+                await _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
             },
             pickName: async function(user) {
                 this.prepareEditedElement();
                 this.editedElement.spieler = user.name;
-                _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
+                await _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
             },
             prepareEditedElement: function() {
                 if (!this.element) {

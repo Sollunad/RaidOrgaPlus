@@ -14,8 +14,10 @@
             <v-tooltip right class="anmeldungen">
                 <v-icon slot="activator">people</v-icon>
                 <ListAnmeldungComp
+                    v-if="anmeldungen.length > 0"
                     v-bind:anmeldungen="anmeldungen">
                 </ListAnmeldungComp>
+                <span v-else>Noch niemand angemeldet</span>
             </v-tooltip>
             <v-btn flat icon v-if="active" @click="refresh">
                 <v-icon>refresh</v-icon>

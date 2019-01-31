@@ -5,16 +5,20 @@
                 :key="index"
 
         >
-            <v-list-tile-title @click="pick(user)">{{ user.name }}</v-list-tile-title>
+            <v-list-tile-title @click="pick(user)">
+                <NameComp v-bind:user="user"></NameComp>
+            </v-list-tile-title>
         </v-list-tile>
     </v-list>
 </template>
 
 <script>
     import _termine from '../../services/endpoints/termine';
+    import NameComp from "../menu/NameComp";
 
     export default {
         name: "MenuNameComp",
+        components: {NameComp},
         props: ['termin'],
         asyncComputed: {
             users: async function() {

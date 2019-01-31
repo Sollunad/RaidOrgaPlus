@@ -8,13 +8,27 @@
 <script>
     export default {
         name: "NameComp",
-        props: ['user'],
+        props: ['user', 'truncate'],
         data: () => ({
             entered: false,
         }),
         computed: {
             showName: function() {
-                return this.entered? this.user.accname : this.user.name;
+                if (this.entered) {
+                    if (this.truncate) {
+                        const baseName = this.user.accname.split('.')[0];
+                        if (baseName.length > 15) {
+                            return `${baseName.slice(0,12)}...`;
+                        } else {
+                            return baseName;
+                        }
+                    } else {
+                        return this.user.accname;
+                    }
+                } else {
+                    return this.user.name;
+                }
+
             }
         }
     }
