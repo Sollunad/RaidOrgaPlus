@@ -9,7 +9,7 @@
                     <AufstellungElementComp
                         v-bind:position="i"
                         v-bind:aufstellung="aufstellung"
-                        v-bind:elements="elements"
+                        v-bind:propElement="propElement(i)"
                         v-bind:raid="raid"
                         v-bind:active="active"
                         v-bind:locked="locked"
@@ -32,6 +32,11 @@
         data: () => ({
            elements: null
         }),
+        methods: {
+            propElement: function(position) {
+                return this.propElements.filter(e => e.pos === position)[0];
+            }
+        },
         watch: {
             propElements: function(elements) {
                 this.elements = elements;

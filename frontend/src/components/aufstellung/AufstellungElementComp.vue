@@ -48,7 +48,7 @@
     export default {
         name: "AufstellungElementComp",
         components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position', 'elements', 'raid', 'active', 'locked', 'role', 'termin'],
+        props: ['aufstellung', 'position', 'propElement', 'raid', 'active', 'locked', 'role', 'termin'],
         data: () => ({
             classMenuOpen: false,
             editedElement: null
@@ -60,8 +60,8 @@
             element: function() {
                 if (this.editedElement) {
                     return this.editedElement;
-                } else if (this.elements) {
-                    return this.elements.filter(e => e.pos === this.position)[0];
+                } else if (this.propElement) {
+                    return this.propElement;
                 } else {
                     return null;
                 }
@@ -97,19 +97,20 @@
             },
             pickName: async function(user) {
                 this.prepareEditedElement();
-                this.editedElement.spieler = user.name;
+                this.editedElement.name = user.name;
+                this.editedElement.accname = user.accname;
                 await _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
             },
             prepareEditedElement: function() {
                 if (!this.element) {
-                    this.editedElement = {class: '', role: '', spieler: '???'};
+                    this.editedElement = {class: '', role: '', name: '???', accname: '???'};
                 } else {
                     this.editedElement = this.element;
                 }
             },
         },
         watch: {
-            elements: function() {
+            propElement: function() {
                 this.editedElement = null;
             }
         }
