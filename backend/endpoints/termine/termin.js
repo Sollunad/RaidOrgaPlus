@@ -157,7 +157,7 @@ async function addBoss(termin, boss) {
 }
 
 async function addWing(termin, wing) {
-    const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss) SELECT ?, id FROM Encounter WHERE wing = ? AND main = 1';
+    const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss) SELECT ?, id FROM Encounter WHERE wing = ?';
     try {
         return await db.queryV(stmt, [termin, wing]);
     } catch(e) {

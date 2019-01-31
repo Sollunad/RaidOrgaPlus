@@ -1,7 +1,7 @@
 const db = require('../../db/connector.js');
 
 exports.list = list;
-exports.listForWing = listMainForWing;
+exports.listForWing = listForWing;
 
 async function list() {
     const stmt = 'SELECT * FROM Encounter';
@@ -19,8 +19,8 @@ async function list() {
     }
 }
 
-async function listMainForWing(wing) {
-    const stmt = 'SELECT * FROM Encounter WHERE main = 1 AND wing = ?';
+async function listForWing(wing) {
+    const stmt = 'SELECT * FROM Encounter WHERE wing = ?';
     try {
         return await db.queryV(stmt, wing);
     } catch(e) {
