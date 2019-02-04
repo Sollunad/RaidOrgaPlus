@@ -8,7 +8,7 @@
             <MenuItemListComp></MenuItemListComp>
         </v-navigation-drawer>
         <MenuToolbarComp
-            v-bind:user="user"
+            v-bind:loggedIn="show"
             v-on:toggleMenu="toggleMenu">
         </MenuToolbarComp>
     </div>

@@ -4,7 +4,7 @@
         <v-toolbar-title>RaidOrga+</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon
-               v-if="user"
+               v-if="loggedIn"
                @click="logout">
             <v-icon>logout</v-icon>
         </v-btn>
@@ -16,7 +16,7 @@
 
     export default {
         name: "MenuToolbarComp",
-        props: ['user'],
+        props: ['loggedIn'],
         methods: {
             logout: async function() {
                 await _users.invalidateSession();
