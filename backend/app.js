@@ -1,6 +1,6 @@
-let express = require('express');
-let cors = require('cors');
-let app = express();
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
 const fs = require('fs');
 const http = require('http');
@@ -9,20 +9,14 @@ const https = require('https');
 const auth = require('./authentication/auth').auth;
 
 let endpoints = [];
-endpoints['get'] = [];
-endpoints['post'] = [];
-endpoints['put'] = [];
-endpoints['delete'] = [];
 
-var corsOptions = {
+const corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     //credentials : true
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());       // to support JSON-encoded bodies
-app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use('/icons', express.static('icons'));
 
 fs.readdir('./endpoints/', (err, folders) => {
@@ -41,27 +35,19 @@ fs.readdir('./endpoints/', (err, folders) => {
 });
 
 function registerEndpoint(path, endpoint) {
-    console.log(`Register ${endpoint.method} @ /${path}${endpoint.path}`);
-    endpoints[endpoint.method][`/${path}${endpoint.path}`] = endpoint;
+    const method = endpoint.method;
+    const fullPath = `/${path}${endpoint.path}`;
+    if (!endpoints[method]) endpoints[method] = [];
+    console.log(`Register ${method} @ ${fullPath}`);
+    endpoints[method][fullPath] = endpoint;
 }
 
-app.get('*', async function(req, res) {
-    res.send(await requestHandler('get', req));
+app.route('*').all(async function(req, res) {
+    res.send(await requestHandler(req));
 });
 
-app.post('*', async function(req, res) {
-    res.send(await requestHandler('post', req));
-});
-
-app.put('*', async function(req, res) {
-    res.send(await requestHandler('put', req));
-});
-
-app.delete('*', async function(req, res) {
-    res.send(await requestHandler('delete', req));
-});
-
-async function requestHandler(method, request) {
+async function requestHandler(request) {
+    const method = request.method.toLowerCase();
     const endpoint = endpoints[method][request._parsedUrl.pathname];
     if (!endpoint) return [];
 
