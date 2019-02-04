@@ -39,6 +39,8 @@
             blankoElements: function() {
                 if (this.boss && this.elements) {
                     return this.elements.filter(e => e.enc === this.boss.id);
+                } else {
+                    return [];
                 }
             }
         },
