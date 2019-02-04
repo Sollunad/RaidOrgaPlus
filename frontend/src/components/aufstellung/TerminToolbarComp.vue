@@ -11,7 +11,7 @@
                     class="anmeldung">
             </AnmeldungComp>
             <p></p>
-            <v-tooltip right class="anmeldungen">
+            <v-tooltip bottom class="anmeldungen">
                 <v-icon slot="activator">people</v-icon>
                 <ListAnmeldungComp
                     v-if="anmeldungen.length > 0"
@@ -19,28 +19,43 @@
                 </ListAnmeldungComp>
                 <span v-else>Noch niemand angemeldet</span>
             </v-tooltip>
-            <v-btn flat icon v-if="active" @click="refresh">
-                <v-icon>refresh</v-icon>
-            </v-btn>
+            <v-tooltip bottom>
+                <v-btn flat icon v-if="active" @click="refresh" slot="activator">
+                    <v-icon>refresh</v-icon>
+                </v-btn>
+                <span>Refresh</span>
+            </v-tooltip>
             <template
                 v-if="role > 0">
-                <v-menu :close-on-content-click="false">
-                    <v-btn flat icon slot="activator">
-                        <v-icon>add</v-icon>
+                <v-tooltip bottom>
+                    <v-menu :close-on-content-click="false" slot="activator">
+                        <v-btn flat icon slot="activator">
+                            <v-icon>add</v-icon>
+                        </v-btn>
+                        <MenuWingComp
+                                v-on:pick="addBoss">
+                        </MenuWingComp>
+                    </v-menu>
+                    <span>Bosse hinzufügen</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <v-btn flat icon @click="changeLock" slot="activator">
+                        <v-icon>{{ lockIcon }}</v-icon>
                     </v-btn>
-                    <MenuWingComp
-                            v-on:pick="addBoss">
-                    </MenuWingComp>
-                </v-menu>
-                <v-btn flat icon @click="changeLock">
-                    <v-icon>{{ lockIcon }}</v-icon>
-                </v-btn>
-                <v-btn flat icon @click="archive">
-                    <v-icon>send</v-icon>
-                </v-btn>
-                <v-btn flat icon color="red" @click="deleteTermin">
-                    <v-icon>clear</v-icon>
-                </v-btn>
+                    <span>Editieren sperren</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <v-btn flat icon @click="archive" slot="activator">
+                        <v-icon>send</v-icon>
+                    </v-btn>
+                    <span>Termin archivieren</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <v-btn flat icon color="red" @click="deleteTermin" slot="activator">
+                        <v-icon>clear</v-icon>
+                    </v-btn>
+                    <span>Termin löschen</span>
+                </v-tooltip>
             </template>
             <template
                 v-if="role === 0 && locked">
