@@ -2,6 +2,11 @@
     <div>
         <h2>Meine Builds</h2>
         <p></p>
+        <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="primary"
+        ></v-progress-circular>
         <BuildChipComp close
             v-for="build in builds"
             v-bind:key="`${build.class.id} ${build.role.id}`"
@@ -10,8 +15,10 @@
             v-on:close="close(build)"
             v-on:togglePrefer="togglePrefer(build)">
         </BuildChipComp>
-        <v-dialog width="fit-content"
-                  v-model="addBuildDialog">
+        <v-dialog
+            width="fit-content"
+            v-model="addBuildDialog"
+            v-if="!loading">
             <v-chip slot="activator">
                 <v-icon>add</v-icon>
             </v-chip>
@@ -34,7 +41,8 @@
             addBuildDialog: false,
             builds : [
 
-            ]
+            ],
+            loading: true,
         }),
         methods: {
             add: async function(build) {
@@ -79,6 +87,7 @@
         },
         created: async function() {
             this.builds = await _users.getBuilds(this.user.id);
+            this.loading = false;
         }
     }
 </script>
