@@ -90,11 +90,18 @@ async function addBoss(req, authentication) {
         const role = await _roles.forTermin(authentication, termin);
         if (role > 0) {
             if (boss) {
-                return _termin.addBoss(termin, boss).then(async () => {
+                return _termin.addBoss(termin, boss).then(async (res) => {
+                    await _aufstellung.loadBlanko(res.insertId);
                     return await _aufstellung.getForTermin(termin);
                 })
             } else if (wing) {
-                return _termin.addWing(termin, wing).then(async () => {
+                return _termin.addWing(termin, wing).then(async (res) => {
+                    const minId = res.insertId;
+                    const maxId = minId + res.affectedRows - 1;
+                    for (let i = minId; i <= maxId; i++) {
+                        console.log(i);
+                        await _aufstellung.loadBlanko(i);
+                    }
                     return await _aufstellung.getForTermin(termin);
                 })
             }

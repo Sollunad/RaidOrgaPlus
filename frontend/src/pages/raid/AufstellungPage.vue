@@ -89,7 +89,7 @@
             addBoss: async function(info) {
                 const [boss, wing] = info;
                 if (boss === 0) {
-                    this.aufstellungen = await _termine.addWing(this.termin.id, wing);
+                    this.aufstellungen = await _termine.addWing(this.termin.id, wing.id);
                     this.elements = await _aufstellungen.getElements(this.termin.id);
                 } else {
                     this.aufstellungen = await _termine.addBoss(this.termin.id, boss);

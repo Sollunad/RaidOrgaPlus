@@ -5,6 +5,7 @@ exports.getRaidId = getRaidId;
 exports.delete = deleteBoss;
 exports.getSuccess = getSuccess;
 exports.setSuccess = setSuccess;
+exports.loadBlanko = loadBlanko;
 
 async function getForTermin(termin) {
     const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
@@ -53,3 +54,15 @@ async function setSuccess(aufstellung, success) {
     }
 }
 
+async function loadBlanko(aufstellung) {
+    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, fk_role) ' +
+        'SELECT ?, position, 0, fk_class, fk_role ' +
+        'FROM BlankoElement ' +
+        'WHERE fk_raid = (SELECT Raid.id FROM Raid JOIN Termin ON Termin.fk_raid = Raid.id JOIN Aufstellung ON Aufstellung.fk_termin = Termin.id WHERE Aufstellung.id = ?) ' +
+        'AND fk_boss = (SELECT fk_boss FROM Aufstellung WHERE Aufstellung.id = ?)';
+    try {
+        return await db.queryV(stmt, [aufstellung, aufstellung, aufstellung]);
+    } catch(e) {
+        throw e;
+    }
+}
