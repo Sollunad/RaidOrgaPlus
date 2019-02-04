@@ -17,6 +17,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());       // to support JSON-encoded bodies
 app.use('/icons', express.static('icons'));
 
 fs.readdir('./endpoints/', (err, folders) => {
@@ -48,6 +49,7 @@ app.route('*').all(async function(req, res) {
 
 async function requestHandler(request) {
     const method = request.method.toLowerCase();
+    console.log(method);
     const endpoint = endpoints[method][request._parsedUrl.pathname];
     if (!endpoint) return [];
 
