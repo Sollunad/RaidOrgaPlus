@@ -1,5 +1,10 @@
 <template>
     <div>
+        <v-progress-circular
+                v-if="!bosses"
+                indeterminate
+                color="primary"
+        ></v-progress-circular>
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex xs12 sm6 md4 xl3
