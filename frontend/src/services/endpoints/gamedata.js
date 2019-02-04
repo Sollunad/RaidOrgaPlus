@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { listEncounter, listEncounterGrouped, listEncounterForWing, getClassesForBase };
+export default { listEncounter, listEncounterGrouped, listEncounterForWing, getClassesForBase, getWings };
 
 async function listEncounter() {
     return await con('gamedata/encounter', 'get', {});
@@ -16,4 +16,8 @@ async function listEncounterForWing(wing) {
 
 async function getClassesForBase(base) {
     return await con('gamedata/classes', 'get', {base});
+}
+
+async function getWings() {
+    return await con('gamedata/wings', 'get', {});
 }

@@ -17,7 +17,7 @@
         asyncComputed: {
             bosses: async function() {
                 if (this.wing) {
-                    const singleBosses = await _encounter.listEncounterForWing(this.wing);
+                    const singleBosses = await _encounter.listEncounterForWing(this.wing.id);
                     const fc = [{id:0, name:'Full Clear'}];
                     return fc.concat(singleBosses);
                 }

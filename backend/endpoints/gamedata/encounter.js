@@ -3,6 +3,7 @@ const db = require('../../db/connector.js');
 exports.list = list;
 exports.listByWing = listByWing;
 exports.listForWing = listForWing;
+exports.getWings = getWings;
 
 async function listByWing() {
     const stmt = 'SELECT * FROM Encounter';
@@ -33,6 +34,15 @@ async function listForWing(wing) {
     const stmt = 'SELECT * FROM Encounter WHERE wing = ?';
     try {
         return await db.queryV(stmt, wing);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function getWings() {
+    const stmt = 'SELECT * FROM Wing';
+    try {
+        return await db.query(stmt);
     } catch(e) {
         throw e;
     }

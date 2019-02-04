@@ -1,10 +1,10 @@
 <template>
     <v-list>
         <v-list-tile
-                v-for="(wing, index) in wings"
-                :key="index">
+                v-for="wing in wings"
+                :key="wing.id">
             <v-menu>
-                <v-list-tile-title slot="activator">Wing {{ wing }}</v-list-tile-title>
+                <v-list-tile-title slot="activator">Wing {{ wing.id }}</v-list-tile-title>
                 <MenuBossComp
                     v-bind:wing="wing"
                     v-on:pick="pick">
@@ -16,20 +16,14 @@
 
 <script>
     import MenuBossComp from "./MenuBossComp";
+    import _gamedata from '../../services/endpoints/gamedata';
 
     export default {
         name: "MenuWingComp",
         components: {MenuBossComp},
-        data: () => ({
-            maxWing: 6
-        }),
-        computed: {
+        asyncComputed: {
             wings: function() {
-                let ret = [];
-                for (let i = 1; i <= this.maxWing; i++) {
-                    ret.push(i);
-                }
-                return ret;
+                return _gamedata.getWings();
             }
         },
         methods: {

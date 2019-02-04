@@ -4,6 +4,7 @@ const _encounter = require('./encounter');
 module.exports = [
     {function: getForBase, path: '/classes', method: 'get'},
     {function: getEncounter, path: '/encounter', method: 'get'},
+    {function: getWings, path: '/wings', method: 'get'},
 ];
 
 async function getForBase(req) {
@@ -28,4 +29,8 @@ async function getEncounter(req) {
         }
 
     }
+}
+
+async function getWings() {
+    return await _encounter.getWings();
 }
