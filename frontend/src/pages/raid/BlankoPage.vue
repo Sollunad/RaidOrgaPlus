@@ -5,10 +5,15 @@
                 indeterminate
                 color="primary"
         ></v-progress-circular>
+        <BlankoMenuWingComp
+                v-if="bosses"
+                v-bind:currentWing="wingFilter"
+                v-on:pick="pick">
+        </BlankoMenuWingComp>
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex xs12 sm6 md4 xl3
-                    v-for="boss in bosses"
+                    v-for="boss in filteredBosses"
                     v-bind:key="boss.id">
                     <BlankoComp
                         v-bind:raid="raid"
@@ -25,18 +30,35 @@
     import BlankoComp from "../../components/blanko/BlankoComp";
     import _gamedata from '../../services/endpoints/gamedata';
     import _blankos from '../../services/endpoints/blankos';
+    import BlankoMenuWingComp from "../../components/blanko/BlankoMenuWingComp";
 
     export default {
         name: "BlankoPage",
-        components: {BlankoComp},
+        components: {BlankoMenuWingComp, BlankoComp},
         props: ['raid'],
+        data: () => ({
+            wingFilter: 0,
+            elements: null,
+        }),
         asyncComputed: {
             bosses: function() {
                 return _gamedata.listEncounter();
-            },
-            elements: async function() {
-                return _blankos.getAllElements(this.raid.id);
             }
+        },
+        computed: {
+            filteredBosses: function() {
+                if (!this.wingFilter) return this.bosses;
+                return this.bosses.filter(b => b.wing === this.wingFilter);
+            }
+        },
+        methods: {
+            pick: async function(wing) {
+                this.elements = await _blankos.getAllElements(this.raid.id);
+                this.wingFilter = wing.id;
+            }
+        },
+        created: async function() {
+            this.elements = await _blankos.getAllElements(this.raid.id);
         }
     }
 </script>
