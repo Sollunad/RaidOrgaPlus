@@ -24,7 +24,14 @@
             users: async function() {
                 if (this.termin) {
                     const allUsers = await _termine.getAnmeldungenForTermin(this.termin.id);
-                    return allUsers.filter(player => player.type < 2);
+                    const angemeldet = allUsers.filter(player => player.type < 2);
+                    const lfgUser = {
+                        id: 1,
+                        accname: 'LFG',
+                        name: 'LFG'
+                    };
+                    angemeldet.push(lfgUser);
+                    return angemeldet;
                 }
                 else return [];
             }
