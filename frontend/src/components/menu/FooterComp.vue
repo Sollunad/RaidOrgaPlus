@@ -1,7 +1,7 @@
 <template>
     <v-footer app fixed>
         <span class="footerText">{{ footerText }}</span>
-        <span class="feedback" @click="openFeedback">Feedback?</span>
+        <a class="feedback" target="_newtab" href="https://goo.gl/forms/VSlcFr3DdhK0flDe2">Feedback?</a>
     </v-footer>
 </template>
 
@@ -16,11 +16,6 @@
             footerText: function() {
                 return `v${this.versionNo} (${this.versionTitle}) - Made with ❤ by Sollunad.9780`;
             }
-        },
-        methods:{
-            openFeedback: function() {
-                this.$router.push('/feedback');
-            }
         }
     }
 </script>
@@ -29,7 +24,7 @@
     .feedback {
         margin-left: 10px;
         text-decoration: underline;
-
+        color: inherit;
     }
 
     .feedback:hover {
