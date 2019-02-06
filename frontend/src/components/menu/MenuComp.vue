@@ -23,7 +23,7 @@
         name: "MenuComp",
         props: ['user', 'show'],
         data: () => ({
-            drawer: true,
+            drawer: null,
         }),
         components: {
             MenuToolbarComp,
