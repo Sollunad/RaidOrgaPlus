@@ -17,7 +17,8 @@
                             v-bind:position="i"
                             v-bind:raid="raid"
                             v-bind:boss="boss"
-                            v-bind:propElement="propElement(i)">
+                            v-bind:propElement="propElement(i)"
+                            v-bind:role="role">
                     </BlankoElementComp>
                 </v-flex>
             </v-layout>
@@ -34,7 +35,7 @@
     export default {
         name: "BlankoComp",
         components: {BlankoElementComp},
-        props: ['raid', 'boss', 'elements'],
+        props: ['raid', 'boss', 'elements', 'role'],
         computed: {
             blankoElements: function() {
                 if (this.boss && this.elements) {

@@ -18,7 +18,8 @@
                     <BlankoComp
                         v-bind:raid="raid"
                         v-bind:boss="boss"
-                        v-bind:elements="elements">
+                        v-bind:elements="elements"
+                        v-bind:role="role">
                     </BlankoComp>
                 </v-flex>
             </v-layout>
@@ -35,7 +36,7 @@
     export default {
         name: "BlankoPage",
         components: {BlankoMenuWingComp, BlankoComp},
-        props: ['raid'],
+        props: ['raid', 'role'],
         data: () => ({
             wingFilter: 0,
             elements: null,

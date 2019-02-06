@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-menu :close-on-content-click="false" v-model="classMenuOpen" :lazy="true">
+        <v-menu :close-on-content-click="false" v-model="classMenuOpen" :lazy="true" v-if="role > 0">
             <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearClass">
                 <span class="white--text headline" v-if="classIcon === ''">?</span>
                 <img :src="classIcon" v-else>
@@ -9,7 +9,11 @@
                     v-on:pick="pickClass">
             </MenuClassComp>
         </v-menu>
-        <v-menu :lazy="true">
+        <v-avatar :size="20" :tile="true" class="avatar" v-else>
+            <span class="white--text headline" v-if="classIcon === ''">?</span>
+            <img :src="classIcon" v-else>
+        </v-avatar>
+        <v-menu :lazy="true" v-if="role > 0">
             <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearRole">
                 <span class="white--text headline" v-if="roleIcon === ''">?</span>
                 <img :src="roleIcon" v-else>
@@ -18,6 +22,10 @@
                     v-on:pick="pickRole">
             </MenuRoleComp>
         </v-menu>
+        <v-avatar :size="20" :tile="true" class="avatar" v-else>
+            <span class="white--text headline" v-if="roleIcon === ''">?</span>
+            <img :src="roleIcon" v-else>
+        </v-avatar>
     </div>
 </template>
 
@@ -30,7 +38,7 @@
     export default {
         name: "BlankoElementComp",
         components: {MenuRoleComp, MenuClassComp},
-        props: ['raid', 'boss', 'position', 'propElement'],
+        props: ['raid', 'boss', 'position', 'propElement', 'role'],
         data: () => ({
             classMenuOpen: false,
             editedElement: null
