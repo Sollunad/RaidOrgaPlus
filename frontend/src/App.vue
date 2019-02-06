@@ -13,8 +13,13 @@
                 v-bind:user="user">
         </MainPage>
         <LoginRegisterPage
-          v-if="showLogin">
+          v-else-if="showLogin">
         </LoginRegisterPage>
+        <v-progress-circular
+                v-else
+                indeterminate
+                color="primary"
+        ></v-progress-circular>
     </v-content>
     <FooterComp></FooterComp>
   </v-app>
