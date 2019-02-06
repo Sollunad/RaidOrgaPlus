@@ -30,7 +30,6 @@
             },
             copyBlanko: async function(info) {
                 const boss = info[0];
-                console.log(`${boss} -> ${this.boss.id}`);
                 this.$emit('copyBlanko', [boss, this.boss.id]);
             }
 
