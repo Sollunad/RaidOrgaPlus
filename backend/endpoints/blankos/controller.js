@@ -28,7 +28,6 @@ async function postElement(req, authentication) {
     const position = req.body.position;
     const type = req.body.type;
     const value = req.body.value;
-    console.log(value);
     if (raid && enc && position && type && (value || value === 0)) {
         const role = await _roles.forRaid(authentication, raid);
         if (role > 0) {

@@ -49,7 +49,6 @@ app.route('*').all(async function(req, res) {
 
 async function requestHandler(request) {
     const method = request.method.toLowerCase();
-    console.log(method);
     const endpoint = endpoints[method][request._parsedUrl.pathname];
     if (!endpoint) return [];
 
