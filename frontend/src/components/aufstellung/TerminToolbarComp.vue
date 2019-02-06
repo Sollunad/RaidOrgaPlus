@@ -33,6 +33,7 @@
                             <v-icon>add</v-icon>
                         </v-btn>
                         <MenuWingComp
+                                v-bind:showFC="true"
                                 v-on:pick="addBoss">
                         </MenuWingComp>
                     </v-menu>

@@ -1,12 +1,9 @@
 <template>
     <div class="blanko">
-        <div class="header">
-            <v-avatar class="avatar">
-                <img :src="icon()">
-            </v-avatar>
-            <span>{{boss.name}}</span>
-        </div>
-        <div class="body">
+        <BlankoHeaderComp
+                v-bind:boss="boss"
+                v-bind:role="role"
+                v-on:copyBlanko="copyBlanko"></BlankoHeaderComp>
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex
@@ -24,17 +21,15 @@
             </v-layout>
         </v-container>
     </div>
-
-    </div>
 </template>
 
 <script>
     import BlankoElementComp from "./BlankoElementComp";
-    import _icons from '../../services/icons.js';
+    import BlankoHeaderComp from "./BlankoHeaderComp";
 
     export default {
         name: "BlankoComp",
-        components: {BlankoElementComp},
+        components: {BlankoHeaderComp, BlankoElementComp},
         props: ['raid', 'boss', 'elements', 'role'],
         computed: {
             blankoElements: function() {
@@ -46,14 +41,13 @@
             }
         },
         methods: {
-            icon: function() {
-                if (this.boss) return _icons.encIcon(this.boss.abbr);
-                else return '';
-            },
             propElement: function(position) {
                 if (this.blankoElements) {
                     return this.blankoElements.filter(e => e.pos === position)[0];
                 }
+            },
+            copyBlanko: function(info) {
+                this.$emit('copyBlanko', info);
             }
         }
     }
@@ -64,19 +58,5 @@
         background-color: #222222;
         width: 100%;
         height: 100%;
-    }
-
-    .avatar {
-        margin-right: 1rem;
-    }
-
-    .header {
-        font-size: 20px;
-        font-weight: bold;
-        padding: 0.5rem 1rem;
-    }
-
-    .button {
-        float: right;
     }
 </style>

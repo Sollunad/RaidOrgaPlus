@@ -48,7 +48,7 @@ async function deleteTermin(req, authentication) {
         if (role > 0) {
             return _aufstellung.delete(aufstellung).then(async () => {
                 return await _aufstellung.getForTermin(termin);
-            })
+            });
         } else {
             return await _aufstellung.getForTermin(termin);
         }

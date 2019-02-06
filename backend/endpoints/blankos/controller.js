@@ -4,6 +4,7 @@ const _roles = require('../../authentication/role');
 module.exports = [
     {function: getElements, path: '', method: 'get', authed: true},
     {function: postElement, path: '', method: 'post', authed: true},
+    {function: copyFromTo, path: '/copy', method: 'post', authed: true},
 ];
 
 async function getElements(req, authentication) {
@@ -39,4 +40,18 @@ async function postElement(req, authentication) {
         }
     }
     return [];
+}
+
+async function copyFromTo(req, authentication) {
+    const raid = req.body.raid;
+    const from = req.body.from;
+    const to = req.body.to;
+    if (raid && from && to) {
+        const role = await _roles.forRaid(authentication, raid);
+        if (role > 0) {
+            return _blanko.copyFromTo(raid, from, to).then(async () => {
+                return await _blanko.getAllElements(raid);
+            });
+        }
+    }
 }

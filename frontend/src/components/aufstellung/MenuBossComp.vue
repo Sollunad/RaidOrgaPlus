@@ -13,13 +13,18 @@
 
     export default {
         name: "MenuBossComp",
-        props: ['wing'],
+        props: ['wing', 'showFC'],
         asyncComputed: {
             bosses: async function() {
                 if (this.wing) {
                     const singleBosses = await _encounter.listEncounterForWing(this.wing.id);
-                    const fc = [{id:0, name:'Full Clear'}];
-                    return fc.concat(singleBosses);
+                    if (this.showFC) {
+                        const fc = [{id:0, name:'Full Clear'}];
+                        return fc.concat(singleBosses);
+                    }
+                    else {
+                        return singleBosses;
+                    }
                 }
                 else return [];
             }

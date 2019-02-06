@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { getElementsByBoss, getAllElements, setClass, setRole };
+export default { getElementsByBoss, getAllElements, setClass, setRole, copyFromTo };
 
 async function getElementsByBoss(raid, enc) {
     return await con('blankos', 'get', {raid, enc}, true);
@@ -20,4 +20,8 @@ async function setRole(raid, enc, position, value){
 
 function setElement(raid, enc, position, value, type) {
     return con('blankos', 'post', {raid, enc, position, value, type}, true);
+}
+
+function copyFromTo(raid, from, to) {
+    return con('blankos/copy', 'post', {raid, from, to}, true);
 }

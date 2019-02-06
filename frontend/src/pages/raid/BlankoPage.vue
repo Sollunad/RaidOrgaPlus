@@ -19,7 +19,8 @@
                         v-bind:raid="raid"
                         v-bind:boss="boss"
                         v-bind:elements="elements"
-                        v-bind:role="role">
+                        v-bind:role="role"
+                        v-on:copyBlanko="copyBlanko">
                     </BlankoComp>
                 </v-flex>
             </v-layout>
@@ -56,6 +57,9 @@
             pick: async function(wing) {
                 this.elements = await _blankos.getAllElements(this.raid.id);
                 this.wingFilter = wing.id;
+            },
+            copyBlanko: async function(info) {
+                this.elements = await _blankos.copyFromTo(this.raid.id, info[0], info[1]);
             }
         },
         created: async function() {

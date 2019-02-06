@@ -4,6 +4,7 @@ exports.getElementsByEncounter = getElementsByEncounter;
 exports.getAllElements = getAllElements;
 exports.setClass = setClass;
 exports.setRole = setRole;
+exports.copyFromTo = copyFromTo;
 
 async function getElementsByEncounter(raid, enc) {
     const stmt = 'SELECT BlankoElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role FROM BlankoElement ' +
@@ -42,6 +43,19 @@ async function setRole(raid, enc, position, role) {
     const stmt = 'INSERT INTO BlankoElement (fk_raid, fk_boss, position, fk_role) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE fk_role = ?';
     try {
         return await db.queryV(stmt, [raid, enc, position, role, role]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function copyFromTo(raid, from, to) {
+    const stmt = 'INSERT INTO BlankoElement (fk_raid, fk_boss, position, fk_class, fk_role) ' +
+        'SELECT ?, ?, position, fk_class, fk_role ' +
+        'FROM BlankoElement fr ' +
+        'WHERE fk_raid = ? AND fk_boss = ? ' +
+        'ON DUPLICATE KEY UPDATE fk_class = fr.fk_class, fk_role = fr.fk_role';
+    try {
+        return await db.queryV(stmt, [raid, to, raid, from]);
     } catch(e) {
         throw e;
     }

@@ -7,6 +7,7 @@
                 <v-list-tile-title slot="activator">Wing {{ wing.id }}</v-list-tile-title>
                 <MenuBossComp
                     v-bind:wing="wing"
+                    v-bind:showFC="showFC"
                     v-on:pick="pick">
                 </MenuBossComp>
             </v-menu>
@@ -20,6 +21,7 @@
 
     export default {
         name: "MenuWingComp",
+        props: ['showFC'],
         components: {MenuBossComp},
         asyncComputed: {
             wings: function() {
