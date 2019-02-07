@@ -62,6 +62,7 @@
                         'Profilbilder',
                         'Fortlaufende Termine',
                         'Raid-Drops',
+                        'Erfolgsliste',
                     ]},
                 {no: '1.2', release: 'April 2019',
                     features: [
