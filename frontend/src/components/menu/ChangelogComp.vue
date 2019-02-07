@@ -42,7 +42,9 @@
         name: "ChangelogComp",
         data: () => ({
             versions: [
-                {no: '1.0', release: '24.02.2019',
+                {
+                    no: '1.0',
+                    release: '24.02.2019',
                     features: [
                         'Spielerliste',
                         'Termine / Archiv',
@@ -50,10 +52,13 @@
                         'Meine Builds',
                         'Weekly Progress',
                         'LI / LD',
-                    ], subversions: [
+                    ],
+                    subversions: [
 
                     ]},
-                {no: '1.1', release: 'März 2019',
+                {
+                    no: '1.1',
+                    release: 'März 2019',
                     features: [
                         'Lieutenants ernennen',
                         'Builds in Spielerliste filtern',
@@ -64,7 +69,9 @@
                         'Raid-Drops',
                         'Erfolgsliste',
                     ]},
-                {no: '1.2', release: 'April 2019',
+                {
+                    no: '1.2',
+                    release: 'April 2019',
                     features: [
                         'Logs hochladen und anzeigen',
                         'Videos verlinken',
@@ -80,13 +87,4 @@
     .changelog {
         background-color: #444444;
     }
-
-    .version:not(:last-child) {
-        margin-bottom: 10px;
-    }
-
-    .text {
-        margin-bottom: 10px;
-    }
-
 </style>
