@@ -22,7 +22,6 @@
                 </v-btn>
 
                 <v-btn
-                        color="red darken-1"
                         flat="flat"
                         @click="archiveOK"
                 >
