@@ -56,15 +56,13 @@
     },
     data: () => ({
       user: {},
-      showLogin: false
+      showLogin: false,
+      isPreview: false,
     }),
     computed: {
         showContent: function() {
           const isLoggedIn = Object.keys(this.user).length > 0;
           return this.isPreview || isLoggedIn;
-        },
-        isPreview: function() {
-            return router.currentRoute.path.split('/')[1] === 'preview';
         }
     },
     methods: {
@@ -76,6 +74,13 @@
         const user = await _users.get();
         if (user) this.user = user;
         else this.showLogin = true;
+        this.isPreview = router.currentRoute.path.split('/')[1] === 'preview';
+    },
+    watch: {
+        $route: function() {
+            console.log(this.$route);
+            this.isPreview = router.currentRoute.path.split('/')[1] === 'preview';
+        }
     },
     router
   }
