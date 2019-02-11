@@ -41,6 +41,11 @@
                         this.buttonText = 'success';
                         this.buttonColor = 'success';
                         this.$emit('changeName', this.name);
+                        const that = this;
+                        setTimeout(function() {
+                            that.buttonColor = '';
+                            that.buttonText = 'Anzeigenamen aktualisieren';
+                        }, 2000)
                     }
                 }
             },

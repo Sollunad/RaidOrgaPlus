@@ -48,7 +48,7 @@
             }
         },
         asyncComputed: {
-            termine: function() {
+            termine: async function() {
                 if (this.raid) {
                     if (this.archived) return _termine.listArchived(this.raid.id);
                     else return _termine.listActive(this.raid.id);

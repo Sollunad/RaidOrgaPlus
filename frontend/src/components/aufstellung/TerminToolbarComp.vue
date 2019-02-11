@@ -3,6 +3,11 @@
         <div class="datetime">
             {{termin.date}} {{termin.time}}
         </div>
+        <KommentarComp
+                v-if="active === false"
+                v-bind:termin="termin"
+                v-bind:role="role">
+        </KommentarComp>
         <template
             v-if="active">
             <AnmeldungComp
@@ -79,10 +84,11 @@
     import AnmeldungComp from "./AnmeldungComp";
     import _termine from '../../services/endpoints/termine';
     import ListAnmeldungComp from "./ListAnmeldungComp";
+    import KommentarComp from "./KommentarComp";
 
     export default {
         name: "TerminToolbarComp",
-        components: {ListAnmeldungComp, AnmeldungComp, MenuWingComp},
+        components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
         props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user'],
         data: () => ({
             anmeldungen: [{id: 10, name: 'Daniel', type: 1}, {id: 11, name: 'Lili', type: 2}, {id: 12, name: 'Nico', type: 0}]

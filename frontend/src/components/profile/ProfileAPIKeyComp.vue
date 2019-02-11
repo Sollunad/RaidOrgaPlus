@@ -60,6 +60,11 @@
                     if (response === 'Success') {
                         this.buttonColor = 'success';
                         this.buttonText = 'Success!';
+                        const that = this;
+                        setTimeout(function() {
+                            that.buttonColor = '';
+                            that.buttonText = 'API-Key aktualisieren';
+                        }, 2000)
                     } else if (response === 'Permissions') {
                         this.snackbarText = 'Fehlende Berechtigungen für den API-Key';
                         this.snackbar = true;
