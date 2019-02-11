@@ -110,7 +110,7 @@ async function newTermin(raid, date, time) {
 }
 
 async function archive(termin) {
-    const stmt = 'UPDATE Termin SET isArchived = 1 WHERE id = ?';
+    const stmt = 'UPDATE Termin SET isArchived = 1, isLocked = 0, preview = 0 WHERE id = ?';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {
