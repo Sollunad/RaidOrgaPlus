@@ -42,7 +42,7 @@
                 this.$emit('deleteOK');
             },
             deleteCancel: function() {
-                this.$emit('deleteCancel');
+                this.$emit('close');
             }
         },
         computed: {

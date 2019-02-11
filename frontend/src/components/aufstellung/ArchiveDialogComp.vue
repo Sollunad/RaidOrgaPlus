@@ -41,7 +41,7 @@
                 this.$emit('archiveOK');
             },
             archiveCancel: function() {
-                this.$emit('archiveCancel');
+                this.$emit('close');
             }
         },
         computed: {
