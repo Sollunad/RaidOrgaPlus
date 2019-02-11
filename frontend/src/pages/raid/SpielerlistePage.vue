@@ -13,8 +13,8 @@
                     <SpielerComp
                             v-bind:user="listuser"
                             v-bind:role="role"
-                            v-bind:self="isSelf(listuser)"
-                            v-bind:filter="filter">
+                            v-bind:filter="filter"
+                            v-on:kick="kick">
                     </SpielerComp>
                 </v-flex>
             </v-layout>
@@ -32,19 +32,17 @@
         components: {SpielerEinladenComp, SpielerComp},
         props: ['raid', 'role', 'user'],
         data: () => ({
-            filter: ''
+            filter: '',
+            users: [],
         }),
         methods: {
-            isSelf: function(user) {
-                return user.id === this.user.id;
+            kick: async function(user) {
+                this.users = await _raids.kickPlayer(this.raid.id, user.id);
             }
         },
-        asyncComputed: {
-            users: async function() {
-                if (this.raid) {
-                    return _raids.listPlayers(this.raid.id);
-                }
-                else return [];
+        created: async function() {
+            if (this.raid) {
+                this.users = await _raids.listPlayers(this.raid.id);
             }
         }
     }

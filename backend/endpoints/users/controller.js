@@ -48,7 +48,6 @@ async function loginUser(req) {
     }
 }
 
-
 async function setApi(req, authentication) {
     const apiKey = req.body.apiKey;
     if (apiKey) {

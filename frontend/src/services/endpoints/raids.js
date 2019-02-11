@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { listForPlayer, role, listPlayers, invitePlayer, invitablePlayers,
+export default { listForPlayer, role, listPlayers, invitePlayer, invitablePlayers, kickPlayer,
     pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf, getAnmeldungState };
 
 async function listForPlayer() {
@@ -13,6 +13,10 @@ async function role(raid) {
 
 async function listPlayers(raid) {
     return await con('raids/players', 'get', {raid}, true);
+}
+
+async function kickPlayer(raid, user) {
+    return await con('raids/players', 'delete', {raid, user}, true);
 }
 
 async function invitePlayer(raid, user) {

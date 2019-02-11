@@ -7,6 +7,9 @@
             v-bind:user="user"
             class="name">
         </NameComp>
+        <v-btn flat icon color="red" @click="kick" class="button" v-if="kickable">
+            <v-icon>clear</v-icon>
+        </v-btn>
         <div class="builds" v-if="builds && filtered.length > 0">
             <BuildChipComp
                     v-for="build in prefer"
@@ -39,7 +42,7 @@
     export default {
         name: "ListSpielerComp",
         components: {NameComp, BuildChipComp},
-        props: ['user', 'filter', 'self', 'role'],
+        props: ['user', 'filter', 'role'],
         asyncComputed: {
             builds: function() {
                 if (this.user) return _users.getBuilds(this.user.id);
@@ -58,11 +61,17 @@
             },
             notPrefer: function() {
                 return this.filtered.filter(b => !b.prefer);
+            },
+            kickable: function() {
+                return this.role > this.user.role;
             }
         },
         methods: {
             icon: function(name) {
                 return _icons.miscIcon(name);
+            },
+            kick: function() {
+                this.$emit('kick', this.user);
             }
         }
     }
@@ -83,10 +92,15 @@
     }
 
     .builds {
-        padding-top: 0.5rem;
+        padding-top: 1rem;
     }
 
     .comm {
         margin-top: -0.5rem;
+    }
+
+    .button {
+        float: right;
+        margin-top: 0;
     }
 </style>

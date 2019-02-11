@@ -6,6 +6,7 @@ module.exports = [
     {function: getRaids, path: '', method: 'get', authed: true},
     {function: getRole, path: '/role', method: 'get', authed: true},
     {function: listPlayers, path: '/players', method: 'get', authed: true},
+    {function: kickPlayer, path: '/players', method: 'delete', authed: true},
     {function: getInvitablePlayers, path: '/invitable', method: 'get', authed: true},
     {function: invitePlayer, path: '/invites', method: 'post', authed: true},
     {function: getPendingInvites, path: '/invites', method: 'get', authed: true},
@@ -97,4 +98,18 @@ async function anmeldungStateForRaid(req, authentication) {
         return {type: anmeldungTypes[0]};
     }
     return [];
+}
+
+async function kickPlayer(req, authentication) {
+    const raid = req.body.raid;
+    const user = req.body.user;
+    if (raid && user) {
+        const role = await _roles.forRaid(authentication, raid);
+        const kickRole = (await _raids.getRoleForPlayer(raid, user))[0].role;
+        if (role > 0 && role > kickRole) {
+            return _raids.kickPlayer(raid, user).then(async () => {
+                return await _raids.listPlayers(raid);
+            });
+        }
+    }
 }

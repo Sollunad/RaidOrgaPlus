@@ -4,6 +4,8 @@ exports.listForPlayer = listForPlayerId;
 exports.get = getForRaidId;
 exports.listPlayers = listPlayers;
 exports.anmeldungStateForRaid = anmeldungStateForRaid;
+exports.kickPlayer = kickPlayer;
+exports.getRoleForPlayer = getRoleForPlayer;
 
 async function listForPlayerId(userId) {
     const stmt = 'SELECT Raid.id, Raid.name, Raid.icon, Spieler_Raid.role FROM Spieler JOIN Spieler_Raid ON Spieler.id = Spieler_Raid.fk_spieler JOIN Raid ON Raid.id = Spieler_Raid.fk_raid WHERE Spieler.id = ?';
@@ -39,6 +41,24 @@ async function anmeldungStateForRaid(raidId, userId) {
         'GROUP BY Spieler_Termin.type';
     try {
         return await db.queryV(stmt, [raidId, userId]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function kickPlayer(raid, user) {
+    const stmt = 'DELETE FROM Spieler_Raid WHERE fk_raid = ? AND fk_spieler = ?';
+    try {
+        return await db.queryV(stmt, [raid, user]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function getRoleForPlayer(raid, user) {
+    const stmt = 'SELECT role FROM Spieler_Raid WHERE fk_raid = ? AND fk_spieler = ?';
+    try {
+        return await db.queryV(stmt, [raid, user]);
     } catch(e) {
         throw e;
     }
