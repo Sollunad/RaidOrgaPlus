@@ -58,7 +58,7 @@
                 }
             },
             previewLink: function() {
-                return `https://orga.sollunad.de/preview/${this.termin.id}`;
+                return `https://orga.sollunad.de/#/preview/${this.termin.id}`;
             }
         },
         created: async function() {
