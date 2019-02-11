@@ -1,5 +1,4 @@
 const apiclient = require('gw2api-client');
-const sf = require('snekfetch');
 
 exports.fetchProgress = fetchProgress;
 exports.accName = getAccname;
