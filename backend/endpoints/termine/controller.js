@@ -3,16 +3,16 @@ const _aufstellung = require('../aufstellungen/aufstellung');
 const _roles = require('../../authentication/role');
 
 module.exports = [
-    {function: getTermine, path: '', method: 'get'},
-    {function: postTermin, path: '', method: 'post'},
-    {function: deleteTermin, path: '', method: 'delete'},
-    {function: isArchived, path: '/isArchived', method: 'get'},
-    {function: isLocked, path: '/isLocked', method: 'get'},
-    {function: putLocked, path: '/isLocked', method: 'put'},
-    {function: archive, path: '/archive', method: 'put'},
-    {function: addBoss, path: '/bosses', method: 'post'},
-    {function: putAnmeldung, path: '/anmeldungen', method: 'put'},
-    {function: getAnmeldungen, path: '/anmeldungen', method: 'get'},
+    {function: getTermine, path: '', method: 'get', authed: true},
+    {function: postTermin, path: '', method: 'post', authed: true},
+    {function: deleteTermin, path: '', method: 'delete', authed: true},
+    {function: isArchived, path: '/isArchived', method: 'get', authed: true},
+    {function: isLocked, path: '/isLocked', method: 'get', authed: true},
+    {function: putLocked, path: '/isLocked', method: 'put', authed: true},
+    {function: archive, path: '/archive', method: 'put', authed: true},
+    {function: addBoss, path: '/bosses', method: 'post', authed: true},
+    {function: putAnmeldung, path: '/anmeldungen', method: 'put', authed: true},
+    {function: getAnmeldungen, path: '/anmeldungen', method: 'get', authed: true},
 ];
 
 async function getTermine(req, authentication) {

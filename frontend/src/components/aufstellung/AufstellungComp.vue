@@ -36,9 +36,9 @@
             deleteBoss: function() {
                 this.$emit('deleteBoss', this.aufstellung.id);
             },
-            toggleSuccess: function() {
+            toggleSuccess: async function() {
                 this.success = !this.success;
-                _aufstellungen.setSuccess(this.aufstellung.id, this.success);
+                await _aufstellungen.setSuccess(this.aufstellung.id, this.success);
             }
         },
         created: async function() {

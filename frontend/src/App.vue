@@ -4,13 +4,14 @@
     class="unselectable">
     <MenuComp
       v-bind:user="user"
-      v-bind:show="showContent">
+      v-bind:show="showContent && !isPreview">
     </MenuComp>
     <v-content>
         <MainPage
                 v-if="showContent"
                 v-on:changeName="changeName"
-                v-bind:user="user">
+                v-bind:user="user"
+                v-bind:isPreview="isPreview">
         </MainPage>
         <LoginRegisterPage
           v-else-if="showLogin">
@@ -58,9 +59,13 @@
       showLogin: false
     }),
     computed: {
-      showContent: function() {
-        return Object.keys(this.user).length > 0;
-      }
+        showContent: function() {
+          const isLoggedIn = Object.keys(this.user).length > 0;
+          return this.isPreview || isLoggedIn;
+        },
+        isPreview: function() {
+            return router.currentRoute.path.split('/')[1] === 'preview';
+        }
     },
     methods: {
         changeName: async function(name) {

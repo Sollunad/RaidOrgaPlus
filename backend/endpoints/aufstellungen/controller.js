@@ -1,5 +1,4 @@
 const _aufstellung = require('./aufstellung');
-const _termine = require('../termine/termin');
 const _element = require('./element');
 const _roles = require('../../authentication/role');
 

@@ -46,6 +46,12 @@
                     <span>Editieren sperren</span>
                 </v-tooltip>
                 <v-tooltip bottom>
+                    <v-btn flat icon @click="share" slot="activator">
+                        <v-icon>share</v-icon>
+                    </v-btn>
+                    <span>Aufstellung teilen</span>
+                </v-tooltip>
+                <v-tooltip bottom>
                     <v-btn flat icon @click="archive" slot="activator">
                         <v-icon>send</v-icon>
                     </v-btn>
@@ -107,6 +113,9 @@
             },
             deleteTermin: function() {
                 this.$emit('deleteTermin');
+            },
+            share: function() {
+                this.$emit('share');
             }
         },
         created: async function() {

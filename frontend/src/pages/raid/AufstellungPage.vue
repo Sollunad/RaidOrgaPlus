@@ -11,6 +11,7 @@
             v-on:addBoss="addBoss"
             v-on:archive="archive"
             v-on:refresh="refresh"
+            v-on:share="share"
             v-on:changeLocked="changeLocked"
             v-on:deleteTermin="deleteTermin">
         </TerminToolbarComp>
@@ -43,13 +44,18 @@
         <ArchiveDialogComp
             v-bind:open="archiveDialogOpen"
             v-on:archiveOK="archiveOK"
-            v-on:archiveCancel="archiveCancel">
+            v-on:close="closeArchiveDialog">
         </ArchiveDialogComp>
         <DeleteDialogComp
             v-bind:open="deleteDialogOpen"
             v-on:deleteOK="deleteOK"
-            v-on:deleteCancel="deleteCancel">
+            v-on:close="closeDeleteDialog">
         </DeleteDialogComp>
+        <ShareDialogComp
+            v-bind:open="shareDialogOpen"
+            v-on:close="closeShareDialog"
+            v-bind:termin="termin">
+        </ShareDialogComp>
     </div>
 </template>
 
@@ -60,15 +66,17 @@
     import _termine from '../../services/endpoints/termine';
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
     import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp";
+    import ShareDialogComp from "../../components/aufstellung/ShareDialogComp";
 
     export default {
         name: "AufstellungPage",
-        components: {DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
+        components: {ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
         props: ['termin', 'raid', 'role', 'user'],
         data: () => ({
             aufstellungen: null,
             archiveDialogOpen: false,
             deleteDialogOpen: false,
+            shareDialogOpen: false,
             elements: [],
             locked: false,
         }),
@@ -109,7 +117,7 @@
                     window.history.back();
                 });
             },
-            archiveCancel: function() {
+            closeArchiveDialog: function() {
                 this.archiveDialogOpen = false;
             },
             elementsForAufstellung: function(aufstellung) {
@@ -132,9 +140,15 @@
                 await _termine.deleteTermin(this.termin.id);
                 window.history.back();
             },
-            deleteCancel: function() {
+            closeDeleteDialog: function() {
                 this.deleteDialogOpen = false;
             },
+            share: function() {
+                this.shareDialogOpen = true;
+            },
+            closeShareDialog: function() {
+                this.shareDialogOpen = false;
+            }
         },
         created: async function() {
             if (!this.termin) window.location.href = '/#/raids';

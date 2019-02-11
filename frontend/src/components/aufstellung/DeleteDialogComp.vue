@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-            v-model="open"
+            v-model="openComputed"
             max-width="290"
     >
         <v-card>
@@ -45,6 +45,16 @@
                 this.$emit('deleteCancel');
             }
         },
+        computed: {
+            openComputed: {
+                get: function() {
+                    return this.open;
+                },
+                set: function() {
+                    this.$emit('close');
+                }
+            }
+        }
     }
 </script>
 

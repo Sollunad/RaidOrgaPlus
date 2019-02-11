@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-            v-model="open"
+            v-model="openComputed"
             max-width="290"
     >
         <v-card>
@@ -42,6 +42,16 @@
             },
             archiveCancel: function() {
                 this.$emit('archiveCancel');
+            }
+        },
+        computed: {
+            openComputed: {
+                get: function() {
+                    return this.open;
+                },
+                set: function() {
+                    this.$emit('close');
+                }
             }
         }
     }

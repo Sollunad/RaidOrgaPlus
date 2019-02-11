@@ -9,8 +9,8 @@ const _auth = require('../../authentication/auth');
 module.exports = [
     {function: getUser, path: '', method: 'get', authed: true},
     {function: invalidateSession, path: '/sessions', method: 'delete', authed: true},
-    {function: registerUser, path: '', method: 'post'},
-    {function: loginUser, path: '/sessions', method: 'post'},
+    {function: registerUser, path: '', method: 'post', authed: false},
+    {function: loginUser, path: '/sessions', method: 'post', authed: false},
     {function: setApi, path: '/api', method: 'post', authed: true},
     {function: hasApi, path: '/api', method: 'get', authed: true},
     {function: setName, path: '/name', method: 'post', authed: true},

@@ -2,9 +2,9 @@ const _classes = require('./classes');
 const _encounter = require('./encounter');
 
 module.exports = [
-    {function: getForBase, path: '/classes', method: 'get'},
-    {function: getEncounter, path: '/encounter', method: 'get'},
-    {function: getWings, path: '/wings', method: 'get'},
+    {function: getForBase, path: '/classes', method: 'get', authed: false},
+    {function: getEncounter, path: '/encounter', method: 'get', authed: false},
+    {function: getWings, path: '/wings', method: 'get', authed: false},
 ];
 
 async function getForBase(req) {

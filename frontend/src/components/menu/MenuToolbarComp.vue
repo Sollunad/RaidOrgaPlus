@@ -1,6 +1,6 @@
 <template>
     <v-toolbar app fixed clipped-left>
-        <v-toolbar-side-icon @click.stop="$emit('toggleMenu')"></v-toolbar-side-icon>
+        <v-toolbar-side-icon v-if="loggedIn" @click.stop="$emit('toggleMenu')"></v-toolbar-side-icon>
         <v-toolbar-title>RaidOrga+</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon

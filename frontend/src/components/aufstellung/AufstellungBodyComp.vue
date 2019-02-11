@@ -29,17 +29,9 @@
         name: "AufstellungBodyComp",
         components: {AufstellungElementComp},
         props: ['aufstellung', 'raid', 'active', 'locked', 'propElements', 'role', 'termin'],
-        data: () => ({
-           elements: null
-        }),
         methods: {
             propElement: function(position) {
-                return this.propElements.filter(e => e.pos === position)[0];
-            }
-        },
-        watch: {
-            propElements: function(elements) {
-                this.elements = elements;
+                if (this.propElements) return this.propElements.filter(e => e.pos === position)[0];
             }
         }
     }

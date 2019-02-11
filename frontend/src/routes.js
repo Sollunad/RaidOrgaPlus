@@ -11,6 +11,7 @@ import NeuerTerminPage from "./pages/raid/NeuerTerminPage";
 import SpielerlistePage from "./pages/raid/SpielerlistePage";
 import HomePage from "./pages/HomePage";
 import BlankoPage from "./pages/raid/BlankoPage";
+import PreviewPage from "./pages/PreviewPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -28,6 +29,7 @@ const routes = [
       ]},
     { path: '/profil', component: ProfilPage },
     { path: '/skills', component: SkillsPage },
+    { path: '/preview/:id', component: PreviewPage },
 ];
 
 export default routes;
