@@ -18,6 +18,14 @@
             ></v-text-field>
             <v-text-field
                     @keypress.enter="submit"
+                    v-if="registerMode"
+                    v-model="email"
+                    :rules="emailRules"
+                    label="E-Mail-Adresse"
+                    required
+            ></v-text-field>
+            <v-text-field
+                    @keypress.enter="submit"
                     v-model="password"
                     :rules="passwordRules"
                     :type="'password'"
@@ -85,6 +93,11 @@
             passwordRules: [
                 v => !!v || 'Bitte gib dein Passwort an',
             ],
+            email: '',
+            emailRules: [
+                v => !!v || 'Bitte gib eine E-Mail-Adresse an',
+                v => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/.test(v) || 'Bitte gib eine gültige E-Mail-Adresse an',
+            ],
             buttonColor: '',
             snackbar: false,
             registerMode: false,
@@ -124,7 +137,7 @@
                 }
             },
             async register() {
-                const success = await _users.register(this.accName, this.password, this.name);
+                const success = await _users.register(this.accName, this.password, this.name, this.email);
                 if (success) {
                     this.login();
                 } else {

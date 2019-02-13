@@ -33,8 +33,9 @@ async function registerUser(req) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     const name = req.body.name;
-    if (accName && pwd && name) {
-        return await _register.register(accName, pwd, name);
+    const email = req.body.email;
+    if (accName && pwd && name && email) {
+        return await _register.register(accName, pwd, name, email);
     }
 }
 

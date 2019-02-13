@@ -18,8 +18,8 @@ async function changeName(name) {
     return await con('users/name', 'post', {name}, true);
 }
 
-async function register(accName, pwd, name){
-    return await con('users', 'post', {accName, pwd, name});
+async function register(accName, pwd, name, email){
+    return await con('users', 'post', {accName, pwd, name, email});
 }
 
 async function login(accName, pwd){

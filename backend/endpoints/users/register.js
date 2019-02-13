@@ -5,19 +5,19 @@ const session = require('./session.js');
 
 exports.register = register;
 
-async function register(accName, pwd, name){
+async function register(accName, pwd, name, email){
     const response = await userExists(accName);
     const count = response[0].count;
     if (count > 0) return false;
     const pwdHash = hash.generate(pwd);
-    registerUser(accName, pwdHash, name);
+    registerUser(accName, pwdHash, name, email);
     return true;
 }
 
-function registerUser(accName, pwdHash, name) {
-    const stmt = 'INSERT INTO Spieler (accname, password, name) VALUES (?, ?, ?)';
+function registerUser(accName, pwdHash, name, email) {
+    const stmt = 'INSERT INTO Spieler (accname, password, name, email) VALUES (?, ?, ?, ?)';
     try {
-        db.queryV(stmt, [accName, pwdHash, name]);
+        db.queryV(stmt, [accName, pwdHash, name, email]);
     } catch(e) {
         throw e;
     }
