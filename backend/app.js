@@ -86,12 +86,12 @@ try {
         ca: ca
     };
 
-    https.createServer(credentials, app).listen(3000, function () {
-        console.log('Server über HTTPS gestartet auf Port 3000!');
+    https.createServer(credentials, app).listen(8081, function () {
+        console.log('Server über HTTPS gestartet auf Port 8081!');
     });
 } catch(e) {
     console.log('Server konnte über HTTPS nicht gestartet werden');
-    http.createServer(app).listen(3001, function () {
-        console.log('Server über HTTP gestartet auf Port 3001!');
+    http.createServer(app).listen(8081, function () {
+        console.log('Server über HTTP gestartet auf Port 8081!');
     });
 }
