@@ -148,6 +148,7 @@
                     localStorage.session = uuid;
                     window.location.href = '/';
                 } else {
+                    this.loading = false;
                     this.snackbar = true;
                 }
             },
@@ -156,6 +157,7 @@
                 if (success) {
                     this.login();
                 } else {
+                    this.loading = false;
                     this.snackbar = true;
                 }
             },
