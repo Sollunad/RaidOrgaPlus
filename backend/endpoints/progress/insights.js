@@ -9,6 +9,7 @@ async function insights(userId) {
         const sf_api = await user.api(userId);
         if (!sf_api) return 0;
         const key = sf_api[0].apikey;
+        if (!key) return [];
         const itemCounts = await api.itemCount(key);
 
         let insights = getCountOfItemList(itemCounts, items.insights);
