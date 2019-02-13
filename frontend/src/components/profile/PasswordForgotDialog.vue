@@ -14,6 +14,7 @@
                     v-model="accname"
                     single-line
                     box
+                    :rules="accNameRules"
                     class="textfield"
             ></v-text-field>
 
@@ -37,6 +38,10 @@
         props: ['open'],
         data: () => ({
             accname: '',
+            accNameRules: [
+                v => !!v || 'Bitte gib deinen Accountnamen an',
+                v => /^[a-zA-Z]+.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
+            ],
             buttonText: 'E-Mail senden',
         }),
         computed: {
@@ -51,9 +56,9 @@
         },
         methods: {
             resetPassword: async function() {
-                if (this.accname.length > 0) {
+                if (/^[a-zA-Z]+.\d{4}$/.test(this.accname)) {
                     await _users.createResetToken(this.accname);
-                    this.buttonText = 'Gesendet!'
+                    this.$emit('close');
                 }
             }
         }
