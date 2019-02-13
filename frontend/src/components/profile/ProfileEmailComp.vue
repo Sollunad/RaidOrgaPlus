@@ -4,7 +4,7 @@
                 @keypress.enter="submit"
                 v-model="email"
                 :rules="emailRules"
-                label="Neuer E-Mail-Adresse"
+                label="Neue E-Mail-Adresse"
                 required
         ></v-text-field>
         <v-text-field
