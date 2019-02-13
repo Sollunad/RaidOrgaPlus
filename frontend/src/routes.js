@@ -12,6 +12,7 @@ import SpielerlistePage from "./pages/raid/SpielerlistePage";
 import HomePage from "./pages/HomePage";
 import BlankoPage from "./pages/raid/BlankoPage";
 import PreviewPage from "./pages/PreviewPage";
+import PasswordResetPage from "./pages/PasswordResetPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -30,6 +31,7 @@ const routes = [
     { path: '/profil', component: ProfilPage },
     { path: '/skills', component: SkillsPage },
     { path: '/preview/:id', component: PreviewPage },
+    { path: '/reset/:token', component: PasswordResetPage },
 ];
 
 export default routes;

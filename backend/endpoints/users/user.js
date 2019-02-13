@@ -2,7 +2,7 @@ const db = require('../../db/connector.js');
 const hash = require('password-hash');
 
 exports.get = getForId;
-exports.getPwd = getPwdForId;
+exports.getAllForId = getAllForId;
 exports.changeName = changeName;
 exports.changeEmail = changeEmail;
 exports.changePassword = changePassword;
@@ -16,8 +16,8 @@ async function getForId(userId) {
     }
 }
 
-async function getPwdForId(userId) {
-    const stmt = 'SELECT password FROM Spieler WHERE id = ?';
+async function getAllForId(userId) {
+    const stmt = 'SELECT * FROM Spieler WHERE id = ?';
     try {
         return await db.queryV(stmt, userId);
     } catch(e) {

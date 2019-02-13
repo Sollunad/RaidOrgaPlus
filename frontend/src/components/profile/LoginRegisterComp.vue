@@ -47,6 +47,12 @@
             >
                 {{ buttonText }}
             </v-btn>
+            <v-btn
+                    v-if="!registerMode"
+                    @click="passwordDialogOpen = true"
+            >
+                Passwort vergessen?
+            </v-btn>
             <v-progress-circular
                     v-if="loading"
                     indeterminate
@@ -71,14 +77,20 @@
                 v-model="registerMode"
                 label="Neu registrieren?"
         ></v-checkbox>
+        <PasswordForgotDialog
+            v-bind:open="passwordDialogOpen"
+            v-on:close="closeDialog">
+        </PasswordForgotDialog>
     </div>
 </template>
 
 <script>
     import _users from '../../services/endpoints/users';
+    import PasswordForgotDialog from "./PasswordForgotDialog";
 
     export default {
         name: "LoginComp",
+        components: {PasswordForgotDialog},
         data: () => ({
             valid: true,
             accName: '',
@@ -103,7 +115,8 @@
             buttonColor: '',
             snackbar: false,
             registerMode: false,
-            loading: false
+            loading: false,
+            passwordDialogOpen: false,
         }),
         computed: {
             failureText: function() {
@@ -145,6 +158,9 @@
                 } else {
                     this.snackbar = true;
                 }
+            },
+            closeDialog() {
+                this.passwordDialogOpen = false;
             }
         }
     }

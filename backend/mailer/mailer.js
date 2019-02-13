@@ -27,7 +27,7 @@ function sendPasswortResetMail(user, token) {
         `\n` +
         `\n${link}` +
         `\n` +
-        `\nDer Link ist gültig für 24 Stunden. Falls du keinen Password-Reset angefordert hast, ignorier diese Mail einfach.` +
+        `\nDer Link ist gültig für 24 Stunden. Falls du keinen Password-Reset angefordert hast, ignoriere diese Mail einfach.` +
         `\n` +
         `\nViele Grüße` +
         `\nDaniel / Sollunad.9780`;

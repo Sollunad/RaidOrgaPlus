@@ -4,14 +4,13 @@
     class="unselectable">
     <MenuComp
       v-bind:user="user"
-      v-bind:show="showContent && !isPreview">
+      v-bind:show="showContent && !withoutLoginAllowed">
     </MenuComp>
     <v-content>
         <MainPage
                 v-if="showContent"
                 v-on:changeName="changeName"
-                v-bind:user="user"
-                v-bind:isPreview="isPreview">
+                v-bind:user="user">
         </MainPage>
         <LoginRegisterPage
           v-else-if="showLogin">
@@ -57,12 +56,13 @@
     data: () => ({
       user: {},
       showLogin: false,
-      isPreview: false,
+      withoutLoginAllowed: false,
+      allowedRoutes: ['preview', 'reset']
     }),
     computed: {
         showContent: function() {
           const isLoggedIn = Object.keys(this.user).length > 0;
-          return this.isPreview || isLoggedIn;
+          return this.withoutLoginAllowed || isLoggedIn;
         }
     },
     methods: {
@@ -74,11 +74,11 @@
         const user = await _users.get();
         if (user) this.user = user;
         else this.showLogin = true;
-        this.isPreview = router.currentRoute.path.split('/')[1] === 'preview';
+        this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
     },
     watch: {
         $route: function() {
-            this.isPreview = router.currentRoute.path.split('/')[1] === 'preview';
+            this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
         }
     },
     router

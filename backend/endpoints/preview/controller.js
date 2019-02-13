@@ -47,7 +47,6 @@ async function getPreviewable(req, authentication) {
         const role = await _roles.forTermin(authentication, termin);
         if (role > 0) {
             const isPreviewable = (await _preview.isPreviewable(termin))[0].preview;
-            console.log(!!isPreviewable);
             return (!!isPreviewable);
         }
     }

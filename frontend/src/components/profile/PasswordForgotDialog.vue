@@ -1,0 +1,67 @@
+<template>
+    <v-dialog
+            v-model="openComputed"
+            max-width="290"
+    >
+        <v-card>
+            <v-card-title class="headline">Passwort vergessen</v-card-title>
+
+            <v-card-text>
+                Bitte gib deinen Accountnamen ein. Du erhältst dann eine E-Mail mit weiteren Anweisungen.
+            </v-card-text>
+
+            <v-text-field
+                    v-model="accname"
+                    single-line
+                    box
+                    class="textfield"
+            ></v-text-field>
+
+            <v-card-actions>
+                <v-btn
+                        flat="flat"
+                        @click="resetPassword"
+                >
+                    {{ buttonText }}
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+</template>
+
+<script>
+    import _users from '../../services/endpoints/users';
+
+    export default {
+        name: "PasswordForgotDialog",
+        props: ['open'],
+        data: () => ({
+            accname: '',
+            buttonText: 'E-Mail senden',
+        }),
+        computed: {
+            openComputed: {
+                get: function() {
+                    return this.open;
+                },
+                set: function() {
+                    this.$emit('close');
+                }
+            }
+        },
+        methods: {
+            resetPassword: async function() {
+                if (this.accname.length > 0) {
+                    await _users.createResetToken(this.accname);
+                    this.buttonText = 'Gesendet!'
+                }
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .textfield {
+        margin: 0 10px 0 10px;
+    }
+</style>

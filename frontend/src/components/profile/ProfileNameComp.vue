@@ -37,7 +37,7 @@
             async submit() {
                 if (this.$refs.form.validate()) {
                     if (this.user) {
-                        _users.changeName(this.name);
+                        await _users.changeName(this.name);
                         this.buttonText = 'success';
                         this.buttonColor = 'success';
                         this.$emit('changeName', this.name);

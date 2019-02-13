@@ -1,7 +1,7 @@
 import con from '../connector';
 
 export default { get, hasApi, setApi, changeName, register, login,
-    invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword };
+    invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword, createResetToken, resetPassword };
 
 async function get() {
     return (await con('users', 'get', {}, true))[0];
@@ -54,3 +54,12 @@ async function deleteBuild(clss, role){
 async function putPrefer(clss, role, pref){
     return await con('users/builds/prefer', 'put', {clss, role, pref}, true);
 }
+
+async function createResetToken(accname){
+    return await con('users/pwdReset/create', 'post', {accname});
+}
+
+async function resetPassword(token, pwd){
+    return await con('users/pwdReset', 'post', {token, pwd});
+}
+

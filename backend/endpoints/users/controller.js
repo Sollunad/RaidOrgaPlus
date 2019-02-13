@@ -4,6 +4,7 @@ const _session = require('./session');
 const _user = require('./user');
 const _api = require('./apikey');
 const _builds = require('./builds');
+const _reset = require('./passwordreset');
 const _auth = require('../../authentication/auth');
 const hash = require('password-hash');
 
@@ -21,6 +22,8 @@ module.exports = [
     {function: addBuild, path: '/builds', method: 'post', authed: true},
     {function: deleteBuild, path: '/builds', method: 'delete', authed: true},
     {function: putPrefer, path: '/builds/prefer', method: 'put', authed: true},
+    {function: resetPassword, path: '/pwdReset', method: 'post'},
+    {function: createResetToken, path: '/pwdReset/create', method: 'post'},
 ];
 
 async function getUser(req, authentication) {
@@ -116,8 +119,7 @@ async function setEmail(req, authentication) {
     const pwd = req.body.pwd;
     const email = req.body.email;
     if (email) {
-        const correctPwd = (await _user.getPwd(authentication.user))[0].password;
-        console.log(correctPwd);
+        const correctPwd = (await _user.getAllForId(authentication.user))[0].password;
         const isCorrect = hash.verify(pwd, correctPwd);
         if (isCorrect) {
             await _user.changeEmail(authentication.user, email);
@@ -131,11 +133,40 @@ async function setPassword(req, authentication) {
     const oldPwd = req.body.oldPwd;
     const newPwd = req.body.newPwd;
     if (oldPwd && newPwd) {
-        const correctPwd = (await _user.getPwd(authentication.user))[0].password;
+        const correctPwd = (await _user.getAllForId(authentication.user))[0].password;
         const isCorrect = hash.verify(oldPwd, correctPwd);
         if (isCorrect) {
             await _user.changePassword(authentication.user, newPwd);
             return 'Success';
+        }
+    }
+    return [];
+}
+
+async function createResetToken(req) {
+    const accname = req.body.accname;
+    if (accname) {
+        await _reset.createResetToken(accname);
+        return ['Success'];
+    }
+    return [];
+}
+
+async function resetPassword(req) {
+    const token = req.body.token;
+    const pwd = req.body.pwd;
+    if (token && pwd) {
+        const tokenExists = (await _reset.tokenCreated(token))[0];
+        if (!tokenExists) return [];
+        const tokenCreated = tokenExists.created;
+        const tokenAge = Date.now() - tokenCreated;
+        const tokenAgeAllowed = 1000 * 60 * 60 * 24;
+        if (tokenAge < tokenAgeAllowed) {
+            await _reset.resetPassword(token, pwd);
+            await _reset.deleteToken(token);
+            return ['Success'];
+        } else {
+            await _reset.deleteToken(token);
         }
     }
     return [];
