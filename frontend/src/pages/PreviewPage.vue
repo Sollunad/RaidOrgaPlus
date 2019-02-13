@@ -1,5 +1,8 @@
 <template>
     <div>
+        <v-btn @click="backToMainPage">
+            Zurück zur Hauptseite
+        </v-btn>
         <div v-if="aufstellungen">
             <v-container grid-list-md>
                 <v-layout row wrap>
@@ -44,6 +47,9 @@
             elementsForAufstellung: function(aufstellung) {
                 if (this.elements) return this.elements.filter(e => e.aufstellung === aufstellung);
             },
+            backToMainPage: function() {
+                window.location.href = '/';
+            }
         }
     }
 </script>
