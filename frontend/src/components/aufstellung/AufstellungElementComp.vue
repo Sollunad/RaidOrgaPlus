@@ -26,7 +26,7 @@
             <span class="white--text headline" v-if="roleIcon === ''">?</span>
             <img :src="roleIcon" v-else>
         </v-avatar>
-        <v-menu :lazy="true" v-if="editAllowed">
+        <v-menu :lazy="true" v-if="editAllowed" class="namemenu">
             <NameComp slot="activator" v-bind:user="user" :truncate="true" v-on:rightclick="clearName"></NameComp>
             <MenuNameComp
                 v-on:pick="pickName"
@@ -135,6 +135,10 @@
 
 <style scoped>
     .avatar {
-        margin: 0 0.2rem;
+        margin: 0 0.3rem;
+    }
+
+    .namemenu {
+        margin-left: 0.2rem;
     }
 </style>
