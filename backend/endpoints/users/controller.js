@@ -5,6 +5,7 @@ const _user = require('./user');
 const _api = require('./apikey');
 const _builds = require('./builds');
 const _auth = require('../../authentication/auth');
+const hash = require('password-hash');
 
 module.exports = [
     {function: getUser, path: '', method: 'get', authed: true},
@@ -14,6 +15,8 @@ module.exports = [
     {function: setApi, path: '/api', method: 'post', authed: true},
     {function: hasApi, path: '/api', method: 'get', authed: true},
     {function: setName, path: '/name', method: 'post', authed: true},
+    {function: setEmail, path: '/mail', method: 'post', authed: true},
+    {function: setPassword, path: '/pwd', method: 'post', authed: true},
     {function: getBuilds, path: '/builds', method: 'get', authed: true},
     {function: addBuild, path: '/builds', method: 'post', authed: true},
     {function: deleteBuild, path: '/builds', method: 'delete', authed: true},
@@ -65,7 +68,7 @@ async function hasApi(req, authentication) {
 async function setName(req, authentication) {
     const name = req.body.name;
     if (name) {
-        _user.changeName(authentication.user, name);
+        await _user.changeName(authentication.user, name);
     }
     return [];
 }
@@ -107,4 +110,33 @@ async function putPrefer(req, authentication) {
     } else {
         return [];
     }
+}
+
+async function setEmail(req, authentication) {
+    const pwd = req.body.pwd;
+    const email = req.body.email;
+    if (email) {
+        const correctPwd = (await _user.getPwd(authentication.user))[0].password;
+        console.log(correctPwd);
+        const isCorrect = hash.verify(pwd, correctPwd);
+        if (isCorrect) {
+            await _user.changeEmail(authentication.user, email);
+            return 'Success';
+        }
+    }
+    return [];
+}
+
+async function setPassword(req, authentication) {
+    const oldPwd = req.body.oldPwd;
+    const newPwd = req.body.newPwd;
+    if (oldPwd && newPwd) {
+        const correctPwd = (await _user.getPwd(authentication.user))[0].password;
+        const isCorrect = hash.verify(oldPwd, correctPwd);
+        if (isCorrect) {
+            await _user.changePassword(authentication.user, newPwd);
+            return 'Success';
+        }
+    }
+    return [];
 }

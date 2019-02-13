@@ -78,7 +78,6 @@
     },
     watch: {
         $route: function() {
-            console.log(this.$route);
             this.isPreview = router.currentRoute.path.split('/')[1] === 'preview';
         }
     },

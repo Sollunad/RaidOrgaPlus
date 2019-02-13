@@ -15,6 +15,7 @@
                     :rules="nameRules"
                     label="Anzeigename"
                     required
+                    counter="10"
             ></v-text-field>
             <v-text-field
                     @keypress.enter="submit"
@@ -28,7 +29,7 @@
                     @keypress.enter="submit"
                     v-model="password"
                     :rules="passwordRules"
-                    :type="'password'"
+                    type="password"
                     label="Passwort"
                     required
             ></v-text-field>
@@ -36,7 +37,7 @@
                     @keypress.enter="submit"
                     v-if="registerMode"
                     :rules="passwordRepeatRules"
-                    :type="'password'"
+                    type="password"
                     label="Passwort wiederholen"
                     required
             ></v-text-field>
@@ -88,6 +89,7 @@
             name: '',
             nameRules: [
                 v => !!v || 'Bitte gib deinen Anzeigenamen an',
+                v => v.length <= 10 || 'Bitte wähle einen kürzeren Namen',
             ],
             password: '',
             passwordRules: [

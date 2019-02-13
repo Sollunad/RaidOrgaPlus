@@ -1,6 +1,7 @@
 import con from '../connector';
 
-export default { get, hasApi, setApi, changeName, register, login, invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer };
+export default { get, hasApi, setApi, changeName, register, login,
+    invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword };
 
 async function get() {
     return (await con('users', 'get', {}, true))[0];
@@ -16,6 +17,14 @@ async function setApi(apiKey) {
 
 async function changeName(name) {
     return await con('users/name', 'post', {name}, true);
+}
+
+async function changeEmail(email, pwd) {
+    return (await con('users/mail', 'post', {email, pwd}, true))[0];
+}
+
+async function changePassword(oldPwd, newPwd) {
+    return (await con('users/pwd', 'post', {oldPwd, newPwd}, true))[0];
 }
 
 async function register(accName, pwd, name, email){
