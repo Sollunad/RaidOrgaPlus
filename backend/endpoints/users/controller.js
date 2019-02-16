@@ -153,6 +153,7 @@ async function createResetToken(req) {
 }
 
 async function resetPassword(req) {
+    await _reset.deleteInvalidTokens();
     const token = req.body.token;
     const pwd = req.body.pwd;
     if (token && pwd) {
@@ -165,8 +166,6 @@ async function resetPassword(req) {
             await _reset.resetPassword(token, pwd);
             await _reset.deleteToken(token);
             return ['Success'];
-        } else {
-            await _reset.deleteToken(token);
         }
     }
     return [];

@@ -7,13 +7,20 @@ exports.createResetToken = createResetToken;
 exports.resetPassword = resetPassword;
 exports.tokenCreated = tokenCreated;
 exports.deleteToken = deleteToken;
+exports.deleteInvalidTokens = deleteInvalidTokens;
 
 async function createResetToken(accname) {
-    const token = uuidv4();
+    await deleteInvalidTokens();
     const user = (await getUserByName(accname))[0];
     if (!user) return;
-    await writeResetToken(user.id, token);
-    mailer.passwortReset(user, token);
+    const activeToken = (await activeTokens(user.id))[0];
+    if (activeToken) {
+        mailer.passwortReset(user, activeToken.token);
+    } else {
+        const token = uuidv4();
+        await writeResetToken(user.id, token);
+        mailer.passwortReset(user, token);
+    }
 }
 
 async function writeResetToken(user, token) {
@@ -57,6 +64,24 @@ async function deleteToken(token) {
     const stmt = 'DELETE FROM PasswordReset WHERE token = ?';
     try {
         return await db.queryV(stmt, token);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function deleteInvalidTokens() {
+    const stmt = 'DELETE FROM PasswordReset WHERE created < NOW() - INTERVAL 1 DAY';
+    try {
+        return await db.query(stmt);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function activeTokens(user) {
+    const stmt = 'SELECT token FROM PasswordReset WHERE created > NOW() - INTERVAL 1 DAY AND fk_spieler = ?';
+    try {
+        return await db.queryV(stmt, user);
     } catch(e) {
         throw e;
     }
