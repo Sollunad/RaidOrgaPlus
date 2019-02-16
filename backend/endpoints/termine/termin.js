@@ -15,6 +15,7 @@ exports.addWing = addWing;
 exports.isLocked = isLocked;
 exports.setLocked = setLocked;
 exports.delete = deleteTermin;
+exports.getText = getText;
 exports.saveText = saveText;
 
 async function isArchived(terminId) {
@@ -74,7 +75,7 @@ async function listActive(raidId) {
 }
 
 async function listArchived(raidId) {
-    const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Termin.text FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
+    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
     try {
         return (await db.queryV(stmt, raidId)).map(mapTerminDate);
     } catch(e) {
@@ -168,6 +169,15 @@ async function addWing(termin, wing) {
 
 async function deleteTermin(termin) {
     const stmt = 'DELETE FROM Termin WHERE id = ?';
+    try {
+        return await db.queryV(stmt, termin);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function getText(termin) {
+    const stmt = 'SELECT text FROM Termin WHERE id = ?';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {

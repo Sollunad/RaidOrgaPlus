@@ -50,9 +50,9 @@
                 }
             }
         },
-        created: function() {
-            this.text = this.termin.text;
-            this.savedText = this.termin.text;
+        created: async function() {
+            this.text = await _termine.getText(this.termin.id);
+            this.savedText = this.text;
         },
         watch: {
             text: function() {
@@ -60,7 +60,7 @@
                 const currentChange = this.lastChange;
                 const that = this;
                 setTimeout(function() {
-                    if (currentChange === that.lastChange) {
+                    if (currentChange === that.lastChange && that.isDirty) {
                         that.saveText();
                     }
                 }, 2000)

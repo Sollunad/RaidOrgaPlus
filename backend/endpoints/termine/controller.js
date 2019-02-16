@@ -13,6 +13,7 @@ module.exports = [
     {function: addBoss, path: '/bosses', method: 'post', authed: true},
     {function: putAnmeldung, path: '/anmeldungen', method: 'put', authed: true},
     {function: getAnmeldungen, path: '/anmeldungen', method: 'get', authed: true},
+    {function: getText, path: '/text', method: 'get', authed: true},
     {function: saveText, path: '/text', method: 'put', authed: true},
 ];
 
@@ -140,6 +141,16 @@ async function deleteTermin(req, authentication) {
         const role = await _roles.forTermin(authentication, termin);
         if (role > 0) return await _termin.delete(termin);
     }
+    return [];
+}
+
+async function getText(req, authentication) {
+    const termin = req.query.termin;
+    if (termin) {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role >= 0) return (await _termin.getText(termin))[0];
+    }
+    return [];
 }
 
 async function saveText(req, authentication) {
@@ -149,4 +160,5 @@ async function saveText(req, authentication) {
         const role = await _roles.forTermin(authentication, termin);
         if (role > 0) return await _termin.saveText(termin, text);
     }
+    return [];
 }
