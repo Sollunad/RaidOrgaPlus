@@ -3,12 +3,11 @@ const db = require('../../db/connector.js');
 exports.getForTermin = getForTermin;
 exports.getRaidId = getRaidId;
 exports.delete = deleteBoss;
-exports.getSuccess = getSuccess;
 exports.setSuccess = setSuccess;
 exports.loadBlanko = loadBlanko;
 
 async function getForTermin(termin) {
-    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
+    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {
@@ -29,16 +28,6 @@ async function deleteBoss(aufstellung) {
     const stmt = 'DELETE FROM Aufstellung WHERE id = ?';
     try {
         return await db.queryV(stmt, aufstellung);
-    } catch(e) {
-        throw e;
-    }
-}
-
-async function getSuccess(aufstellung) {
-    const stmt = 'SELECT success FROM Aufstellung WHERE id = ?';
-    try {
-        const response = await db.queryV(stmt, aufstellung);
-        return response[0].success === 1;
     } catch(e) {
         throw e;
     }

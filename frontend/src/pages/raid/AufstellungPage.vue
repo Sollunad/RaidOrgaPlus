@@ -41,21 +41,24 @@
                 </v-layout>
             </v-container>
         </div>
-        <ArchiveDialogComp
-            v-bind:open="archiveDialogOpen"
-            v-on:archiveOK="archiveOK"
-            v-on:close="closeArchiveDialog">
-        </ArchiveDialogComp>
-        <DeleteDialogComp
-            v-bind:open="deleteDialogOpen"
-            v-on:deleteOK="deleteOK"
-            v-on:close="closeDeleteDialog">
-        </DeleteDialogComp>
-        <ShareDialogComp
-            v-bind:open="shareDialogOpen"
-            v-on:close="closeShareDialog"
-            v-bind:termin="termin">
-        </ShareDialogComp>
+        <div
+            v-if="isActive">
+            <ArchiveDialogComp
+                    v-bind:open="archiveDialogOpen"
+                    v-on:archiveOK="archiveOK"
+                    v-on:close="closeArchiveDialog">
+            </ArchiveDialogComp>
+            <DeleteDialogComp
+                    v-bind:open="deleteDialogOpen"
+                    v-on:deleteOK="deleteOK"
+                    v-on:close="closeDeleteDialog">
+            </DeleteDialogComp>
+            <ShareDialogComp
+                    v-bind:open="shareDialogOpen"
+                    v-on:close="closeShareDialog"
+                    v-bind:termin="termin">
+            </ShareDialogComp>
+        </div>
     </div>
 </template>
 
@@ -82,7 +85,7 @@
         }),
         asyncComputed: {
             anmeldung: function() {
-                if (this.termin) return _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
+                if (this.termin && this.isActive) return _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
                 else return null;
             },
             isActive: async function() {

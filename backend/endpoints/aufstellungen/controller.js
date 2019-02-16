@@ -4,7 +4,6 @@ const _roles = require('../../authentication/role');
 
 module.exports = [
     {function: getForTermin, path: '', method: 'get', authed: true},
-    {function: getSuccess, path: '/success', method: 'get', authed: true},
     {function: putSuccess, path: '/success', method: 'put', authed: true},
     {function: deleteTermin, path: '', method: 'delete', authed: true},
     {function: getElement, path: '/elements', method: 'get', authed: true},
@@ -16,15 +15,6 @@ async function getForTermin(req, authentication) {
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) return await _aufstellung.getForTermin(termin);
-    }
-    return [];
-}
-
-async function getSuccess(req, authentication) {
-    const aufstellung = req.query.aufstellung;
-    if (aufstellung) {
-        const role = await _roles.forAufstellung(authentication, aufstellung);
-        if (role >= 0) return await _aufstellung.getSuccess(aufstellung);
     }
     return [];
 }

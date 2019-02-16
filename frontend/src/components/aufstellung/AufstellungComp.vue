@@ -43,7 +43,7 @@
         },
         created: async function() {
             if (!this.active) {
-                this.success = await _aufstellungen.getSuccess(this.aufstellung.id);
+                this.success = this.aufstellung.success;
             }
         }
     }
