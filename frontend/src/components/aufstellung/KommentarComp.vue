@@ -13,8 +13,8 @@
                 ></v-textarea>
             </v-flex>
             <v-flex xs1>
-                <v-btn icon flat class="button" @click="saveText" v-if="role > 0">
-                    <v-icon :color="buttonColor">save</v-icon>
+                <v-btn icon flat class="button" @click="saveText" v-if="role > 0" :disabled="!isDirty">
+                    <v-icon>save</v-icon>
                 </v-btn>
             </v-flex>
         </v-layout>
@@ -28,30 +28,48 @@
         name: "KommentarComp",
         props: ['termin', 'role'],
         data: () => ({
+            savedText: '',
             text: '',
-            buttonColor: '',
+            lastChange: 0,
         }),
         computed: {
             rules: function() {
                 return [
                     v => (!v || v.length <= 1000) || 'Bitte halte dich kurz ;)'
                 ];
+            },
+            isDirty: function() {
+                return !(this.text === this.savedText);
             }
         },
         methods: {
             saveText: async function() {
                 if (this.text.length <= 1000) {
                     await _termine.saveText(this.termin.id, this.text);
-                    this.buttonColor = 'success';
-                    const that = this;
-                    setTimeout(function() {
-                        that.buttonColor = '';
-                    }, 2000)
+                    this.savedText = this.text;
                 }
             }
         },
         created: function() {
             this.text = this.termin.text;
+            this.savedText = this.termin.text;
+        },
+        watch: {
+            text: function() {
+                this.lastChange = Date.now();
+                const currentChange = this.lastChange;
+                const that = this;
+                setTimeout(function() {
+                    if (currentChange === that.lastChange) {
+                        that.saveText();
+                    }
+                }, 2000)
+            }
+        },
+        beforeDestroy: function() {
+            if (this.isDirty) {
+                this.saveText();
+            }
         }
     }
 </script>
