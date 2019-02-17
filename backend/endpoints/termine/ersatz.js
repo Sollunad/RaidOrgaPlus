@@ -14,7 +14,7 @@ async function addErsatz(user, termin) {
 }
 
 async function getErsatz(termin) {
-    const stmt = 'SELECT fk_spieler as spieler FROM Ersatzspieler WHERE fk_termin = ?';
+    const stmt = 'SELECT fk_spieler as id, accname, name FROM Ersatzspieler JOIN Spieler ON Spieler.id = Ersatzspieler.fk_spieler WHERE fk_termin = ?';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {

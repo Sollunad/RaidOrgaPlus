@@ -8,6 +8,7 @@
             v-bind:termin="termin"
             v-bind:locked="locked"
             v-bind:user="user"
+            v-bind:anmeldungen="anmeldungen"
             v-on:addBoss="addBoss"
             v-on:archive="archive"
             v-on:refresh="refresh"
@@ -35,6 +36,8 @@
                                 v-bind:active="isActive"
                                 v-bind:locked="locked"
                                 v-bind:termin="termin"
+                                v-bind:anmeldungen="anmeldungen"
+                                v-bind:ersatz="ersatzspieler"
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
                                 v-on:deleteBoss="deleteBoss">
                         </AufstellungComp>
@@ -62,6 +65,7 @@
             <ErsatzDialogComp
                     v-bind:open="ersatzDialogOpen"
                     v-on:close="closeErsatzDialog"
+                    v-on:setErsatz="setErsatz"
                     v-bind:termin="termin"
                     v-bind:raid="raid">
             </ErsatzDialogComp>
@@ -87,12 +91,14 @@
         props: ['termin', 'raid', 'role', 'user'],
         data: () => ({
             aufstellungen: null,
+            anmeldungen: [],
             archiveDialogOpen: false,
             deleteDialogOpen: false,
             shareDialogOpen: false,
             ersatzDialogOpen: false,
             elements: [],
             locked: false,
+            ersatzspieler: [],
         }),
         asyncComputed: {
             anmeldung: function() {
@@ -106,6 +112,9 @@
         },
         methods: {
             anmelden: async function(type) {
+                const changedAnmeldung = this.anmeldungen.filter(a => a.id === this.user.id)[0];
+                if (changedAnmeldung) changedAnmeldung.type = type;
+                else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
                 await _termine.anmelden(this.user.id, this.termin.id, type);
             },
             addBoss: async function(info) {
@@ -168,6 +177,9 @@
             },
             closeErsatzDialog: function() {
                 this.ersatzDialogOpen = false;
+            },
+            setErsatz: function(ersatz) {
+                this.ersatzspieler = ersatz;
             }
         },
         created: async function() {
@@ -176,6 +188,7 @@
                 this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
                 this.elements = await _aufstellungen.getElements(this.termin.id);
                 this.locked = await _termine.isLocked(this.termin.id);
+                this.anmeldungen = await _termine.getAnmeldungenForTermin(this.termin.id);
             }
         }
     }

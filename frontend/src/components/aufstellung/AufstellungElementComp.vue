@@ -30,7 +30,9 @@
             <NameComp slot="activator" v-bind:user="user" :truncate="true" v-on:rightclick="clearName"></NameComp>
             <MenuNameComp
                 v-on:pick="pickName"
-                v-bind:termin="termin">
+                v-bind:termin="termin"
+                v-bind:anmeldungen="anmeldungen"
+                v-bind:ersatz="ersatz">
             </MenuNameComp>
         </v-menu>
         <NameComp v-else v-bind:user="user" :truncate="true"></NameComp>
@@ -48,7 +50,7 @@
     export default {
         name: "AufstellungElementComp",
         components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position', 'propElement', 'raid', 'active', 'locked', 'role', 'termin'],
+        props: ['aufstellung', 'position', 'propElement', 'raid', 'active', 'locked', 'role', 'termin', 'anmeldungen', 'ersatz'],
         data: () => ({
             classMenuOpen: false,
             editedElement: null

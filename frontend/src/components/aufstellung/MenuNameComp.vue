@@ -1,7 +1,7 @@
 <template>
     <v-list>
         <v-list-tile
-                v-for="(user, index) in users"
+                v-for="(user, index) in angemeldet"
                 :key="index"
 
         >
@@ -13,27 +13,23 @@
 </template>
 
 <script>
-    import _termine from '../../services/endpoints/termine';
     import NameComp from "../menu/NameComp";
 
     export default {
         name: "MenuNameComp",
         components: {NameComp},
-        props: ['termin'],
-        asyncComputed: {
-            users: async function() {
-                if (this.termin) {
-                    const allUsers = await _termine.getAnmeldungenForTermin(this.termin.id);
-                    const angemeldet = allUsers.filter(player => player.type < 2);
-                    const lfgUser = {
-                        id: 1,
-                        accname: 'LFG',
-                        name: 'LFG'
-                    };
-                    angemeldet.push(lfgUser);
-                    return angemeldet;
-                }
-                else return [];
+        props: ['termin', 'anmeldungen', 'ersatz'],
+        computed: {
+            angemeldet: function() {
+                const lfgUser = {
+                    id: 1,
+                    accname: 'LFG',
+                    name: 'LFG'
+                };
+                let angemeldet = this.anmeldungen.filter(player => player.type < 2);
+                angemeldet = angemeldet.concat(this.ersatz);
+                angemeldet.push(lfgUser);
+                return angemeldet;
             }
         },
         methods: {

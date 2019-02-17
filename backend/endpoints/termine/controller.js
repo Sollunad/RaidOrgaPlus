@@ -172,7 +172,7 @@ async function getErsatz(req, authentication) {
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) {
-            return (await _ersatz.getErsatz(termin)).map(p => p.spieler);
+            return await _ersatz.getErsatz(termin);
         }
     }
 }

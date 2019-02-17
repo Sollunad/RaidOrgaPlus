@@ -61,11 +61,14 @@
 
                 return name.indexOf(searchText) > -1 ||
                     accname.indexOf(searchText) > -1
+            },
+            emitErsatz: function() {
+                const ersatzspieler = this.invitablePlayers.filter(p => this.ersatz.includes(p.id));
+                this.$emit('setErsatz', ersatzspieler);
             }
         },
         watch: {
             ersatz: async function (newValue, oldValue) {
-                console.log(newValue);
                 if (oldValue === null) return;
                 const invitedPlayer = newValue.filter(player => !oldValue.includes(player))[0];
                 const deletedPlayer = oldValue.filter(player => !newValue.includes(player))[0];
@@ -74,12 +77,13 @@
                 } else if (deletedPlayer) {
                     await _termine.deleteErsatz(this.termin.id, deletedPlayer);
                 }
+                this.emitErsatz();
             }
         },
         created: async function() {
-            this.ersatz = await _termine.getErsatz(this.termin.id);
+            this.ersatz = (await _termine.getErsatz(this.termin.id)).map(p => p.id);
             this.invitablePlayers = await _raids.invitablePlayers(this.raid.id);
-
+            this.emitErsatz();
         },
     }
 </script>

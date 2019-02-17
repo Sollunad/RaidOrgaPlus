@@ -15,7 +15,9 @@
                 v-bind:locked="locked"
                 v-bind:role="role"
                 v-bind:termin="termin"
-                v-bind:propElements="elements">
+                v-bind:propElements="elements"
+                v-bind:anmeldungen="anmeldungen"
+                v-bind:ersatz="ersatz">
         </AufstellungBodyComp>
     </div>
 </template>
@@ -28,7 +30,7 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellung', 'raid', 'role', 'active', 'locked', 'elements', 'termin'],
+        props: ['aufstellung', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz'],
         data: () => ({
             success: false
         }),

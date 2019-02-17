@@ -90,17 +90,13 @@
 <script>
     import MenuWingComp from "./MenuWingComp";
     import AnmeldungComp from "./AnmeldungComp";
-    import _termine from '../../services/endpoints/termine';
     import ListAnmeldungComp from "./ListAnmeldungComp";
     import KommentarComp from "./KommentarComp";
 
     export default {
         name: "TerminToolbarComp",
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
-        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user'],
-        data: () => ({
-            anmeldungen: [{id: 10, name: 'Daniel', type: 1}, {id: 11, name: 'Lili', type: 2}, {id: 12, name: 'Nico', type: 0}]
-        }),
+        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user', 'anmeldungen'],
         computed: {
             lockIcon: function() {
                 return this.locked? 'lock' : 'lock_open';
@@ -108,9 +104,6 @@
         },
         methods: {
             anmelden: function(type) {
-                const changedAnmeldung = this.anmeldungen.filter(a => a.id === this.user.id)[0];
-                if (changedAnmeldung) changedAnmeldung.type = type;
-                else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
                 this.$emit('anmelden', type);
             },
             addBoss: function(info) {
@@ -134,9 +127,6 @@
             ersatz: function() {
                 this.$emit('ersatz');
             }
-        },
-        created: async function() {
-            this.anmeldungen = await _termine.getAnmeldungenForTermin(this.termin.id);
         }
     }
 </script>
