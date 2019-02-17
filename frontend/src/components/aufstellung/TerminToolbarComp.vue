@@ -17,7 +17,9 @@
             </AnmeldungComp>
             <p></p>
             <v-tooltip bottom class="anmeldungen">
-                <v-icon slot="activator">people</v-icon>
+                <v-btn flat icon slot="activator">
+                    <v-icon>people</v-icon>
+                </v-btn>
                 <ListAnmeldungComp
                     v-if="anmeldungen.length > 0"
                     v-bind:anmeldungen="anmeldungen">
@@ -25,7 +27,7 @@
                 <span v-else>Noch niemand angemeldet</span>
             </v-tooltip>
             <v-tooltip bottom>
-                <v-btn flat icon v-if="active" @click="refresh" slot="activator">
+                <v-btn flat icon @click="refresh" slot="activator">
                     <v-icon>refresh</v-icon>
                 </v-btn>
                 <span>Refresh</span>
@@ -139,9 +141,5 @@
 
     .anmeldung {
         margin: 1rem 0 0 0.5rem;
-    }
-
-    .anmeldungen {
-        margin: 0 1rem 0 1rem;
     }
 </style>
