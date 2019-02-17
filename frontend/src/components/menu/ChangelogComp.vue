@@ -60,14 +60,14 @@
                     no: '1.1',
                     release: 'März 2019',
                     features: [
+                        'Live-Aufstellungen',
                         'Lieutenants ernennen',
                         'Builds in Spielerliste filtern',
-                        'Eigene Skillcard',
-                        'Öffentliche Profile',
-                        'Profilbilder',
+                        'Dropdowns nach Builds füllen',
                         'Fortlaufende Termine',
                         'Raid-Drops',
                         'Erfolgsliste',
+                        'Termine exportieren in Kalender',
                     ]},
                 {
                     no: '1.2',
@@ -75,6 +75,9 @@
                     features: [
                         'Logs hochladen und anzeigen',
                         'Videos verlinken',
+                        'Eigene Skillcard',
+                        'Öffentliche Profile',
+                        'Profilbilder',
                         'Statistiken',
                         'Kill Proofs',
                     ]},
