@@ -1,4 +1,5 @@
 const _termin = require('./termin');
+const _ersatz = require('../termine/ersatz');
 const _aufstellung = require('../aufstellungen/aufstellung');
 const _roles = require('../../authentication/role');
 
@@ -15,6 +16,9 @@ module.exports = [
     {function: getAnmeldungen, path: '/anmeldungen', method: 'get', authed: true},
     {function: getText, path: '/text', method: 'get', authed: true},
     {function: saveText, path: '/text', method: 'put', authed: true},
+    {function: getErsatz, path: '/ersatz', method: 'get', authed: true},
+    {function: addErsatz, path: '/ersatz', method: 'post', authed: true},
+    {function: deleteErsatz, path: '/ersatz', method: 'delete', authed: true},
 ];
 
 async function getTermine(req, authentication) {
@@ -161,4 +165,36 @@ async function saveText(req, authentication) {
         if (role > 0) return await _termin.saveText(termin, text);
     }
     return [];
+}
+
+async function getErsatz(req, authentication) {
+    const termin = req.query.termin;
+    if (termin) {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role >= 0) {
+            return (await _ersatz.getErsatz(termin)).map(p => p.spieler);
+        }
+    }
+}
+
+async function addErsatz(req, authentication) {
+    const termin = req.body.termin;
+    const user = req.body.user;
+    if (termin && user) {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role > 0) {
+            return await _ersatz.addErsatz(user, termin);
+        }
+    }
+}
+
+async function deleteErsatz(req, authentication) {
+    const termin = req.body.termin;
+    const user = req.body.user;
+    if (termin && user) {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role > 0) {
+            return await _ersatz.deleteErsatz(user, termin);
+        }
+    }
 }

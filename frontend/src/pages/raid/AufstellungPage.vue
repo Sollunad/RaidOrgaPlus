@@ -12,6 +12,7 @@
             v-on:archive="archive"
             v-on:refresh="refresh"
             v-on:share="share"
+            v-on:ersatz="ersatz"
             v-on:changeLocked="changeLocked"
             v-on:deleteTermin="deleteTermin">
         </TerminToolbarComp>
@@ -58,6 +59,12 @@
                     v-on:close="closeShareDialog"
                     v-bind:termin="termin">
             </ShareDialogComp>
+            <ErsatzDialogComp
+                    v-bind:open="ersatzDialogOpen"
+                    v-on:close="closeErsatzDialog"
+                    v-bind:termin="termin"
+                    v-bind:raid="raid">
+            </ErsatzDialogComp>
         </div>
     </div>
 </template>
@@ -70,16 +77,20 @@
     import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
     import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp";
     import ShareDialogComp from "../../components/aufstellung/ShareDialogComp";
+    import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp";
 
     export default {
         name: "AufstellungPage",
-        components: {ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
+        components: {
+            ErsatzDialogComp,
+            ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
         props: ['termin', 'raid', 'role', 'user'],
         data: () => ({
             aufstellungen: null,
             archiveDialogOpen: false,
             deleteDialogOpen: false,
             shareDialogOpen: false,
+            ersatzDialogOpen: false,
             elements: [],
             locked: false,
         }),
@@ -151,6 +162,12 @@
             },
             closeShareDialog: function() {
                 this.shareDialogOpen = false;
+            },
+            ersatz: function() {
+                this.ersatzDialogOpen = true;
+            },
+            closeErsatzDialog: function() {
+                this.ersatzDialogOpen = false;
             }
         },
         created: async function() {

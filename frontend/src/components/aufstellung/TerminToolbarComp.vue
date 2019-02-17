@@ -53,6 +53,12 @@
                     <span>Editieren sperren</span>
                 </v-tooltip>
                 <v-tooltip bottom>
+                    <v-btn flat icon @click="ersatz" slot="activator">
+                        <v-icon>perm_identity</v-icon>
+                    </v-btn>
+                    <span>Ersatzspieler</span>
+                </v-tooltip>
+                <v-tooltip bottom>
                     <v-btn flat icon @click="share" slot="activator">
                         <v-icon>share</v-icon>
                     </v-btn>
@@ -124,6 +130,9 @@
             },
             share: function() {
                 this.$emit('share');
+            },
+            ersatz: function() {
+                this.$emit('ersatz');
             }
         },
         created: async function() {
