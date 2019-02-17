@@ -62,6 +62,7 @@
                     features: [
                         'Live-Aufstellungen',
                         'Lieutenants ernennen',
+                        'Logs hochladen und anzeigen',
                         'Builds in Spielerliste filtern',
                         'Dropdowns nach Builds füllen',
                         'Fortlaufende Termine',
@@ -73,7 +74,6 @@
                     no: '1.2',
                     release: 'April 2019',
                     features: [
-                        'Logs hochladen und anzeigen',
                         'Videos verlinken',
                         'Eigene Skillcard',
                         'Öffentliche Profile',
