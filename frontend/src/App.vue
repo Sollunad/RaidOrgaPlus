@@ -75,6 +75,10 @@
         if (user) this.user = user;
         else this.showLogin = true;
         this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
     },
     watch: {
         $route: function() {
