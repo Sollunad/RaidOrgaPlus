@@ -17,13 +17,8 @@
         name: "FooterComp",
         components: {ChangelogComp},
         data: () => ({
-            versionNo: '0.1',
-        }),
-        computed: {
-            footerText: function() {
-                return `v${this.versionNo} (${this.versionTitle})`;
-            }
-        }
+            versionNo: '1.0',
+        })
     }
 </script>
 
