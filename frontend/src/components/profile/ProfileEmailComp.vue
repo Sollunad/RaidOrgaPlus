@@ -1,27 +1,31 @@
 <template>
-    <v-form ref="form" v-model="valid" lazy-validation class="form" >
-        <v-text-field
-                @keypress.enter="submit"
-                v-model="email"
-                :rules="emailRules"
-                label="Neue E-Mail-Adresse"
-                required
-        ></v-text-field>
-        <v-text-field
-                @keypress.enter="submit"
-                v-model="password"
-                :rules="passwordRules"
-                label="Passwort bestätigen"
-                type="password"
-                required
-        ></v-text-field>
-        <v-btn
-                @click="submit"
-                :color=buttonColor
-        >
-            {{ buttonText }}
-        </v-btn>
-    </v-form>
+    <div>
+        <h2>E-Mail-Adresse ändern</h2>
+        <p></p>
+        <v-form ref="form" v-model="valid" lazy-validation class="form" >
+            <v-text-field
+                    @keypress.enter="submit"
+                    v-model="email"
+                    :rules="emailRules"
+                    label="Neue E-Mail-Adresse"
+                    required
+            ></v-text-field>
+            <v-text-field
+                    @keypress.enter="submit"
+                    v-model="password"
+                    :rules="passwordRules"
+                    label="Passwort bestätigen"
+                    type="password"
+                    required
+            ></v-text-field>
+            <v-btn
+                    @click="submit"
+                    :color=buttonColor
+            >
+                {{ buttonText }}
+            </v-btn>
+        </v-form>
+    </div>
 </template>
 
 <script>

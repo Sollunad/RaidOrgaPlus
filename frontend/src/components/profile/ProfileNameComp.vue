@@ -1,20 +1,24 @@
 <template>
-    <v-form ref="form" v-model="valid" lazy-validation class="form" >
-        <v-text-field
-                @keypress.enter="submit"
-                v-model="name"
-                :rules="nameRules"
-                label="Neuer Anzeigename"
-                required
-                counter="10"
-        ></v-text-field>
-        <v-btn
-                @click="submit"
-                :color=buttonColor
-        >
-            {{ buttonText }}
-        </v-btn>
-    </v-form>
+    <div>
+        <h2>Anzeigename ändern</h2>
+        <p></p>
+        <v-form ref="form" v-model="valid" lazy-validation class="form" >
+            <v-text-field
+                    @keypress.enter="submit"
+                    v-model="name"
+                    :rules="nameRules"
+                    label="Neuer Anzeigename"
+                    required
+                    counter="10"
+            ></v-text-field>
+            <v-btn
+                    @click="submit"
+                    :color=buttonColor
+            >
+                {{ buttonText }}
+            </v-btn>
+        </v-form>
+    </div>
 </template>
 
 <script>

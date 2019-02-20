@@ -1,33 +1,37 @@
 <template>
-    <v-form ref="form" v-model="valid" lazy-validation class="form" >
-        <v-text-field
-                @keypress.enter="submit"
-                v-model="apiKey"
-                :rules="apiKeyRules"
-                label="API-Key"
-                required
-        ></v-text-field>
-        <v-btn
-                @click="submit"
-                :color=buttonColor
-        >
-            {{ buttonText }}
-        </v-btn>
-        <v-snackbar
-                v-model="snackbar"
-                :timeout="5000"
-                :top="true"
-        >
-            {{ snackbarText }}
+    <div>
+        <h2>API-Key hinzufügen oder ändern</h2>
+        <p></p>
+        <v-form ref="form" v-model="valid" lazy-validation class="form" >
+            <v-text-field
+                    @keypress.enter="submit"
+                    v-model="apiKey"
+                    :rules="apiKeyRules"
+                    label="Neuer API-Key"
+                    required
+            ></v-text-field>
             <v-btn
-                    color="pink"
-                    flat
-                    @click="snackbar = false"
+                    @click="submit"
+                    :color=buttonColor
             >
-                OK
+                {{ buttonText }}
             </v-btn>
-        </v-snackbar>
-    </v-form>
+            <v-snackbar
+                    v-model="snackbar"
+                    :timeout="5000"
+                    :top="true"
+            >
+                {{ snackbarText }}
+                <v-btn
+                        color="pink"
+                        flat
+                        @click="snackbar = false"
+                >
+                    OK
+                </v-btn>
+            </v-snackbar>
+        </v-form>
+    </div>
 </template>
 
 <script>
