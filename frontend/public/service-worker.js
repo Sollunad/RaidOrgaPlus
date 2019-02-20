@@ -49,14 +49,15 @@ self.addEventListener('activate', event => {
 // If no response is found, it populates the runtime cache with the response
 // from the network before returning it to the page.
 self.addEventListener('fetch', event => {
-    // Skip cross-origin requests, like those for Google Analytics.
+    return false;
+    /*// Skip cross-origin requests, like those for Google Analytics.
     if (event.request.url.startsWith(self.location.origin)) {
         if ( event.request.url.match( '^.*(\/phpmyadmin\/).*$' ) ) {
             return false;
         } else {
             respondToEvent(event);
         }
-    } /*else if (event.request.url.startsWith('http://localhost:8081') && event.request.method === 'GET') {
+    } else if (event.request.url.startsWith('http://localhost:8081') && event.request.method === 'GET') {
         respondToEvent(event);
     }*/
 });
