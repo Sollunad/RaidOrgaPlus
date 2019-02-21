@@ -3,7 +3,7 @@ const db = require('../../db/connector.js');
 exports.listForPlayer = listForPlayerId;
 exports.get = getForRaidId;
 exports.listPlayers = listPlayers;
-exports.anmeldungStateForRaid = anmeldungStateForRaid;
+exports.anmeldungStatesForUser = anmeldungStatesForUser;
 exports.kickPlayer = kickPlayer;
 exports.getRoleForPlayer = getRoleForPlayer;
 
@@ -34,13 +34,13 @@ async function listPlayers(raidId) {
     }
 }
 
-async function anmeldungStateForRaid(raidId, userId) {
-    const stmt = 'SELECT Spieler_Termin.type ' +
+async function anmeldungStatesForUser(userId) {
+    const stmt = 'SELECT Termin.fk_raid AS raid, MIN(CASE WHEN ISNULL(Spieler_Termin.type) THEN -1 ELSE Spieler_Termin.type END) AS type ' +
         'FROM Termin LEFT JOIN Spieler_Termin ON Termin.id = Spieler_Termin.fk_termin ' +
-        'WHERE Termin.isArchived = 0 AND Termin.fk_raid = ? AND (Spieler_Termin.fk_spieler = ? OR ISNULL(Spieler_Termin.fk_spieler)) ' +
-        'GROUP BY Spieler_Termin.type';
+        'WHERE Termin.isArchived = 0 AND (Spieler_Termin.fk_spieler = ? OR ISNULL(Spieler_Termin.fk_spieler)) ' +
+        'GROUP BY raid';
     try {
-        return await db.queryV(stmt, [raidId, userId]);
+        return await db.queryV(stmt, userId);
     } catch(e) {
         throw e;
     }

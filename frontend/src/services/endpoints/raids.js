@@ -47,6 +47,6 @@ async function deleteInviteAsSelf(raid) {
     return await con('raids/invites', 'delete', {raid}, true);
 }
 
-async function getAnmeldungState(raid) {
-    return (await con('raids/anmeldungen', 'get', {raid}, true)).type;
+async function getAnmeldungState() {
+    return await con('raids/anmeldungen', 'get', {}, true);
 }

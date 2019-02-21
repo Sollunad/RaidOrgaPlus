@@ -13,6 +13,7 @@
                                 v-for="raid in raids"
                                 v-bind:key="raid.id"
                                 v-bind:raid="raid"
+                                v-bind:anmeldung="anmeldung(raid)"
                                 v-on:saveRaid="saveRaid"
                                 v-bind:user="user"
                         ></ListRaidComp>
@@ -34,11 +35,21 @@
         asyncComputed: {
             raids: function () {
                 return _raids.listForPlayer();
+            },
+            anmeldungen: function() {
+                return _raids.getAnmeldungState();
             }
         },
         methods: {
             saveRaid: function(raid) {
                 this.$emit('saveRaid', raid);
+            },
+            anmeldung: function(raid) {
+                if (this.anmeldungen) {
+                    const anmeldung = this.anmeldungen.filter(a => a.raid === raid.id)[0];
+                    console.log(anmeldung);
+                    return anmeldung;
+                }
             }
         }
     }

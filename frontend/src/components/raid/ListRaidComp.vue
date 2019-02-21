@@ -18,11 +18,11 @@
 </template>
 
 <script>
-    import _raids from '../../services/endpoints/raids';
+
 
     export default {
         name: "ListRaidComp",
-        props: ['raid', 'user'],
+        props: ['raid', 'user', 'anmeldung'],
         computed: {
             role: function() {
                 switch(this.raid.role) {
@@ -31,23 +31,19 @@
                     case 2: return "Rolle: Raidleiter";
                     default: return "";
                 }
+            },
+            icon: function() {
+                if (this.anmeldung) {
+                    const icons = ['check_circle', 'check_circle_outline', 'cancel', 'warning'];
+                    return icons.slice(this.anmeldung.type)[0];
+                } else {
+                    return '';
+                }
             }
         },
         methods: {
             saveRaid: function() {
                 this.$emit('saveRaid', this.raid);
-            }
-        },
-        asyncComputed: {
-            icon: async function() {
-                if (this.user) {
-                    const anmeldung = await _raids.getAnmeldungState(this.raid.id);
-                    if (anmeldung === null) return 'warning';
-                    const icons = ['check_circle', 'check_circle_outline', 'cancel'];
-                    return icons[anmeldung];
-                } else {
-                    return '';
-                }
             }
         }
     }
