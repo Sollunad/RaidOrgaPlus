@@ -13,6 +13,7 @@
 
 <script>
     import _users from '../../services/endpoints/users';
+    import _cookies from '../../services/util/cookies';
 
     export default {
         name: "MenuToolbarComp",
@@ -20,7 +21,7 @@
         methods: {
             logout: async function() {
                 await _users.invalidateSession();
-                localStorage.session = "";
+                _cookies.deleteCookie('session');
                 window.location.reload();
             }
         }

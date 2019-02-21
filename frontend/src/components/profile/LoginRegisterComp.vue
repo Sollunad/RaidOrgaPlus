@@ -86,6 +86,7 @@
 
 <script>
     import _users from '../../services/endpoints/users';
+    import _cookies from '../../services/util/cookies';
     import PasswordForgotDialog from "./PasswordForgotDialog";
 
     export default {
@@ -145,7 +146,7 @@
                 const uuid = await _users.login(this.accName, this.password);
                 if (uuid) {
                     this.buttonColor = 'success';
-                    localStorage.session = uuid;
+                    _cookies.setCookie('session', uuid);
                     window.location.href = '/';
                 } else {
                     this.loading = false;
