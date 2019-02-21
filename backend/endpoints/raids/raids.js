@@ -36,11 +36,11 @@ async function listPlayers(raidId) {
 
 async function anmeldungStatesForUser(userId) {
     const stmt = 'SELECT Termin.fk_raid AS raid, MIN(CASE WHEN ISNULL(Spieler_Termin.type) THEN -1 ELSE Spieler_Termin.type END) AS type ' +
-        'FROM Termin LEFT JOIN Spieler_Termin ON Termin.id = Spieler_Termin.fk_termin ' +
-        'WHERE Termin.isArchived = 0 AND (Spieler_Termin.fk_spieler = ? OR ISNULL(Spieler_Termin.fk_spieler)) ' +
+        'FROM Termin LEFT JOIN Spieler_Termin ON Termin.id = Spieler_Termin.fk_termin AND (Spieler_Termin.fk_spieler = ? OR ISNULL(Spieler_Termin.fk_spieler)) ' +
+        'WHERE Termin.isArchived = 0 AND Termin.fk_raid IN (SELECT fk_raid FROM Spieler_Raid WHERE fk_spieler = ?) ' +
         'GROUP BY raid';
     try {
-        return await db.queryV(stmt, userId);
+        return await db.queryV(stmt, [userId, userId]);
     } catch(e) {
         throw e;
     }
