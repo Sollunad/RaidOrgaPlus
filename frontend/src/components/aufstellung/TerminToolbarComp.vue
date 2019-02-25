@@ -1,6 +1,6 @@
 <template>
     <div class="toolbar">
-        <div class="datetime">
+        <div class="datetime" v-if="termin">
             {{termin.date}} {{termin.time}}
         </div>
         <KommentarComp
