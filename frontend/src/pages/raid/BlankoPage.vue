@@ -1,10 +1,11 @@
 <template>
     <div>
-        <v-progress-circular
-                v-if="!bosses"
-                indeterminate
-                color="primary"
-        ></v-progress-circular>
+        <div class="spinner" v-if="!bosses">
+            <v-progress-circular
+                    indeterminate
+                    color="primary"
+            ></v-progress-circular>
+        </div>
         <BlankoMenuWingComp
                 v-if="bosses"
                 v-bind:currentWing="wingFilter"
@@ -69,5 +70,10 @@
 </script>
 
 <style scoped>
-
+    .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 </style>

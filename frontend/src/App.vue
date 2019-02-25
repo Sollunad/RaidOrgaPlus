@@ -15,11 +15,12 @@
         <LoginRegisterPage
           v-else-if="showLogin">
         </LoginRegisterPage>
-        <v-progress-circular
-                v-else
-                indeterminate
-                color="primary"
-        ></v-progress-circular>
+        <div class="spinner" v-else>
+            <v-progress-circular
+                    indeterminate
+                    color="primary"
+            ></v-progress-circular>
+        </div>
     </v-content>
     <FooterComp></FooterComp>
   </v-app>
@@ -89,7 +90,7 @@
   }
 </script>
 
-<style>
+<style scoped>
     .unselectable {
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
@@ -97,5 +98,12 @@
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+    }
+
+    .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>
