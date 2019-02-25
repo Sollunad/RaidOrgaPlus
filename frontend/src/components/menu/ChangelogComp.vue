@@ -44,7 +44,7 @@
             versions: [
                 {
                     no: '1.0',
-                    release: '24.02.2019',
+                    release: '26.02.2019',
                     features: [
                         'Spielerliste',
                         'Termine / Archiv',
@@ -64,11 +64,10 @@
                         'Lieutenants ernennen',
                         'Logs hochladen und anzeigen',
                         'Builds in Spielerliste filtern',
-                        'Dropdowns nach Builds füllen',
+                        'Dropdowns nach Builds gefiltert',
                         'Fortlaufende Termine',
                         'Raid-Drops',
                         'Erfolgsliste',
-                        'Termine exportieren in Kalender',
                     ]},
                 {
                     no: '1.2',
@@ -80,6 +79,7 @@
                         'Profilbilder',
                         'Statistiken',
                         'Kill Proofs',
+                        'Termine exportieren in Kalender',
                     ]},
             ],
         })
