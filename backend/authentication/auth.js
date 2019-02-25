@@ -1,4 +1,4 @@
-const _users = require('../endpoints/users/session');
+const _session = require('../endpoints/users/session');
 const _raids = require('../endpoints/raids/raids');
 
 exports.auth = authenticate;
@@ -23,7 +23,8 @@ function searchCache(uuid) {
 }
 
 async function addCache(uuid) {
-    const response = (await _users.getUser(uuid))[0];
+    await _session.invalidateExpired();
+    const response = (await _session.getUser(uuid))[0];
     if (!response) return;
 
     let authObject = { user: response.user, uuid: uuid };
