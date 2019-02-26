@@ -111,7 +111,7 @@
             email: '',
             emailRules: [
                 v => !!v || 'Bitte gib eine E-Mail-Adresse an',
-                v => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/.test(v) || 'Bitte gib eine gültige E-Mail-Adresse an',
+                v => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(\.[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)+$/.test(v) || 'Bitte gib eine gültige E-Mail-Adresse an',
             ],
             buttonColor: '',
             snackbar: false,
