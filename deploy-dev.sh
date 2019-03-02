@@ -2,7 +2,7 @@
 git reset --hard
 git pull
 npm run install
-npm run serve
+npm run build
 
 screen -S backend-dev -X quit
 screen -d -m -S backend-dev bash -c 'cd backend && nodejs app.js'
