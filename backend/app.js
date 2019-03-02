@@ -90,14 +90,14 @@ try {
     if (env === 'http') {
         serveHTTP();
     } else {
-        serveHTTPS();
+        serveHTTPS(credentials);
     }
 } catch(e) {
     console.log('Server konnte über HTTPS nicht gestartet werden');
     serveHTTP();
 }
 
-function serveHTTPS() {
+function serveHTTPS(credentials) {
     https.createServer(credentials, app).listen(8080, function () {
         console.log('Server über HTTPS gestartet auf Port 8080!');
     });
