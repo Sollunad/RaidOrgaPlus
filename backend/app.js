@@ -86,11 +86,24 @@ try {
         ca: ca
     };
 
+    const env = process.argv[2];
+    if (env === 'http') {
+        serveHTTP();
+    } else {
+        serveHTTPS();
+    }
+} catch(e) {
+    console.log('Server konnte über HTTPS nicht gestartet werden');
+    serveHTTP();
+}
+
+function serveHTTPS() {
     https.createServer(credentials, app).listen(8080, function () {
         console.log('Server über HTTPS gestartet auf Port 8080!');
     });
-} catch(e) {
-    console.log('Server konnte über HTTPS nicht gestartet werden');
+}
+
+function serveHTTP() {
     http.createServer(app).listen(8081, function () {
         console.log('Server über HTTP gestartet auf Port 8081!');
     });
