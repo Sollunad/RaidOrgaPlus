@@ -1,5 +1,5 @@
 const db = require('../../db/connector.js');
-const api = require('../../gw2api/api');
+const api = require('../../gw2api/account');
 const users = require('./user');
 
 exports.api = getApiKey;

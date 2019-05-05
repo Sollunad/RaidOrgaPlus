@@ -26,9 +26,10 @@
         },
         data: () => ({
             menuItems: [
-                { id: 0, icon: 'fa-home', title: 'Home', route: '/' },
-                { id: 1, icon: 'fa-dungeon', title: 'Meine Raids', route: '/raids' },
-                { id: 2, icon: 'fa-user-circle', title: 'Profil', route: '/profil' },
+                { id: 0, icon: 'home', title: 'Home', route: '/' },
+                { id: 1, icon: 'explore', title: 'Meine Raids', route: '/raids' },
+                { id: 2, icon: 'account_circle', title: 'Profil', route: '/profil' },
+                { id: 3, icon: 'star', title: 'Erfolge', route: '/erfolge' },
                 //{ id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
             ]
         })
