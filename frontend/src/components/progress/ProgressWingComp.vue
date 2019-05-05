@@ -1,5 +1,6 @@
 <template>
-    <div class="wing">
+    <div class="wing"
+        v-bind:class="{'colored-wing': isBuffWing}">
         <ProgressBossComp
                 v-for="boss in bosses"
                 v-bind:boss="boss"
@@ -7,7 +8,7 @@
                 :key="boss.name">
         </ProgressBossComp>
         <v-avatar :size="48" tile class="cotm">
-            <img :src="icon()" v-if="isBuffWing">
+            <img :src="icon()" v-if="hasCotmIcon">
         </v-avatar>
     </div>
 </template>
@@ -38,6 +39,12 @@
                 const rotations = Math.floor(difference / (1000*60*60*24*7*2));
                 const rotationWing = rotations % 5 + 1;
                 return this.wing === rotationWing;
+            },
+            showCotmIcons: function() {
+                return window.innerWidth > 460;
+            },
+            hasCotmIcon: function() {
+                return this.showCotmIcons && this.isBuffWing;
             }
         }
     }
@@ -48,6 +55,10 @@
         border-radius: 15px;
         padding: 0 10px;
         margin: 10px 0;
+    }
+
+    .colored-wing {
+        background-color: #445570;
     }
 
     .cotm {
