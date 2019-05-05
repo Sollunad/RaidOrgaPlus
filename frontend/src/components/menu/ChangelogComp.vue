@@ -58,7 +58,7 @@
                     ]},
                 {
                     no: '1.1',
-                    release: 'März 2019',
+                    release: 'Coming soon',
                     features: [
                         'Live-Aufstellungen',
                         'Lieutenants ernennen',
@@ -71,7 +71,7 @@
                     ]},
                 {
                     no: '1.2',
-                    release: 'April 2019',
+                    release: 'Coming soon',
                     features: [
                         'Videos verlinken',
                         'Eigene Skillcard',

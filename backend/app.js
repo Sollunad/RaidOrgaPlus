@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const fileUpload = require('express-fileupload');
 
 const fs = require('fs');
 const http = require('http');
@@ -19,6 +20,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());       // to support JSON-encoded bodies
 app.use('/icons', express.static('icons'));
+app.use(fileUpload());
 
 fs.readdir('./endpoints/', (err, folders) => {
     folders.forEach(folder => {
