@@ -6,7 +6,7 @@
 
         >
             <v-list-tile-title @click="pick(user)">
-                <NameComp v-bind:user="user"></NameComp>
+                {{user.name}}
             </v-list-tile-title>
         </v-list-tile>
     </v-list>
