@@ -1,10 +1,12 @@
 <template>
-    <div>
+    <div class="progress">
         <h1>Weekly Progress</h1>
         <p></p>
         <ProgressWingComp
-                v-for="wing in bosses"
+                v-for="(wing, index) in bosses"
                 v-bind:bosses="wing"
+                v-bind:wing="index + 1"
+                v-bind:maxWing="maxWing"
                 v-bind:progress="progress"
                 :key="wing[0].wing"></ProgressWingComp>
     </div>
@@ -26,10 +28,17 @@
             progress: function() {
                 if (this.user) return _progress.progress();
             }
+        },
+        computed: {
+            maxWing: function() {
+                return this.bosses.length;
+            }
         }
     }
 </script>
 
 <style scoped>
-
+    .progress {
+        width: fit-content;
+    }
 </style>
