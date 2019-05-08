@@ -53,8 +53,13 @@
 <style scoped>
     .wing {
         border-radius: 15px;
-        padding: 0 10px;
         margin: 10px 0;
+    }
+
+    @media only screen and (min-width: 600px) {
+        .wing {
+            padding: 0 10px;
+        }
     }
 
     .colored-wing {
