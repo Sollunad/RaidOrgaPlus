@@ -2,7 +2,7 @@
     <div>
         <v-menu :close-on-content-click="false" v-model="classMenuOpen" :lazy="true" v-if="role > 0">
             <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearClass">
-                <span class="white--text headline" v-if="classIcon === ''">?</span>
+                <img :src="emptyIcon" v-if="classIcon === ''">
                 <img :src="classIcon" v-else>
             </v-avatar>
             <MenuClassComp
@@ -10,12 +10,12 @@
             </MenuClassComp>
         </v-menu>
         <v-avatar :size="20" :tile="true" class="avatar" v-else>
-            <span class="white--text headline" v-if="classIcon === ''">?</span>
+            <img :src="emptyIcon" v-if="classIcon === ''">
             <img :src="classIcon" v-else>
         </v-avatar>
         <v-menu :lazy="true" v-if="role > 0">
             <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearRole">
-                <span class="white--text headline" v-if="roleIcon === ''">?</span>
+                <img :src="emptyIcon" v-if="roleIcon === ''">
                 <img :src="roleIcon" v-else>
             </v-avatar>
             <MenuRoleComp
@@ -23,7 +23,7 @@
             </MenuRoleComp>
         </v-menu>
         <v-avatar :size="20" :tile="true" class="avatar" v-else>
-            <span class="white--text headline" v-if="roleIcon === ''">?</span>
+            <img :src="emptyIcon" v-if="roleIcon === ''">
             <img :src="roleIcon" v-else>
         </v-avatar>
     </div>
@@ -60,7 +60,10 @@
             roleIcon: function() {
                 if (this.element && this.element.role !== '') return _icons.roleIcon(this.element.role);
                 else return '';
-            }
+            },
+            emptyIcon: function() {
+                return _icons.miscIcon('empty');
+            },
         },
         methods: {
             pickClass: async function(clss) {
