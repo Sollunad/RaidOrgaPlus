@@ -1,12 +1,12 @@
 <template>
     <div>
-        Wing {{wing.wing}}
+        <span class="headline">Wing {{wing.wing}}</span>
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex
                         v-for="ach in wing.achievements"
                         :key="ach.id"
-                        xs12 sm6 md3 xl2>
+                        xs6 sm6 md3 xl2>
                     <ErfolgComponent
                             v-bind:achievement="ach"
                             v-bind:allDone="allDone">

@@ -7,8 +7,8 @@
                 v-bind:progress="progress"
                 :key="boss.name">
         </ProgressBossComp>
-        <v-avatar :size="48" tile class="cotm">
-            <img :src="icon()" v-if="hasCotmIcon">
+        <v-avatar :size="48" tile class="cotm" v-if="hasCotmIcon">
+            <img :src="icon()">
         </v-avatar>
     </div>
 </template>
