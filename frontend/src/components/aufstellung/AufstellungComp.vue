@@ -5,8 +5,10 @@
             v-bind:role="role"
             v-bind:active="active"
             v-bind:success="success"
+            v-bind:all="all"
             v-on:deleteBoss="deleteBoss"
-            v-on:toggleSuccess="toggleSuccess">
+            v-on:toggleSuccess="toggleSuccess"
+            v-on:refresh="refresh">
         </AufstellungHeaderComp>
         <AufstellungBodyComp
                 v-bind:aufstellung="aufstellung"
@@ -30,7 +32,7 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellung', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz'],
+        props: ['aufstellung', 'all', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz'],
         data: () => ({
             success: false
         }),
@@ -41,6 +43,9 @@
             toggleSuccess: async function() {
                 this.success = !this.success;
                 await _aufstellungen.setSuccess(this.aufstellung.id, this.success);
+            },
+            refresh: function() {
+                this.$emit('refresh');
             }
         },
         created: async function() {

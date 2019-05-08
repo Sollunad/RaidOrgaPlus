@@ -31,6 +31,7 @@
                             xs12 md6 xl3>
                         <AufstellungComp
                                 v-bind:aufstellung="aufstellung"
+                                v-bind:all="aufstellungen"
                                 v-bind:raid="raid"
                                 v-bind:role="role"
                                 v-bind:active="isActive"
@@ -39,7 +40,8 @@
                                 v-bind:anmeldungen="anmeldungen"
                                 v-bind:ersatz="ersatzspieler"
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
-                                v-on:deleteBoss="deleteBoss">
+                                v-on:deleteBoss="deleteBoss"
+                                v-on:refresh="refresh">
                         </AufstellungComp>
                     </v-flex>
                 </v-layout>

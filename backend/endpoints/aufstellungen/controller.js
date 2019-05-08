@@ -8,6 +8,7 @@ module.exports = [
     {function: deleteTermin, path: '', method: 'delete', authed: true},
     {function: getElement, path: '/elements', method: 'get', authed: true},
     {function: postElement, path: '/elements', method: 'post', authed: true},
+    {function: copyNames, path: '/copyNames', method: 'post', authed: true},
 ];
 
 async function getForTermin(req, authentication) {
@@ -72,4 +73,15 @@ async function postElement(req, authentication) {
         }
     }
     return [];
+}
+
+async function copyNames(req, authentication) {
+    const from = req.body.from;
+    const to = req.body.to;
+    if (from && to) {
+        const role = await _roles.forAufstellung(authentication, to);
+        if (role > 0) {
+            return _aufstellung.copyNames(from, to);
+        }
+    }
 }
