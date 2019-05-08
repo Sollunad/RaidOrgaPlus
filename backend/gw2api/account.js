@@ -6,23 +6,23 @@ exports.permissions = getPermissions;
 exports.itemCount = getItemCount;
 exports.getDoneAchievements = getDoneAchievements;
 
-const account = apiclient();
+const api = apiclient();
 
 async function getDoneAchievements(key) {
-    const achievements = await account.authenticate(key).account().achievements().get();
+    const achievements = await api.authenticate(key).account().achievements().get();
     return achievements.filter(a => a.done === true).map(a => a.id);
 }
 
 async function fetchProgress(key) {
-    return account.authenticate(key).account().raids().get().then(res => {return res});
+    return api.authenticate(key).account().raids().get().then(res => {return res});
 }
 
 async function getAccname(key) {
-    return account.authenticate(key).account().get().then(res => {return res.name});
+    return api.authenticate(key).account().get().then(res => {return res.name});
 }
 
 async function getPermissions(key){
-    return account.authenticate(key).tokeninfo().get().then(res => {return res.permissions});
+    return api.authenticate(key).tokeninfo().get().then(res => {return res.permissions});
 }
 
 async function getItemCount(key) {
@@ -45,25 +45,25 @@ async function getItemCount(key) {
 }
 
 async function getBankItems(key){
-    return account.authenticate(key).account().bank().get().then(res => {
+    return api.authenticate(key).account().bank().get().then(res => {
         return res.filter(e => e !== null);
     });
 }
 
 async function getStorageItems(key){
-    return account.authenticate(key).account().materials().get().then(res => {
+    return api.authenticate(key).account().materials().get().then(res => {
         return res.filter(e => e !== null);
     });
 }
 
 async function getSharedItems(key){
-    return account.authenticate(key).account().inventory().get().then(res => {
+    return api.authenticate(key).account().inventory().get().then(res => {
         return res.filter(e => e !== null);
     });
 }
 
 async function getCharacterItems(key){
-    return account.authenticate(key).characters().all().then(res => {
+    return api.authenticate(key).characters().all().then(res => {
         const equipByChar = res.map(e => e.equipment);
         let equip = [];
         equipByChar.forEach(e => {
