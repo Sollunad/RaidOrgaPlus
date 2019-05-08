@@ -24,7 +24,6 @@
                     v-if="anmeldungen.length > 0"
                     v-bind:anmeldungen="anmeldungen">
                 </ListAnmeldungComp>
-                <span v-else>Noch niemand angemeldet</span>
             </v-tooltip>
             <v-tooltip bottom>
                 <v-btn flat icon @click="refresh" slot="activator">

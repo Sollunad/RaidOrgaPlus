@@ -7,9 +7,6 @@ exports.listAllIds = listAllIds;
 exports.getRaidId = getRaidId;
 exports.newTermin = newTermin;
 exports.archive = archive;
-exports.anmelden = anmelden;
-exports.getAnmeldungForSpieler = getAnmeldungForSpieler;
-exports.getAnmeldungenForTermin = getAnmeldungenForTermin;
 exports.addBoss = addBoss;
 exports.addWing = addWing;
 exports.isLocked = isLocked;
@@ -113,35 +110,6 @@ async function newTermin(raid, date, time) {
 
 async function archive(termin) {
     const stmt = 'UPDATE Termin SET isArchived = 1, isLocked = 0, preview = 0 WHERE id = ?';
-    try {
-        return await db.queryV(stmt, termin);
-    } catch(e) {
-        throw e;
-    }
-}
-
-async function anmelden(spieler, termin, type) {
-    const stmt = 'INSERT INTO Spieler_Termin (fk_spieler, fk_termin, type) VALUES (?,?,?) ON DUPLICATE KEY UPDATE type=?';
-    try {
-        return await db.queryV(stmt, [spieler, termin, type, type]);
-    } catch(e) {
-        throw e;
-    }
-}
-
-async function getAnmeldungForSpieler(spieler, termin) {
-    const stmt = 'SELECT type FROM Spieler_Termin WHERE fk_spieler = ? AND fk_termin = ?';
-    try {
-        const response = await db.queryV(stmt, [spieler, termin]);
-        if (response.length === 0) return {type: null};
-        else return {type: response[0].type};
-    } catch(e) {
-        throw e;
-    }
-}
-
-async function getAnmeldungenForTermin(termin) {
-    const stmt = 'SELECT Spieler.id, Spieler.name, Spieler.accname, Spieler_Termin.type FROM Spieler_Termin JOIN Spieler ON Spieler.id = Spieler_Termin.fk_spieler WHERE fk_termin = ? ORDER BY Spieler.name';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {

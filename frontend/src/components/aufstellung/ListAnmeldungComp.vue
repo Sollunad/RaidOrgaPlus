@@ -13,11 +13,11 @@
         props: ['anmeldungen'],
         methods: {
             anmeldungIcon: function(type) {
-                const icons = ['check_circle', 'check_circle_outline', 'cancel'];
+                const icons = ['check_circle', 'check_circle_outline', 'cancel', 'help'];
                 return icons[type];
             },
             anmeldungColor: function(type) {
-                const colors = ['green', 'yellow', 'red'];
+                const colors = ['green', 'yellow', 'red', 'grey'];
                 return colors[type];
             },
         }
