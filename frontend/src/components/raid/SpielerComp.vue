@@ -53,7 +53,7 @@
                 return this.user.role === 2;
             },
             filtered: function() {
-                if (this.filter) return this.builds.filter(b => b.role.abbr === this.filter);
+                if (this.filter) return this.builds.filter(b => this.filter.indexOf(b.role.abbr) !== -1 );
                 else return this.builds;
             },
             prefer: function() {

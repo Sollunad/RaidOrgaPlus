@@ -4,6 +4,9 @@
             v-if="role > 0"
             v-bind:raid="raid">
         </SpielerEinladenComp>
+        <BuildFilterButtonsComp
+                v-on:setFilter="setFilter">
+        </BuildFilterButtonsComp>
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex
@@ -19,6 +22,7 @@
                 </v-flex>
             </v-layout>
         </v-container>
+
     </div>
 </template>
 
@@ -26,10 +30,11 @@
     import SpielerComp from "../../components/raid/SpielerComp";
     import _raids from '../../services/endpoints/raids';
     import SpielerEinladenComp from "../../components/raid/SpielerEinladenComp";
+    import BuildFilterButtonsComp from "../../components/raid/BuildFilterButtonsComp";
 
     export default {
         name: "SpielerlistePage",
-        components: {SpielerEinladenComp, SpielerComp},
+        components: {BuildFilterButtonsComp, SpielerEinladenComp, SpielerComp},
         props: ['raid', 'role', 'user'],
         data: () => ({
             filter: '',
@@ -38,6 +43,9 @@
         methods: {
             kick: async function(user) {
                 this.users = await _raids.kickPlayer(this.raid.id, user.id);
+            },
+            setFilter: function(filter) {
+                this.filter = filter;
             }
         },
         created: async function() {
