@@ -83,6 +83,7 @@
         width: 100%;
         height: 100%;
         padding: 0.5rem 0 1rem 1rem;
+        box-shadow: 1px 1px 3px black;
     }
 
     .name {

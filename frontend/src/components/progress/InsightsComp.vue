@@ -12,11 +12,11 @@
             <v-avatar :size="40" tile class="typeicon">
                 <img :src="icon(type.name)">
             </v-avatar>
-            <v-avatar :size="30" tile>
+            <v-avatar :size="30" tile class="useicon">
                 <img :src="icon('inv')">
             </v-avatar>
             <span>{{type.hand}}</span>
-            <v-avatar :size="30" tile>
+            <v-avatar :size="30" tile class="useicon">
                 <img :src="icon('craft')">
             </v-avatar>
             <span>{{type.crafted}}</span>
@@ -48,5 +48,6 @@
 <style scoped>
     .typeicon {
         margin-right: 5px;
+        box-shadow: 1px 1px 2px black;
     }
 </style>
