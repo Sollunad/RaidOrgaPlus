@@ -5,9 +5,12 @@
         </v-avatar>
         <span>{{boss.name}}</span>
         <v-menu :close-on-content-click="false" v-if="role > 0" class="button" :lazy="true">
-            <v-btn flat icon v-if="role > 0" slot="activator">
-                <v-icon>get_app</v-icon>
-            </v-btn>
+            <v-tooltip slot="activator" bottom>
+                <v-btn flat icon v-if="role > 0" slot="activator">
+                    <v-icon>input</v-icon>
+                </v-btn>
+                <span>Import von anderem Boss</span>
+            </v-tooltip>
             <MenuWingComp
                     v-on:pick="copyBlanko">
             </MenuWingComp>

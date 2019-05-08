@@ -1,5 +1,5 @@
 const user = require('../users/apikey');
-const api = require('../../gw2api/api');
+const api = require('../../gw2api/account');
 const items = require('./insightItems');
 
 exports.insights = insights;

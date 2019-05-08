@@ -2,6 +2,7 @@ const _termin = require('./termin');
 const _ersatz = require('../termine/ersatz');
 const _aufstellung = require('../aufstellungen/aufstellung');
 const _roles = require('../../authentication/role');
+const _anmeldungen = require('./anmeldungen');
 
 module.exports = [
     {function: getTermine, path: '', method: 'get', authed: true},
@@ -120,7 +121,7 @@ async function putAnmeldung(req, authentication) {
     const type = req.body.type;
     if (termin && (type || type === 0)) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _termin.anmelden(authentication.user, termin, type);
+        if (role >= 0) return await _anmeldungen.anmelden(authentication.user, termin, type);
     }
     return [];
 }
@@ -130,10 +131,10 @@ async function getAnmeldungen(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         if (spieler) {
-            if (authentication.user === parseInt(spieler)) return await _termin.getAnmeldungForSpieler(spieler, termin);
+            if (authentication.user === parseInt(spieler)) return await _anmeldungen.getAnmeldungForSpieler(spieler, termin);
         } else {
             const role = await _roles.forTermin(authentication, termin);
-            if (role >= 0) return await _termin.getAnmeldungenForTermin(termin);
+            if (role >= 0) return await _anmeldungen.getAnmeldungenForTermin(termin);
         }
     }
     return [];

@@ -7,6 +7,19 @@
         <v-btn flat icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
             <v-icon>clear</v-icon>
         </v-btn>
+        <v-menu v-if="role > 0 && active" class="button" :lazy="true">
+            <v-tooltip slot="activator" bottom>
+                <v-btn flat icon slot="activator">
+                    <v-icon>input</v-icon>
+                </v-btn>
+                <span>Namen kopieren</span>
+            </v-tooltip>
+            <MenuAufstellungenComp
+                    v-bind:aufstellung="aufstellung"
+                    v-bind:all="all"
+                    v-on:refresh="refresh"
+            ></MenuAufstellungenComp>
+        </v-menu>
         <v-btn flat icon :color="successColor" @click="toggleSuccess" class="button" v-if="!active">
             <v-icon>{{successIcon}}</v-icon>
         </v-btn>
@@ -15,10 +28,12 @@
 
 <script>
     import _icons from '../../services/icons.js';
+    import MenuAufstellungenComp from "./MenuAufstellungenComp";
 
     export default {
         name: "AufstellungHeaderComp",
-        props: ['aufstellung', 'role', 'active', 'success'],
+        components: {MenuAufstellungenComp},
+        props: ['aufstellung', 'role', 'active', 'success', 'all'],
         data: () => ({
             isCm: false
         }),
@@ -44,6 +59,9 @@
                 if (this.role > 0) {
                     this.$emit('toggleSuccess');
                 }
+            },
+            refresh: function() {
+                this.$emit('refresh');
             }
         }
     }

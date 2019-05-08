@@ -53,7 +53,7 @@
                 return this.user.role === 2;
             },
             filtered: function() {
-                if (this.filter) return this.builds.filter(b => b.role.abbr === this.filter);
+                if (this.filter) return this.builds.filter(b => this.filter.indexOf(b.role.abbr) !== -1 );
                 else return this.builds;
             },
             prefer: function() {
@@ -83,6 +83,7 @@
         width: 100%;
         height: 100%;
         padding: 0.5rem 0 1rem 1rem;
+        box-shadow: 1px 1px 3px black;
     }
 
     .name {

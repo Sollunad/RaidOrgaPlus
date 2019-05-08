@@ -58,28 +58,26 @@
                     ]},
                 {
                     no: '1.1',
-                    release: 'Coming soon',
+                    release: '08.05.2019',
                     features: [
-                        'Live-Aufstellungen',
-                        'Lieutenants ernennen',
-                        'Logs hochladen und anzeigen',
-                        'Builds in Spielerliste filtern',
-                        'Dropdowns nach Builds gefiltert',
-                        'Fortlaufende Termine',
-                        'Raid-Drops',
-                        'Erfolgsliste',
+                        'Builds in Spielerliste nach Rollen filtern',
+                        'Erfolgs-Übersicht',
+                        'Raidleiter in Spielerliste zuerst anzeigen',
+                        'Kennzeichnen von fehlenden Anmeldungen in Liste',
+                        'Namen von einem Boss zum anderen kopieren',
+                        'Buff-Wings hervorheben',
+                        'Visual Overhaul der Aufstellungen'
+
                     ]},
                 {
                     no: '1.2',
                     release: 'Coming soon',
                     features: [
-                        'Videos verlinken',
-                        'Eigene Skillcard',
-                        'Öffentliche Profile',
-                        'Profilbilder',
+                        'Logs hochladen und anzeigen',
+                        'CMs markieren',
+                        'Fortlaufende Termine',
                         'Statistiken',
-                        'Kill Proofs',
-                        'Termine exportieren in Kalender',
+                        'Nutzerprofile'
                     ]},
             ],
         })

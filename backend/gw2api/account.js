@@ -4,8 +4,14 @@ exports.fetchProgress = fetchProgress;
 exports.accName = getAccname;
 exports.permissions = getPermissions;
 exports.itemCount = getItemCount;
+exports.getDoneAchievements = getDoneAchievements;
 
 const api = apiclient();
+
+async function getDoneAchievements(key) {
+    const achievements = await api.authenticate(key).account().achievements().get();
+    return achievements.filter(a => a.done === true).map(a => a.id);
+}
 
 async function fetchProgress(key) {
     return api.authenticate(key).account().raids().get().then(res => {return res});

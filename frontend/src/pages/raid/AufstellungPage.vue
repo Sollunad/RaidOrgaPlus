@@ -31,6 +31,7 @@
                             xs12 md6 xl3>
                         <AufstellungComp
                                 v-bind:aufstellung="aufstellung"
+                                v-bind:all="aufstellungen"
                                 v-bind:raid="raid"
                                 v-bind:role="role"
                                 v-bind:active="isActive"
@@ -39,7 +40,8 @@
                                 v-bind:anmeldungen="anmeldungen"
                                 v-bind:ersatz="ersatzspieler"
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
-                                v-on:deleteBoss="deleteBoss">
+                                v-on:deleteBoss="deleteBoss"
+                                v-on:refresh="refresh">
                         </AufstellungComp>
                     </v-flex>
                 </v-layout>
@@ -99,6 +101,7 @@
             elements: [],
             locked: false,
             ersatzspieler: [],
+            anmeldung: [],
         }),
         asyncComputed: {
             anmeldung: function() {
@@ -149,6 +152,8 @@
             refresh: async function() {
                 this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
                 this.elements = await _aufstellungen.getElements(this.termin.id);
+                this.locked = await _termine.isLocked(this.termin.id);
+                this.anmeldungen = await _termine.getAnmeldungenForTermin(this.termin.id);
             },
             changeLocked: async function() {
                 this.elements = await _aufstellungen.getElements(this.termin.id);
