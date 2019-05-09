@@ -15,7 +15,7 @@ async function startSession(id, uuid) {
 }
 
 async function getUserId(uuid) {
-    const stmt = 'SELECT user FROM Session WHERE uuid = ?';
+    const stmt = 'SELECT user, role FROM Session WHERE uuid = ?';
     try {
         return await db.queryV(stmt, uuid);
     } catch(e) {

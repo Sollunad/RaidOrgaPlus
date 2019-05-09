@@ -27,7 +27,7 @@ async function addCache(uuid) {
     const response = (await _session.getUser(uuid))[0];
     if (!response) return;
 
-    let authObject = { user: response.user, uuid: uuid };
+    let authObject = { user: response.user, role: response.role, uuid: uuid };
     const raids = await _raids.listForPlayer(authObject.user);
     authObject.raids = [];
 
