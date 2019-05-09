@@ -24,6 +24,9 @@
             <v-btn flat icon :color="successColor" @click="toggleSuccess" class="button" v-if="!active">
                 <v-icon>{{successIcon}}</v-icon>
             </v-btn>
+            <v-btn flat icon class="button" v-if="reportLink" target="_newtab" :href="reportLink">
+                <v-icon>show_chart</v-icon>
+            </v-btn>
         </div>
         <div>
             <FileUploadComp
@@ -55,6 +58,12 @@
             successIcon: function() {
                 if (this.success) return 'check_circle';
                 else return 'check_circle_outline';
+            },
+            reportLink: function() {
+                const baseLink = 'https://dps.report/';
+                if (this.aufstellung.report) {
+                    return `${baseLink}${this.aufstellung.report}`;
+                }
             }
         },
         methods: {

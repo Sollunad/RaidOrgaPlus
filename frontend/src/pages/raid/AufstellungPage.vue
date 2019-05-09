@@ -190,7 +190,7 @@
                 this.ersatzspieler = ersatz;
             },
             upload: function() {
-                this.uploadActive = true;
+                this.uploadActive = !this.uploadActive;
             }
         },
         created: async function() {

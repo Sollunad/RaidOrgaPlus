@@ -18,7 +18,7 @@
         methods: {
             submit: async function() {
                 const evtc = this.file = this.$refs.file.files[0];
-                this.btnText = 'Hochladen...';
+                this.btnText = 'Laden...';
                 this.btnColor = '';
                 const response = await _reports.uploadReport(evtc, this.aufstellung.id);
                 if (response[0] === 'success') {

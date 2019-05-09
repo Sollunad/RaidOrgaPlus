@@ -8,7 +8,7 @@ exports.loadBlanko = loadBlanko;
 exports.copyNames = copyNames;
 
 async function getForTermin(termin) {
-    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
+    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success, Aufstellung.report FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {
