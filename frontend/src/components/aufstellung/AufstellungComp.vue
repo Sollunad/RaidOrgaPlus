@@ -6,6 +6,7 @@
             v-bind:active="active"
             v-bind:success="success"
             v-bind:all="all"
+            v-bind:uploadActive="uploadActive"
             v-on:deleteBoss="deleteBoss"
             v-on:toggleSuccess="toggleSuccess"
             v-on:refresh="refresh">
@@ -32,7 +33,7 @@
     export default {
         name: "AufstellungComp",
         components: {AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellung', 'all', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz'],
+        props: ['aufstellung', 'all', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz', 'uploadActive'],
         data: () => ({
             success: false
         }),

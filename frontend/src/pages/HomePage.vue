@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <FileUploadComp></FileUploadComp>
         <EinladungenComp
             v-bind:user="user"
             class="einladungen">
@@ -31,10 +32,11 @@
     import ProgressComp from "../components/progress/ProgressComp";
     import InsightsComp from "../components/progress/InsightsComp";
     import _users from '../services/endpoints/users';
+    import FileUploadComp from "../components/reports/FileUploadComp";
 
     export default {
         name: "HomePage",
-        components: {EinladungenComp, InsightsComp, ProgressComp},
+        components: {FileUploadComp, EinladungenComp, InsightsComp, ProgressComp},
         props: ['user'],
         asyncComputed: {
             hasNoApi: async function() {

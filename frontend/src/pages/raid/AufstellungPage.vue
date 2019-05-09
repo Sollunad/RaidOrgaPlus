@@ -15,7 +15,8 @@
             v-on:share="share"
             v-on:ersatz="ersatz"
             v-on:changeLocked="changeLocked"
-            v-on:deleteTermin="deleteTermin">
+            v-on:deleteTermin="deleteTermin"
+            v-on:upload="upload">
         </TerminToolbarComp>
         <v-progress-circular
                 v-if="!aufstellungen"
@@ -40,6 +41,7 @@
                                 v-bind:anmeldungen="anmeldungen"
                                 v-bind:ersatz="ersatzspieler"
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
+                                v-bind:uploadActive="uploadActive"
                                 v-on:deleteBoss="deleteBoss"
                                 v-on:refresh="refresh">
                         </AufstellungComp>
@@ -102,6 +104,7 @@
             locked: false,
             ersatzspieler: [],
             anmeldung: [],
+            uploadActive: false,
         }),
         asyncComputed: {
             anmeldung: function() {
@@ -185,6 +188,9 @@
             },
             setErsatz: function(ersatz) {
                 this.ersatzspieler = ersatz;
+            },
+            upload: function() {
+                this.uploadActive = true;
             }
         },
         created: async function() {
