@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { getForTermin, deleteBoss, setSuccess, getElements, setClass, setName, setRole, copyNames };
+export default { getForTermin, deleteBoss, setSuccess, getElements, setClass, setName, setRole, copyElements };
 
 async function getForTermin(termin) {
     return await con('aufstellungen', 'get', {termin}, true);
@@ -34,6 +34,6 @@ function setElement(aufstellung, position, value, type) {
     return con('aufstellungen/elements', 'post', {aufstellung, position, value, type}, true);
 }
 
-function copyNames(from, to) {
-    return con('aufstellungen/copyNames', 'post', {from, to}, true);
+function copyElements(from, to) {
+    return con('aufstellungen/copyElements', 'post', {from, to}, true);
 }

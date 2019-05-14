@@ -13,7 +13,7 @@
                     <v-btn flat icon slot="activator">
                         <v-icon>input</v-icon>
                     </v-btn>
-                    <span>Namen kopieren</span>
+                    <span>Einträge kopieren</span>
                 </v-tooltip>
                 <MenuAufstellungenComp
                         v-bind:aufstellung="aufstellung"

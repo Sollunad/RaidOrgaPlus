@@ -21,7 +21,7 @@
         },
         methods: {
             pick: async function(aufstellung) {
-                await _aufstellungen.copyNames(aufstellung.id, this.aufstellung.id);
+                await _aufstellungen.copyElements(aufstellung.id, this.aufstellung.id);
                 this.$emit('refresh');
             }
         },
