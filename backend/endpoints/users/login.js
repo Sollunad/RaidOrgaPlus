@@ -4,6 +4,7 @@ const db = require('../../db/connector.js');
 const session = require('./session.js');
 
 exports.login = login;
+exports.loginDiscord = loginDiscord;
 
 async function login(username, pwd){
     const response = await getUserByName(username);
@@ -15,6 +16,25 @@ async function login(username, pwd){
             session.start(user.id, uuid);
             return uuid;
         }
+    }
+}
+
+async function loginDiscord(key) {
+    const response = await getUserByDiscordKey(key);
+    const user = response[0];
+    if (user) {
+        const uuid = uuidv4();
+        session.start(user.fk_spieler, uuid);
+        return uuid;
+    }
+}
+
+async function getUserByDiscordKey(key) {
+    const stmt = 'SELECT * FROM DiscordKey WHERE discord_key = ?';
+    try {
+        return await db.queryV(stmt, key);
+    } catch(e) {
+        throw e;
     }
 }
 
