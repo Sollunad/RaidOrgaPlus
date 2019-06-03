@@ -1,4 +1,4 @@
-//TODO: Require gibt cached Result, da der Server permanent laufen soll, hier fs verwenden
+//TODO #182: Require gibt cached Result, da der Server permanent laufen soll, hier fs verwenden
 // ref https://stackabuse.com/reading-and-writing-json-files-with-node-js/
 const sessions = require('../stores/sessions.json');
 const _users = require('./endpoints/users');
@@ -11,8 +11,8 @@ function getSessionForDiscordUser(user) {
         const sessionKey = foundSession.session;
         return sessionKey;
     } else {
-        //TODO: Verschiedene Rückgaben für "Keine Session" und "Session abgelaufen"
-        //TODO: Wenn Session abgelaufen, Session löschen
+        //TODO #182: Verschiedene Rückgaben für "Keine Session" und "Session abgelaufen"
+        //TODO #182: Wenn Session abgelaufen, Session löschen
     }
 }
 
@@ -22,7 +22,7 @@ async function login(user, discordKey) {
         const newSessions = sessions;
         const newUser = {user, session};
         newSessions.push(newUser);
-        //TODO: Neue sessions.json speichern
+        //TODO #182: Neue sessions.json speichern
     }
 }
 
