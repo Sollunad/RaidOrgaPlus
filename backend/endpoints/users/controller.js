@@ -48,8 +48,11 @@ async function registerUser(req) {
 async function loginUser(req) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
+    const key = req.body.key;
     if (accName && pwd) {
         return await _login.login(accName, pwd);
+    } else if (key) {
+        return await _login.loginDiscord(key);
     } else {
         return [];
     }
