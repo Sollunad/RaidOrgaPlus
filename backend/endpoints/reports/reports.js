@@ -16,13 +16,14 @@ async function addReport(aufstellung, evtc) {
     const fileName = uuid();
     const newPath = `reports/parsed/${fileName}.html`;
 
-    await fs.rename(oldPath, newPath);
+    await fs.rename(oldPath, newPath, function(err) {
+        if (err) throw err;
+    });
     await writeReport(aufstellung, fileName);
     return ['success'];
 }
 
 async function writeReport(aufstellung, fileName) {
-    //Trage den Namen der File ein
     const stmt = 'UPDATE Aufstellung SET report = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [fileName, aufstellung]);
