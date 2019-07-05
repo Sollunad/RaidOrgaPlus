@@ -63,6 +63,8 @@
                 const baseLink = 'https://dps.report/';
                 if (this.aufstellung.report) {
                     return `${baseLink}${this.aufstellung.report}`;
+                } else {
+                    return false;
                 }
             }
         },

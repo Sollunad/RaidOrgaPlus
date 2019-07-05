@@ -66,3 +66,5 @@ server.cert
 server.key
 
 reports/working
+reports/parsed
+!reports/Parser

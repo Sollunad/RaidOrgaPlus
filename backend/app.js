@@ -20,6 +20,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());       // to support JSON-encoded bodies
 app.use('/icons', express.static('icons'));
+app.use('/reports', express.static('reports/parsed'));
 app.use(fileUpload());
 
 fs.readdir('./endpoints/', (err, folders) => {
