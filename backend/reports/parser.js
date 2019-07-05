@@ -7,9 +7,9 @@ const COMMAND = `mono ${PARSER_PATH} -p`;
 exports.parse = parse;
 
 async function parse(filepath) {
-    const id = filepath.split('/')[3].split('.')[0];
+    const id = filepath.split('/')[2].split('.')[0];
     return new Promise((resolve, reject) => {
-        exec(COMMAND, [filepath], function(err, data) {
+        exec(`${COMMAND} ${filepath}`, function(err, data) {
             console.log(id);
             fs.unlinkSync(filepath);
             if (err) {

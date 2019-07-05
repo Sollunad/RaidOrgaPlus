@@ -7,7 +7,7 @@ const uuid = require('uuid/v4');
 exports.addReport = addReport;
 
 async function addReport(aufstellung, evtc) {
-    const filepath = `./reports/working/${aufstellung}.evtc`;
+    const filepath = `reports/working/${aufstellung}.evtc`;
     evtc.mv(filepath);
     // TODO: Fixen, wenn es mehrere Returns geben könnte (fail und kill)
     await parser.parse(filepath);
