@@ -60,9 +60,9 @@
                 else return 'check_circle_outline';
             },
             reportLink: function() {
-                const baseLink = 'https://dps.report/';
+                const baseLink = 'https://sv.sollunad.de:8080/reports/';
                 if (this.aufstellung.report) {
-                    return `${baseLink}${this.aufstellung.report}`;
+                    return `${baseLink}${this.aufstellung.report}.html`;
                 } else {
                     return false;
                 }
