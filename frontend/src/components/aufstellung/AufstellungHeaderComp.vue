@@ -32,6 +32,7 @@
             <FileUploadComp
                     v-bind:aufstellung="aufstellung"
                     v-if="uploadActive"
+                    v-on:uploadComplete="uploadComplete"
             ></FileUploadComp>
         </div>
     </div>
@@ -48,7 +49,8 @@
         props: ['aufstellung', 'role', 'active', 'success', 'all', 'uploadActive'],
         data: () => ({
             isCm: false,
-            showUpload: false
+            showUpload: false,
+            reportId: null,
         }),
         computed: {
             successColor: function() {
@@ -61,8 +63,8 @@
             },
             reportLink: function() {
                 const baseLink = 'https://sv.sollunad.de:8080/reports/';
-                if (this.aufstellung.report) {
-                    return `${baseLink}${this.aufstellung.report}.html`;
+                if (this.reportId) {
+                    return `${baseLink}${this.reportId}.html`;
                 } else {
                     return false;
                 }
@@ -83,7 +85,13 @@
             },
             refresh: function() {
                 this.$emit('refresh');
+            },
+            uploadComplete: function(newId) {
+                this.reportId = newId;
             }
+        },
+        created: function() {
+            this.reportId = this.aufstellung.report;
         }
     }
 </script>

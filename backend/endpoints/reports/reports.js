@@ -20,7 +20,7 @@ async function addReport(aufstellung, evtc) {
         if (err) throw err;
     });
     await writeReport(aufstellung, fileName);
-    return ['success'];
+    return [filename];
 }
 
 async function writeReport(aufstellung, fileName) {
