@@ -5,10 +5,10 @@ exports.getRaidId = getRaidId;
 exports.delete = deleteBoss;
 exports.setSuccess = setSuccess;
 exports.loadBlanko = loadBlanko;
-exports.copyNames = copyNames;
+exports.copyElements = copyElements;
 
 async function getForTermin(termin) {
-    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
+    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success, Aufstellung.report FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {
@@ -57,10 +57,10 @@ async function loadBlanko(aufstellung) {
     }
 }
 
-async function copyNames(from, to) {
+async function copyElements(from, to) {
     const stmt = 'UPDATE AufstellungElement t ' +
         'JOIN AufstellungElement f ON t.position = f.position ' +
-        'SET t.fk_spieler = f.fk_spieler ' +
+        'SET t.fk_spieler = f.fk_spieler, t.fk_class = f.fk_class, t.fk_role = f.fk_role ' +
         'WHERE f.fk_aufstellung = ? AND t.fk_aufstellung = ?';
     try {
         return await db.queryV(stmt, [from, to]);

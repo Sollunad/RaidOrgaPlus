@@ -10,7 +10,15 @@ async function fetch(endpoint, method, params, authed) {
     if (authed) params.auth = _cookies.default.getCookie('session');
     if (method === 'get') {
         return (await axios({method, url, params})).data;
-    } else {
+    } else if (method === 'form') {
+        const formData = new FormData();
+        for (const param in params) {
+            formData.append(param, params[param]);
+        }
+        const headers = {'Content-Type': 'multipart/form-data'};
+        return (await axios.post(url, formData, {headers})).data;
+    }
+    else {
         return (await axios({method, url, data: params})).data;
     }
 }

@@ -5,6 +5,14 @@
                 v-bind:key="menuItem.id"
                 v-bind:menuItem="menuItem"
         ></MenuItemComp>
+        <v-list-tile v-if="user.role > 0" to="/moderation">
+            <v-list-tile-action>
+                <v-icon>vpn_key</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+                <v-list-tile-title>Moderation</v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
         <v-list-tile target="_newtab" href="https://docs.google.com/document/d/1oyVaFsCu8_kX4zyU96crqzGix8bMLsPrrjjMtfwpunA/edit?usp=sharing">
             <v-list-tile-action>
                 <v-icon>help</v-icon>
@@ -21,6 +29,7 @@
 
     export default {
         name: "MenuItemListComp",
+        props: ['user'],
         components: {
             MenuItemComp
         },

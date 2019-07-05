@@ -14,6 +14,7 @@ import BlankoPage from "./pages/raid/BlankoPage";
 import PreviewPage from "./pages/PreviewPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import ErfolgePage from "./pages/ErfolgePage";
+import ModerationPage from "./pages/ModerationPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -33,6 +34,7 @@ const routes = [
     { path: '/erfolge', component: ErfolgePage },
     { path: '/skills', component: SkillsPage },
     { path: '/preview/:id', component: PreviewPage },
+    { path: '/moderation', component: ModerationPage },
     { path: '/reset/:token', component: PasswordResetPage },
 ];
 

@@ -83,6 +83,11 @@
                 </v-btn>
             </template>
         </template>
+        <template v-if="role > 0">
+            <v-btn flat icon @click="uploadLog" class="button">
+                <v-icon>cloud_upload</v-icon>
+            </v-btn>
+        </template>
     </div>
 </template>
 
@@ -125,6 +130,9 @@
             },
             ersatz: function() {
                 this.$emit('ersatz');
+            },
+            uploadLog: function() {
+                this.$emit('upload');
             }
         }
     }

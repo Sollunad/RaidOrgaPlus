@@ -5,7 +5,9 @@
                 v-if="show"
                 clipped fixed app>
             <MenuHeaderComp v-bind:user="user"></MenuHeaderComp>
-            <MenuItemListComp></MenuItemListComp>
+            <MenuItemListComp
+                v-bind:user="user">
+            </MenuItemListComp>
         </v-navigation-drawer>
         <MenuToolbarComp
             v-bind:loggedIn="show"

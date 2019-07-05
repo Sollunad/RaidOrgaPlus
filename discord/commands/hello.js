@@ -5,6 +5,6 @@ exports.run = (client, message, args) => {
 };
 
 exports.help = {
-    usage: 'Raid Hello',
+    usage: '!orga hello',
     desc: 'Hello World'
 };

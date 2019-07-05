@@ -8,7 +8,7 @@ exports.changeEmail = changeEmail;
 exports.changePassword = changePassword;
 
 async function getForId(userId) {
-    const stmt = 'SELECT id, accname, name FROM Spieler WHERE id = ?';
+    const stmt = 'SELECT id, accname, name, role FROM Spieler WHERE id = ?';
     try {
         return await db.queryV(stmt, userId);
     } catch(e) {
