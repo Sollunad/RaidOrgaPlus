@@ -13,6 +13,7 @@
                                 {{ feature }}
                             </li>
                         </ul>
+                        <p v-if="version.subversions"></p>
                         <v-expansion-panel>
                             <v-expansion-panel-content
                                     v-for="(subversion, index) in version.subversions"
@@ -52,10 +53,8 @@
                         'Meine Builds',
                         'Weekly Progress',
                         'LI / LD',
-                    ],
-                    subversions: [
-
-                    ]},
+                    ]
+                },
                 {
                     no: '1.1',
                     release: '08.05.2019',
@@ -68,17 +67,40 @@
                         'Buff-Wings hervorheben',
                         'Visual Overhaul der Aufstellungen'
 
-                    ]},
+                    ],
+                    subversions: [
+                        {
+                            no: '1.1.1',
+                            release: '05.07.2019',
+                            features: [
+                                'Logs hochladen und anzeigen'
+
+                            ]
+                        }
+                    ]
+                },
                 {
                     no: '1.2',
-                    release: 'Coming soon',
+                    release: 'SoonTM',
                     features: [
-                        'Logs hochladen und anzeigen',
                         'CMs markieren',
                         'Fortlaufende Termine',
-                        'Statistiken',
-                        'Nutzerprofile'
-                    ]},
+                        'Nutzerprofile',
+                        'Discord-Integration',
+                        'Übersicht über kommende Termine'
+                    ]
+                },
+                {
+                    no: '1.3',
+                    release: 'SoonTM',
+                    features: [
+                        'Videos verlinken',
+                        'Raid- und Nutzer-Statistiken',
+                        'Skillcards',
+                        'CompRechner 2.0',
+                        'Raid-Drop-Übersicht'
+                    ]
+                },
             ],
         })
     }
