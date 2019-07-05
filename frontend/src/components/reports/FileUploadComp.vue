@@ -21,9 +21,10 @@
                 this.btnText = 'Laden...';
                 this.btnColor = '';
                 const response = await _reports.uploadReport(evtc, this.aufstellung.id);
-                if (response[0] === 'success') {
+                if (response[0]) {
                     this.btnText = 'Fertig!';
                     this.btnColor = 'success';
+                    this.$emit('uploadComplete', response[0]);
                 } else {
                     this.btnText = 'Fehler!';
                     this.btnColor = 'error';
