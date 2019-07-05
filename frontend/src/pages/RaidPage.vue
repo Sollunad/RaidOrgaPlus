@@ -36,6 +36,7 @@
         methods: {
             saveTermin: function(termin) {
                 this.termin = termin;
+                this.$router.push('aufstellung')
             }
         },
         created: function() {

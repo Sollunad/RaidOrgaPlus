@@ -1,6 +1,6 @@
 <template>
         <div>
-            <v-list-tile avatar @click="saveRaid" :to="'/raid'">
+            <v-list-tile avatar @click="saveRaid">
                 <v-list-tile-avatar v-if="raid.icon">
                     <img :src="raid.icon">
                 </v-list-tile-avatar>

@@ -16,6 +16,7 @@
         methods: {
             saveRaid: function(raid) {
                 this.raid = raid;
+                this.$router.push('raid');
             },
             changeName: function(name) {
                 this.$emit('changeName', name);
