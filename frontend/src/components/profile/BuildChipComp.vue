@@ -18,7 +18,7 @@
 
     export default {
         name: "BuildChipComp",
-        props: ['close', 'build', 'small', 'disabled', 'star'],
+        props: ['close', 'build', 'small', 'disabled', 'star', 'ownProfile'],
         data: () => ({
             chip: true,
         }),
@@ -51,7 +51,9 @@
         },
         methods: {
             togglePrefer: function() {
-                this.$emit('togglePrefer');
+                if (this.ownProfile) {
+                    this.$emit('togglePrefer');
+                }
             }
         }
     }

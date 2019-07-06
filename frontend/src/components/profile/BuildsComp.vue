@@ -14,6 +14,7 @@
             v-bind:key="`${build.class.id} ${build.role.id}`"
             v-bind:build="build"
             v-bind:star="true"
+            v-bind:ownProfile="ownProfile"
             v-on:close="close(build)"
             v-on:togglePrefer="togglePrefer(build)">
         </BuildChipComp>
