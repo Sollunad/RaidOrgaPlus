@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const fileUpload = require('express-fileupload');
+const logger = require('simple-node-logger').createSimpleLogger('backend.log');
 
 const fs = require('fs');
 const http = require('http');
@@ -42,7 +43,7 @@ function registerEndpoint(path, endpoint) {
     const method = endpoint.method;
     const fullPath = `/${path}${endpoint.path}`;
     if (!endpoints[method]) endpoints[method] = [];
-    console.log(`Register ${method} @ ${fullPath}`);
+    logger.debug(`Register ${method} @ ${fullPath}`);
     endpoints[method][fullPath] = endpoint;
 }
 
@@ -63,17 +64,16 @@ async function requestHandler(request) {
     const authNeeded = endpoint.authed;
 
     if (authentication) {
-        console.log(`Request ${method} ${request._parsedUrl.pathname} as ${authentication.user}`);
+        logRequest(method, request._parsedUrl.pathname, authentication.user);
         return await endpoint.function(request, authentication);
     }
     else {
+        logRequest(method, request._parsedUrl.pathname);
         if (!authNeeded) {
-            console.log(`Request ${method} ${request._parsedUrl.pathname} unauthenticated`);
             return await endpoint.function(request);
-        } else {
-            console.log(`Request ${method} ${request._parsedUrl.pathname} with missing authentication`);
-            return [];
         }
+        logger.warn('Missing Authentication!');
+        return [];
     }
 }
 
@@ -96,18 +96,26 @@ try {
         serveHTTPS(credentials);
     }
 } catch(e) {
-    console.log('Server konnte über HTTPS nicht gestartet werden');
+    logger.warn('Server konnte über HTTPS nicht gestartet werden');
     serveHTTP();
 }
 
 function serveHTTPS(credentials) {
     https.createServer(credentials, app).listen(8080, function () {
-        console.log('Server über HTTPS gestartet auf Port 8080!');
+        logger.info('Server über HTTPS gestartet auf Port 8080!');
     });
 }
 
 function serveHTTP() {
     http.createServer(app).listen(8081, function () {
-        console.log('Server über HTTP gestartet auf Port 8081!');
+        logger.info('Server über HTTP gestartet auf Port 8081!');
     });
+}
+
+function logRequest(method, endpoint, user) {
+    if (user) {
+        logger.info(method, ' @ ', endpoint, ' by ', user);
+    } else {
+        logger.info(method, ' @ ', endpoint);
+    }
 }
