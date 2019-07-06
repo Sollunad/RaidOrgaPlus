@@ -44,10 +44,17 @@ exports.run = async (client, message, args) => {
                     Embed: 1 Termin
                  */
                 const allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
+                const anmeldungen = await _termine.getAnmeldungen(message, termin.id);
+                const emojiYes = client.emojis.find(emoji => emoji.name === 'yes');
+                const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
+                const emojiNo = client.emojis.find(emoji => emoji.name === 'no');
+                const emojis = [emojiYes, emojiMaybe, emojiNo];
+                const anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
                 let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Kommender Termin`)
                     .addField('Datum', termin.date)
                     .addField('Uhrzeit', termin.time)
-                    .addField('Geplante Bosse', allBosses);
+                    .addField('Geplante Bosse', allBosses)
+                    .addField('Anmeldungen', anmeldungenString);
                 message.channel.send(embed);
             }
         } else {
