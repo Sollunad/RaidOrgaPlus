@@ -48,9 +48,13 @@ async function deleteTermin(req, authentication) {
 
 async function getElement(req, authentication) {
     const termin = req.query.termin;
+    const aufstellung = req.query.aufstellung;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) return await _element.getForTermin(termin);
+    } else if (aufstellung) {
+        const role = await _roles.forAufstellung(authentication, aufstellung);
+        if (role >= 0) return await _element.getForAufstellung(aufstellung);
     }
     return [];
 }
