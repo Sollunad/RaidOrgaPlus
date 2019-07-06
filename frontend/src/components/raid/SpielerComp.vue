@@ -1,5 +1,6 @@
 <template>
-    <div class="spieler">
+    <div class="spieler"
+         @click="openProfile(user)">
         <v-avatar v-if="isRaidLead" size="25" tile class="comm">
             <img :src="icon('comm')">
         </v-avatar>
@@ -72,6 +73,9 @@
             },
             kick: function() {
                 this.$emit('kick', this.user);
+            },
+            openProfile: function(user) {
+                this.$router.push(`/profil/${user.id}`);
             }
         }
     }
