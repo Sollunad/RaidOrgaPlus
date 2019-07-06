@@ -1,19 +1,16 @@
 <template>
     <div>
-        <v-expansion-panel
-            v-model="open">
-            <v-expansion-panel-content
-                    v-for="user in users"
-                    :key="user"
+        <v-list two-line>
+            <v-list-tile avatar
+                 v-for="user in users"
+                 :key="user"
             >
-                <template slot="header">
-                    <div>{{ user.accname }}</div>
-                </template>
-                <v-card>
-                    <v-card-text>{{ user.name }}</v-card-text>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+                <v-list-tile-content @click="openLink(user)">
+                    <v-list-tile-title>{{ user.accname }}</v-list-tile-title>
+                    <v-list-tile-sub-title>{{ user.name }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list>
     </div>
 </template>
 
@@ -26,6 +23,11 @@
             users: [],
             open: null
         }),
+        methods: {
+            openLink: function(user) {
+                this.$router.push(`/profil/${user.id}`);
+            }
+        },
         created: async function() {
             this.users = await _moderation.getUsers();
         }
