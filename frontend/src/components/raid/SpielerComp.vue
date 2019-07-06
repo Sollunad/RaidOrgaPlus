@@ -1,12 +1,12 @@
 <template>
-    <div class="spieler"
-         @click="openProfile(user)">
+    <div class="spieler">
         <v-avatar v-if="isRaidLead" size="25" tile class="comm">
             <img :src="icon('comm')">
         </v-avatar>
         <NameComp
             v-bind:user="user"
-            class="name">
+            class="name"
+            :clickable="true">
         </NameComp>
         <v-btn flat icon color="red" @click="kick" class="button" v-if="kickable">
             <v-icon>clear</v-icon>
@@ -73,9 +73,6 @@
             },
             kick: function() {
                 this.$emit('kick', this.user);
-            },
-            openProfile: function(user) {
-                this.$router.push(`/profil/${user.id}`);
             }
         }
     }

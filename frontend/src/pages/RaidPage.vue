@@ -22,7 +22,7 @@
     export default {
         name: "RaidPage",
         components: {RaidToolbarComp},
-        props: ['user', 'raid'],
+        props: ['user', 'raid', 'termin'],
         asyncComputed: {
             role: function() {
                 if (this.user && this.raid) {
@@ -30,13 +30,9 @@
                 }
             }
         },
-        data: () => ({
-            termin: null
-        }),
         methods: {
             saveTermin: function(termin) {
-                this.termin = termin;
-                this.$router.push('aufstellung')
+                this.$emit('saveTermin', termin);
             }
         },
         created: function() {

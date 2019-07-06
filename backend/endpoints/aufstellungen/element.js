@@ -6,7 +6,7 @@ exports.setRole = setRole;
 exports.setName = setName;
 
 async function getForTermin(termin) {
-    const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
+    const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
         ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
         ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
         ' JOIN Rolle ON Rolle.id = AufstellungElement.fk_role' +

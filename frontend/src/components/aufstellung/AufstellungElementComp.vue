@@ -35,7 +35,7 @@
                 v-bind:ersatz="ersatz">
             </MenuNameComp>
         </v-menu>
-        <NameComp v-else v-bind:user="user" :truncate="true"></NameComp>
+        <NameComp v-else v-bind:user="user" :truncate="true" :clickable="true"></NameComp>
     </div>
 </template>
 
@@ -81,10 +81,10 @@
             },
             user: function() {
                 if (this.element) return {
-                    name: this.element.name, accname: this.element.accname
+                    id: this.element.id, name: this.element.name, accname: this.element.accname
                 };
                 else return {
-                    name: '???', accname: '???'
+                    id: 0, name: '???', accname: '???'
                 };
             }
         },

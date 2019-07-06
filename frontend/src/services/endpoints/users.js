@@ -12,7 +12,7 @@ async function getWithID(id) {
 }
 
 async function hasApi() {
-    return await con('users/api', 'get', {id}, true);
+    return await con('users/api', 'get', {}, true);
 }
 
 async function setApi(apiKey) {
