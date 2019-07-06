@@ -2,6 +2,6 @@ const con = require('../connector');
 
 exports.getRaids = getRaids;
 
-async function getRaids(user){
-    return await con.fetch('raids', 'get', {}, user);
+async function getRaids(message){
+    return await con.fetch('raids', 'get', {}, message.auth);
 }

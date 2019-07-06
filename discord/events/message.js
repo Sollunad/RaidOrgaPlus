@@ -33,7 +33,6 @@ module.exports = (client, message) => {
   message.auth = session;
 
   const raid = _channels.getRaid(message.channel.id);
-  console.log(raid);
   message.raid = raid;
 
   // Run the command

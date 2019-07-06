@@ -4,11 +4,10 @@ const _sessions = require('./sessions.js');
 
 exports.fetch = fetch;
 
-async function fetch(endpoint, method, params, user) {
+async function fetch(endpoint, method, params, auth) {
     let url = config.development + endpoint;
-    if (user) {
-        const session = _sessions.getSession(user);
-        if (session) params.auth = session;
+    if (auth) {
+        params.auth = auth;
     }
     if (method === 'get') {
         return (await axios({method, url, params})).data;

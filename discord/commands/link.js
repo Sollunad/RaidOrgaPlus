@@ -2,18 +2,21 @@ const _raids = require('../services/endpoints/raids');
 const _channels = require('../services/channels');
 
 exports.run = async (client, message, args) => {
-    const raids = await _raids.getRaids(message.author.id);
+    const raids = await _raids.getRaids(message);
     const allowedRaids = raids.filter(r => r.role > 0);
     if (args[0] && args[0] <= allowedRaids.length) {
         const chosenRaid = allowedRaids[args[0] - 1];
-        _channels.setRaid(message.channel.id, chosenRaid.id);
+        _channels.setRaid(message.channel.id, chosenRaid);
         message.channel.send(`Dieser Channel gehört nun zum Raid ${chosenRaid.name}.`);
-    } else {
+    } else if (allowedRaids.length > 0) {
         let response = 'Wähle einen Raid zum Verlinken:\n';
+        // const embed = new Discord.RichEmbed().setColor('#F35635').
         for (let i = 1; i <= allowedRaids.length; i++) {
-            response += `\n!orga link ${i} für den Raid ${allowedRaids[i - 1].name}`;
+            response += `\n\`\`\`!orga link ${i} => ${allowedRaids[i - 1].name}\`\`\``;
         }
         message.channel.send(response);
+    } else {
+        message.channel.send('Du hast keine Raids, die du verlinken könntest.');
     }
 };
 
