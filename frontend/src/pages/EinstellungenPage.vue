@@ -1,5 +1,11 @@
 <template>
     <div class="profile">
+        <EinstellungenDiscordComp
+            v-bind:user="user">
+        </EinstellungenDiscordComp>
+        <p></p>
+        <v-divider></v-divider>
+        <p></p>
         <EinstellungenAPIKeyComp
             v-bind:user="user">
         </EinstellungenAPIKeyComp>
@@ -22,10 +28,13 @@
     import EinstellungenAPIKeyComp from "../components/einstellungen/EinstellungenAPIKeyComp";
     import EinstellungenEmailComp from "../components/einstellungen/EinstellungenEmailComp";
     import EinstellungenPasswordComp from "../components/einstellungen/EinstellungenPasswordComp";
+    import EinstellungenDiscordComp from "../components/einstellungen/EinstellungenDiscordComp";
 
     export default {
         name: "EinstellungenPage",
-        components: {EinstellungenPasswordComp, EinstellungenEmailComp, EinstellungenAPIKeyComp},
+        components: {
+            EinstellungenDiscordComp,
+            EinstellungenPasswordComp, EinstellungenEmailComp, EinstellungenAPIKeyComp},
         props: ['user'],
         data: () => ({
             buildDialog: false

@@ -7,6 +7,7 @@ const _builds = require('./builds');
 const _reset = require('./passwordreset');
 const _auth = require('../../authentication/auth');
 const _roles = require('../../authentication/role');
+const _discord = require('./discord');
 const hash = require('password-hash');
 
 module.exports = [
@@ -25,6 +26,7 @@ module.exports = [
     {function: putPrefer, path: '/builds/prefer', method: 'put', authed: true},
     {function: resetPassword, path: '/pwdReset', method: 'post'},
     {function: createResetToken, path: '/pwdReset/create', method: 'post'},
+    {function: getDiscordKey, path: '/discordKey', method: 'get', authed: true},
 ];
 
 async function getUser(req, authentication) {
@@ -60,7 +62,7 @@ async function loginUser(req) {
     if (accName && pwd) {
         return await _login.login(accName, pwd);
     } else if (key) {
-        return await _login.loginDiscord(key);
+        return await _discord.login(key);
     } else {
         return [];
     }
@@ -180,4 +182,9 @@ async function resetPassword(req) {
         }
     }
     return [];
+}
+
+async function getDiscordKey(req, authentication) {
+    await _discord.delete(authentication.user);
+    return await _discord.create(authentication.user);
 }

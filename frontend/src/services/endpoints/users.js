@@ -1,7 +1,7 @@
 import con from '../connector';
 
 export default { get, getWithID, hasApi, setApi, changeName, register, login,
-    invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword, createResetToken, resetPassword };
+    invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword, createResetToken, resetPassword, getDiscordKey };
 
 async function get() {
     return (await con('users', 'get', {}, true))[0];
@@ -67,3 +67,6 @@ async function resetPassword(token, pwd){
     return await con('users/pwdReset', 'post', {token, pwd});
 }
 
+async function getDiscordKey(){
+    return await con('users/discordKey', 'get', {}, true);
+}

@@ -1,8 +1,8 @@
 const axios = require('axios');
 const config = require('./config.json');
-const _sessions = require('./session.js');
+const _sessions = require('./sessions.js');
 
-export default fetch;
+exports.fetch = fetch;
 
 async function fetch(endpoint, method, params, user) {
     let url = config.development + endpoint;
