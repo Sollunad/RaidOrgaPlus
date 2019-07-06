@@ -9,10 +9,6 @@ async function fetch(endpoint, method, params, user) {
     if (user) {
         const session = _sessions.getSession(user);
         if (session) params.auth = session;
-        else {
-            //TODO #182: Fehlermeldung "Bitte einloggen"
-            //TODO #182: Fehlermeldung "Session abgelaufen, bitte neu anmelden" bei erstem Mal
-        }
     }
     if (method === 'get') {
         return (await axios({method, url, params})).data;

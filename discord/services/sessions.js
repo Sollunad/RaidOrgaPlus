@@ -33,5 +33,7 @@ async function login(user, discordKey) {
         const newUser = {user, session, validTo: date.getTime()};
         newSessions.push(newUser);
         _json.write('sessions', newSessions);
+        return true;
     }
+    return false;
 }

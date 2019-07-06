@@ -5,8 +5,12 @@ const _sessions = require('../services/sessions.js');
 exports.run = async (client, message, args) => {
     const key = args[0];
     if (key) {
-        const response = await _sessions.login(message.author.id, key);
-        message.channel.send('Du bist jetzt eingeloggt!');
+        const loggedIn = await _sessions.login(message.author.id, key);
+        if (loggedIn) {
+            message.channel.send('Du bist jetzt eingeloggt!');
+        } else {
+            message.channel.send('Der Einmalschlüssel war nicht gültig. Bitte melde dich erneut an.');
+        }
     }
     if (message.channel.type === 'text') {
         message.delete();

@@ -30,8 +30,6 @@ module.exports = (client, message) => {
     }
   }
 
-  message.roSession = session;
-
   // Run the command
   cmd.run(client, message, args);
 };
