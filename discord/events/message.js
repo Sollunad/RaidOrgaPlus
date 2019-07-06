@@ -1,4 +1,5 @@
 const _sessions = require('../services/sessions');
+const _channels = require('../services/channels');
 
 module.exports = (client, message) => {
   // Ignore all bots
@@ -18,7 +19,6 @@ module.exports = (client, message) => {
   if (!cmd) return;
 
   const session = _sessions.getSession(message.author.id);
-  console.log(session);
 
   if (command !== 'login' && command !== 'help') {
     if (session === 'Keine Session') {
@@ -29,6 +29,12 @@ module.exports = (client, message) => {
       return;
     }
   }
+
+  message.auth = session;
+
+  const raid = _channels.getRaid(message.channel.id);
+  console.log(raid);
+  message.raid = raid;
 
   // Run the command
   cmd.run(client, message, args);

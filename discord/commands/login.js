@@ -1,5 +1,3 @@
-const Discord = require("discord.js");
-const _users = require('../services/endpoints/users');
 const _sessions = require('../services/sessions.js');
 
 exports.run = async (client, message, args) => {
