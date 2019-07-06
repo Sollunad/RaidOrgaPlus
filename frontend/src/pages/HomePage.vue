@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import EinladungenComp from "../components/profile/EinladungenComp";
+    import EinladungenComp from "../components/einstellungen/EinladungenComp";
     import ProgressComp from "../components/progress/ProgressComp";
     import InsightsComp from "../components/progress/InsightsComp";
     import _users from '../services/endpoints/users';

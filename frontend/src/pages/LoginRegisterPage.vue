@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import LoginRegisterComp from '../components/profile/LoginRegisterComp';
+    import LoginRegisterComp from '../components/einstellungen/LoginRegisterComp';
 
     export default {
         name: "LoginPage",

@@ -6,6 +6,7 @@ const _api = require('./apikey');
 const _builds = require('./builds');
 const _reset = require('./passwordreset');
 const _auth = require('../../authentication/auth');
+const _roles = require('../../authentication/role');
 const hash = require('password-hash');
 
 module.exports = [
@@ -27,7 +28,14 @@ module.exports = [
 ];
 
 async function getUser(req, authentication) {
-    return await _user.get(authentication.user);
+    const id = req.query.id;
+    if (id) {
+        const role = _roles.getRole(authentication);
+        if (role >= 0) return await _user.get(id);
+    } else {
+        return await _user.get(authentication.user);
+    }
+    return [];
 }
 
 async function invalidateSession(req, authentication) {
