@@ -2,6 +2,7 @@ const _termine = require('../services/endpoints/termine');
 const _aufstellungen = require('../services/endpoints/aufstellungen');
 const _embeds = require('../services/embedProvider');
 const _icons = require('../services/icons');
+const _sessions = require('../services/sessions');
 
 exports.run = async (client, message, args) => {
     if (!message.raid) {
@@ -55,7 +56,11 @@ exports.run = async (client, message, args) => {
                     .addField('Uhrzeit', termin.time)
                     .addField('Geplante Bosse', allBosses)
                     .addField('Anmeldungen', anmeldungenString);
-                message.channel.send(embed);
+                message.channel.send(embed)
+                    .then(msg => msg.react(emojiYes))
+                    .then(r => r.message.react(emojiMaybe))
+                    .then(r => r.message.react(emojiNo))
+                    .then(r => handleReactions(r, termin.id));
             }
         } else {
             /*
@@ -71,7 +76,37 @@ exports.run = async (client, message, args) => {
     }
 };
 
+function handleReactions(r, termin) {
+    const reactionFilter = (reaction, user) => reaction.emoji.name === 'yes' || reaction.emoji.name === 'maybe' || reaction.emoji.name === 'no';
+    const collector = r.message.createReactionCollector(reactionFilter);
+    collector.on('collect', async (r) => {
+        if (!r.users.some(user => !user.bot)) return;
+        const user = r.users.filter(user => !user.bot).first();
+        const session = _sessions.getSession(user.id);
+        if (session === 'Keine Session' || session === 'Abgelaufen') {
+            r.message.channel.send('Bitte logge dich zunächst ein');
+        } else {
+            const type = getAnmeldungType(r.emoji.name);
+            await _termine.putAnmeldung(session, termin, type);
+            const typeText = ['angemeldet', 'vielleicht da', 'abgemeldet'];
+            r.message.channel.send(`${user} Du bist nun ${typeText[type]} ${r.emoji}`);
+        }
+        r.remove(user).catch(console.log);
+    });
+}
+
+function getAnmeldungType(emoji) {
+    switch (emoji) {
+        case 'yes':
+            return 0;
+        case 'maybe':
+            return 1;
+        case 'no':
+            return 2;
+    }
+}
+
 exports.help = {
-    usage: '!orga link',
-    desc: 'Verknüpft einen Raid mit einem Discord-Channel.'
+    usage: '!orga termine <termin> <aufstellung>',
+    desc: 'Zeigt Termine und Aufstellungen an.'
 };
