@@ -1,3 +1,5 @@
+const _sessions = require('../services/sessions');
+
 module.exports = (client, message) => {
   // Ignore all bots
   if (message.author.bot) return;
@@ -14,6 +16,21 @@ module.exports = (client, message) => {
 
   // If that command doesn't exist, silently exit and do nothing
   if (!cmd) return;
+
+  const session = _sessions.getSession(message.author.id);
+  console.log(session);
+
+  if (command !== 'login' && command !== 'help') {
+    if (session === 'Keine Session') {
+      message.channel.send('Bitte melde dich zuerst an.');
+      return;
+    } else if (session === 'Abgelaufen') {
+      message.channel.send('Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an.');
+      return;
+    }
+  }
+
+  message.roSession = session;
 
   // Run the command
   cmd.run(client, message, args);

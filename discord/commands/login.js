@@ -8,7 +8,9 @@ exports.run = async (client, message, args) => {
         const response = await _sessions.login(message.author.id, key);
         message.channel.send('Du bist jetzt eingeloggt!');
     }
-    message.delete();
+    if (message.channel.type === 'text') {
+        message.delete();
+    }
 };
 
 exports.help = {
