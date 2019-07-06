@@ -33,7 +33,7 @@ async function invalidateUuid(uuid) {
 }
 
 async function invalidateExpired() {
-    const stmt = 'DELETE FROM Session WHERE created < NOW() - INTERVAL 30 DAY'
+    const stmt = 'DELETE FROM Session WHERE created < NOW() - INTERVAL 90 DAY'
     try {
         return await db.query(stmt);
     } catch(e) {

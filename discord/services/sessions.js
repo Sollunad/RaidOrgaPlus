@@ -29,7 +29,7 @@ async function login(user, discordKey) {
         let newSessions = _json.read('sessions');
         newSessions = newSessions.filter(s => s.user !== user);
         const date = new Date();
-        date.setDate(date.getDate() + 30);
+        date.setDate(date.getDate() + 90);
         const newUser = {user, session, validTo: date.getTime()};
         newSessions.push(newUser);
         _json.write('sessions', newSessions);
