@@ -10,7 +10,6 @@ exports.run = async (client, message, args) => {
         message.channel.send(`Dieser Channel gehört nun zum Raid ${chosenRaid.name}.`);
     } else if (allowedRaids.length > 0) {
         let response = 'Wähle einen Raid zum Verlinken:\n';
-        // const embed = new Discord.RichEmbed().setColor('#F35635').
         for (let i = 1; i <= allowedRaids.length; i++) {
             response += `\n\`\`\`!orga link ${i} => ${allowedRaids[i - 1].name}\`\`\``;
         }
