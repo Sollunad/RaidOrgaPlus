@@ -26,11 +26,14 @@ function getSessionForDiscordUser(user) {
 async function login(user, discordKey) {
     const session = await _users.login(discordKey);
     if (session) {
+        let userId = user.id;
+        console.log(user.avatarURL);
+        console.log(user.displayAvatarURL);
         let newSessions = _json.read('sessions');
-        newSessions = newSessions.filter(s => s.user !== user);
+        newSessions = newSessions.filter(s => s.user !== userId);
         const date = new Date();
         date.setDate(date.getDate() + 90);
-        const newUser = {user, session, validTo: date.getTime()};
+        const newUser = {user: userId, session, validTo: date.getTime()};
         newSessions.push(newUser);
         _json.write('sessions', newSessions);
         return true;

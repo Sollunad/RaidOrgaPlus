@@ -3,7 +3,7 @@ const _sessions = require('../services/sessions.js');
 exports.run = async (client, message, args) => {
     const key = args[0];
     if (key) {
-        const loggedIn = await _sessions.login(message.author.id, key);
+        const loggedIn = await _sessions.login(message.author, key);
         if (loggedIn) {
             message.channel.send('Du bist jetzt eingeloggt!');
         } else {

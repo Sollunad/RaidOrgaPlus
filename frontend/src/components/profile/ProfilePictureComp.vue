@@ -4,7 +4,7 @@
             v-if="user"
             :size="size"
         >
-            <v-img :src="raidIcon"/>
+            <v-img :src="iconLink"/>
         </v-avatar>
     </div>
 </template>
@@ -16,8 +16,12 @@
         name: "ProfilePictureComp",
         props: ['user', 'ownProfile', 'size'],
         computed: {
-            raidIcon: function() {
-                return _icons.encIcon('tbd');
+            iconLink: function() {
+                if (this.user.icon) {
+                    return this.user.icon;
+                } else {
+                    return _icons.encIcon('tbd');
+                }
             }
         },
     }

@@ -3,8 +3,11 @@
         <v-list two-line>
             <v-list-tile avatar
                  v-for="user in users"
-                 :key="user"
+                 :key="user.accname"
             >
+                <v-list-tile-avatar>
+                    <img :src="user.icon">
+                </v-list-tile-avatar>
                 <v-list-tile-content @click="openLink(user)">
                     <v-list-tile-title>{{ user.accname }}</v-list-tile-title>
                     <v-list-tile-sub-title>{{ user.name }}</v-list-tile-sub-title>

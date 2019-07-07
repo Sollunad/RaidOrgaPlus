@@ -8,9 +8,10 @@ exports.changeEmail = changeEmail;
 exports.changePassword = changePassword;
 exports.hasProgressShared = hasProgressShared;
 exports.setProgressShared = setProgressShared;
+exports.setIconLink = setIconLink;
 
 async function getForId(userId) {
-    const stmt = 'SELECT id, accname, name, role FROM Spieler WHERE id = ?';
+    const stmt = 'SELECT id, accname, name, role, icon FROM Spieler WHERE id = ?';
     try {
         return await db.queryV(stmt, userId);
     } catch(e) {
@@ -73,5 +74,13 @@ async function setProgressShared(userId, value) {
     }
 }
 
+async function setIconLink(userId, link) {
+    const stmt = 'UPDATE Spieler SET icon = ? WHERE id = ?';
+    try {
+        return await db.queryV(stmt, [link, userId]);
+    } catch(e) {
+        throw e;
+    }
+}
 
 
