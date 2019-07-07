@@ -27,6 +27,8 @@ module.exports = [
     {function: resetPassword, path: '/pwdReset', method: 'post'},
     {function: createResetToken, path: '/pwdReset/create', method: 'post'},
     {function: getDiscordKey, path: '/discordKey', method: 'get', authed: true},
+    {function: hasProgressShared, path: '/shared', method: 'get', authed: true},
+    {function: setProgressShared, path: '/shared', method: 'put', authed: true},
 ];
 
 async function getUser(req, authentication) {
@@ -187,4 +189,22 @@ async function resetPassword(req) {
 async function getDiscordKey(req, authentication) {
     await _discord.delete(authentication.user);
     return await _discord.create(authentication.user);
+}
+
+async function hasProgressShared(req, authentication) {
+    const response = await _user.hasProgressShared(authentication.user);
+    if (response.length > 0) {
+        const sharedValue = response[0].share;
+        return (!!sharedValue)
+    }
+    return false;
+}
+
+async function setProgressShared(req, authentication) {
+    const shared = req.body.shared;
+    if (shared === true || shared === false) {
+        const sharedValue = shared? 1 : 0;
+        return await _user.setProgressShared(authentication.user, sharedValue);
+    }
+    return [];
 }

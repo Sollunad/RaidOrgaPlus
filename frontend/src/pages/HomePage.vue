@@ -28,8 +28,8 @@
 
 <script>
     import EinladungenComp from "../components/einstellungen/EinladungenComp";
-    import ProgressComp from "../components/progress/ProgressComp";
-    import InsightsComp from "../components/progress/InsightsComp";
+    import ProgressComp from "../components/profile/ProgressComp";
+    import InsightsComp from "../components/profile/InsightsComp";
     import _users from '../services/endpoints/users';
 
     export default {

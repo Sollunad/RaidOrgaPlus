@@ -2,7 +2,7 @@
     <div>
         <v-avatar
             v-if="user"
-            size="128"
+            :size="size"
         >
             <v-img :src="raidIcon"/>
         </v-avatar>
@@ -14,7 +14,7 @@
 
     export default {
         name: "ProfilePictureComp",
-        props: ['user', 'ownProfile'],
+        props: ['user', 'ownProfile', 'size'],
         computed: {
             raidIcon: function() {
                 return _icons.encIcon('tbd');

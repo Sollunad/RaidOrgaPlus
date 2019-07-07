@@ -1,6 +1,6 @@
 <template>
-    <div class="progress">
-        <h1>Weekly Progress</h1>
+    <div class="progress" v-if="ownProfile || progress">
+        <div class="headline">Weekly Progress</div>
         <p></p>
         <ProgressWingComp
                 v-for="(wing, index) in bosses"
@@ -20,13 +20,14 @@
     export default {
         name: "ProgressComp",
         components: {ProgressWingComp},
-        props: ['user'],
+        props: ['user', 'ownProfile'],
         asyncComputed: {
             bosses: function() {
                 return _encounter.listEncounterGrouped();
             },
             progress: function() {
-                if (this.user) return _progress.progress();
+                if (this.ownProfile) return _progress.progress();
+                else return _progress.progress(this.user.id);
             }
         },
         computed: {

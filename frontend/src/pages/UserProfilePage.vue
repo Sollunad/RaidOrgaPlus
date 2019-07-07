@@ -2,13 +2,15 @@
     <div class="profilepage">
         <v-container v-if="visitedUser">
             <v-layout row wrap>
-                <v-flex xs12 md2>
+                <v-flex xs12 lg2>
                     <ProfilePictureComp
-                        v-bind:user="visitedUser"
-                        v-bind:ownProfile="ownProfile">
+                            v-bind:user="visitedUser"
+                            v-bind:ownProfile="ownProfile"
+                            v-bind:size="profilePictureSize"
+                            class="profilePicture">
                     </ProfilePictureComp>
                 </v-flex>
-                <v-flex xs12 md10>
+                <v-flex xs12 lg10>
                     <ProfileNameComp
                             class="username"
                             v-bind:user="visitedUser"
@@ -17,9 +19,35 @@
                     </ProfileNameComp>
                     <p></p>
                     <BuildsComp
+                            class="builds"
                             v-bind:user="visitedUser"
                             v-bind:ownProfile="ownProfile">
                     </BuildsComp>
+                    <v-divider></v-divider>
+                    <div v-if="hasNoApi">
+                        <p>Gib einen API-Key im Profil an, um hier deinen wöchentlichen Raid-Progress zu sehen!</p>
+                    </div>
+                    <div v-else>
+                        <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
+                        <v-container>
+                            <v-layout row wrap>
+                                <v-flex xs12 md6>
+                                    <ProgressComp
+                                            v-bind:user="visitedUser"
+                                            v-bind:ownProfile="ownProfile"
+                                            class="homecomp">
+                                    </ProgressComp>
+                                </v-flex>
+                                <v-flex xs12 md6>
+                                    <InsightsComp
+                                            v-bind:user="visitedUser"
+                                            v-bind:ownProfile="ownProfile"
+                                            class="homecomp">
+                                    </InsightsComp>
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </div>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -31,32 +59,46 @@
     import BuildsComp from "../components/profile/BuildsComp";
     import ProfilePictureComp from "../components/profile/ProfilePictureComp";
     import _users from '../services/endpoints/users';
+    import ProgressComp from "../components/profile/ProgressComp";
+    import InsightsComp from "../components/profile/InsightsComp";
+    import ProgressShareComp from "../components/profile/ProgressShareComp";
 
     export default {
         name: "UserProfilePage",
-        components: {ProfilePictureComp, BuildsComp, ProfileNameComp},
+        components: {ProgressShareComp, InsightsComp, ProgressComp, ProfilePictureComp, BuildsComp, ProfileNameComp},
         props: ['user'],
         data: () => ({
-            visitedUser: null
+            visitedUser: null,
+            hasNoApi: null,
         }),
         computed: {
-            visitedID: function() {
+            visitedID: function () {
                 return this.$route.params.id;
             },
-            ownProfile: function() {
+            ownProfile: function () {
                 if (this.visitedUser) {
                     return this.visitedUser.id === this.user.id;
                 }
                 return false;
+            },
+            profilePictureSize: function() {
+                if (window.innerWidth > 1510) {
+                    return 128;
+                } else if (window.innerWidth > 1263) {
+                    return 112;
+                } else {
+                    return 96;
+                }
             }
         },
         methods: {
-            changeName: function(name) {
+            changeName: function (name) {
                 this.$emit('changeName', name);
             }
         },
-        created: async function() {
-            this.visitedUser = this.visitedID? await _users.getWithID(this.visitedID) : this.user;
+        created: async function () {
+            this.visitedUser = this.visitedID ? await _users.getWithID(this.visitedID) : this.user;
+            this.hasNoApi = !(await _users.hasApi());
         }
     }
 </script>
@@ -68,5 +110,21 @@
 
     .username {
         margin-bottom: 40px;
+    }
+
+    .builds {
+        margin-bottom: 30px;
+    }
+
+    @media only screen and (max-width: 1263px) {
+        .profilePicture {
+            margin-bottom: 30px;
+        }
+    }
+
+    @media only screen and (min-width: 580px) {
+        .shareSwitch {
+            float: right;
+        }
     }
 </style>

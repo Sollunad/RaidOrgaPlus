@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="title">
+        <div class="headline">
             Meine Builds
         </div>
         <p></p>
