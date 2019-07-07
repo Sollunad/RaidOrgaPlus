@@ -4,37 +4,18 @@
             v-bind:user="user"
             class="einladungen">
         </EinladungenComp>
-        <v-container grid-list-md>
-            <v-layout row wrap>
-                <v-flex xs12>
-                    <div v-if="hasNoApi">
-                        <p>Gib einen API-Key im Profil an, um hier deinen wöchentlichen Raid-Progress zu sehen!</p>
-                    </div>
-                    <div v-else>
-                        <ProgressComp
-                                v-bind:user="user"
-                                class="homecomp">
-                        </ProgressComp>
-                        <InsightsComp
-                                v-bind:user="user"
-                                class="homecomp">
-                        </InsightsComp>
-                    </div>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        <CalendarComp></CalendarComp>
     </div>
 </template>
 
 <script>
     import EinladungenComp from "../components/einstellungen/EinladungenComp";
-    import ProgressComp from "../components/profile/ProgressComp";
-    import InsightsComp from "../components/profile/InsightsComp";
     import _users from '../services/endpoints/users';
+    import CalendarComp from "../components/calendar/CalendarComp";
 
     export default {
         name: "HomePage",
-        components: {EinladungenComp, InsightsComp, ProgressComp},
+        components: {CalendarComp, EinladungenComp},
         props: ['user'],
         asyncComputed: {
             hasNoApi: async function() {
