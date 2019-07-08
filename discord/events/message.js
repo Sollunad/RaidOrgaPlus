@@ -10,13 +10,16 @@ module.exports = (client, message) => {
 
   // Our standard argument/command name definition.
   const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
-  const command = args.shift().toLowerCase();
+  let command = args.shift().toLowerCase();
 
   // Grab the command data from the client.commands Enmap
-  const cmd = client.commands.get(command);
+  let cmd = client.commands.get(command);
 
-  // If that command doesn't exist, silently exit and do nothing
-  if (!cmd) return;
+  // If that command doesn't exist, use the help command
+  if (!cmd) {
+    command = 'help';
+    cmd = client.commands.get(command);
+  }
 
   const session = _sessions.getSession(message.author.id);
 
@@ -31,9 +34,7 @@ module.exports = (client, message) => {
   }
 
   message.auth = session;
-
-  const raid = _channels.getRaid(message.channel.id);
-  message.raid = raid;
+  message.raid = _channels.getRaid(message.channel.id);
 
   // Run the command
   cmd.run(client, message, args);

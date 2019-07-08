@@ -10,8 +10,7 @@ function getSessionForDiscordUser(user) {
     if (foundSession) {
         const validTo = foundSession.validTo;
         if ((new Date()).getTime() < validTo) {
-            const sessionKey = foundSession.session;
-            return sessionKey;
+            return foundSession.session;
         } else {
             let newSessions = _json.read('sessions');
             newSessions = newSessions.filter(s => s.user !== user);
@@ -27,8 +26,6 @@ async function login(user, discordKey) {
     const session = await _users.login(discordKey);
     if (session) {
         let userId = user.id;
-        console.log(user.avatarURL);
-        console.log(user.displayAvatarURL);
         let newSessions = _json.read('sessions');
         newSessions = newSessions.filter(s => s.user !== userId);
         const date = new Date();
