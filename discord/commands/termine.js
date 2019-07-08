@@ -60,7 +60,7 @@ exports.run = async (client, message, args) => {
                     .then(msg => msg.react(emojiYes))
                     .then(r => r.message.react(emojiMaybe))
                     .then(r => r.message.react(emojiNo))
-                    .then(r => handleReactions(r, termin.id, emojis, message.raid.name));
+                    .then(r => handleReactions(r, termin, emojis, message.raid.name));
             }
         } else {
             /*
@@ -87,7 +87,7 @@ function handleReactions(r, termin, emojis, raidName) {
             r.message.channel.send('Bitte logge dich zunächst ein.');
         } else {
             const type = getAnmeldungType(r.emoji.name);
-            await _termine.putAnmeldung(session, termin, type);
+            await _termine.putAnmeldung(session, termin.id, type);
             await resendEmbed(r.message, session, termin, emojis, raidName);
             const typeText = ['angemeldet', 'vielleicht da', 'abgemeldet'];
             r.message.channel.send(`${user} Du bist nun ${typeText[type]} ${r.emoji}`);
@@ -97,9 +97,9 @@ function handleReactions(r, termin, emojis, raidName) {
 }
 
 async function resendEmbed(message, session, termin, emojis, raidName) {
-    const aufstellungen = await _aufstellungen.getAufstellungen(session, termin);
+    const aufstellungen = await _aufstellungen.getAufstellungen(session, termin.id);
     const allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
-    const anmeldungen = await _termine.getAnmeldungen(session, termin);
+    const anmeldungen = await _termine.getAnmeldungen(session, termin.id);
     const anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
     let embed = _embeds.defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
         .addField('Datum', termin.date)
