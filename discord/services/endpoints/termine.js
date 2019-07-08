@@ -4,12 +4,12 @@ exports.getTermine = getTermine;
 exports.getAnmeldungen = getAnmeldungen;
 exports.putAnmeldung = putAnmeldung;
 
-async function getTermine(message){
-    return await con.fetch('termine', 'get', {raid: message.raid.id}, message.auth);
+async function getTermine(session, raid){
+    return await con.fetch('termine', 'get', {raid}, session);
 }
 
-async function getAnmeldungen(message, termin){
-    return await con.fetch('termine/anmeldungen', 'get', {termin}, message.auth);
+async function getAnmeldungen(session, termin){
+    return await con.fetch('termine/anmeldungen', 'get', {termin}, session);
 }
 
 async function putAnmeldung(session, termin, type) {
