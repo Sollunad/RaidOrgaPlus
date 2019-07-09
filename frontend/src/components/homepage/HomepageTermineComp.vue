@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="headline kommendeTermineHeadline">Kommende Termine</div>
         <v-progress-circular
                 v-if="!termine"
                 indeterminate
@@ -53,5 +54,7 @@
 </script>
 
 <style scoped>
-
+    .kommendeTermineHeadline {
+        margin-bottom: 20px;
+    }
 </style>

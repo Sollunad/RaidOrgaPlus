@@ -1,8 +1,6 @@
 <template>
     <div v-if="invites.length > 0">
-        <div>
-            <h1>Du wurdest eingeladen!</h1>
-        </div>
+        <div class="headline">Du wurdest eingeladen!</div>
         <v-layout row>
             <v-flex xs12 sm6 md4 lg3 xl2>
                     <v-list>
