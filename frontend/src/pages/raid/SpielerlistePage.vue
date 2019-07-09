@@ -35,7 +35,7 @@
     export default {
         name: "SpielerlistePage",
         components: {BuildFilterButtonsComp, SpielerEinladenComp, SpielerComp},
-        props: ['raid', 'role', 'user'],
+        props: ['raid', 'role'],
         data: () => ({
             filter: '',
             users: [],

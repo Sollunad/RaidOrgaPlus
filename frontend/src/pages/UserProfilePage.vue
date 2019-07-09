@@ -105,7 +105,7 @@
 
 <style scoped>
     .profilepage {
-        margin: 5%;
+        margin: 4%;
     }
 
     .username {

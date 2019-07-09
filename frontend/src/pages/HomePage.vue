@@ -1,25 +1,26 @@
 <template>
-    <div class="container">
+    <div>
         <EinladungenComp
             v-bind:user="user"
             class="einladungen">
         </EinladungenComp>
-        <CalendarComp></CalendarComp>
+        <HomepageTermineComp
+            v-on:save="save">
+        </HomepageTermineComp>
     </div>
 </template>
 
 <script>
-    import EinladungenComp from "../components/einstellungen/EinladungenComp";
-    import _users from '../services/endpoints/users';
-    import CalendarComp from "../components/calendar/CalendarComp";
+    import EinladungenComp from "../components/homepage/EinladungenComp";
+    import HomepageTermineComp from "../components/homepage/HomepageTermineComp";
 
     export default {
         name: "HomePage",
-        components: {CalendarComp, EinladungenComp},
+        components: {HomepageTermineComp, EinladungenComp},
         props: ['user'],
-        asyncComputed: {
-            hasNoApi: async function() {
-                if (this.user) return !(await _users.hasApi());
+        methods: {
+            save: function(clicked) {
+                this.$emit('saveBoth', clicked);
             }
         }
     }

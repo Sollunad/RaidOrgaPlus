@@ -6,7 +6,7 @@
                 color="primary"
         ></v-progress-circular>
         <v-layout row>
-            <v-flex xs12 sm6 md4 lg3 xl2>
+            <v-flex xs12 sm6 md4 lg3>
                 <v-card>
                     <v-list two-line v-if="raids">
                         <ListRaidComp

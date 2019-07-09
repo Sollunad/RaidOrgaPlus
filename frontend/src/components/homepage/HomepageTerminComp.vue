@@ -16,15 +16,11 @@
 
 <script>
     export default {
-        name: "ListTerminComp",
+        name: "HomepageTerminComp",
         props: ['termin'],
         computed: {
             headline: function() {
-                if (this.termin.no) {
-                    return `#${this.termin.no} - ${this.termin.date}`;
-                } else {
-                    return this.termin.date;
-                }
+                return `${this.termin.date} (${this.termin.name})`;
             },
             icon: function() {
                 if (this.termin) {
@@ -38,7 +34,8 @@
         },
         methods: {
             save: function() {
-                this.$emit('saveTermin', this.termin);
+                const emitRaid = { id: this.termin.raidID, name: this.termin.name, icon: this.termin.icon, role: this.termin.role };
+                this.$emit('save', {termin: this.termin, raid: emitRaid});
             }
         }
     }

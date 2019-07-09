@@ -15,7 +15,6 @@
                                 v-for="termin in viewTermine"
                                 v-bind:key="termin.id"
                                 v-bind:termin="termin"
-                                v-bind:user="user"
                                 v-on:saveTermin="saveTermin"
                         ></ListTerminComp>
                     </v-list>
@@ -32,7 +31,10 @@
     export default {
         name: "TerminOverviewComp",
         components: {ListTerminComp},
-        props: ['raid', 'archived', 'user'],
+        props: ['raid', 'archived'],
+        data: () => ({
+            termine: null,
+        }),
         computed: {
             viewTermine: function() {
                 if (this.archived) {
@@ -45,14 +47,6 @@
                 } else {
                     return this.termine;
                 }
-            }
-        },
-        asyncComputed: {
-            termine: async function() {
-                if (this.raid) {
-                    if (this.archived) return _termine.listArchived(this.raid.id);
-                    else return _termine.listActive(this.raid.id);
-                }
             },
             listNotEmpty: function() {
                 if (this.termine) {
@@ -63,6 +57,12 @@
         methods: {
             saveTermin: function(termin) {
                 this.$emit('saveTermin', termin);
+            }
+        },
+        created: async function() {
+            if (this.raid) {
+                if (this.archived) this.termine = await _termine.listArchived(this.raid.id);
+                else this.termine = await _termine.listActive(this.raid.id);
             }
         }
     }

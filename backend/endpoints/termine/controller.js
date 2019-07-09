@@ -3,6 +3,7 @@ const _ersatz = require('../termine/ersatz');
 const _aufstellung = require('../aufstellungen/aufstellung');
 const _roles = require('../../authentication/role');
 const _anmeldungen = require('./anmeldungen');
+const _homepage = require('./homepage');
 
 module.exports = [
     {function: getTermine, path: '', method: 'get', authed: true},
@@ -31,11 +32,12 @@ async function getTermine(req, authentication) {
             if (archive === "1") {
                 return await _termin.listArchived(raid);
             } else {
-                return await _termin.listActive(raid);
+                return await _termin.listActive(authentication.user, raid);
             }
         }
+    } else {
+        return await _homepage.getHomepageTermine(authentication.user);
     }
-    return [];
 }
 
 async function isArchived(req, authentication) {
