@@ -44,7 +44,8 @@ exports.run = async (client, message, args) => {
                 /*
                     Embed: 1 Termin
                  */
-                const allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
+                let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
+                if (allBosses === '') allBosses = 'Keine';
                 const anmeldungen = await _termine.getAnmeldungen(message.auth, termin.id);
                 const emojiYes = client.emojis.find(emoji => emoji.name === 'yes');
                 const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
@@ -98,7 +99,8 @@ function handleReactions(r, termin, emojis, raidName) {
 
 async function resendEmbed(message, session, termin, emojis, raidName) {
     const aufstellungen = await _aufstellungen.getAufstellungen(session, termin.id);
-    const allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
+    let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
+    if (allBosses === '') allBosses = 'Keine';
     const anmeldungen = await _termine.getAnmeldungen(session, termin.id);
     const anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
     let embed = _embeds.defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
