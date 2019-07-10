@@ -1,6 +1,8 @@
 <template>
-    <div>
-        <h1>LI / LD</h1>
+    <div class="insights" v-if="ownProfile || insights">
+        <div class="headline">
+            Legendäre Trophäen
+        </div>
         <p></p>
         <v-progress-circular
                 v-if="!insights"
@@ -31,10 +33,11 @@
 
     export default {
         name: "InsightsComp",
-        props: ['user'],
+        props: ['user', 'ownProfile'],
         asyncComputed: {
             insights: function() {
-                if (this.user) return _progress.insights();
+                if (this.ownProfile) return _progress.insights();
+                else return _progress.insights(this.user.id);
             }
         },
         methods: {

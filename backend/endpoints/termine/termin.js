@@ -1,4 +1,5 @@
 const db = require('../../db/connector.js');
+const dateMapper = require('./dateMapper');
 
 exports.isArchived = isArchived;
 exports.listActive = listActive;
@@ -62,10 +63,15 @@ async function listAllIds(raidId) {
     }
 }
 
-async function listActive(raidId) {
-    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 0 ORDER BY Termin.date, Termin.time';
+async function listActive(userId, raidId) {
+    const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Spieler_Termin.type ' +
+        'FROM Termin ' +
+        'JOIN Raid ON Termin.fk_raid = Raid.id ' +
+        'LEFT JOIN Spieler_Termin ON Spieler_Termin.fk_spieler = ? AND Spieler_Termin.fk_termin = Termin.id ' +
+        'WHERE Raid.id = ? AND Termin.isArchived = 0 ' +
+        'ORDER BY Termin.date, Termin.time';
     try {
-        return (await db.queryV(stmt, raidId)).map(mapTerminDate);
+        return (await db.queryV(stmt, [userId, raidId])).map(dateMapper.map);
     } catch(e) {
         throw e;
     }
@@ -74,29 +80,10 @@ async function listActive(raidId) {
 async function listArchived(raidId) {
     const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
     try {
-        return (await db.queryV(stmt, raidId)).map(mapTerminDate);
+        return (await db.queryV(stmt, raidId)).map(dateMapper.map);
     } catch(e) {
         throw e;
     }
-}
-
-function mapTerminDate(termin) {
-    let newTerminObject = termin;
-
-    let day = termin.date.getDate();
-    if (day < 10) day = '0' + day;
-    let month = termin.date.getMonth() + 1;
-    if (month < 10) month = '0' + month;
-    const year = termin.date.getFullYear();
-    const dateString = `${day}.${month}.${year}`;
-
-    const weekdayId = termin.date.getDay();
-    const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
-    const weekday = days[weekdayId];
-
-    newTerminObject.date = `${weekday}, ${dateString}`;
-    newTerminObject.time = termin.time.slice(0,5);
-    return newTerminObject;
 }
 
 async function newTermin(raid, date, time) {

@@ -1,10 +1,15 @@
 import con from '../connector';
 
-export default { get, hasApi, setApi, changeName, register, login,
-    invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword, createResetToken, resetPassword };
+export default { get, getWithID, hasApi, setApi, changeName, register, login,
+    invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword, createResetToken,
+    resetPassword, getDiscordKey, hasProgressShared, setProgressShared };
 
 async function get() {
-    return (await con('users', 'get', {}, true))[0];
+    return (await con('users', 'get', {}, true));
+}
+
+async function getWithID(id) {
+    return (await con('users', 'get', {id}, true));
 }
 
 async function hasApi() {
@@ -63,3 +68,14 @@ async function resetPassword(token, pwd){
     return await con('users/pwdReset', 'post', {token, pwd});
 }
 
+async function getDiscordKey(){
+    return await con('users/discordKey', 'get', {}, true);
+}
+
+async function hasProgressShared() {
+    return await con('users/shared', 'get', {}, true);
+}
+
+async function setProgressShared(shared) {
+    return await con('users/shared', 'put', {shared}, true);
+}

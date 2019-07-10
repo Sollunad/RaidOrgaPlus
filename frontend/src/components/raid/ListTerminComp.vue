@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-list-tile avatar @click="save" :to="'/raid/aufstellung'">
+        <v-list-tile avatar @click="save">
             <v-list-tile-content>
                 <v-list-tile-title v-html="headline"></v-list-tile-title>
                 <v-list-tile-sub-title v-html="termin.time"></v-list-tile-sub-title>
@@ -15,11 +15,9 @@
 </template>
 
 <script>
-    import _termine from '../../services/endpoints/termine';
-
     export default {
         name: "ListTerminComp",
-        props: ['termin', 'user'],
+        props: ['termin'],
         computed: {
             headline: function() {
                 if (this.termin.no) {
@@ -27,23 +25,20 @@
                 } else {
                     return this.termin.date;
                 }
+            },
+            icon: function() {
+                if (this.termin) {
+                    if (this.termin.type === null) return 'warning';
+                    const icons = ['check_circle', 'check_circle_outline', 'cancel'];
+                    return icons[this.termin.type];
+                } else {
+                    return '';
+                }
             }
         },
         methods: {
             save: function() {
                 this.$emit('saveTermin', this.termin);
-            }
-        },
-        asyncComputed: {
-            icon: async function() {
-                if (this.user) {
-                    const anmeldung = await _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
-                    if (anmeldung === null) return 'warning';
-                    const icons = ['check_circle', 'check_circle_outline', 'cancel'];
-                    return icons[anmeldung];
-                } else {
-                    return '';
-                }
             }
         }
     }

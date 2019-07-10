@@ -1,12 +1,13 @@
 const db = require('../../db/connector.js');
 
 exports.getForTermin = getForTermin;
+exports.getForAufstellung = getForAufstellung;
 exports.setClass = setClass;
 exports.setRole = setRole;
 exports.setName = setName;
 
 async function getForTermin(termin) {
-    const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
+    const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
         ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
         ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
         ' JOIN Rolle ON Rolle.id = AufstellungElement.fk_role' +
@@ -14,6 +15,20 @@ async function getForTermin(termin) {
         ' WHERE Aufstellung.fk_termin = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, termin);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function getForAufstellung(aufstellung) {
+    const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
+        ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
+        ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
+        ' JOIN Rolle ON Rolle.id = AufstellungElement.fk_role' +
+        ' JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler' +
+        ' WHERE Aufstellung.id = ? FOR UPDATE';
+    try {
+        return await db.queryV(stmt, aufstellung);
     } catch(e) {
         throw e;
     }

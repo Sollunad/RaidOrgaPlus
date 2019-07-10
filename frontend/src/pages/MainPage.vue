@@ -1,9 +1,13 @@
 <template>
-    <router-view
+    <router-view class="page"
             v-bind:user="user"
             v-on:saveRaid="saveRaid"
+            v-on:saveTermin="saveTermin"
+            v-on:saveBoth="saveBoth"
             v-on:changeName="changeName"
-            v-bind:raid="raid"></router-view>
+            v-bind:raid="raid"
+            v-bind:termin="termin">
+    </router-view>
 </template>
 
 <script>
@@ -11,11 +15,22 @@
         name: "MainPage",
         props: ['user'],
         data: () => ({
-            raid: null
+            raid: null,
+            termin: null
         }),
         methods: {
             saveRaid: function(raid) {
                 this.raid = raid;
+                this.$router.push('raid');
+            },
+            saveTermin: function(termin) {
+                this.termin = termin;
+                this.$router.push('aufstellung');
+            },
+            saveBoth: function(clicked) {
+                this.raid = clicked.raid;
+                this.termin = clicked.termin;
+                this.$router.push('raid/aufstellung');
             },
             changeName: function(name) {
                 this.$emit('changeName', name);
@@ -25,5 +40,9 @@
 </script>
 
 <style scoped>
-
+    @media only screen and (min-width: 600px) {
+        .page {
+            margin: 1%;
+        }
+    }
 </style>

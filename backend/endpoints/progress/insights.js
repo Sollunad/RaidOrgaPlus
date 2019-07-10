@@ -22,12 +22,14 @@ async function insights(userId) {
         const refinedArmor = getCountOfItemList(itemCounts, items.refined);
         craftedInsights += (Math.max(Math.min(perfectedArmor, 6) + refinedArmor - 6, 0) * 25);
 
+        const craftedDivinations = getCountOfItemList(itemCounts, items.coalescence) * 150;
+
         return [
             {
                 name: 'li', hand: insights, crafted: craftedInsights
             },
             {
-                name: 'ld', hand: divinations, crafted: 0
+                name: 'ld', hand: divinations, crafted: craftedDivinations
             }
 
         ]

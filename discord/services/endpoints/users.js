@@ -1,11 +1,7 @@
-import con from '../connector';
+const con = require('../connector');
 
-export default { login, invalidateSession };
+exports.login = login;
 
 async function login(key){
-    return await con('users/sessions', 'post', {key});
-}
-
-async function invalidateSession(user) {
-    return await con('users/sessions', 'delete', {}, user);
+    return await con.fetch('users/sessions', 'post', {key});
 }

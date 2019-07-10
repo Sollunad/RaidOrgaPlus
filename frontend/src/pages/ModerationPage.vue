@@ -1,8 +1,6 @@
 <template>
-    <div class="moderation">
-        <div v-if="user.role > 0">
-            <ModUserListComp></ModUserListComp>
-        </div>
+    <div class="moderation" v-if="user.role > 0">
+        <ModUserListComp></ModUserListComp>
     </div>
 </template>
 
@@ -16,7 +14,5 @@
 </script>
 
 <style scoped>
-    .moderation {
-        margin: 3%;
-    }
+
 </style>

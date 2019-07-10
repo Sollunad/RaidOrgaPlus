@@ -9,7 +9,7 @@ function setCookie(cname, cvalue) {
 
 function getCookie(cname) {
     const name = cname + "=";
-    const ca = document.cookie.split(';');
+    const ca = document.cookie.replace(/\s+/g,"").split(';');
     for(let i = 0; i < ca.length; i++) {
         const c = ca[i];
         if (c.indexOf(name) === 0) {

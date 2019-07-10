@@ -1,29 +1,39 @@
-//TODO #182: Require gibt cached Result, da der Server permanent laufen soll, hier fs verwenden
-// ref https://stackabuse.com/reading-and-writing-json-files-with-node-js/
-const sessions = require('../stores/sessions.json');
 const _users = require('./endpoints/users');
+const _json = require('./jsonHandler');
 
+exports.login = login;
 exports.getSession = getSessionForDiscordUser;
 
 function getSessionForDiscordUser(user) {
+    const sessions = _json.read('sessions');
     const foundSession = sessions.filter(s => s.user === user)[0];
     if (foundSession) {
-        const sessionKey = foundSession.session;
-        return sessionKey;
+        const validTo = foundSession.validTo;
+        if ((new Date()).getTime() < validTo) {
+            return foundSession.session;
+        } else {
+            let newSessions = _json.read('sessions');
+            newSessions = newSessions.filter(s => s.user !== user);
+            _json.write('sessions', newSessions);
+            return 'Abgelaufen'
+        }
     } else {
-        //TODO #182: Verschiedene Rückgaben für "Keine Session" und "Session abgelaufen"
-        //TODO #182: Wenn Session abgelaufen, Session löschen
+        return 'Keine Session';
     }
 }
 
 async function login(user, discordKey) {
     const session = await _users.login(discordKey);
     if (session) {
-        const newSessions = sessions;
-        const newUser = {user, session};
+        let userId = user.id;
+        let newSessions = _json.read('sessions');
+        newSessions = newSessions.filter(s => s.user !== userId);
+        const date = new Date();
+        date.setDate(date.getDate() + 90);
+        const newUser = {user: userId, session, validTo: date.getTime()};
         newSessions.push(newUser);
-        //TODO #182: Neue sessions.json speichern
+        _json.write('sessions', newSessions);
+        return true;
     }
+    return false;
 }
-
-console.log(getSessionForDiscordUser(1234567890));

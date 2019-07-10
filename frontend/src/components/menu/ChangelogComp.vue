@@ -81,13 +81,23 @@
                 },
                 {
                     no: '1.2',
-                    release: 'SoonTM',
+                    release: '11.07.2019',
                     features: [
-                        'CMs markieren',
-                        'Fortlaufende Termine',
                         'Nutzerprofile',
                         'Discord-Integration',
                         'Übersicht über kommende Termine'
+                    ],
+                    subversions: [
+                        {
+                            no: '1.2.1',
+                            release: 'SoonTM',
+                            features: [
+                                'CMs markieren',
+                                'Fortlaufende Termine',
+                                'Paging für Archiv-Einträge',
+                                'Raid-Übersicht im Profil'
+                            ]
+                        }
                     ]
                 },
                 {

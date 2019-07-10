@@ -6,6 +6,9 @@ const _api = require('./apikey');
 const _builds = require('./builds');
 const _reset = require('./passwordreset');
 const _auth = require('../../authentication/auth');
+const _roles = require('../../authentication/role');
+const _discord = require('./discord');
+const _discordUsers = require('../../discord/users');
 const hash = require('password-hash');
 
 module.exports = [
@@ -24,10 +27,29 @@ module.exports = [
     {function: putPrefer, path: '/builds/prefer', method: 'put', authed: true},
     {function: resetPassword, path: '/pwdReset', method: 'post'},
     {function: createResetToken, path: '/pwdReset/create', method: 'post'},
+    {function: getDiscordKey, path: '/discordKey', method: 'get', authed: true},
+    {function: hasProgressShared, path: '/shared', method: 'get', authed: true},
+    {function: setProgressShared, path: '/shared', method: 'put', authed: true},
 ];
 
 async function getUser(req, authentication) {
-    return await _user.get(authentication.user);
+    const id = req.query.id;
+    let user = null;
+    if (id) {
+        const role = _roles.getRole(authentication);
+        if (role >= 0) user = (await _user.get(id))[0];
+    } else {
+        user = (await _user.get(authentication.user))[0];
+    }
+    if (user) {
+        const discordUsers = await _discordUsers.getAllUsers();
+        const discordUser = _discordUsers.findUser(user, discordUsers);
+        if (discordUser) {
+            user.discord = discordUser;
+        }
+        return user;
+    }
+    return [];
 }
 
 async function invalidateSession(req, authentication) {
@@ -52,7 +74,7 @@ async function loginUser(req) {
     if (accName && pwd) {
         return await _login.login(accName, pwd);
     } else if (key) {
-        return await _login.loginDiscord(key);
+        return await _discord.login(key);
     } else {
         return [];
     }
@@ -170,6 +192,29 @@ async function resetPassword(req) {
             await _reset.deleteToken(token);
             return ['Success'];
         }
+    }
+    return [];
+}
+
+async function getDiscordKey(req, authentication) {
+    await _discord.delete(authentication.user);
+    return await _discord.create(authentication.user);
+}
+
+async function hasProgressShared(req, authentication) {
+    const response = await _user.hasProgressShared(authentication.user);
+    if (response.length > 0) {
+        const sharedValue = response[0].share;
+        return (!!sharedValue)
+    }
+    return false;
+}
+
+async function setProgressShared(req, authentication) {
+    const shared = req.body.shared;
+    if (shared === true || shared === false) {
+        const sharedValue = shared? 1 : 0;
+        return await _user.setProgressShared(authentication.user, sharedValue);
     }
     return [];
 }

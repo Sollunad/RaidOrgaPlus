@@ -2,12 +2,12 @@ import con from '../connector';
 
 export default { progress, insights, achievements };
 
-async function progress() {
-    return await con('progress', 'get', {}, true);
+async function progress(user) {
+    return await con('progress', 'get', {user}, true);
 }
 
-async function insights() {
-    return await con('progress/li', 'get', {}, true);
+async function insights(user) {
+    return await con('progress/li', 'get', {user}, true);
 }
 
 async function achievements() {

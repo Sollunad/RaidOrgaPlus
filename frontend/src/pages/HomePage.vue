@@ -1,44 +1,26 @@
 <template>
-    <div class="container">
+    <div>
         <EinladungenComp
             v-bind:user="user"
             class="einladungen">
         </EinladungenComp>
-        <v-container grid-list-md>
-            <v-layout row wrap>
-                <v-flex xs12>
-                    <div v-if="hasNoApi">
-                        <p>Gib einen API-Key im Profil an, um hier deinen wöchentlichen Raid-Progress zu sehen!</p>
-                    </div>
-                    <div v-else>
-                        <ProgressComp
-                                v-bind:user="user"
-                                class="homecomp">
-                        </ProgressComp>
-                        <InsightsComp
-                                v-bind:user="user"
-                                class="homecomp">
-                        </InsightsComp>
-                    </div>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        <HomepageTermineComp
+            v-on:save="save">
+        </HomepageTermineComp>
     </div>
 </template>
 
 <script>
-    import EinladungenComp from "../components/profile/EinladungenComp";
-    import ProgressComp from "../components/progress/ProgressComp";
-    import InsightsComp from "../components/progress/InsightsComp";
-    import _users from '../services/endpoints/users';
+    import EinladungenComp from "../components/homepage/EinladungenComp";
+    import HomepageTermineComp from "../components/homepage/HomepageTermineComp";
 
     export default {
         name: "HomePage",
-        components: {EinladungenComp, InsightsComp, ProgressComp},
+        components: {HomepageTermineComp, EinladungenComp},
         props: ['user'],
-        asyncComputed: {
-            hasNoApi: async function() {
-                if (this.user) return !(await _users.hasApi());
+        methods: {
+            save: function(clicked) {
+                this.$emit('saveBoth', clicked);
             }
         }
     }

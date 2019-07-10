@@ -5,7 +5,8 @@
         </v-avatar>
         <NameComp
             v-bind:user="user"
-            class="name">
+            class="name"
+            :clickable="true">
         </NameComp>
         <v-btn flat icon color="red" @click="kick" class="button" v-if="kickable">
             <v-icon>clear</v-icon>

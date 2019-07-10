@@ -1,7 +1,8 @@
 <template>
     <span   @mouseenter="entered = true"
             @mouseleave="entered = false"
-            @contextmenu.prevent="$emit('rightclick')">
+            @contextmenu.prevent="$emit('rightclick')"
+            @click="openProfile">
         {{ showName }}
     </span>
 </template>
@@ -9,7 +10,7 @@
 <script>
     export default {
         name: "NameComp",
-        props: ['user', 'truncate'],
+        props: ['user', 'truncate', 'clickable'],
         data: () => ({
             entered: false,
         }),
@@ -30,6 +31,11 @@
                     return this.user.name;
                 }
 
+            }
+        },
+        methods: {
+            openProfile: function() {
+                if (this.user.id > 1 && this.clickable) this.$router.push(`/profil/${this.user.id}`);
             }
         }
     }

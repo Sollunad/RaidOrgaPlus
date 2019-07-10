@@ -1,5 +1,11 @@
 <template>
     <div class="erfolge">
+        <div class="spinner" v-if="!achievements">
+            <v-progress-circular
+                    indeterminate
+                    color="primary"
+            ></v-progress-circular>
+        </div>
         <div v-for="wing in achievements">
             <ErfolgWingComponent
                 v-bind:wing="wing"

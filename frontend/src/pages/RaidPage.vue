@@ -1,12 +1,13 @@
 <template>
-    <div>
+    <div class="raidPage">
         <RaidToolbarComp
                 v-bind:raid="raid"
         >
         </RaidToolbarComp>
         <router-view
+                class="raidPageRouter"
                 v-bind:raid="raid"
-                v-bind:role="role"
+                v-bind:role="raid.role"
                 v-bind:user="user"
                 v-on:saveTermin="saveTermin"
                 v-bind:termin="termin"
@@ -16,26 +17,15 @@
 </template>
 
 <script>
-    import _raids from '../services/endpoints/raids';
     import RaidToolbarComp from "../components/raid/RaidToolbarComp";
 
     export default {
         name: "RaidPage",
         components: {RaidToolbarComp},
-        props: ['user', 'raid'],
-        asyncComputed: {
-            role: function() {
-                if (this.user && this.raid) {
-                    return _raids.role(this.raid.id, this.user.id);
-                }
-            }
-        },
-        data: () => ({
-            termin: null
-        }),
+        props: ['user', 'raid', 'termin'],
         methods: {
             saveTermin: function(termin) {
-                this.termin = termin;
+                this.$emit('saveTermin', termin);
             }
         },
         created: function() {
@@ -45,5 +35,13 @@
 </script>
 
 <style scoped>
+    @media only screen and (min-width: 600px) {
+        .raidPage {
+            margin: 0;
+        }
 
+        .raidPageRouter {
+            margin: 1%;
+        }
+    }
 </style>

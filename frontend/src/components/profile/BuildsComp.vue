@@ -1,24 +1,27 @@
 <template>
     <div>
-        <h2>Meine Builds</h2>
+        <div class="headline">
+            Meine Builds
+        </div>
         <p></p>
         <v-progress-circular
                 v-if="loading"
                 indeterminate
                 color="primary"
         ></v-progress-circular>
-        <BuildChipComp close
+        <BuildChipComp :close="ownProfile"
             v-for="build in builds"
             v-bind:key="`${build.class.id} ${build.role.id}`"
             v-bind:build="build"
             v-bind:star="true"
+            v-bind:ownProfile="ownProfile"
             v-on:close="close(build)"
             v-on:togglePrefer="togglePrefer(build)">
         </BuildChipComp>
         <v-dialog
             width="fit-content"
             v-model="addBuildDialog"
-            v-if="!loading">
+            v-if="!loading && ownProfile">
             <v-chip slot="activator">
                 <v-icon>add</v-icon>
             </v-chip>
@@ -36,7 +39,7 @@
     export default {
         name: "BuildsComp",
         components: {BuildChipComp, AddBuildComp},
-        props: ['user'],
+        props: ['user', 'ownProfile'],
         data: () => ({
             addBuildDialog: false,
             builds : [

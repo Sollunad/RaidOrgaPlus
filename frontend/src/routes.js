@@ -4,7 +4,7 @@ import RaidPage from './pages/RaidPage';
 import TerminePage from "./pages/raid/TerminePage";
 import AufstellungPage from "./pages/raid/AufstellungPage";
 import ArchivPage from "./pages/raid/ArchivPage";
-import ProfilPage from "./pages/ProfilPage";
+import EinstellungenPage from "./pages/EinstellungenPage";
 import SkillsPage from "./pages/SkillsPage";
 import StatistikenPage from "./pages/raid/StatistikenPage";
 import NeuerTerminPage from "./pages/raid/NeuerTerminPage";
@@ -15,6 +15,7 @@ import PreviewPage from "./pages/PreviewPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import ErfolgePage from "./pages/ErfolgePage";
 import ModerationPage from "./pages/ModerationPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -30,7 +31,9 @@ const routes = [
           { path: 'neuerTermin', component: NeuerTerminPage },
           { path: 'blankos', component: BlankoPage },
       ]},
-    { path: '/profil', component: ProfilPage },
+    { path: '/profil', component: UserProfilePage },
+    { path: '/profil/:id', component: UserProfilePage },
+    { path: '/einstellungen', component: EinstellungenPage },
     { path: '/erfolge', component: ErfolgePage },
     { path: '/skills', component: SkillsPage },
     { path: '/preview/:id', component: PreviewPage },

@@ -1,21 +1,25 @@
 <template>
     <div>
-        <h2>Anzeigename ändern</h2>
-        <p></p>
-        <v-form ref="form" v-model="valid" lazy-validation class="form" >
+        <div class="display-1" v-if="!edit">
+            {{name}} ({{user.accname}})
+            <v-btn flat icon v-if="ownProfile" @click="startEditing">
+                <v-icon>edit</v-icon>
+            </v-btn>
+        </div>
+        <v-form ref="form" v-model="valid" lazy-validation class="form" v-if="edit">
             <v-text-field
                     @keypress.enter="submit"
                     v-model="name"
                     :rules="nameRules"
-                    label="Neuer Anzeigename"
+                    label="Anzeigename"
                     required
                     counter="10"
+                    solo
             ></v-text-field>
             <v-btn
                     @click="submit"
-                    :color=buttonColor
             >
-                {{ buttonText }}
+                Speichern
             </v-btn>
         </v-form>
     </div>
@@ -26,33 +30,31 @@
 
     export default {
         name: "ProfileNameComp",
-        props: ['user'],
+        props: ['user', 'ownProfile'],
         data: () => ({
-            valid: true,
-            name: '',
+            name: null,
+            edit: false,
             nameRules: [
                 v => !!v || 'Bitte gib einen Namen an',
                 v => v.length <= 10 || 'Bitte wähle einen kürzeren Namen'
             ],
-            buttonColor: '',
-            buttonText: 'Anzeigenamen aktualisieren'
         }),
         methods: {
-            async submit() {
+            startEditing: function() {
+                this.edit = true;
+            },
+            submit: async function() {
                 if (this.$refs.form.validate()) {
                     if (this.user) {
                         await _users.changeName(this.name);
-                        this.buttonText = 'success';
-                        this.buttonColor = 'success';
                         this.$emit('changeName', this.name);
-                        const that = this;
-                        setTimeout(function() {
-                            that.buttonColor = '';
-                            that.buttonText = 'Anzeigenamen aktualisieren';
-                        }, 2000)
+                        this.edit = false;
                     }
                 }
             },
+        },
+        created: function() {
+            this.name = this.user.name;
         }
     }
 </script>
