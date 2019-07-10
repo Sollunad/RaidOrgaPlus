@@ -17,7 +17,6 @@
 </template>
 
 <script>
-    import _raids from '../services/endpoints/raids';
     import RaidToolbarComp from "../components/raid/RaidToolbarComp";
 
     export default {

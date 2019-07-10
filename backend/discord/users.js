@@ -26,7 +26,7 @@ function mapMember(member) {
         username: `${member.user.username}#${member.user.discriminator}`,
         nickname: getNickname(member),
         roles: getRoles(member),
-        joined: new Date(member.joinedTimestamp),
+        joined: member.joinedTimestamp,
         avatar: getAvatarURL(member),
         color: member.displayHexColor
     }
