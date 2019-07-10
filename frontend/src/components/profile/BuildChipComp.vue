@@ -1,6 +1,6 @@
 <template>
     <v-chip
-            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" light>
+            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" light class="chip">
         <v-avatar class="classIcon" tile>
             <img :src="classIcon" v-if="classIcon">
         </v-avatar>
@@ -70,7 +70,11 @@
     }
 
     .star {
-        margin-left: 0;
+        margin-left: 2px;
         margin-right: 0;
+    }
+
+    .chip {
+        padding: 4px 0;
     }
 </style>

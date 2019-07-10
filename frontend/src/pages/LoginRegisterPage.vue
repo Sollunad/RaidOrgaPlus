@@ -17,6 +17,6 @@
 
 <style scoped>
     .form {
-        margin: 5%;
+        margin: 3%;
     }
 </style>

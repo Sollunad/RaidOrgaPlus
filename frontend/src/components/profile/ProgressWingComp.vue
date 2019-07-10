@@ -1,15 +1,15 @@
 <template>
     <div class="wing"
         v-bind:class="{'colored-wing': isBuffWing}">
+        <v-avatar :size="48" tile class="cotm" v-if="showCotmIcons">
+            <img v-if="isBuffWing" :src="icon()">
+        </v-avatar>
         <ProgressBossComp
                 v-for="boss in bosses"
                 v-bind:boss="boss"
                 v-bind:progress="progress"
                 :key="boss.name">
         </ProgressBossComp>
-        <v-avatar :size="48" tile class="cotm" v-if="hasCotmIcon">
-            <img :src="icon()">
-        </v-avatar>
     </div>
 </template>
 
@@ -43,9 +43,6 @@
             showCotmIcons: function() {
                 return window.innerWidth > 460;
             },
-            hasCotmIcon: function() {
-                return this.showCotmIcons && this.isBuffWing;
-            }
         }
     }
 </script>
@@ -68,8 +65,8 @@
     }
 
     .cotm {
-        float: right;
-        margin-left: 16px;
+        float: left;
+        margin-right: 16px;
         padding-top: 18px;
     }
 </style>

@@ -14,7 +14,5 @@
 </script>
 
 <style scoped>
-    .moderation {
-        margin: 3%;
-    }
+
 </style>

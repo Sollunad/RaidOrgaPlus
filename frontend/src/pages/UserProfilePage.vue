@@ -27,7 +27,7 @@
                     <div v-if="hasNoApi">
                         <p>Gib einen API-Key im Profil an, um hier deinen wöchentlichen Raid-Progress zu sehen!</p>
                     </div>
-                    <div v-else>
+                    <div v-else class="progress">
                         <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
                         <v-container>
                             <v-layout row wrap>
@@ -105,7 +105,7 @@
 
 <style scoped>
     .profilepage {
-        margin: 5%;
+        margin: 4%;
     }
 
     .username {
@@ -114,6 +114,10 @@
 
     .builds {
         margin-bottom: 30px;
+    }
+
+    .progress {
+        margin-left: -10px;
     }
 
     @media only screen and (max-width: 1263px) {
