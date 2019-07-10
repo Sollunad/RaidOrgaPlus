@@ -25,7 +25,7 @@ module.exports = (client, message) => {
 
   if (command !== 'login' && command !== 'help') {
     if (session === 'Keine Session') {
-      message.channel.send('Bitte melde dich zuerst an.');
+      message.channel.send('Bitte logge dich zunächst über RaidOrga+ ein.');
       return;
     } else if (session === 'Abgelaufen') {
       message.channel.send('Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an.');
