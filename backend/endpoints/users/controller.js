@@ -8,6 +8,7 @@ const _reset = require('./passwordreset');
 const _auth = require('../../authentication/auth');
 const _roles = require('../../authentication/role');
 const _discord = require('./discord');
+const _discordUsers = require('../../discord/users');
 const hash = require('password-hash');
 
 module.exports = [
@@ -33,11 +34,20 @@ module.exports = [
 
 async function getUser(req, authentication) {
     const id = req.query.id;
+    let user = null;
     if (id) {
         const role = _roles.getRole(authentication);
-        if (role >= 0) return await _user.get(id);
+        if (role >= 0) user = (await _user.get(id))[0];
     } else {
-        return await _user.get(authentication.user);
+        user = (await _user.get(authentication.user))[0];
+    }
+    if (user) {
+        const discordUsers = await _discordUsers.getAllUsers();
+        const discordUser = _discordUsers.findUser(user, discordUsers);
+        if (discordUser) {
+            user.discord = discordUser;
+        }
+        return user;
     }
     return [];
 }

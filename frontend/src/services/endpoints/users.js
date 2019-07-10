@@ -5,11 +5,11 @@ export default { get, getWithID, hasApi, setApi, changeName, register, login,
     resetPassword, getDiscordKey, hasProgressShared, setProgressShared };
 
 async function get() {
-    return (await con('users', 'get', {}, true))[0];
+    return (await con('users', 'get', {}, true));
 }
 
 async function getWithID(id) {
-    return (await con('users', 'get', {id}, true))[0];
+    return (await con('users', 'get', {id}, true));
 }
 
 async function hasApi() {

@@ -13,7 +13,6 @@ async function getProgress(req, authentication) {
     const user = req.query.user;
     if (user) {
         const isShared = await getShareValue(user);
-        console.log(isShared);
         if (isShared) return await _progress.progress(user);
         else return false;
     } else {

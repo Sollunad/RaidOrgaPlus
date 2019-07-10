@@ -17,8 +17,8 @@
         props: ['user', 'ownProfile', 'size'],
         computed: {
             iconLink: function() {
-                if (this.user.icon) {
-                    return this.user.icon;
+                if (this.user.discord) {
+                    return this.user.discord.avatar;
                 } else {
                     return _icons.encIcon('tbd');
                 }
