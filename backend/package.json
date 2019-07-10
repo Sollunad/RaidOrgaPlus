@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "cors": "^2.8.5",
+    "discord.js": "^11.5.1",
     "express": "^4.17.1",
     "express-busboy": "^7.0.1",
     "express-fileupload": "^1.1.5",
