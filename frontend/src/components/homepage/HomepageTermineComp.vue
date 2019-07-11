@@ -59,4 +59,10 @@
     .kommendeTermineHeadline {
         margin-bottom: 20px;
     }
+
+    @media only screen and (max-width: 599px) {
+        .kommendeTermineHeadline {
+            margin: 5px 0 20px 5px;
+        }
+    }
 </style>

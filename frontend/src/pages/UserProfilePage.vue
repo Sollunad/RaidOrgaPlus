@@ -104,9 +104,7 @@
 </script>
 
 <style scoped>
-    .profilepage {
-        margin: 4%;
-    }
+
 
     .username {
         margin-bottom: 40px;
@@ -129,6 +127,12 @@
     @media only screen and (min-width: 580px) {
         .shareSwitch {
             float: right;
+        }
+    }
+
+    @media only screen and (min-width: 600px) {
+        .profilepage {
+            margin: 4%;
         }
     }
 </style>
