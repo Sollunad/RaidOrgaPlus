@@ -35,6 +35,7 @@
                                     <ProgressComp
                                             v-bind:user="visitedUser"
                                             v-bind:ownProfile="ownProfile"
+                                            v-bind:width="width"
                                             class="homecomp">
                                     </ProgressComp>
                                 </v-flex>
@@ -66,7 +67,7 @@
     export default {
         name: "UserProfilePage",
         components: {ProgressShareComp, InsightsComp, ProgressComp, ProfilePictureComp, BuildsComp, ProfileNameComp},
-        props: ['user'],
+        props: ['user', 'width'],
         data: () => ({
             visitedUser: null,
             hasNoApi: null,
@@ -82,9 +83,9 @@
                 return false;
             },
             profilePictureSize: function() {
-                if (window.innerWidth > 1510) {
+                if (this.width > 1510) {
                     return 128;
-                } else if (window.innerWidth > 1263) {
+                } else if (this.width > 1263) {
                     return 112;
                 } else {
                     return 96;

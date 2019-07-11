@@ -6,14 +6,15 @@
             v-on:saveBoth="saveBoth"
             v-on:changeName="changeName"
             v-bind:raid="raid"
-            v-bind:termin="termin">
+            v-bind:termin="termin"
+            v-bind:width="width">
     </router-view>
 </template>
 
 <script>
     export default {
         name: "MainPage",
-        props: ['user'],
+        props: ['user', 'width'],
         data: () => ({
             raid: null,
             termin: null

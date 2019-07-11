@@ -8,6 +8,7 @@
                 v-bind:wing="index + 1"
                 v-bind:maxWing="maxWing"
                 v-bind:progress="progress"
+                v-bind:width="width"
                 :key="wing[0].wing"></ProgressWingComp>
     </div>
 </template>
@@ -20,7 +21,7 @@
     export default {
         name: "ProgressComp",
         components: {ProgressWingComp},
-        props: ['user', 'ownProfile'],
+        props: ['user', 'ownProfile', 'width'],
         asyncComputed: {
             bosses: function() {
                 return _encounter.listEncounterGrouped();
