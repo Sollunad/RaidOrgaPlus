@@ -79,7 +79,7 @@
       },
       created: async function() {
           const user = await _users.get();
-          if (user) this.user = user;
+          if (!Array.isArray(user) || user.length > 0) this.user = user;
           else this.showLogin = true;
           this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
 
