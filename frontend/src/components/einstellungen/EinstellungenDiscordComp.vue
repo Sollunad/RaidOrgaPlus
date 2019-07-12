@@ -36,7 +36,7 @@
         computed: {
             message: function() {
                 if (this.key) return `!orga login ${this.key}`;
-                else return `Zum Anmelden in Discord den generierten Einmalschlüssel per PN an den Bot schicken`;
+                else return `Generierten Befehl per PN an den Bot schicken`;
             }
         },
     }
