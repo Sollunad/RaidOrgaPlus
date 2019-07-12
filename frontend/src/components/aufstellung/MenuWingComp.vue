@@ -2,7 +2,8 @@
     <v-list>
         <v-list-tile
                 v-for="wing in wings"
-                :key="wing.id">
+                :key="wing.id"
+                @click="">
             <v-menu>
                 <v-list-tile-title slot="activator">Wing {{ wing.id }}</v-list-tile-title>
                 <MenuBossComp

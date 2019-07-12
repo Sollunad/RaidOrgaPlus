@@ -3,9 +3,9 @@
         <v-list-tile
                 v-for="(user, index) in angemeldet"
                 :key="index"
-
+                @click="pick(user)"
         >
-            <v-list-tile-title @click="pick(user)">
+            <v-list-tile-title>
                 {{user.name}}
             </v-list-tile-title>
         </v-list-tile>

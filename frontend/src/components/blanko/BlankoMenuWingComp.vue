@@ -6,8 +6,9 @@
         <v-list>
             <v-list-tile
                     v-for="wing in wings"
-                    :key="wing.id">
-                <v-list-tile-title @click="pick(wing)">{{ tileText(wing) }}</v-list-tile-title>
+                    :key="wing.id"
+                    @click="pick(wing)">
+                <v-list-tile-title>{{ tileText(wing) }}</v-list-tile-title>
             </v-list-tile>
         </v-list>
     </v-menu>

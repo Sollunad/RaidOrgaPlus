@@ -1,7 +1,6 @@
         Padding bei kleinen Builds in Spielerliste
         Nötige API-Key-Berechtigungen anzeigen
         Uhrzeit für Raid auch eingeben statt Picker
-        Feedback bei Dropdowns (Hover?) - Wing hinzufügen, Einträge kopieren, Spieler eintragen...
         Ja - vielleicht - nein beschriften
         Spezialisierungen bei Klassenauswahl mit hover aufklappen
         Ersatzleute manuell eingeben zusätzlich zu Rising Light-Auswahl
