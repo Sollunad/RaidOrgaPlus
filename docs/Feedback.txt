@@ -5,8 +5,6 @@
         Ja - vielleicht - nein beschriften
         Teilen einer Aufstellung automatisch enablen, sobald der Link kopiert wird
         Alles auf Profilseite etwas kleiner gestalten
-        Progress teilen besser beschriften ("Progress für Profil-Besucher anzeigen")
-        Namen oben links klicken und zur Homepage zurück
         Spieler einladen-Button ein kleines Stück runter (mobile glaube ich nur)
         Trennung zwischen W1-4 und W5-7 beim Progress
 
