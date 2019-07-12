@@ -125,7 +125,7 @@
         }
     }
 
-    @media only screen and (min-width: 580px) {
+    @media only screen and (min-width: 1264px) {
         .shareSwitch {
             float: right;
         }
