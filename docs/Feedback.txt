@@ -1,27 +1,32 @@
-        UI / UX enhancement:
+        UI / UX enhancement (unter Issue #172 erledigen):
 
-        Rollen-Filter-Icons bei Spielerliste zentrieren (mobile)
-        Padding bei kleinen Builds in Spielerliste
-        Ja - vielleicht - nein beschriften
-        Alles auf Profilseite etwas kleiner gestalten
-        Spieler einladen-Button ein kleines Stück runter (mobile glaube ich nur)
-        Trennung zwischen W1-4 und W5-7 beim Progress
+ D      Rollen-Filter-Icons bei Spielerliste zentrieren (mobile)
+ D      Padding bei kleinen Builds in Spielerliste
+ D      Ja - vielleicht - nein beschriften
+ D      Alles auf Profilseite etwas kleiner gestalten
+ D      Trennung zwischen W1-4 und W5-7 beim Progress
 
-        Neue Funktionen:
+        Neue Funktionen (neue Issues anlegen):
 
-        Nötige API-Key-Berechtigungen anzeigen
-        Uhrzeit für Raid auch eingeben statt Picker
-        Ersatzleute manuell eingeben zusätzlich zu Rising Light-Auswahl
-        Einzelne Felder statt ganze Aufstellung sperren (bspw nur Supporter eintragen)
-        Übersicht über angemeldete Spieler irgendwo an der Seite und immer offen
-        Vermerk im Profil, dass ein API-Key vorhanden ist (löschen?)
-        Austreten aus Raid
-        Indikator, ob Aufstellung fertig ist ("in Arbeit", "bitte selber eintragen", "fertig")
-        Reihenfolge der Bosse per Drag&Drop ändern
-        Auf Homepage schon an- und abmelden
-        Im Archiv kleine Boss-Icons der geschafften Bosse
-        Nur Termine archivieren, die in der Zukunft liegen
-        Zusätzlich auf Homepage: Progress und angepinnte Erfolge
-        Moderation: Kommentare vergeben für Mitglieder (Verwarnungen, etc.)
-        Moderation: Verlauf von Änderungen an Rängen angeben
+ D      Nötige API-Key-Berechtigungen anzeigen
+ D      Uhrzeit für Raid auch eingeben statt Picker
+ D      Ersatzleute manuell eingeben zusätzlich zu Rising Light-Auswahl
+ D      Übersicht über angemeldete Spieler irgendwo an der Seite und immer offen
+ D      Vermerk im Profil, dass ein API-Key vorhanden ist (löschen?)
+ D      Austreten aus Raid
+ D      Auf Homepage schon an- und abmelden
+ D      Im Archiv kleine Boss-Icons der geschafften Bosse
+ D      Nur Termine archivieren, die in der Zukunft liegen
+ D      Zusätzlich auf Homepage: Progress und angepinnte Erfolge
+ D      Moderation: Kommentare vergeben für Mitglieder (Verwarnungen, etc.)
+ D      Moderation: Verlauf von Änderungen an Rängen angeben
+
+ R      Indikator, ob Aufstellung fertig ist ("in Arbeit", "bitte selber eintragen", "fertig")
+ R      Einzelne Felder statt ganze Aufstellung sperren (bspw nur Supporter eintragen)
+
+ W      Reihenfolge der Bosse per Drag&Drop ändern
+
+D = Selected for development
+R = Refinement needed
+W = Won't fix
 
