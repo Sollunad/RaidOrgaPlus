@@ -6,7 +6,7 @@
                         v-for="(clss, index) in classes"
                         :key="index"
                         xs4>
-                    <v-menu :lazy="true">
+                    <v-menu :lazy="true" :open-on-hover="true" :open-delay="200">
                         <v-avatar :size="30" class="icon" slot="activator" :tile="true">
                             <img :src="classIcon(clss.abbr)">
                         </v-avatar>

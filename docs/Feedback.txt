@@ -2,7 +2,6 @@
         Nötige API-Key-Berechtigungen anzeigen
         Uhrzeit für Raid auch eingeben statt Picker
         Ja - vielleicht - nein beschriften
-        Spezialisierungen bei Klassenauswahl mit hover aufklappen
         Ersatzleute manuell eingeben zusätzlich zu Rising Light-Auswahl
         Sabir/Adina-Icons austauschen (Elite Insights-Icons nehmen)
         Einzelne Felder statt ganze Aufstellung sperren (bspw nur Supporter eintragen)
