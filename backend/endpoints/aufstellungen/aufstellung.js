@@ -58,12 +58,13 @@ async function loadBlanko(aufstellung) {
 }
 
 async function copyElements(from, to) {
-    const stmt = 'UPDATE AufstellungElement t ' +
-        'JOIN AufstellungElement f ON t.position = f.position ' +
-        'SET t.fk_spieler = f.fk_spieler, t.fk_class = f.fk_class, t.fk_role = f.fk_role ' +
-        'WHERE f.fk_aufstellung = ? AND t.fk_aufstellung = ?';
+    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, fk_role) ' +
+        'SELECT ?, position, f.fk_spieler, f.fk_class, f.fk_role ' +
+        'FROM AufstellungElement f ' +
+        'WHERE fk_aufstellung = ? ' +
+        'ON DUPLICATE KEY UPDATE fk_spieler = f.fk_spieler, fk_class = f.fk_class, fk_role = f.fk_role';
     try {
-        return await db.queryV(stmt, [from, to]);
+        return await db.queryV(stmt, [to, from]);
     } catch(e) {
         throw e;
     }

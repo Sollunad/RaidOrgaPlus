@@ -1,30 +1,28 @@
-Padding bei kleinen Builds in Spielerliste
-Nötige API-Key-Berechtigungen anzeigen
-Uhrzeit für Raid auch eingeben statt Picker
-Feedback bei Dropdowns (Hover?) - Wing hinzufügen, Einträge kopieren, Spieler eintragen...
-Ja - vielleicht - nein beschriften
-Spezialisierungen bei Klassenauswahl mit hover aufklappen
-Ersatzleute manuell eingeben zusätzlich zu Rising Light-Auswahl
-Sabir/Adina-Icons austauschen (Elite Insights-Icons nehmen)
-Einzelne Felder statt ganze Aufstellung sperren (bspw nur Supporter eintragen)
-Übersicht über angemeldete Spieler irgendwo an der Seite und immer offen
-Teilen einer Aufstellung automatisch enablen, sobald der Link kopiert wird
-Alles auf Profilseite etwas kleiner gestalten
-Progress teilen besser beschriften ("Progress für Profil-Besucher anzeigen")
-Vermerk im Profil, dass ein Discord-Account verlinkt ist (unlink?)
-Vermerk im Profil, dass ein API-Key vorhanden ist (löschen?)
-Austreten aus Raid
-Namen oben links klicken und zur Homepage zurück
-Blankos: Statt "Alles anzeigen" Text "Wing auswählen"
-Indikator, ob Aufstellung fertig ist ("in Arbeit", "bitte selber eintragen", "fertig")
-Einträge kopieren verbuggt?
-Reihenfolge der Bosse per Drag&Drop ändern
-Auf Homepage schon an- und abmelden
-Im Archiv kleine Boss-Icons der geschafften Bosse
-Nur Termine archivieren, die in der Zukunft liegen
-Rollen-Filter-Icons bei Spielerliste zentrieren (mobile)
-Spieler einladen-Button ein kleines Stück runter (mobile glaube ich nur)
-Trennung zwischen W1-4 und W5-7 beim Progress
-Zusätzlich auf Homepage: Progress und angepinnte Erfolge
-Moderation: Kommentare vergeben für Mitglieder (Verwarnungen, etc.)
-Moderation: Verlauf von Änderungen an Rängen angeben
+        Padding bei kleinen Builds in Spielerliste
+        Nötige API-Key-Berechtigungen anzeigen
+        Uhrzeit für Raid auch eingeben statt Picker
+        Feedback bei Dropdowns (Hover?) - Wing hinzufügen, Einträge kopieren, Spieler eintragen...
+        Ja - vielleicht - nein beschriften
+        Spezialisierungen bei Klassenauswahl mit hover aufklappen
+        Ersatzleute manuell eingeben zusätzlich zu Rising Light-Auswahl
+        Sabir/Adina-Icons austauschen (Elite Insights-Icons nehmen)
+        Einzelne Felder statt ganze Aufstellung sperren (bspw nur Supporter eintragen)
+        Übersicht über angemeldete Spieler irgendwo an der Seite und immer offen
+        Teilen einer Aufstellung automatisch enablen, sobald der Link kopiert wird
+        Alles auf Profilseite etwas kleiner gestalten
+        Progress teilen besser beschriften ("Progress für Profil-Besucher anzeigen")
+        Vermerk im Profil, dass ein API-Key vorhanden ist (löschen?)
+        Austreten aus Raid
+        Namen oben links klicken und zur Homepage zurück
+        Blankos: Statt "Alles anzeigen" Text "Wing auswählen"
+        Indikator, ob Aufstellung fertig ist ("in Arbeit", "bitte selber eintragen", "fertig")
+        Reihenfolge der Bosse per Drag&Drop ändern
+        Auf Homepage schon an- und abmelden
+        Im Archiv kleine Boss-Icons der geschafften Bosse
+        Nur Termine archivieren, die in der Zukunft liegen
+        Rollen-Filter-Icons bei Spielerliste zentrieren (mobile)
+        Spieler einladen-Button ein kleines Stück runter (mobile glaube ich nur)
+        Trennung zwischen W1-4 und W5-7 beim Progress
+        Zusätzlich auf Homepage: Progress und angepinnte Erfolge
+        Moderation: Kommentare vergeben für Mitglieder (Verwarnungen, etc.)
+        Moderation: Verlauf von Änderungen an Rängen angeben
