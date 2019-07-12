@@ -19,16 +19,12 @@
     export default {
         name: "BlankoMenuWingComp",
         props: ['currentWing'],
-        asyncComputed: {
-            wings: async function() {
-                const wings = await _gamedata.getWings();
-                const showAll = {id: 0};
-                return [showAll].concat(wings);
-            }
-        },
+        data: () => ({
+            wings: [],
+        }),
         computed: {
               buttonText: function() {
-                  if (this.currentWing === 0) return 'Alles anzeigen';
+                  if (this.currentWing === 0) return 'Wing auswählen';
                   else return `Wing ${this.currentWing}`;
               }
         },
@@ -40,6 +36,11 @@
                 if (wing.id === 0) return 'Alles anzeigen';
                 else return `Wing ${wing.id}`;
             }
+        },
+        created: async function() {
+            const wings = await _gamedata.getWings();
+            const showAll = {id: 0};
+            this.wings = [showAll].concat(wings);
         }
     }
 </script>

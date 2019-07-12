@@ -14,7 +14,6 @@
         Vermerk im Profil, dass ein API-Key vorhanden ist (löschen?)
         Austreten aus Raid
         Namen oben links klicken und zur Homepage zurück
-        Blankos: Statt "Alles anzeigen" Text "Wing auswählen"
         Indikator, ob Aufstellung fertig ist ("in Arbeit", "bitte selber eintragen", "fertig")
         Reihenfolge der Bosse per Drag&Drop ändern
         Auf Homepage schon an- und abmelden
