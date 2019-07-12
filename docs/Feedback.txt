@@ -3,7 +3,6 @@
         Rollen-Filter-Icons bei Spielerliste zentrieren (mobile)
         Padding bei kleinen Builds in Spielerliste
         Ja - vielleicht - nein beschriften
-        Teilen einer Aufstellung automatisch enablen, sobald der Link kopiert wird
         Alles auf Profilseite etwas kleiner gestalten
         Spieler einladen-Button ein kleines Stück runter (mobile glaube ich nur)
         Trennung zwischen W1-4 und W5-7 beim Progress

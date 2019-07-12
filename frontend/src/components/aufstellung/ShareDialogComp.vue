@@ -65,8 +65,9 @@
             this.switched = await _preview.getPreviewable(this.termin.id);
         },
         methods: {
-            copyLink: function() {
-                navigator.clipboard.writeText(this.previewLink);
+            copyLink: async function() {
+                await navigator.clipboard.writeText(this.previewLink);
+                this.switchValue = true;
                 this.copied = true;
             }
         }
