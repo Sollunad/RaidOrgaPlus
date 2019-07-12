@@ -3,7 +3,6 @@
         Uhrzeit für Raid auch eingeben statt Picker
         Ja - vielleicht - nein beschriften
         Ersatzleute manuell eingeben zusätzlich zu Rising Light-Auswahl
-        Sabir/Adina-Icons austauschen (Elite Insights-Icons nehmen)
         Einzelne Felder statt ganze Aufstellung sperren (bspw nur Supporter eintragen)
         Übersicht über angemeldete Spieler irgendwo an der Seite und immer offen
         Teilen einer Aufstellung automatisch enablen, sobald der Link kopiert wird
