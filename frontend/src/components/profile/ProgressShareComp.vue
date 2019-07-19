@@ -2,7 +2,7 @@
     <div>
         <v-switch
                 v-model="switchValue"
-                label="Progress für Profilbesucher anzeigen"
+                label="Für Profilbesucher anzeigen"
         ></v-switch>
     </div>
 </template>

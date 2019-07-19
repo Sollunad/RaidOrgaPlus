@@ -9,7 +9,7 @@
         <v-layout row
                   v-else-if="listNotEmpty"
         >
-            <v-flex xs12 sm6 md4 lg3>
+            <v-flex xs12 sm6>
                 <v-card>
                     <v-list two-line>
                         <HomepageTerminComp

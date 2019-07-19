@@ -27,27 +27,13 @@
                     <div v-if="hasNoApi">
                         <p>Gib einen API-Key im Profil an, um hier deinen wöchentlichen Raid-Progress zu sehen!</p>
                     </div>
-                    <div v-else class="progress">
+                    <div v-else>
                         <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
-                        <v-container>
-                            <v-layout row wrap>
-                                <v-flex xs12 md6>
-                                    <ProgressComp
-                                            v-bind:user="visitedUser"
-                                            v-bind:ownProfile="ownProfile"
-                                            v-bind:width="width"
-                                            class="homecomp">
-                                    </ProgressComp>
-                                </v-flex>
-                                <v-flex xs12 md6>
-                                    <InsightsComp
-                                            v-bind:user="visitedUser"
-                                            v-bind:ownProfile="ownProfile"
-                                            class="homecomp">
-                                    </InsightsComp>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
+                        <ProgressOverviewComp
+                            v-bind:user="visitedUser"
+                            v-bind:ownProfile="ownProfile"
+                            v-bind:width="width">
+                        </ProgressOverviewComp>
                     </div>
                 </v-flex>
             </v-layout>
@@ -60,13 +46,13 @@
     import BuildsComp from "../components/profile/BuildsComp";
     import ProfilePictureComp from "../components/profile/ProfilePictureComp";
     import _users from '../services/endpoints/users';
-    import ProgressComp from "../components/profile/ProgressComp";
-    import InsightsComp from "../components/profile/InsightsComp";
+
     import ProgressShareComp from "../components/profile/ProgressShareComp";
+    import ProgressOverviewComp from "../components/profile/ProgressOverviewComp";
 
     export default {
         name: "UserProfilePage",
-        components: {ProgressShareComp, InsightsComp, ProgressComp, ProfilePictureComp, BuildsComp, ProfileNameComp},
+        components: {ProgressOverviewComp, ProgressShareComp, ProfilePictureComp, BuildsComp, ProfileNameComp},
         props: ['user', 'width'],
         data: () => ({
             visitedUser: null,
@@ -115,19 +101,9 @@
         margin-bottom: 30px;
     }
 
-    .progress {
-        margin-left: -10px;
-    }
-
     @media only screen and (max-width: 1263px) {
         .profilePicture {
             margin-bottom: 30px;
-        }
-    }
-
-    @media only screen and (min-width: 1264px) {
-        .shareSwitch {
-            float: right;
         }
     }
 
