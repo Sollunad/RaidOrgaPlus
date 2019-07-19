@@ -63,21 +63,26 @@
             },
             togglePrefer: async function(build) {
                 build.prefer = 1 - build.prefer;
+                this.builds.sort(this.compareBuilds);
                 await _users.putPrefer(build.class.id, build.role.id, build.prefer);
             },
             compareBuilds: function(buildA, buildB) {
-                if (this.baseId(buildA) === this.baseId(buildB)) {
-                    if (buildA.class.id === buildB.class.id) {
-                        if (buildA.role.id === buildB.role.id) {
-                            return 0;
+                if (buildA.prefer === buildB.prefer) {
+                    if (this.baseId(buildA) === this.baseId(buildB)) {
+                        if (buildA.class.id === buildB.class.id) {
+                            if (buildA.role.id === buildB.role.id) {
+                                return 0;
+                            } else {
+                                return buildA.role.id < buildB.role.id? -1: 1;
+                            }
                         } else {
-                            return buildA.role.id < buildB.role.id? -1: 1;
+                            return buildA.class.id < buildB.class.id? -1: 1;
                         }
                     } else {
-                        return buildA.class.id < buildB.class.id? -1: 1;
+                        return this.baseId(buildA) < this.baseId(buildB)? -1 : 1;
                     }
                 } else {
-                    return this.baseId(buildA) < this.baseId(buildB)? -1 : 1;
+                    return buildA.prefer > buildB.prefer? -1 : 1;
                 }
             },
             baseId: function(build) {
