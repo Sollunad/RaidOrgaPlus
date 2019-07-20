@@ -1,27 +1,27 @@
 <template>
-    <div class="erfolge">
+    <div>
         <div class="spinner" v-if="!achievements">
             <v-progress-circular
                     indeterminate
                     color="primary"
             ></v-progress-circular>
         </div>
-        <div v-for="wing in achievements">
+        <div v-for="wing in achievements" :key="wing.wing">
             <ErfolgWingComponent
-                v-bind:wing="wing"
-                v-bind:allDone="allDone">
+                    v-bind:wing="wing"
+                    v-bind:allDone="allDone">
             </ErfolgWingComponent>
         </div>
     </div>
 </template>
 
 <script>
-    import _gamedata from '../services/endpoints/gamedata';
-    import _progress from '../services/endpoints/progress';
-    import ErfolgWingComponent from "../components/erfolge/ErfolgWingComponent";
+    import _gamedata from '../../services/endpoints/gamedata';
+    import _progress from '../../services/endpoints/progress';
+    import ErfolgWingComponent from "./ErfolgWingComponent";
 
     export default {
-        name: "ErfolgePage",
+        name: "ErfolgeComp",
         components: {ErfolgWingComponent},
         data: () => ({
             achievements: [],
@@ -35,7 +35,5 @@
 </script>
 
 <style scoped>
-    .erfolge {
-        margin: 3%;
-    }
+
 </style>

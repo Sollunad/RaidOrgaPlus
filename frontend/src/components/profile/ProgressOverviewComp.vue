@@ -27,13 +27,14 @@
 <script>
     import ProgressComp from "./ProgressComp";
     import InsightsComp from "./InsightsComp";
+    import ErfolgeComp from "../erfolge/ErfolgeComp";
 
     export default {
         name: "ProgressOverviewComp",
         props: ['user', 'ownProfile', 'width'],
         data: () => ({
-            progressCompNames: ["Weekly Progress", "Legendäre Trophäen"],
-            progressComps: [ProgressComp, InsightsComp],
+            progressCompNames: ["Weekly Progress", "Legendäre Trophäen", 'Erfolge'],
+            progressComps: [ProgressComp, InsightsComp, ErfolgeComp],
         })
 
     }

@@ -39,7 +39,6 @@
                 { id: 1, icon: 'explore', title: 'Meine Raids', route: '/raids' },
                 { id: 2, icon: 'account_circle', title: 'Profil', route: '/profil' },
                 { id: 3, icon: 'settings', title: 'Einstellungen', route: '/einstellungen' },
-                { id: 4, icon: 'star', title: 'Erfolge', route: '/erfolge' },
                 //{ id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
             ]
         })

@@ -7,7 +7,7 @@
         <v-avatar v-if="conditionIcon" size="24" class="icon">
             <img :src="conditionIcon">
         </v-avatar>
-        <div class="name subheading">{{achievement.id}} {{achievement.name}}</div>
+        <div class="name subheading">{{achievement.name}}</div>
         <div class="req">{{achievement.req}}</div>
     </div>
 </template>
@@ -39,7 +39,14 @@
                     return null;
                 }
             }
-        }
+        },
+        watch: {
+            allDone: function () {
+                if (this.isDone) {
+                    this.$emit('countDone');
+                }
+            }
+        },
     }
 </script>
 
