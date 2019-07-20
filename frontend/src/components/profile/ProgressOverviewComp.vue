@@ -1,5 +1,6 @@
 <template>
-    <v-tabs fixed-tabs
+    <v-tabs
+            class="elevation-6"
             color="#212121">
         <v-tab
                 v-for="name in progressCompNames"
