@@ -1,6 +1,8 @@
 <template>
     <div>
-        <span class="headline">Wing {{wing.wing}}</span>
+        <v-avatar size="64">
+            <img :src="wingIcon">
+        </v-avatar>
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex
@@ -20,10 +22,17 @@
 
 <script>
     import ErfolgComponent from "./ErfolgComponent";
+    import _icons from '../../services/icons';
+
     export default {
         name: "ErfolgWingComponent",
         components: {ErfolgComponent},
-        props: ['allDone', 'wing']
+        props: ['allDone', 'wing'],
+        computed: {
+            wingIcon: function() {
+                return _icons.wingIcon(this.wing.wing);
+            }
+        }
     }
 </script>
 

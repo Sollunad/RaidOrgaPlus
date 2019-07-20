@@ -1,18 +1,43 @@
 <template>
     <div class="erfolg"
         v-bind:class="{'done': isDone}">
-        <div class="name subheading">{{achievement.name}}</div>
+        <v-avatar v-if="achievement.boss" size="24" class="icon">
+            <img :src="encIcon">
+        </v-avatar>
+        <v-avatar v-if="conditionIcon" size="24" class="icon">
+            <img :src="conditionIcon">
+        </v-avatar>
+        <div class="name subheading">{{achievement.id}} {{achievement.name}}</div>
         <div class="req">{{achievement.req}}</div>
     </div>
 </template>
 
 <script>
+    import _icons from '../../services/icons';
+
     export default {
         name: "ErfolgComponent",
         props: ['achievement', 'allDone'],
         computed: {
             isDone: function() {
                 return this.allDone && this.allDone.indexOf(this.achievement.id) !== -1;
+            },
+            encIcon: function() {
+                return _icons.encIcon(this.achievement.boss);
+            },
+            conditionIcon: function() {
+                const condition = this.achievement.condition;
+                if (condition === 'group') {
+                    return _icons.miscIcon('contacts');
+                } else if (condition === 'cm') {
+                    return _icons.miscIcon('cm');
+                } else if (condition === 'meta') {
+                    return _icons.miscIcon('meta');
+                } else if (condition === 'self') {
+                    return _icons.roleIcon('c');
+                } else {
+                    return null;
+                }
             }
         }
     }
@@ -28,6 +53,10 @@
 
     .done {
         background-color: #148540;
+    }
+
+    .icon {
+        float: right;
     }
 
     .name {

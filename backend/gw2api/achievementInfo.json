@@ -1,0 +1,410 @@
+[
+  {
+    "wing": 1,
+    "info": [
+      {
+        "id": 2654,
+        "boss": "vg",
+        "condition": "kill"
+      },
+      {
+        "id": 2656,
+        "boss": "vg",
+        "condition": "group"
+      },
+      {
+        "id": 2658,
+        "boss": "vg",
+        "condition": "self"
+      },
+      {
+        "id": 2655,
+        "boss": "vg",
+        "condition": "self"
+      },
+      {
+        "id": 2665,
+        "boss": "woods",
+        "condition": "group"
+      },
+      {
+        "id": 2647,
+        "boss": "woods",
+        "condition": "kill"
+      },
+      {
+        "id": 2662,
+        "boss": "woods",
+        "condition": "group"
+      },
+      {
+        "id": 2660,
+        "boss": "woods",
+        "condition": "self"
+      },
+      {
+        "id": 2667,
+        "boss": "gorse",
+        "condition": "kill"
+      },
+      {
+        "id": 2649,
+        "boss": "gorse",
+        "condition": "group"
+      },
+      {
+        "id": 2666,
+        "boss": "gorse",
+        "condition": "self"
+      },
+      {
+        "id": 2648,
+        "boss": "gorse",
+        "condition": "self"
+      },
+      {
+        "id": 2659,
+        "boss": "sab",
+        "condition": "kill"
+      },
+      {
+        "id": 2661,
+        "boss": "sab",
+        "condition": "self"
+      },
+      {
+        "id": 2652,
+        "boss": "sab",
+        "condition": "group"
+      },
+      {
+        "id": 2664,
+        "boss": "sab",
+        "condition": "self"
+      },
+      {
+        "id": 2653,
+        "condition": "meta"
+      }
+    ]
+  },
+  {
+    "wing": 2,
+    "info": [
+      {
+        "id": 2826,
+        "boss": "sloth",
+        "condition": "kill"
+      },
+      {
+        "id": 2835,
+        "boss": "sloth",
+        "condition": "group"
+      },
+      {
+        "id": 2830,
+        "boss": "trio",
+        "condition": "kill"
+      },
+      {
+        "id": 2831,
+        "boss": "trio",
+        "condition": "group"
+      },
+      {
+        "id": 2836,
+        "boss": "matt",
+        "condition": "kill"
+      },
+      {
+        "id": 2821,
+        "boss": "matt",
+        "condition": "group"
+      },
+      {
+        "id": 2823,
+        "condition": "meta"
+      }
+    ]
+  },
+  {
+    "wing": 3,
+    "info": [
+      {
+        "id": 3024,
+        "boss": "siege",
+        "condition": "kill"
+      },
+      {
+        "id": 3021,
+        "boss": "siege",
+        "condition": "self"
+      },
+      {
+        "id": 3022,
+        "boss": "siege",
+        "condition": "group"
+      },
+      {
+        "id": 3025,
+        "boss": "siege",
+        "condition": "group"
+      },
+      {
+        "id": 3014,
+        "boss": "kc",
+        "condition": "kill"
+      },
+      {
+        "id": 3019,
+        "boss": "kc",
+        "condition": "cm"
+      },
+      {
+        "id": 3010,
+        "boss": "tc",
+        "condition": "kill"
+      },
+      {
+        "id": 3013,
+        "boss": "tc",
+        "condition": "group"
+      },
+      {
+        "id": 3011,
+        "boss": "tc",
+        "condition": "self"
+      },
+      {
+        "id": 3017,
+        "boss": "xera",
+        "condition": "kill"
+      }
+    ]
+  },
+  {
+    "wing": 4,
+    "info": [
+      {
+        "id": 3349,
+        "boss": "cairn",
+        "condition": "kill"
+      },
+      {
+        "id": 3334,
+        "boss": "cairn",
+        "condition": "cm"
+      },
+      {
+        "id": 3321,
+        "boss": "mo",
+        "condition": "kill"
+      },
+      {
+        "id": 3287,
+        "boss": "mo",
+        "condition": "cm"
+      },
+      {
+        "id": 3347,
+        "boss": "sama",
+        "condition": "kill"
+      },
+      {
+        "id": 3342,
+        "boss": "sama",
+        "condition": "cm"
+      },
+      {
+        "id": 3364,
+        "boss": "deimos",
+        "condition": "kill"
+      },
+      {
+        "id": 3292,
+        "boss": "deimos",
+        "condition": "cm"
+      },
+      {
+        "id": 3299,
+        "condition": "meta"
+      },
+      {
+        "id": 3392,
+        "condition": "meta"
+      }
+    ]
+  },
+  {
+    "wing": 5,
+    "info": [
+      {
+        "id": 4004,
+        "boss": "horror",
+        "condition": "kill"
+      },
+      {
+        "id": 3993,
+        "boss": "horror",
+        "condition": "cm"
+      },
+      {
+        "id": 4033,
+        "boss": "horror",
+        "condition": "self"
+      },
+      {
+        "id": 4010,
+        "boss": "river",
+        "condition": "kill"
+      },
+      {
+        "id": 3998,
+        "boss": "statues",
+        "condition": "kill"
+      },
+      {
+        "id": 4036,
+        "boss": "statues",
+        "condition": "kill"
+      },
+      {
+        "id": 4038,
+        "boss": "statues",
+        "condition": "kill"
+      },
+      {
+        "id": 4037,
+        "boss": "statues",
+        "condition": "group"
+      },
+      {
+        "id": 4016,
+        "boss": "dhuum",
+        "condition": "kill"
+      },
+      {
+        "id": 3979,
+        "boss": "dhuum",
+        "condition": "cm"
+      },
+      {
+        "id": 4020,
+        "condition": "meta"
+      }
+    ]
+  },
+  {
+    "wing": 6,
+    "info": [
+      {
+        "id": 4423,
+        "boss": "ca",
+        "condition": "kill"
+      },
+      {
+        "id": 4416,
+        "boss": "ca",
+        "condition": "cm"
+      },
+      {
+        "id": 4388,
+        "boss": "ca",
+        "condition": "self"
+      },
+      {
+        "id": 4364,
+        "boss": "largos",
+        "condition": "kill"
+      },
+      {
+        "id": 4397,
+        "boss": "largos",
+        "condition": "self"
+      },
+      {
+        "id": 4429,
+        "boss": "largos",
+        "condition": "cm"
+      },
+      {
+        "id": 4396,
+        "boss": "qadim",
+        "condition": "kill"
+      },
+      {
+        "id": 4355,
+        "boss": "qadim",
+        "condition": "cm"
+      },
+      {
+        "id": 4361,
+        "boss": "qadim",
+        "condition": "group"
+      },
+      {
+        "id": 4404,
+        "boss": "qadim",
+        "condition": "group"
+      },
+      {
+        "id": 4395,
+        "condition": "meta"
+      }
+    ]
+  },
+  {
+    "wing": 7,
+    "info": [
+      {
+        "id": 4796,
+        "boss": "adina",
+        "condition": "kill"
+      },
+      {
+        "id": 4803,
+        "boss": "adina",
+        "condition": "cm"
+      },
+      {
+        "id": 4788,
+        "boss": "adina",
+        "condition": "group"
+      },
+      {
+        "id": 4801,
+        "boss": "sabir",
+        "condition": "kill"
+      },
+      {
+        "id": 4779,
+        "boss": "sabir",
+        "condition": "cm"
+      },
+      {
+        "id": 4808,
+        "boss": "sabir",
+        "condition": "self"
+      },
+      {
+        "id": 4799,
+        "boss": "qadim2",
+        "condition": "kill"
+      },
+      {
+        "id": 4800,
+        "boss": "qadim2",
+        "condition": "cm"
+      },
+      {
+        "id": 4785,
+        "boss": "qadim2",
+        "condition": "group"
+      },
+      {
+        "id": 4781,
+        "condition": "meta"
+      }
+    ]
+  }
+]
