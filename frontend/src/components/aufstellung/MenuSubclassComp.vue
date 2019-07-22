@@ -6,7 +6,14 @@
                         v-for="(clss, index) in classes"
                         :key="index"
                         xs4>
-                        <v-avatar :size="30" class="icon" slot="activator" @click="pick(clss)" :tile="true">
+                        <v-avatar
+                            :size="30"
+                            :class="{'hovered-icon': isHovered(index)}"
+                            slot="activator"
+                            @click="pick(clss)"
+                            @mouseover="enter(index)"
+                            @mouseleave="leave()"
+                            :tile="true">
                             <img :src="classIcon(clss.abbr)">
                         </v-avatar>
                 </v-flex>
@@ -22,18 +29,29 @@
     export default {
         name: "MenuSubclassComp",
         props: ['base'],
-        asyncComputed: {
-            classes: async function() {
-                return await _gamedata.getClassesForBase(this.base);
-            }
-        },
+        data: () => ({
+            hovered: null,
+            classes: []
+        }),
         methods: {
             classIcon: function(name) {
                 return _icons.classIcon(name);
             },
             pick: function(clss) {
                 this.$emit('pick', clss);
+            },
+            enter: function(index) {
+                this.hovered = index;
+            },
+            leave: function() {
+                this.hovered = null;
+            },
+            isHovered: function(index) {
+                return this.hovered === index;
             }
+        },
+        created: async function() {
+            this.classes = await _gamedata.getClassesForBase(this.base);
         }
     }
 </script>
@@ -41,5 +59,9 @@
 <style scoped>
     .menu {
         background-color: #444444;
+    }
+
+    .hovered-icon {
+        background-color: #666666;
     }
 </style>
