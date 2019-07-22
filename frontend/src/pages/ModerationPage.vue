@@ -23,21 +23,22 @@
 
 <script>
     import ModUserListComp from "../components/moderation/ModUserListComp";
+    import ModRaidListComp from "../components/moderation/ModRaidListComp";
 
     export default {
         name: "ModerationPage",
         components: {ModUserListComp},
         props: ['user'],
         data: () => ({
-            moderationCompNames: ['Spieler-Verwaltung'],
-            moderationComps: [ModUserListComp],
+            moderationCompNames: ['Spieler-Verwaltung', 'Raid-Verwaltung'],
+            moderationComps: [ModUserListComp, ModRaidListComp],
         })
     }
 </script>
 
 <style scoped>
     .moderationComp {
-        padding: 10px 0;
+        padding-top: 10px;
         background-color: #313131;
         width: 100%;
     }

@@ -1,7 +1,6 @@
 const db = require('../../db/connector.js');
 
 exports.getUsers = getUsers;
-exports.lastTermin = lastTermin;
 
 async function getUsers() {
     const stmt = 'SELECT Spieler.id, Spieler.accname, Spieler.name, Spieler.lastActive, MAX(Termin.date) AS lastTermin FROM Spieler ' +
@@ -14,21 +13,6 @@ async function getUsers() {
         'ORDER BY Spieler.accname';
     try {
         return await db.query(stmt);
-    } catch(e) {
-        throw e;
-    }
-}
-
-async function lastTermin(userId) {
-    const stmt = 'SELECT Termin.date FROM Termin ' +
-        'JOIN Spieler_Termin ON Spieler_Termin.fk_termin = Termin.id ' +
-        'WHERE Spieler_Termin.type = 0 ' +
-        'AND Spieler_Termin.fk_spieler = ? ' +
-        'AND Termin.date < CURDATE() ' +
-        'ORDER BY Termin.date DESC ' +
-        'LIMIT 1';
-    try {
-        return await db.queryV(stmt, userId);
     } catch(e) {
         throw e;
     }
