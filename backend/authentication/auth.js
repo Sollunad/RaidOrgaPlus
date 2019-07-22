@@ -1,5 +1,6 @@
 const _session = require('../endpoints/users/session');
 const _raids = require('../endpoints/raids/raids');
+const _activity = require('../endpoints/users/activity');
 
 exports.auth = authenticate;
 exports.deleteCache = deleteFromCache;
@@ -37,6 +38,7 @@ async function addCache(uuid) {
 
     authObject.cachedUntil = Date.now() + CACHE_FOR;
     _cache[uuid] = authObject;
+    await _activity.updateLastActivity(response.user);
     return authObject;
 }
 
