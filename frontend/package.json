@@ -14,7 +14,6 @@
     "password-hash": "^1.2.2",
     "uuid": "^3.3.2",
     "vue": "^2.6.10",
-    "vue-async-computed": "^3.7.0",
     "vue-router": "^3.0.7",
     "vuetify": "^1.5.16"
   },
