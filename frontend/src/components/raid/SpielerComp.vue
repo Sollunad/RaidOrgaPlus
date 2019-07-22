@@ -44,11 +44,9 @@
         name: "ListSpielerComp",
         components: {NameComp, BuildChipComp},
         props: ['user', 'filter', 'role'],
-        asyncComputed: {
-            builds: function() {
-                if (this.user) return _users.getBuilds(this.user.id);
-            }
-        },
+        data: () => ({
+            builds: null,
+        }),
         computed: {
             isRaidLead: function() {
                 return this.user.role === 2;
@@ -74,6 +72,9 @@
             kick: function() {
                 this.$emit('kick', this.user);
             }
+        },
+        created: async function() {
+            this.builds = await _users.getBuilds(this.user.id);
         }
     }
 </script>

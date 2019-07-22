@@ -32,14 +32,10 @@
         name: "RaidOverviewComp",
         components: {ListRaidComp},
         props: ['user'],
-        asyncComputed: {
-            raids: function () {
-                return _raids.listForPlayer();
-            },
-            anmeldungen: function() {
-                return _raids.getAnmeldungState();
-            }
-        },
+        data: () => ({
+            raids: [],
+            anmeldungen: []
+        }),
         methods: {
             saveRaid: function(raid) {
                 this.$emit('saveRaid', raid);
@@ -50,6 +46,10 @@
                     return anmeldung;
                 }
             }
+        },
+        created: async function() {
+            this.raids = await _raids.listForPlayer();
+            this.anmeldungen = await _raids.getAnmeldungState();
         }
     }
 </script>

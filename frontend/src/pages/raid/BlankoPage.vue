@@ -42,12 +42,8 @@
         data: () => ({
             wingFilter: 0,
             elements: null,
+            bosses: []
         }),
-        asyncComputed: {
-            bosses: function() {
-                return _gamedata.listEncounter();
-            }
-        },
         computed: {
             filteredBosses: function() {
                 if (!this.wingFilter) return this.bosses;
@@ -65,6 +61,7 @@
         },
         created: async function() {
             this.elements = await _blankos.getAllElements(this.raid.id);
+            this.bosses = await _gamedata.listEncounter();
         }
     }
 </script>

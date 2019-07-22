@@ -103,19 +103,10 @@
             elements: [],
             locked: false,
             ersatzspieler: [],
-            anmeldung: [],
             uploadActive: false,
+            isActive: null,
+            anmeldung: null,
         }),
-        asyncComputed: {
-            anmeldung: function() {
-                if (this.termin && this.isActive) return _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
-                else return null;
-            },
-            isActive: async function() {
-                if (this.termin) return (!await _termine.isArchived(this.termin.id));
-                else return false;
-            }
-        },
         methods: {
             anmelden: async function(type) {
                 const changedAnmeldung = this.anmeldungen.filter(a => a.id === this.user.id)[0];
@@ -126,7 +117,7 @@
             addBoss: async function(info) {
                 const [boss, wing] = info;
                 if (boss === 0) {
-                    this.aufstellungen = await _termine.addWing(this.termin.id, wing.id);
+                    this.aufstellungen = await _termine.addWing(this.termin.id, wing);
                     this.elements = await _aufstellungen.getElements(this.termin.id);
                 } else {
                     this.aufstellungen = await _termine.addBoss(this.termin.id, boss);
@@ -196,10 +187,14 @@
         created: async function() {
             if (!this.termin) window.location.href = '/#/raids';
             else {
+                this.isActive = (!await _termine.isArchived(this.termin.id));
                 this.aufstellungen = await _aufstellungen.getForTermin(this.termin.id);
                 this.elements = await _aufstellungen.getElements(this.termin.id);
                 this.locked = await _termine.isLocked(this.termin.id);
                 this.anmeldungen = await _termine.getAnmeldungenForTermin(this.termin.id);
+                if (this.isActive) {
+                    this.anmeldung = await _termine.getAnmeldungForSpieler(this.user.id, this.termin.id)
+                }
             }
         }
     }

@@ -34,16 +34,17 @@
     export default {
         name: "InsightsComp",
         props: ['user', 'ownProfile'],
-        asyncComputed: {
-            insights: function() {
-                if (this.ownProfile) return _progress.insights();
-                else return _progress.insights(this.user.id);
-            }
-        },
+        data: () => ({
+            insights: []
+        }),
         methods: {
             icon: function(name) {
                 return _icons.miscIcon(name);
             }
+        },
+        created: async function() {
+            if (this.ownProfile) this.insights = await _progress.insights();
+            else this.insights = await _progress.insights(this.user.id);
         }
     }
 </script>

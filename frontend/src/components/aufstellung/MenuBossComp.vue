@@ -3,35 +3,30 @@
         <v-list-tile
                 v-for="(boss, index) in bosses"
                 :key="index"
-                @click="pick(boss.id, wing)">
+                @click="pick(boss.id, boss.wing)">
             <v-list-tile-title>{{ boss.name }}</v-list-tile-title>
         </v-list-tile>
     </v-list>
 </template>
 
 <script>
-    import _encounter from '../../services/endpoints/gamedata';
-
     export default {
         name: "MenuBossComp",
         props: ['wing', 'showFC'],
-        asyncComputed: {
-            bosses: async function() {
-                if (this.wing) {
-                    const singleBosses = await _encounter.listEncounterForWing(this.wing.id);
-                    if (this.showFC) {
-                        const fc = [{id:0, name:'Full Clear'}];
-                        return fc.concat(singleBosses);
-                    }
-                    else {
-                        return singleBosses;
-                    }
+        computed: {
+            bosses: function() {
+                if (this.showFC) {
+                    const fc = [{id:0, name:'Full Clear', wing: this.wing[0].wing}];
+                    return fc.concat(this.wing);
                 }
-                else return [];
+                else {
+                    return this.wing;
+                }
             }
         },
         methods: {
             pick: function(id, wing) {
+                console.log(id, wing);
                 this.$emit('pick', [id, wing]);
             }
         }

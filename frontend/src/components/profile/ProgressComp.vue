@@ -22,19 +22,19 @@
         name: "ProgressComp",
         components: {ProgressWingComp},
         props: ['user', 'ownProfile', 'width'],
-        asyncComputed: {
-            bosses: function() {
-                return _encounter.listEncounterGrouped();
-            },
-            progress: function() {
-                if (this.ownProfile) return _progress.progress();
-                else return _progress.progress(this.user.id);
-            }
-        },
+        data: () => ({
+            bosses: [],
+            progress: [],
+        }),
         computed: {
             maxWing: function() {
                 return this.bosses.length;
             }
+        },
+        created: async function() {
+            this.bosses = await _encounter.listEncounterGrouped();
+            if (this.ownProfile) this.progress = await _progress.progress();
+            else this.progress = await _progress.progress(this.user.id);
         }
     }
 </script>
