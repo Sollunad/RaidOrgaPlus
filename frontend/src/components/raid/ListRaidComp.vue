@@ -5,8 +5,8 @@
                     <img :src="raid.icon">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                    <v-list-tile-title v-html="raid.name"></v-list-tile-title>
-                    <v-list-tile-sub-title v-html="role"></v-list-tile-sub-title>
+                    <v-list-tile-title>{{raid.name}} {{inactiveFlag}}</v-list-tile-title>
+                    <v-list-tile-sub-title>Rolle: {{role}}</v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
                     <v-btn icon :to="'/raid/termine'">
@@ -26,9 +26,9 @@
         computed: {
             role: function() {
                 switch(this.raid.role) {
-                    case 0: return "Rolle: Spieler";
-                    case 1: return "Rolle: Lieutenant";
-                    case 2: return "Rolle: Raidleiter";
+                    case 0: return "Spieler";
+                    case 1: return "Lieutenant";
+                    case 2: return "Raidleiter";
                     default: return "";
                 }
             },
@@ -36,6 +36,13 @@
                 if (this.anmeldung) {
                     const icons = ['check_circle', 'check_circle_outline', 'cancel', 'warning'];
                     return icons.slice(this.anmeldung.type)[0];
+                } else {
+                    return '';
+                }
+            },
+            inactiveFlag: function() {
+                if (!this.raid.active) {
+                    return '(inaktiv)'
                 } else {
                     return '';
                 }
