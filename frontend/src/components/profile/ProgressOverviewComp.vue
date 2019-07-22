@@ -1,7 +1,8 @@
 <template>
     <v-tabs
             class="elevation-6"
-            color="#212121">
+            color="#212121"
+            show-arrows>
         <v-tab
                 v-for="name in progressCompNames"
                 :key="name"
@@ -33,7 +34,7 @@
         name: "ProgressOverviewComp",
         props: ['user', 'ownProfile', 'width'],
         data: () => ({
-            progressCompNames: ["Weekly Progress", "Legendäre Trophäen", 'Erfolge'],
+            progressCompNames: ["Weekly Progress", "Trophäen", 'Erfolge'],
             progressComps: [ProgressComp, InsightsComp, ErfolgeComp],
         })
 

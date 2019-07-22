@@ -10,6 +10,6 @@ async function insights(user) {
     return await con('progress/li', 'get', {user}, true);
 }
 
-async function achievements() {
-    return await con('progress/achievements', 'get', {}, true);
+async function achievements(user) {
+    return await con('progress/achievements', 'get', {user}, true);
 }

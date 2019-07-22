@@ -24,10 +24,10 @@
                             v-bind:ownProfile="ownProfile">
                     </BuildsComp>
                     <v-divider></v-divider>
-                    <div v-if="hasNoApi">
-                        <p>Gib einen API-Key im Profil an, um hier deinen wöchentlichen Raid-Progress zu sehen!</p>
+                    <div v-if="hasNoApi && ownProfile">
+                        <p>Gib einen API-Key in den Einstellungen an, um hier deinen wöchentlichen Raid-Progress und Erfolge zu sehen!</p>
                     </div>
-                    <div v-else>
+                    <div v-else-if="showProgress">
                         <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
                         <ProgressOverviewComp
                             v-bind:user="visitedUser"
@@ -57,6 +57,7 @@
         data: () => ({
             visitedUser: null,
             hasNoApi: null,
+            hasShared: false
         }),
         computed: {
             visitedID: function () {
@@ -76,6 +77,9 @@
                 } else {
                     return 96;
                 }
+            },
+            showProgress: function() {
+                return this.ownProfile || this.hasShared;
             }
         },
         methods: {
@@ -86,6 +90,7 @@
         created: async function () {
             this.visitedUser = this.visitedID ? await _users.getWithID(this.visitedID) : this.user;
             this.hasNoApi = !(await _users.hasApi());
+            this.hasShared = await _users.hasProgressShared(this.visitedID);
         }
     }
 </script>

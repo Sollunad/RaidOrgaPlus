@@ -202,7 +202,13 @@ async function getDiscordKey(req, authentication) {
 }
 
 async function hasProgressShared(req, authentication) {
-    const response = await _user.hasProgressShared(authentication.user);
+    const user = req.query.user;
+    let response = null;
+    if (user) {
+        response = await _user.hasProgressShared(user);
+    } else {
+        response = await _user.hasProgressShared(authentication.user);
+    }
     if (response.length > 0) {
         const sharedValue = response[0].share;
         return (!!sharedValue)

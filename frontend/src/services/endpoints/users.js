@@ -72,8 +72,8 @@ async function getDiscordKey(){
     return await con('users/discordKey', 'get', {}, true);
 }
 
-async function hasProgressShared() {
-    return await con('users/shared', 'get', {}, true);
+async function hasProgressShared(user) {
+    return await con('users/shared', 'get', {user}, true);
 }
 
 async function setProgressShared(shared) {

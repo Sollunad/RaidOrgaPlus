@@ -37,8 +37,6 @@ function addAchievementInfo(wing, achievements) {
             if (achievement_info) {
                 achievement.boss = achievement_info.boss;
                 achievement.condition = achievement_info.condition;
-            } else {
-                achievement.boss = 'none';
             }
         }
     }

@@ -5,6 +5,7 @@
                 <img :src="wingIcon">
             </v-avatar>
             <span :class="textClass">{{done}} / {{totalAchievements}}</span>
+            <v-icon class="dropdown-icon">{{ dropdownIcon }}</v-icon>
         </div>
         <v-container grid-list-md v-show="show">
             <v-layout row wrap>
@@ -48,6 +49,9 @@
             },
             textClass: function() {
                 return `doneCount ${this.complete? 'success--text': ''}`
+            },
+            dropdownIcon: function() {
+                return this.show? 'keyboard_arrow_up' : 'keyboard_arrow_down';
             }
         },
         methods: {
@@ -64,5 +68,9 @@
 <style scoped>
     .doneCount {
         margin-left: 10px;
+    }
+
+    .dropdown-icon {
+        float: right;
     }
 </style>

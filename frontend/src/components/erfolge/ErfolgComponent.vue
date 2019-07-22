@@ -1,7 +1,7 @@
 <template>
     <div class="erfolg"
         v-bind:class="{'done': isDone}">
-        <v-avatar v-if="achievement.boss" size="24" class="icon">
+        <v-avatar v-if="encIcon" size="24" class="icon">
             <img :src="encIcon">
         </v-avatar>
         <v-avatar v-if="conditionIcon" size="24" class="icon">
@@ -23,7 +23,11 @@
                 return this.allDone && this.allDone.indexOf(this.achievement.id) !== -1;
             },
             encIcon: function() {
-                return _icons.encIcon(this.achievement.boss);
+                if (this.achievement.boss) {
+                    return _icons.encIcon(this.achievement.boss);
+                } else {
+                    return null;
+                }
             },
             conditionIcon: function() {
                 const condition = this.achievement.condition;
@@ -34,7 +38,7 @@
                 } else if (condition === 'meta') {
                     return _icons.miscIcon('meta');
                 } else if (condition === 'self') {
-                    return _icons.roleIcon('c');
+                    return _icons.miscIcon('achievement');
                 } else {
                     return null;
                 }

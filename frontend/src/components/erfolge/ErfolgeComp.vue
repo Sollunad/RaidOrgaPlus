@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="headline">Erfolge</div>
         <div class="spinner" v-if="!achievements">
             <v-progress-circular
                     indeterminate
@@ -23,17 +24,21 @@
     export default {
         name: "ErfolgeComp",
         components: {ErfolgWingComponent},
+        props: ['ownProfile', 'user'],
         data: () => ({
             achievements: [],
             allDone: [],
         }),
         created: async function() {
             this.achievements = await _gamedata.getAchievements();
-            this.allDone = await _progress.achievements();
+            if (this.ownProfile) this.allDone = await _progress.achievements();
+            else this.allDone = await _progress.achievements(this.user.id);
         }
     }
 </script>
 
 <style scoped>
-
+    .headline {
+        margin-bottom: 15px;
+    }
 </style>
