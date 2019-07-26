@@ -9,6 +9,7 @@
                     :rules="apiKeyRules"
                     label="Neuer API-Key"
                     required
+                    outline
             ></v-text-field>
             <v-btn
                     @click="submit"

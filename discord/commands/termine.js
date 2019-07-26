@@ -51,7 +51,8 @@ exports.run = async (client, message, args) => {
                 const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
                 const emojiNo = client.emojis.find(emoji => emoji.name === 'no');
                 const emojis = [emojiYes, emojiMaybe, emojiNo];
-                const anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
+                let anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
+                if (anmeldungenString === '') anmeldungenString = 'Keine';
                 let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Kommender Termin`)
                     .addField('Datum', termin.date)
                     .addField('Uhrzeit', termin.time)
@@ -78,14 +79,14 @@ exports.run = async (client, message, args) => {
 };
 
 function handleReactions(r, termin, emojis, raidName) {
-    const reactionFilter = (reaction, user) => reaction.emoji.name === 'yes' || reaction.emoji.name === 'maybe' || reaction.emoji.name === 'no';
     const collector = r.message.createReactionCollector(reactionFilter);
     collector.on('collect', async (r) => {
-        if (!r.users.some(user => !user.bot)) return;
         const user = r.users.filter(user => !user.bot).first();
         const session = _sessions.getSession(user.id);
-        if (session === 'Keine Session' || session === 'Abgelaufen') {
-            r.message.channel.send('Bitte logge dich zunächst über RaidOrga+ ein.');
+        if (isTerminInPast(termin)) {
+            r.message.channel.send(`${user} Dieser Termin liegt in der Vergangenheit!`);
+        } else if (session === 'Keine Session' || session === 'Abgelaufen') {
+            r.message.channel.send(`${user} Bitte logge dich zunächst über RaidOrga+ ein: https://orga.sollunad.de/#/einstellungen`);
         } else {
             const type = getAnmeldungType(r.emoji.name);
             await _termine.putAnmeldung(session, termin.id, type);
@@ -95,6 +96,20 @@ function handleReactions(r, termin, emojis, raidName) {
         }
         r.remove(user).catch(console.log);
     });
+}
+
+function reactionFilter(reaction, user) {
+    const reactionEmojiNames = ['yes', 'maybe', 'no'];
+    return reactionEmojiNames.includes(reaction.emoji.name) && !user.bot;
+}
+
+function isTerminInPast(termin) {
+    const dateArray = termin.date.slice(4).split('.');
+    const timeArray = termin.time.split(':');
+    const dateObject = {year: dateArray[2], month: dateArray[1] - 1, day: dateArray[0], hour: timeArray[0], minute: timeArray[1]};
+    const date = new Date(dateObject.year, dateObject.month, dateObject.day, dateObject.hour, dateObject.minute);
+    const now = new Date();
+    return date < now;
 }
 
 async function resendEmbed(message, session, termin, emojis, raidName) {
@@ -119,6 +134,8 @@ function getAnmeldungType(emoji) {
             return 1;
         case 'no':
             return 2;
+        default:
+            return null;
     }
 }
 

@@ -1,10 +1,11 @@
 <template>
     <v-list>
         <v-list-tile
-                v-for="wing in wings"
-                :key="wing.id">
+                v-for="(wing, index) in wings"
+                :key="wing.id"
+                @click="">
             <v-menu>
-                <v-list-tile-title slot="activator">Wing {{ wing.id }}</v-list-tile-title>
+                <v-list-tile-title slot="activator">Wing {{ index + 1 }}</v-list-tile-title>
                 <MenuBossComp
                     v-bind:wing="wing"
                     v-bind:showFC="showFC"
@@ -23,15 +24,16 @@
         name: "MenuWingComp",
         props: ['showFC'],
         components: {MenuBossComp},
-        asyncComputed: {
-            wings: function() {
-                return _gamedata.getWings();
-            }
-        },
+        data: () => ({
+            wings: [],
+        }),
         methods: {
             pick: function(info) {
                 this.$emit('pick',info);
             }
+        },
+        created: async function() {
+            this.wings = await _gamedata.listEncounterGrouped();
         }
     }
 </script>

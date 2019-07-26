@@ -6,7 +6,7 @@
                         v-for="(clss, index) in classes"
                         :key="index"
                         xs4>
-                    <v-menu :lazy="true">
+                    <v-menu :lazy="true" :open-on-hover="!isTouch" :open-on-click="isTouch" :close-on-content-click="false" :open-delay="isTouch? 0 : 200" @click.prevent="">
                         <v-avatar :size="30" class="icon" slot="activator" :tile="true">
                             <img :src="classIcon(clss.abbr)">
                         </v-avatar>
@@ -24,6 +24,7 @@
 <script>
     import _icons from '../../services/icons';
     import MenuSubclassComp from "./MenuSubclassComp";
+    import whatInput from 'what-input';
 
     export default {
         name: "MenuClassComp",
@@ -39,7 +40,8 @@
                 { id: 7, abbr: 'War' },
                 { id: 8, abbr: 'Gdn' },
                 { id: 9, abbr: 'Rev' },
-            ]
+            ],
+            isTouch: false
         }),
         methods: {
             classIcon: function(name) {
@@ -48,6 +50,9 @@
             pick: function(clss) {
                 this.$emit('pick', clss);
             }
+        },
+        created: function() {
+            this.isTouch = (whatInput.ask() === 'touch');
         }
     }
 </script>

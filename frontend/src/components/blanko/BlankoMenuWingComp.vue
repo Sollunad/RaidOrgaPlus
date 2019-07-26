@@ -6,8 +6,9 @@
         <v-list>
             <v-list-tile
                     v-for="wing in wings"
-                    :key="wing.id">
-                <v-list-tile-title @click="pick(wing)">{{ tileText(wing) }}</v-list-tile-title>
+                    :key="wing.id"
+                    @click="pick(wing)">
+                <v-list-tile-title>{{ tileText(wing) }}</v-list-tile-title>
             </v-list-tile>
         </v-list>
     </v-menu>
@@ -19,16 +20,12 @@
     export default {
         name: "BlankoMenuWingComp",
         props: ['currentWing'],
-        asyncComputed: {
-            wings: async function() {
-                const wings = await _gamedata.getWings();
-                const showAll = {id: 0};
-                return [showAll].concat(wings);
-            }
-        },
+        data: () => ({
+            wings: [],
+        }),
         computed: {
               buttonText: function() {
-                  if (this.currentWing === 0) return 'Alles anzeigen';
+                  if (this.currentWing === 0) return 'Wing auswählen';
                   else return `Wing ${this.currentWing}`;
               }
         },
@@ -40,6 +37,11 @@
                 if (wing.id === 0) return 'Alles anzeigen';
                 else return `Wing ${wing.id}`;
             }
+        },
+        created: async function() {
+            const wings = await _gamedata.getWings();
+            const showAll = {id: 0};
+            this.wings = [showAll].concat(wings);
         }
     }
 </script>

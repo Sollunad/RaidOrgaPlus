@@ -9,6 +9,7 @@
                     :rules="emailRules"
                     label="Neue E-Mail-Adresse"
                     required
+                    outline
             ></v-text-field>
             <v-text-field
                     @keypress.enter="submit"
@@ -17,6 +18,7 @@
                     label="Passwort bestätigen"
                     type="password"
                     required
+                    outline
             ></v-text-field>
             <v-btn
                     @click="submit"

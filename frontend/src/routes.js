@@ -13,7 +13,6 @@ import HomePage from "./pages/HomePage";
 import BlankoPage from "./pages/raid/BlankoPage";
 import PreviewPage from "./pages/PreviewPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
-import ErfolgePage from "./pages/ErfolgePage";
 import ModerationPage from "./pages/ModerationPage";
 import UserProfilePage from "./pages/UserProfilePage";
 
@@ -34,7 +33,6 @@ const routes = [
     { path: '/profil', component: UserProfilePage },
     { path: '/profil/:id', component: UserProfilePage },
     { path: '/einstellungen', component: EinstellungenPage },
-    { path: '/erfolge', component: ErfolgePage },
     { path: '/skills', component: SkillsPage },
     { path: '/preview/:id', component: PreviewPage },
     { path: '/moderation', component: ModerationPage },

@@ -2,8 +2,9 @@
     <v-list>
         <v-list-tile
                 v-for="(aufstellung) in filtered"
-                :key="aufstellung.id">
-            <v-list-tile-title @click="pick(aufstellung)">{{ aufstellung.name }}</v-list-tile-title>
+                :key="aufstellung.id"
+                @click="pick(aufstellung)">
+            <v-list-tile-title>{{ aufstellung.name }}</v-list-tile-title>
         </v-list-tile>
     </v-list>
 </template>

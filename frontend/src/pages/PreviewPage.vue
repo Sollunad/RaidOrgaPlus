@@ -30,18 +30,14 @@
     export default {
         name: "PreviewPage",
         components: {AufstellungComp},
+        data: () => ({
+            aufstellungen: [],
+            elements: []
+        }),
         computed: {
             termin: function() {
                 return this.$route.params.id;
             }
-        },
-        asyncComputed: {
-            aufstellungen: function() {
-                return _preview.getAufstellungen(this.termin);
-            },
-            elements: function() {
-                return _preview.getElements(this.termin);
-            },
         },
         methods: {
             elementsForAufstellung: function(aufstellung) {
@@ -50,6 +46,10 @@
             backToMainPage: function() {
                 window.location.href = '/';
             }
+        },
+        created: async function() {
+            this.aufstellungen = await _preview.getAufstellungen(this.termin);
+            this.elements = await _preview.getElements(this.termin);
         }
     }
 </script>

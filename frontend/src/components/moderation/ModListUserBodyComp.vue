@@ -1,20 +1,22 @@
 <template>
     <div>
+        <div class="subheading textLine"><span class="font-weight-bold">Zuletzt online:</span> {{lastActive}}</div>
+        <div class="subheading textLine"><span class="font-weight-bold">Letzte Raid-Anmeldung:</span> {{lastTermin}}</div>
         <div v-if="hasDiscord">
             <div class="headline heading">Discord</div>
             <ModListUserBodyRolesComp
                     v-bind:roles="user.discord.roles"
                     class="roles"
             ></ModListUserBodyRolesComp>
-            <div class="subheading textLine">Accountname: {{user.discord.username}}</div>
-            <div class="subheading textLine">Nickname: {{user.discord.nickname}}</div>
-            <div class="subheading textLine">Discord beigetreten: {{discordJoinDate}}</div>
+            <div class="subheading textLine"><span class="font-weight-bold">Accountname:</span> {{user.discord.username}}</div>
+            <div class="subheading textLine"><span class="font-weight-bold">Nickname:</span> {{user.discord.nickname}}</div>
+            <div class="subheading textLine"><span class="font-weight-bold">Discord beigetreten:</span> {{discordJoinDate}}</div>
         </div>
         <v-divider class="divider" v-if="hasDiscord && isInGuild"></v-divider>
         <div v-if="isInGuild">
             <div class="headline heading">Gilde</div>
-            <div class="subheading textLine">Gildenrang: {{user.guild.rank}}</div>
-            <div class="subheading textLine">Gilde beigetreten: {{guildJoinDate}}</div>
+            <div class="subheading textLine"><span class="font-weight-bold">Gildenrang:</span> {{user.guild.rank}}</div>
+            <div class="subheading textLine"><span class="font-weight-bold">Gilde beigetreten:</span> {{guildJoinDate}}</div>
         </div>
         <v-btn class="openProfileButton" @click="openLink" round>Profil öffnen</v-btn>
     </div>
@@ -50,6 +52,26 @@
                 } else {
                     return '';
                 }
+            },
+            lastActive: function() {
+                const date = new Date(this.user.lastActive);
+                const diff = new Date() - date;
+                const minutes = Math.ceil(diff / (1000 * 60));
+                if (minutes === 1) return 'gerade eben';
+                if (minutes < 60) return `vor ${minutes} Minuten`;
+                const hours = Math.floor(minutes / 60);
+                if (hours < 24) return `vor ${hours} Stunden`;
+                const days = Math.floor(hours / 24);
+                return `vor ${days} Tagen`;
+            },
+            lastTermin: function() {
+                if (this.user.lastTermin) {
+                    const date = new Date(this.user.lastTermin);
+                    const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric'};
+                    return date.toLocaleDateString('de-DE', dateOptions);
+                } else {
+                    return 'Nie'
+                }
             }
         },
         methods: {
@@ -74,7 +96,7 @@
     }
 
     .heading {
-        margin-bottom: 10px;
+        margin: 10px 0;
     }
 
     .divider {

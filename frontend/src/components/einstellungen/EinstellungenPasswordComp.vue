@@ -10,6 +10,7 @@
                     label="Altes Passwort"
                     type="password"
                     required
+                    outline
             ></v-text-field>
             <v-text-field
                     @keypress.enter="submit"
@@ -18,6 +19,7 @@
                     type="password"
                     label="Neues Passwort"
                     required
+                    outline
             ></v-text-field>
             <v-text-field
                     @keypress.enter="submit"
@@ -25,6 +27,7 @@
                     type="password"
                     label="Neues Passwort wiederholen"
                     required
+                    outline
             ></v-text-field>
             <v-btn
                     @click="submit"

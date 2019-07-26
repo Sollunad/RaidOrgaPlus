@@ -21,7 +21,7 @@
                 if (this.user.discord) {
                     return this.user.discord.avatar;
                 } else {
-                    return _icons.encIcon('tbd');
+                    return _icons.miscIcon('raid');
                 }
             },
             styleObject: function() {
@@ -37,7 +37,5 @@
 </script>
 
 <style scoped>
-    .listTileContent {
-        color: #4CAF50;
-    }
+
 </style>

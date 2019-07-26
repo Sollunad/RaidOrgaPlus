@@ -90,6 +90,16 @@
                     subversions: [
                         {
                             no: '1.2.1',
+                            release: '26.07.2019',
+                            features: [
+                                'Homepage und Profile redesigned',
+                                'Erfolge sind jetzt im Profil',
+                                'Kleinere visuelle Verbesserungen',
+                                'Reports beinhalten jetzt ein Combat Replay'
+                            ]
+                        },
+                        {
+                            no: '1.2.2',
                             release: 'SoonTM',
                             features: [
                                 'CMs markieren',

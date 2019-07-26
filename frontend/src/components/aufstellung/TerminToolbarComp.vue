@@ -83,7 +83,7 @@
                 </v-btn>
             </template>
         </template>
-        <template v-if="role > 0">
+        <template v-if="role > 0 && active === false">
             <v-btn flat icon @click="uploadLog" class="button">
                 <v-icon>cloud_upload</v-icon>
             </v-btn>

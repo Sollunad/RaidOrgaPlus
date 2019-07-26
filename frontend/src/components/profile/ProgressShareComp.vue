@@ -2,7 +2,7 @@
     <div>
         <v-switch
                 v-model="switchValue"
-                label="Progress teilen"
+                label="Für Profilbesucher anzeigen"
         ></v-switch>
     </div>
 </template>

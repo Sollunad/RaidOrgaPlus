@@ -1,6 +1,6 @@
 <template>
     <v-chip
-            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" light class="chip">
+            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" light class="chip elevation-12">
         <v-avatar class="classIcon" tile>
             <img :src="classIcon" v-if="classIcon">
         </v-avatar>
@@ -76,11 +76,5 @@
 
     .chip {
         padding: 4px 0;
-    }
-
-    @media only screen and (max-width: 400px) {
-        .kommendeTermineHeadline {
-            margin: 5px 0 20px 5px;
-        }
     }
 </style>

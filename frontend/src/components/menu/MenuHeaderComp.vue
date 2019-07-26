@@ -1,10 +1,10 @@
 <template>
     <v-toolbar flat class="transparent">
         <v-list class="pa-0">
-            <v-list-tile avatar>
+            <v-list-tile avatar @click="toHomescreen">
                 <v-list-tile-avatar
                         v-if="user">
-                    <v-img :src="raidIcon"/>
+                    <v-img :src="icon"/>
                 </v-list-tile-avatar>
 
                 <v-list-tile-content>
@@ -29,10 +29,19 @@
             NameComp,
         },
         computed: {
-            raidIcon: function() {
-                return _icons.miscIcon('raid');
+            icon: function() {
+                if (this.user.discord) {
+                    return this.user.discord.avatar;
+                } else {
+                    return _icons.miscIcon('raid');
+                }
             }
         },
+        methods: {
+            toHomescreen: function() {
+                this.$router.push('/');
+            }
+        }
     }
 </script>
 

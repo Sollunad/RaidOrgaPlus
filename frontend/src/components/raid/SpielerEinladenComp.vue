@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog width="fit-content">
+        <v-dialog width="fit-content" class="einladenButton">
             <v-btn color="success" slot="activator">
                 Spieler einladen
             </v-btn>
@@ -76,5 +76,11 @@
     .container {
         background-color: #444444;
         padding: 10px;
+    }
+
+    @media only screen and (max-width: 599px) {
+        .einladenButton {
+            margin: 5px 0 0 5px;
+        }
     }
 </style>

@@ -32,7 +32,14 @@ async function getInsights(req, authentication) {
 }
 
 async function getAchievements(req, authentication) {
-    return await _achievements.achievementsDone(authentication.user);
+    const user = req.query.user;
+    if (user) {
+        const isShared = await getShareValue(user);
+        if (isShared) return await _achievements.achievementsDone(user);
+        else return false;
+    } else {
+        return await _achievements.achievementsDone(authentication.user);
+    }
 }
 
 async function getShareValue(user) {
