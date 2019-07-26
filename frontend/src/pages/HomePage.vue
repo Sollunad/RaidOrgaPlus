@@ -18,8 +18,8 @@
                     <div v-else>
                         <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
                         <ProgressOverviewComp
-                                v-bind:user="visitedUser"
-                                v-bind:ownProfile="ownProfile"
+                                v-bind:user="user"
+                                v-bind:ownProfile="true"
                                 v-bind:width="width">
                         </ProgressOverviewComp>
                     </div>

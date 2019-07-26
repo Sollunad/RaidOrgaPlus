@@ -23,7 +23,6 @@
                             v-bind:user="visitedUser"
                             v-bind:ownProfile="ownProfile">
                     </BuildsComp>
-                    <v-divider></v-divider>
                     <div v-if="hasNoApi && ownProfile">
                         <p>Gib einen API-Key in den Einstellungen an, um hier deinen wöchentlichen Raid-Progress und Erfolge zu sehen!</p>
                     </div>
