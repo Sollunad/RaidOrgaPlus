@@ -85,7 +85,7 @@ function handleReactions(r, termin, emojis, raidName) {
         const user = r.users.filter(user => !user.bot).first();
         const session = _sessions.getSession(user.id);
         if (session === 'Keine Session' || session === 'Abgelaufen') {
-            r.message.channel.send('Bitte logge dich zunächst über RaidOrga+ ein.');
+            r.message.channel.send('Bitte logge dich zunächst über RaidOrga+ ein: https://orga.sollunad.de/#/einstellungen');
         } else {
             const type = getAnmeldungType(r.emoji.name);
             await _termine.putAnmeldung(session, termin.id, type);

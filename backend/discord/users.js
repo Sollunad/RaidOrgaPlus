@@ -61,7 +61,3 @@ function getAvatarURL(member) {
 function findUser(roUser, discordUsers) {
     return discordUsers.find(d => d.nickname.includes(roUser.accname));
 }
-
-async function test() {
-    console.log(await getUser('137276621508837376'));
-}
