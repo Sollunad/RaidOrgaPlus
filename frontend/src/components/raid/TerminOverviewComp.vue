@@ -51,6 +51,8 @@
             listNotEmpty: function() {
                 if (this.termine) {
                     return this.termine.length !== 0;
+                } else {
+                    return false;
                 }
             }
         },
