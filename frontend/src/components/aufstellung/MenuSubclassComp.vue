@@ -8,12 +8,11 @@
                         xs4>
                         <v-avatar
                             :size="30"
-                            :class="{'hovered-icon': isHovered(index)}"
-                            slot="activator"
+                            :style="{'background-color': backgroundColor(index)}"
                             @click="pick(clss)"
                             @mouseover="enter(index)"
                             @mouseleave="leave()"
-                            :tile="true">
+                            tile>
                             <img :src="classIcon(clss.abbr)">
                         </v-avatar>
                 </v-flex>
@@ -48,6 +47,21 @@
             },
             isHovered: function(index) {
                 return this.hovered === index;
+            },
+            backgroundColor: function(index) {
+                if (this.isHovered(index)) {
+                    return this.darkenColor(this.classes[0].color);
+                } else {
+                    return '';
+                }
+            },
+            darkenColor: function(color) {
+                const rValue = color.slice(1,3);
+                const gValue = color.slice(3,5);
+                const bValue = color.slice(5,7);
+                const colors = [rValue, gValue, bValue];
+                const newValue = colors.map(c => Math.floor(parseInt(c, 16) / 2).toString(16)).join('');
+                return `#${newValue}`;
             }
         },
         created: async function() {
@@ -59,9 +73,5 @@
 <style scoped>
     .menu {
         background-color: #444444;
-    }
-
-    .hovered-icon {
-        background-color: #666666;
     }
 </style>
