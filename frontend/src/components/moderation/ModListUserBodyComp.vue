@@ -14,19 +14,26 @@
         </div>
         <v-divider class="divider" v-if="hasDiscord && isInGuild"></v-divider>
         <div v-if="isInGuild">
-            <div class="headline heading">Gilde</div>
+            <div class="headline heading">
+                Gilde
+            </div>
             <div class="subheading textLine"><span class="font-weight-bold">Gildenrang:</span> {{user.guild.rank}}</div>
             <div class="subheading textLine"><span class="font-weight-bold">Gilde beigetreten:</span> {{guildJoinDate}}</div>
         </div>
         <v-btn class="openProfileButton" @click="openLink" round>Profil öffnen</v-btn>
+        <v-dialog width="600" v-if="isInGuild">
+            <v-btn class="openProfileButton" slot="activator" round>Gildenhistorie</v-btn>
+            <ModListUserGuildLogComp :log="user.guildLog"></ModListUserGuildLogComp>
+        </v-dialog>
     </div>
 </template>
 
 <script>
     import ModListUserBodyRolesComp from "./ModListUserBodyRolesComp";
+    import ModListUserGuildLogComp from "./ModListUserGuildLogComp";
     export default {
         name: "ModListUserBodyComp",
-        components: {ModListUserBodyRolesComp},
+        components: {ModListUserGuildLogComp, ModListUserBodyRolesComp},
         props: ['user'],
         computed: {
             hasDiscord: function() {
@@ -77,7 +84,7 @@
         methods: {
             openLink: function() {
                 this.$router.push(`/profil/${this.user.id}`);
-            },
+            }
         }
     }
 </script>
