@@ -12,12 +12,17 @@
                     </HomepageTermineComp>
                 </v-flex>
                 <v-flex xs12 xl6>
-                    <ProgressOverviewComp
-                            v-bind:user="user"
-                            v-bind:ownProfile="true"
-                            v-bind:width="width"
-                            class="progress">
-                    </ProgressOverviewComp>
+                    <div v-if="hasNoApi">
+                        <p>Gib einen API-Key in den Einstellungen an, um hier deinen wöchentlichen Raid-Progress und Erfolge zu sehen!</p>
+                    </div>
+                    <div v-else>
+                        <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
+                        <ProgressOverviewComp
+                                v-bind:user="user"
+                                v-bind:ownProfile="true"
+                                v-bind:width="width">
+                        </ProgressOverviewComp>
+                    </div>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -28,15 +33,22 @@
     import EinladungenComp from "../components/homepage/EinladungenComp";
     import HomepageTermineComp from "../components/homepage/HomepageTermineComp";
     import ProgressOverviewComp from "../components/profile/ProgressOverviewComp";
+    import _users from '../services/endpoints/users';
 
     export default {
         name: "HomePage",
         components: {ProgressOverviewComp, HomepageTermineComp, EinladungenComp},
         props: ['user', 'width'],
+        data: () => ({
+            hasNoApi: null
+        }),
         methods: {
             save: function(clicked) {
                 this.$emit('saveBoth', clicked);
             }
+        },
+        created: async function() {
+            this.hasNoApi = !(await _users.hasApi());
         }
     }
 </script>

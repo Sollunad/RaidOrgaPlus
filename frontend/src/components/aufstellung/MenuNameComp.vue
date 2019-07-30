@@ -13,11 +13,8 @@
 </template>
 
 <script>
-    import NameComp from "../menu/NameComp";
-
     export default {
         name: "MenuNameComp",
-        components: {NameComp},
         props: ['termin', 'anmeldungen', 'ersatz'],
         computed: {
             angemeldet: function() {

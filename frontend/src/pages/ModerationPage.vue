@@ -30,7 +30,7 @@
         components: {ModUserListComp},
         props: ['user'],
         data: () => ({
-            moderationCompNames: ['Spieler-Verwaltung', 'Raid-Verwaltung'],
+            moderationCompNames: ['Spieler-Verwaltung', 'Raid-Verwaltung (wip)'],
             moderationComps: [ModUserListComp, ModRaidListComp],
         })
     }

@@ -4,9 +4,12 @@
         <v-avatar v-if="encIcon" size="24" class="icon">
             <img :src="encIcon">
         </v-avatar>
-        <v-avatar v-if="conditionIcon" size="24" class="icon">
-            <img :src="conditionIcon">
-        </v-avatar>
+        <v-tooltip top>
+            <v-avatar v-if="conditionIcon" size="24" class="icon" slot="activator">
+                <img :src="conditionIcon">
+            </v-avatar>
+            {{reqText}}
+        </v-tooltip>
         <div class="name subheading">{{achievement.name}}</div>
         <div class="req">{{achievement.req}}</div>
     </div>
@@ -39,6 +42,20 @@
                     return _icons.miscIcon('meta');
                 } else if (condition === 'self') {
                     return _icons.miscIcon('achievement');
+                } else {
+                    return null;
+                }
+            },
+            reqText: function() {
+                const condition = this.achievement.condition;
+                if (condition === 'group') {
+                    return 'Erfolg muss als Gruppe erledigt werden';
+                } else if (condition === 'cm') {
+                    return 'Challenge Mote';
+                } else if (condition === 'meta') {
+                    return 'Meta-Erfolg';
+                } else if (condition === 'self') {
+                    return 'Bonus-Erfolg'
                 } else {
                     return null;
                 }

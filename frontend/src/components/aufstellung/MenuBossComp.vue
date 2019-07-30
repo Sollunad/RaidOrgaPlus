@@ -26,7 +26,6 @@
         },
         methods: {
             pick: function(id, wing) {
-                console.log(id, wing);
                 this.$emit('pick', [id, wing]);
             }
         }
