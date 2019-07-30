@@ -1,6 +1,9 @@
 <template>
-    <div>
-        {{formattedEntry}}
+    <div class="subheading">
+        <span>{{formattedEntry}}</span>
+        <v-avatar v-if="entry.stashIcon" tile :size="30" class="itemIcon">
+            <img :src="entry.stashIcon">
+        </v-avatar>
     </div>
 </template>
 
@@ -23,7 +26,9 @@
                     case 'invited': return 'Eingeladen';
                     case 'kick': return 'Aus Gilde gekickt';
                     case 'rank_change': return 'Rang geändert';
-                    default: return '';
+                    case 'item': return this.entry.stashText;
+                    case 'coin': return this.entry.stashText;
+                    default: return 'Unbekannter Eintrag';
                 }
             },
             formattedBy: function() {
@@ -46,5 +51,7 @@
 </script>
 
 <style scoped>
-
+    .itemIcon {
+        margin-left: 10px;
+    }
 </style>
