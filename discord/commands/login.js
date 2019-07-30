@@ -1,4 +1,4 @@
-const _sessions = require('../services/sessions.js');
+const _sessions = require('../services/store/sessions.js');
 
 exports.run = async (client, message, args) => {
     const key = args[0];

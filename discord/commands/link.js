@@ -1,5 +1,5 @@
 const _raids = require('../services/endpoints/raids');
-const _channels = require('../services/channels');
+const _channels = require('../services/store/channels');
 
 exports.run = async (client, message, args) => {
     const raids = await _raids.getRaids(message.auth);

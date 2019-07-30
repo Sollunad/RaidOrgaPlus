@@ -1,4 +1,4 @@
-const _users = require('./endpoints/users');
+const _users = require('../endpoints/users');
 const _json = require('./jsonHandler');
 
 exports.login = login;
