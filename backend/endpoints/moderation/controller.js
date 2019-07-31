@@ -24,7 +24,7 @@ async function getUsers(req, authentication) {
             }
             if (guildUser) {
                 user.guild = guildUser;
-                user.guildLog = _guild.filterByUser(user, guildLog);
+                user.guildLog = _guild.filterLogByUser(user, guildLog);
 
             }
         }
