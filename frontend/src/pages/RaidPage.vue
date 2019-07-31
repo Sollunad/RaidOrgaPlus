@@ -7,7 +7,7 @@
         <router-view
                 class="raidPageRouter"
                 v-bind:raid="raid"
-                v-bind:role="raid.role"
+                v-bind:role="role"
                 v-bind:user="user"
                 v-on:saveTermin="saveTermin"
                 v-bind:termin="termin"
@@ -26,6 +26,12 @@
         methods: {
             saveTermin: function(termin) {
                 this.$emit('saveTermin', termin);
+            }
+        },
+        computed: {
+            role: function() {
+                if (this.raid) return this.raid.role;
+                else return 0;
             }
         },
         created: function() {
