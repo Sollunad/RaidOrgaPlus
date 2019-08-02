@@ -14,19 +14,26 @@
         </div>
         <v-divider class="divider" v-if="hasDiscord && isInGuild"></v-divider>
         <div v-if="isInGuild">
-            <div class="headline heading">Gilde</div>
+            <div class="headline heading">
+                Gilde
+            </div>
             <div class="subheading textLine"><span class="font-weight-bold">Gildenrang:</span> {{user.guild.rank}}</div>
             <div class="subheading textLine"><span class="font-weight-bold">Gilde beigetreten:</span> {{guildJoinDate}}</div>
         </div>
         <v-btn class="openProfileButton" @click="openLink" round>Profil öffnen</v-btn>
+        <v-dialog width="600" v-if="isInGuild">
+            <v-btn class="openProfileButton" slot="activator" round>Gildenhistorie</v-btn>
+            <ModListUserGuildLogComp :log="user.guildLog"></ModListUserGuildLogComp>
+        </v-dialog>
     </div>
 </template>
 
 <script>
     import ModListUserBodyRolesComp from "./ModListUserBodyRolesComp";
+    import ModListUserGuildLogComp from "./ModListUserGuildLogComp";
     export default {
         name: "ModListUserBodyComp",
-        components: {ModListUserBodyRolesComp},
+        components: {ModListUserGuildLogComp, ModListUserBodyRolesComp},
         props: ['user'],
         computed: {
             hasDiscord: function() {
@@ -54,15 +61,18 @@
                 }
             },
             lastActive: function() {
+                if (!this.user.lastActive) return 'Keine Aufzeichnung';
                 const date = new Date(this.user.lastActive);
                 const diff = new Date() - date;
                 const minutes = Math.ceil(diff / (1000 * 60));
                 if (minutes === 1) return 'gerade eben';
-                if (minutes < 60) return `vor ${minutes} Minuten`;
+                else if (minutes < 60) return `vor ${minutes} Minuten`;
                 const hours = Math.floor(minutes / 60);
-                if (hours < 24) return `vor ${hours} Stunden`;
+                if (hours === 1) return 'vor 1 Stunde';
+                else if (hours < 24) return `vor ${hours} Stunden`;
                 const days = Math.floor(hours / 24);
-                return `vor ${days} Tagen`;
+                if (days === 1) return 'vor 1 Tag';
+                else return `vor ${days} Tagen`;
             },
             lastTermin: function() {
                 if (this.user.lastTermin) {
@@ -77,7 +87,7 @@
         methods: {
             openLink: function() {
                 this.$router.push(`/profil/${this.user.id}`);
-            },
+            }
         }
     }
 </script>

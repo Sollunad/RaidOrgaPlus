@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const _icons = require('./icons');
+const _icons = require('../icons');
 
 exports.defaultEmbed = defaultEmbed;
 

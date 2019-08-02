@@ -1,5 +1,5 @@
-const _sessions = require('../services/sessions');
-const _channels = require('../services/channels');
+const _sessions = require('../services/store/sessions');
+const _channels = require('../services/store/channels');
 
 module.exports = (client, message) => {
   // Ignore all bots

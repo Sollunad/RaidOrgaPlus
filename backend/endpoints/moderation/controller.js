@@ -15,6 +15,7 @@ async function getUsers(req, authentication) {
         const users = await _users.getUsers();
         const discordUsers = await _discord.getAllUsers();
         const guildUsers = await _guild.getUsers();
+        const guildLog = await _guild.getGuildLog();
         for (const user of users) {
             const discordUser = _discord.findUser(user, discordUsers);
             const guildUser = _guild.findUser(user, guildUsers);
@@ -23,6 +24,8 @@ async function getUsers(req, authentication) {
             }
             if (guildUser) {
                 user.guild = guildUser;
+                user.guildLog = _guild.filterLogByUser(user, guildLog);
+
             }
         }
         return users;

@@ -1,8 +1,8 @@
 const _termine = require('../services/endpoints/termine');
 const _aufstellungen = require('../services/endpoints/aufstellungen');
-const _embeds = require('../services/embedProvider');
+const _embeds = require('../services/util/embedProvider');
 const _icons = require('../services/icons');
-const _sessions = require('../services/sessions');
+const _sessions = require('../services/store/sessions');
 
 exports.run = async (client, message, args) => {
     if (!message.raid) {
