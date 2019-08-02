@@ -2,6 +2,7 @@ const _json = require('./jsonHandler');
 
 exports.getRaid = getRaid;
 exports.setRaid = setRaid;
+exports.getAll = getAllChannels;
 
 function setRaid(channel, raid) {
     let newChannels = _json.read('channels');
@@ -14,4 +15,8 @@ function getRaid(channel) {
     const channels = _json.read('channels');
     const foundChannel = channels.filter(c => c.channel === channel)[0];
     if (foundChannel) return foundChannel.raid;
+}
+
+function getAllChannels() {
+    return _json.read('channels');
 }
