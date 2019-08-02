@@ -1,4 +1,4 @@
-const Discord = require("discord.js/typings");
+const Discord = require("discord.js");
 const _icons = require('../icons');
 
 exports.defaultEmbed = defaultEmbed;
