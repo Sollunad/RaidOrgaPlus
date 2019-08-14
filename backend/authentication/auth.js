@@ -8,27 +8,30 @@ exports.deleteCache = deleteFromCache;
 const CACHE_FOR = 1000 * 60;
 let _cache = {};
 
-async function authenticate(uuid) {
+async function authenticate(uuid, agent) {
     if (!uuid) return;
 
-    const cached = searchCache(uuid);
+    const cached = searchCache(uuid, agent);
     if (cached) return cached;
 
-    return await addCache(uuid);
+    return await addCache(uuid, agent);
 }
 
-function searchCache(uuid) {
+function searchCache(uuid, agent) {
     const cached = _cache[uuid];
     if (!cached || cached.cachedUntil < Date.now()) return null;
+    if (cached.agent !== agent) return null;
     return cached;
 }
 
-async function addCache(uuid) {
+async function addCache(uuid, agent) {
     await _session.invalidateExpired();
     const response = (await _session.getUser(uuid))[0];
     if (!response) return;
+    // TODO: Aktivieren in #294
+    // if (response.agent !== agent) return;
 
-    let authObject = { user: response.user, role: response.role, uuid: uuid };
+    let authObject = { user: response.user, role: response.role, uuid, agent };
     const raids = await _raids.listForPlayer(authObject.user);
     authObject.raids = [];
 

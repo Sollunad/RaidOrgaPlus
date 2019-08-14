@@ -1,21 +1,21 @@
 const db = require('../../db/connector.js');
 
 exports.start = startSession;
-exports.getUser = getUserId;
+exports.getUser = getUser;
 exports.invalidate = invalidateUuid;
 exports.invalidateExpired = invalidateExpired;
 
-async function startSession(id, uuid) {
-    const stmt = 'INSERT INTO Session (user, uuid) VALUES (?, ?)';
+async function startSession(id, uuid, agent) {
+    const stmt = 'INSERT INTO Session (user, uuid, agent) VALUES (?, ?, ?)';
     try {
-        return await db.queryV(stmt, [id, uuid]);
+        return await db.queryV(stmt, [id, uuid, agent]);
     } catch(e) {
         throw e;
     }
 }
 
-async function getUserId(uuid) {
-    const stmt = 'SELECT user, role FROM Session JOIN Spieler on Session.user = Spieler.id WHERE uuid = ?';
+async function getUser(uuid) {
+    const stmt = 'SELECT user, agent, role FROM Session JOIN Spieler on Session.user = Spieler.id WHERE uuid = ?';
     try {
         return await db.queryV(stmt, uuid);
     } catch(e) {

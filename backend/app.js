@@ -47,7 +47,7 @@ function registerEndpoint(path, endpoint) {
     endpoints[method][fullPath] = endpoint;
 }
 
-app.route('*').all(async function(req, res) {
+app.route('*').all(async function (req, res) {
     res.send(await requestHandler(req));
 });
 
@@ -56,18 +56,18 @@ async function requestHandler(request) {
     const endpoint = endpoints[method][request._parsedUrl.pathname];
     if (!endpoint) return [];
 
+    const agent = request.header('user-agent');
     let uuid, authentication;
     if (method === 'get') uuid = request.query.auth;
     else uuid = request.body.auth;
-    if (uuid) authentication = await auth(uuid);
+    if (uuid) authentication = await auth(uuid, agent);
 
     const authNeeded = endpoint.authed;
 
     if (authentication) {
         logRequest(method, request._parsedUrl.pathname, authentication.user);
         return await endpoint.function(request, authentication);
-    }
-    else {
+    } else {
         logRequest(method, request._parsedUrl.pathname);
         if (!authNeeded) {
             return await endpoint.function(request);
@@ -95,7 +95,7 @@ try {
     } else {
         serveHTTPS(credentials);
     }
-} catch(e) {
+} catch (e) {
     logger.warn('Server konnte über HTTPS nicht gestartet werden');
     serveHTTP();
 }

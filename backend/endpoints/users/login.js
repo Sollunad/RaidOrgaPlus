@@ -5,14 +5,14 @@ const session = require('./session.js');
 
 exports.login = login;
 
-async function login(username, pwd){
+async function login(username, pwd, agent){
     const response = await getUserByName(username);
     const user = response[0];
     if (user) {
         const correctPwd = hash.verify(pwd, user.password);
         if (correctPwd){
             const uuid = uuidv4();
-            session.start(user.id, uuid);
+            await session.start(user.id, uuid, agent);
             return uuid;
         }
     }
