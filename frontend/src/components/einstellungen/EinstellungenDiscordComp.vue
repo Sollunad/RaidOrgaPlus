@@ -4,7 +4,6 @@
         <p></p>
         <v-text-field
                 label="Outline"
-                disabled
                 single-line
                 outline
                 v-model="message"
@@ -13,7 +12,7 @@
             Bot-Befehl in Zwischenablage kopiert! Bitte an den Bot per PN schicken.
         </p>
         <v-btn @click="generateKey">
-            Einmalschlüssel generieren
+            Einmalpasswort generieren
         </v-btn>
     </div>
 </template>
@@ -36,7 +35,7 @@
         computed: {
             message: function() {
                 if (this.key) return `!orga login ${this.key}`;
-                else return `Generierten Befehl per PN an den Bot schicken`;
+                else return `Button clicken, um Einmalpasswort zu generieren`;
             }
         },
     }
