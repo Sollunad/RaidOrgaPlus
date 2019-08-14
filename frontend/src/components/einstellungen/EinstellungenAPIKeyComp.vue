@@ -17,6 +17,12 @@
             >
                 {{ buttonText }}
             </v-btn>
+            <v-tooltip right>
+                <v-btn flat icon slot="activator">
+                    <v-icon>help</v-icon>
+                </v-btn>
+                {{ permissionsText }}
+            </v-tooltip>
             <v-snackbar
                     v-model="snackbar"
                     :timeout="5000"
@@ -57,6 +63,14 @@
                     v => this.regex.test(v) || 'Bitte gib einen gültigen API-Key an',
                 ]
             },
+            permissionsText: function() {
+                const required = ['builds', 'characters', 'inventories', 'progression', 'unlocks'];
+                let text = 'Benötigt: account';
+                for (const req of required) {
+                    text += `, ${req}`;
+                }
+                return text;
+            }
         },
         methods: {
             async submit() {
