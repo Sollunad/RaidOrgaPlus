@@ -42,7 +42,7 @@
             },
             anmeldung: function(raid) {
                 if (this.anmeldungen) {
-                    const anmeldung = this.anmeldungen.filter(a => a.raid === raid.id)[0];
+                    const anmeldung = this.anmeldungen.find(a => a.raid === raid.id);
                     return anmeldung;
                 }
             }

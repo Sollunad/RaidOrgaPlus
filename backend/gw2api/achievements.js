@@ -30,10 +30,10 @@ async function fetchAndCache() {
 }
 
 function addAchievementInfo(wing, achievements) {
-    const wing_info = achievementInfo.filter(w => w.wing === wing)[0];
+    const wing_info = achievementInfo.find(w => w.wing === wing);
     if (wing_info) {
         for (let achievement of achievements) {
-            const achievement_info = wing_info.info.filter(a => a.id === achievement.id)[0];
+            const achievement_info = wing_info.info.find(a => a.id === achievement.id);
             if (achievement_info) {
                 achievement.boss = achievement_info.boss;
                 achievement.condition = achievement_info.condition;

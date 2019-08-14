@@ -109,7 +109,7 @@
         }),
         methods: {
             anmelden: async function(type) {
-                const changedAnmeldung = this.anmeldungen.filter(a => a.id === this.user.id)[0];
+                const changedAnmeldung = this.anmeldungen.find(a => a.id === this.user.id);
                 if (changedAnmeldung) changedAnmeldung.type = type;
                 else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
                 await _termine.anmelden(this.user.id, this.termin.id, type);

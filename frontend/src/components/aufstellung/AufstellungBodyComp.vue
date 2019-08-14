@@ -33,7 +33,7 @@
         props: ['aufstellung', 'raid', 'active', 'locked', 'propElements', 'role', 'termin', 'anmeldungen', 'ersatz'],
         methods: {
             propElement: function(position) {
-                if (this.propElements) return this.propElements.filter(e => e.pos === position)[0];
+                if (this.propElements) return this.propElements.find(e => e.pos === position);
             }
         }
     }

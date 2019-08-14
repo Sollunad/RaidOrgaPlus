@@ -43,7 +43,7 @@
         methods: {
             propElement: function(position) {
                 if (this.blankoElements) {
-                    return this.blankoElements.filter(e => e.pos === position)[0];
+                    return this.blankoElements.find(e => e.pos === position);
                 }
             },
             copyBlanko: function(info) {

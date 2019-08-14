@@ -13,7 +13,7 @@ function setRaid(channel, raid) {
 
 function getRaid(channel) {
     const channels = _json.read('channels');
-    const foundChannel = channels.filter(c => c.channel === channel)[0];
+    const foundChannel = channels.find(c => c.channel === channel);
     if (foundChannel) return foundChannel.raid;
 }
 
