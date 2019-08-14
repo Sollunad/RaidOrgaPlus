@@ -16,7 +16,6 @@
                         <p>Gib einen API-Key in den Einstellungen an, um hier deinen wöchentlichen Raid-Progress und Erfolge zu sehen!</p>
                     </div>
                     <div v-else>
-                        <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
                         <ProgressOverviewComp
                                 v-bind:user="user"
                                 v-bind:ownProfile="true"

@@ -72,5 +72,6 @@
 
     .dropdown-icon {
         float: right;
+        margin-top: 10px;
     }
 </style>
