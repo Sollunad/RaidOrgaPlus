@@ -3,9 +3,9 @@
         <h2>Discord-Account verknüpfen</h2>
         <p></p>
         <v-text-field
-                label="Outline"
                 single-line
                 outline
+                label="Button klicken, um Einmalpasswort zu generieren"
                 v-model="message"
         ></v-text-field>
         <p v-if="key">
@@ -35,7 +35,7 @@
         computed: {
             message: function() {
                 if (this.key) return `!orga login ${this.key}`;
-                else return `Button clicken, um Einmalpasswort zu generieren`;
+                else return '';
             }
         },
     }
