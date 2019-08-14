@@ -5,7 +5,7 @@
                     <img :src="raid.icon">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                    <v-list-tile-title>{{raid.name}} {{inactiveFlag}}</v-list-tile-title>
+                    <v-list-tile-title>{{raid.name}}</v-list-tile-title>
                     <v-list-tile-sub-title>Rolle: {{role}}</v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
@@ -36,13 +36,6 @@
                 if (this.anmeldung) {
                     const icons = ['check_circle', 'check_circle_outline', 'cancel', 'warning'];
                     return icons.slice(this.anmeldung.type)[0];
-                } else {
-                    return '';
-                }
-            },
-            inactiveFlag: function() {
-                if (!this.raid.active) {
-                    return '(inaktiv)'
                 } else {
                     return '';
                 }

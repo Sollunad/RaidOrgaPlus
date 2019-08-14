@@ -8,7 +8,7 @@ exports.kickPlayer = kickPlayer;
 exports.getRoleForPlayer = getRoleForPlayer;
 
 async function listForPlayerId(userId) {
-    const stmt = 'SELECT Raid.id, Raid.name, Raid.icon, Spieler_Raid.role, Raid.active FROM Spieler JOIN Spieler_Raid ON Spieler.id = Spieler_Raid.fk_spieler JOIN Raid ON Raid.id = Spieler_Raid.fk_raid WHERE Spieler.id = ? ORDER BY active DESC, id ASC';
+    const stmt = 'SELECT Raid.id, Raid.name, Raid.icon, Spieler_Raid.role FROM Spieler JOIN Spieler_Raid ON Spieler.id = Spieler_Raid.fk_spieler JOIN Raid ON Raid.id = Spieler_Raid.fk_raid WHERE Spieler.id = ? AND Raid.active = 1 ORDER BY active DESC, id ASC';
     try {
         return await db.queryV(stmt, userId);
     } catch(e) {
