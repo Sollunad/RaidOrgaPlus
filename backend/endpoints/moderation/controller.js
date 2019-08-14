@@ -36,7 +36,20 @@ async function getUsers(req, authentication) {
 async function getRaids(req, authentication) {
     const role = _roles.getRole(authentication);
     if (role > 0) {
-        return await _raids.getRaids();
+        const raids = await _raids.getRaids();
+        const discordUsers = await _discord.getAllUsers();
+        for (const raid of raids) {
+            const users = await _raids.listPlayers(raid.id);
+            for (const user of users) {
+                const discordUser = _discord.findUser(user, discordUsers);
+                if (discordUser) {
+                    user.discord = discordUser;
+                }
+            }
+            raid.spieler = users;
+
+        }
+        return raids;
     }
-    return []
+    return [];
 }

@@ -8,7 +8,7 @@
         ></v-text-field>
         <v-expansion-panel>
             <v-expansion-panel-content v-for="user in filteredUsers" :key="user.accname">
-                <template v-slot:header>
+                <template slot="header">
                     <ModListUserHeaderComp
                             v-bind:user="user">
                     </ModListUserHeaderComp>
