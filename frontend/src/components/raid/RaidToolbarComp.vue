@@ -3,7 +3,7 @@
         <v-btn flat icon @click="back">
             <v-icon>arrow_back</v-icon>
         </v-btn>
-        <v-toolbar-title>{{ raidName }}</v-toolbar-title>
+        <v-toolbar-title @click="toRaidDashboard" class="raidTitle">{{ raidName }}</v-toolbar-title>
     </v-toolbar>
 </template>
 
@@ -14,6 +14,10 @@
         methods: {
             back: function() {
                 window.history.back();
+            },
+            toRaidDashboard: function() {
+                this.$router.push('/raids');
+                this.$router.push('/raid');
             }
         },
         computed: {
@@ -26,5 +30,7 @@
 </script>
 
 <style scoped>
-
+    .raidTitle {
+        cursor: pointer;
+    }
 </style>
