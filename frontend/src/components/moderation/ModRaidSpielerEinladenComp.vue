@@ -1,5 +1,5 @@
 <template>
-    <v-dialog width="fit-content" class="einladenButton" v-model="open">
+    <v-dialog width="fit-content" v-model="open">
         <v-btn color="success" slot="activator">
             Spieler hinzufügen
         </v-btn>
@@ -45,9 +45,5 @@
     .container {
         background-color: #444444;
         padding: 10px;
-    }
-
-    .erstellenButton {
-        margin-bottom: 10px;
     }
 </style>
