@@ -1,5 +1,6 @@
 <template>
     <div>
+        <ModRaidErstellenComp v-on:raid-created="refresh"></ModRaidErstellenComp>
         <v-expansion-panel>
             <v-expansion-panel-content v-for="raid in raids" :key="raid.id">
                 <template slot="header">
@@ -18,15 +19,21 @@
 <script>
     import _moderation from '../../services/endpoints/moderation';
     import ModRaidSpielerListComp from "./ModRaidSpielerListComp";
+    import ModRaidErstellenComp from "./ModRaidErstellenComp";
 
     export default {
         name: "ModRaidListComp",
-        components: {ModRaidSpielerListComp},
+        components: {ModRaidErstellenComp, ModRaidSpielerListComp},
         data: () => ({
             raids: []
         }),
         created: async function() {
             this.raids = await _moderation.getRaids();
+        },
+        methods: {
+            refresh: async function() {
+                this.raids = await _moderation.getRaids();
+            }
         }
     }
 </script>

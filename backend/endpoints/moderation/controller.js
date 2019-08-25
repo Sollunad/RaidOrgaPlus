@@ -6,7 +6,8 @@ const _guild = require('../../gw2api/guilds');
 
 module.exports = [
     {function: getUsers, path: '/users', method: 'get', authed: true},
-    {function: getRaids, path: '/raids', method: 'get', authed: true}
+    {function: getRaids, path: '/raids', method: 'get', authed: true},
+    {function: createRaid, path: '/raids', method: 'post', authed: true}
 ];
 
 async function getUsers(req, authentication) {
@@ -50,6 +51,15 @@ async function getRaids(req, authentication) {
 
         }
         return raids;
+    }
+    return [];
+}
+
+async function createRaid(req, authentication) {
+    const name = req.body.name;
+    const role = _roles.getRole(authentication);
+    if (role > 0 && name) {
+        await _raids.createRaid(name);
     }
     return [];
 }
