@@ -10,7 +10,9 @@ module.exports = [
     {function: getRaids, path: '/raids', method: 'get', authed: true},
     {function: createRaid, path: '/raids', method: 'post', authed: true},
     {function: invitablePlayers, path: '/raids/invitable', method: 'get', authed: true},
-    {function: addPlayer, path: '/raids/spieler', method: 'post', authed: true}
+    {function: addPlayer, path: '/raids/spieler', method: 'post', authed: true},
+    {function: setPlayerRole, path: '/raids/role', method: 'put', authed: true},
+    {function: removePlayer, path: '/raids/spieler', method: 'delete', authed: true},
 ];
 
 async function getUsers(req, authentication) {
@@ -84,4 +86,24 @@ async function addPlayer(req, authentication) {
         await _raids.addPlayer(raid, spieler);
     }
     return [];
+}
+
+async function removePlayer(req, authentication) {
+    const raid = req.body.raid;
+    const spieler = req.body.spieler;
+    const role = _roles.getRole(authentication);
+    if (role > 0 && raid && spieler) {
+        await _raids.removePlayer(raid, spieler);
+    }
+    return [];
+}
+
+async function setPlayerRole(req, authentication) {
+    const raid = req.body.raid;
+    const spieler = req.body.spieler;
+    const role_to_set = req.body.role;
+    const role = _roles.getRole(authentication);
+    if (role > 0 && raid && spieler && (role_to_set || role_to_set === 0)) {
+        await _raids.setPlayerRole(raid, spieler, role_to_set);
+    }
 }

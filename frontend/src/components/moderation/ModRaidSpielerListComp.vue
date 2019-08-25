@@ -1,7 +1,12 @@
 <template>
     <div>
         <v-list two-line subheader>
-            <ModRaidSpielerListEntryComp v-for="entry in spieler" :key="entry.id" :spieler="entry"></ModRaidSpielerListEntryComp>
+            <ModRaidSpielerListEntryComp v-for="entry in spieler"
+                                         :key="entry.id"
+                                         :spieler="entry"
+                                         :raid="raid"
+                                         v-on:refresh="refresh">
+            </ModRaidSpielerListEntryComp>
         </v-list>
     </div>
 </template>
@@ -11,7 +16,12 @@
     export default {
         name: "ModRaidSpielerListComp",
         components: {ModRaidSpielerListEntryComp},
-        props: ['spieler'],
+        props: ['spieler', 'raid'],
+        methods: {
+            refresh: function() {
+                this.$emit('refresh');
+            }
+        }
     }
 </script>
 

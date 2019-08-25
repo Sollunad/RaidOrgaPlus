@@ -33,7 +33,7 @@
                     await _moderation.createRaid(this.enteredName);
                     this.open = false;
                     this.enteredName = '';
-                    this.$emit('raid-created');
+                    this.$emit('refresh');
                 }
             }
         }

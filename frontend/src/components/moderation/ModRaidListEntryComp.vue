@@ -7,8 +7,8 @@
                 </v-list-tile-content>
             </v-list-tile>
         </template>
-        <ModRaidSpielerEinladenComp :raid="raid" v-on:invited="invited"></ModRaidSpielerEinladenComp>
-        <ModRaidSpielerListComp :spieler="raid.spieler"></ModRaidSpielerListComp>
+        <ModRaidSpielerEinladenComp :raid="raid" v-on:refresh="refresh"></ModRaidSpielerEinladenComp>
+        <ModRaidSpielerListComp :raid="raid" :spieler="raid.spieler" v-on:refresh="refresh"></ModRaidSpielerListComp>
     </v-expansion-panel-content>
 </template>
 
@@ -21,8 +21,8 @@
         components: {ModRaidSpielerEinladenComp, ModRaidSpielerListComp},
         props: ['raid'],
         methods: {
-            invited: function() {
-                this.$emit('invited');
+            refresh: function() {
+                this.$emit('refresh');
             }
         }
     }

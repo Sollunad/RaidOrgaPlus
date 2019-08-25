@@ -1,8 +1,8 @@
 <template>
     <div>
-        <ModRaidErstellenComp v-on:raid-created="refresh"></ModRaidErstellenComp>
+        <ModRaidErstellenComp v-on:refresh="refresh"></ModRaidErstellenComp>
         <v-expansion-panel>
-            <ModRaidListEntryComp v-for="raid in raids" :raid="raid" :key="raid.id" v-on:invited="refresh"></ModRaidListEntryComp>
+            <ModRaidListEntryComp v-for="raid in raids" :raid="raid" :key="raid.id" v-on:refresh="refresh"></ModRaidListEntryComp>
         </v-expansion-panel>
     </div>
 </template>
