@@ -1,13 +1,16 @@
 const _roles = require('../../authentication/role');
 const _users = require('./users');
 const _raids = require('./raids');
+const _invites = require('../raids/invites');
 const _discord = require('../../discord/users');
 const _guild = require('../../gw2api/guilds');
 
 module.exports = [
     {function: getUsers, path: '/users', method: 'get', authed: true},
     {function: getRaids, path: '/raids', method: 'get', authed: true},
-    {function: createRaid, path: '/raids', method: 'post', authed: true}
+    {function: createRaid, path: '/raids', method: 'post', authed: true},
+    {function: invitablePlayers, path: '/raids/invitable', method: 'get', authed: true},
+    {function: addPlayer, path: '/raids/spieler', method: 'post', authed: true}
 ];
 
 async function getUsers(req, authentication) {
@@ -60,6 +63,25 @@ async function createRaid(req, authentication) {
     const role = _roles.getRole(authentication);
     if (role > 0 && name) {
         await _raids.createRaid(name);
+    }
+    return [];
+}
+
+async function invitablePlayers(req, authentication) {
+    const raid = req.query.raid;
+    const role = _roles.getRole(authentication);
+    if (role > 0 && raid) {
+        return await _invites.invitable(raid);
+    }
+    return [];
+}
+
+async function addPlayer(req, authentication) {
+    const raid = req.body.raid;
+    const spieler = req.body.spieler;
+    const role = _roles.getRole(authentication);
+    if (role > 0 && raid && spieler) {
+        await _raids.addPlayer(raid, spieler);
     }
     return [];
 }

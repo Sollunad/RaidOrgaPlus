@@ -3,6 +3,7 @@ const db = require('../../db/connector.js');
 exports.getRaids = getRaids;
 exports.listPlayers = listPlayers;
 exports.createRaid = createRaid;
+exports.addPlayer = addPlayer;
 
 async function getRaids() {
     const stmt = 'SELECT id, name, active FROM Raid ORDER BY active DESC, name';
@@ -26,6 +27,15 @@ async function createRaid(name) {
     const stmt = 'INSERT INTO Raid (name) VALUES (?)';
     try {
         return await db.queryV(stmt, name);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function addPlayer(raidId, spielerId) {
+    const stmt = 'INSERT INTO Spieler_Raid (fk_raid, fk_spieler) VALUES (?,?)';
+    try {
+        return await db.queryV(stmt, [raidId, spielerId]);
     } catch(e) {
         throw e;
     }
