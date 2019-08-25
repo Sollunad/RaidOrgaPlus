@@ -8,9 +8,17 @@
             class="name"
             :clickable="true">
         </NameComp>
-        <v-btn flat icon color="red" @click="kick" class="button" v-if="kickable">
-            <v-icon>clear</v-icon>
-        </v-btn>
+        <v-dialog width="fit-content" v-if="kickable" class="button">
+            <v-btn flat icon color="red" slot="activator" class="button">
+                <v-icon>clear</v-icon>
+            </v-btn>
+            <div class="container">
+                <p class="">Dies entfernt {{user.name}} aus dem Raid. Bist du sicher?</p>
+                <v-btn color="red" @click="kick">
+                    {{user.name}} entfernen
+                </v-btn>
+            </div>
+        </v-dialog>
         <div class="builds" v-if="builds && filtered.length > 0">
             <BuildChipComp
                     v-for="build in prefer"
@@ -45,7 +53,7 @@
         components: {NameComp, BuildChipComp},
         props: ['user', 'filter', 'role'],
         data: () => ({
-            builds: null,
+            builds: null
         }),
         computed: {
             isRaidLead: function() {
@@ -105,5 +113,10 @@
     .button {
         float: right;
         margin-top: 0;
+    }
+
+    .container {
+        background-color: #444444;
+        padding: 10px;
     }
 </style>
