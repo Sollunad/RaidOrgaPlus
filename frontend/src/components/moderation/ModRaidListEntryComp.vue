@@ -7,23 +7,31 @@
                 </v-list-tile-content>
             </v-list-tile>
         </template>
-        <ModRaidSpielerEinladenComp :raid="raid" v-on:refresh="refresh"></ModRaidSpielerEinladenComp>
-        <ModRaidSpielerListComp :raid="raid" :spieler="raid.spieler" v-on:refresh="refresh"></ModRaidSpielerListComp>
+        <ModRaidSpielerEinladenComp :raid="raid" v-on:refresh="refresh" ref="einladen"></ModRaidSpielerEinladenComp>
+        <ModRaidSpielerListComp :raid="raid" :spieler="spieler" v-on:refresh="refresh"></ModRaidSpielerListComp>
     </v-expansion-panel-content>
 </template>
 
 <script>
     import ModRaidSpielerListComp from "./ModRaidSpielerListComp";
     import ModRaidSpielerEinladenComp from "./ModRaidSpielerEinladenComp";
+    import _moderation from '../../services/endpoints/moderation';
 
     export default {
         name: "ModRaidListEntryComp",
         components: {ModRaidSpielerEinladenComp, ModRaidSpielerListComp},
         props: ['raid'],
+        data: () => ({
+            spieler: [],
+        }),
         methods: {
-            refresh: function() {
-                this.$emit('refresh');
+            refresh: async function() {
+                this.spieler = await _moderation.getSpielerForRaid(this.raid.id);
+                this.$refs.einladen.refreshInvitable();
             }
+        },
+        mounted: function() {
+            this.spieler = this.raid.spieler;
         }
     }
 </script>

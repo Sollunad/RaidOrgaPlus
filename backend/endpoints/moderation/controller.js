@@ -11,6 +11,7 @@ module.exports = [
     {function: createRaid, path: '/raids', method: 'post', authed: true},
     {function: invitablePlayers, path: '/raids/invitable', method: 'get', authed: true},
     {function: addPlayer, path: '/raids/spieler', method: 'post', authed: true},
+    {function: getPlayersForRaid, path: '/raids/spieler', method: 'get', authed: true},
     {function: setPlayerRole, path: '/raids/role', method: 'put', authed: true},
     {function: removePlayer, path: '/raids/spieler', method: 'delete', authed: true},
 ];
@@ -56,6 +57,23 @@ async function getRaids(req, authentication) {
 
         }
         return raids;
+    }
+    return [];
+}
+
+async function getPlayersForRaid(req, authentication) {
+    const raid = req.query.raid;
+    const role = _roles.getRole(authentication);
+    if (role > 0 && raid) {
+        const discordUsers = await _discord.getAllUsers();
+        const users = await _raids.listPlayers(raid);
+        for (const user of users) {
+            const discordUser = _discord.findUser(user, discordUsers);
+            if (discordUser) {
+                user.discord = discordUser;
+            }
+        }
+        return users;
     }
     return [];
 }

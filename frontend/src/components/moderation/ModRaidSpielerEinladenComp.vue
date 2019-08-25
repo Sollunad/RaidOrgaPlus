@@ -29,8 +29,10 @@
         methods: {
             add: async function(spieler) {
                 await _moderation.addSpieler(this.raid.id, spieler.id);
-                this.invitablePlayers = await _moderation.invitablePlayers(this.raid.id);
                 this.$emit('refresh');
+            },
+            refreshInvitable: async function() {
+                this.invitablePlayers = await _moderation.invitablePlayers(this.raid.id);
             }
         },
         created: async function() {
