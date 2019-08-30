@@ -20,7 +20,7 @@
 
             <v-card-actions>
                 <v-btn
-                        flat="flat"
+                        text
                         @click="resetPassword"
                 >
                     {{ buttonText }}

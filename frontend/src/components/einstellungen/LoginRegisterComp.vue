@@ -44,12 +44,14 @@
             <v-btn
                     @click="submit"
                     :color=buttonColor
+                    text
             >
                 {{ buttonText }}
             </v-btn>
             <v-btn
                     v-if="!registerMode"
                     @click="passwordDialogOpen = true"
+                    text
             >
                 Passwort vergessen?
             </v-btn>
@@ -66,7 +68,7 @@
                 {{ failureText }}
                 <v-btn
                         color="pink"
-                        flat
+                        text
                         @click="snackbar = false"
                 >
                     OK
