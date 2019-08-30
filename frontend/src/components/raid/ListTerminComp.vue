@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-list-item @click="save">
+        <v-list-item @click="save" class="listTermin">
             <v-list-item-content>
                 <v-list-item-title v-html="headline"></v-list-item-title>
                 <v-list-item-subtitle v-html="termin.time"></v-list-item-subtitle>
@@ -45,5 +45,7 @@
 </script>
 
 <style scoped>
-
+    .listTermin {
+        margin: 0 10px;
+    }
 </style>

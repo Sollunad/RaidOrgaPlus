@@ -7,7 +7,6 @@
                 </template>
                 <ChangelogComp></ChangelogComp>
             </v-dialog>
-            <span class="footerText">Made with ❤ by Sollunad.9780</span>
             <a class="feedback" target="_newtab" href="https://goo.gl/forms/VSlcFr3DdhK0flDe2">Feedback?</a>
         </div>
     </v-footer>
@@ -26,7 +25,7 @@
 
 <style scoped>
     .footer {
-        text-align: center;
+        text-align: left;
         width: 100%;
     }
 

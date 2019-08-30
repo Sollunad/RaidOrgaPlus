@@ -9,6 +9,7 @@
             <MenuItemListComp
                 v-bind:user="user">
             </MenuItemListComp>
+
         </v-navigation-drawer>
         <MenuToolbarComp
             v-bind:loggedIn="show"

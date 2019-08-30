@@ -2,7 +2,7 @@
     <div>
         <v-dialog width="fit-content" class="einladenButton">
             <template v-slot:activator="{on}">
-                <v-btn color="success" v-on="on">
+                <v-btn color="success" v-on="on" class="einladenButton">
                     Spieler einladen
                 </v-btn>
             </template>
@@ -82,7 +82,7 @@
 
     @media only screen and (max-width: 599px) {
         .einladenButton {
-            margin: 5px 0 0 5px;
+            margin: 10px 0 0 5px;
         }
     }
 </style>

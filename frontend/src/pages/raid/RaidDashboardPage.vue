@@ -7,6 +7,7 @@
                             v-for="item in items"
                             :key="item.id"
                             :to="item.route"
+                            class="dashboardLink"
                     >
                         <v-list-item-action>
                             <v-icon>{{ item.icon }}</v-icon>
@@ -40,5 +41,7 @@
 </script>
 
 <style scoped>
-
+    .dashboardLink {
+        margin: 0 10px;
+    }
 </style>

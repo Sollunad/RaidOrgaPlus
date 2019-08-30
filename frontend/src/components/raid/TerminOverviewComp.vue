@@ -5,7 +5,7 @@
                 indeterminate
                 color="primary"
         ></v-progress-circular>
-        <div v-else-if="listNotEmpty">
+        <div v-else-if="listNotEmpty" class="terminList">
             <v-layout row>
                 <v-flex xs12 sm6 md4 lg3>
                     <v-pagination
@@ -98,5 +98,9 @@
         .paginator {
             margin-top: 10px;
         }
+    }
+
+    .terminList {
+        margin-left: 10px;
     }
 </style>

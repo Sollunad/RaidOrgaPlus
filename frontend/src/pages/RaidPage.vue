@@ -47,7 +47,7 @@
         }
 
         .raidPageRouter {
-            margin: 1% 2%;
+            margin: 1%;
         }
     }
 </style>
