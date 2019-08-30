@@ -2,6 +2,7 @@
     <div>
         <v-text-field
                 outline
+                class="suche"
                 label="Suche nach Spielern"
                 prepend-inner-icon="search"
                 v-model="filterText"
@@ -61,5 +62,8 @@
 <style scoped>
     .listRowBody {
         margin: 0 0 1% 1%;
+    }
+    .suche {
+        margin: 0 10px;
     }
 </style>

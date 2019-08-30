@@ -1,15 +1,17 @@
 <template>
-    <v-expansion-panel-content>
-        <template slot="header">
+    <v-expansion-panel>
+        <v-expansion-panel-header>
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title>{{ raid.name }} {{ raid.active? '' : '(inaktiv)' }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-        </template>
-        <ModRaidSpielerEinladenComp :raid="raid" v-on:refresh="refresh" ref="einladen"></ModRaidSpielerEinladenComp>
-        <ModRaidSpielerListComp :raid="raid" :spieler="spieler" v-on:refresh="refresh"></ModRaidSpielerListComp>
-    </v-expansion-panel-content>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+            <ModRaidSpielerEinladenComp :raid="raid" v-on:refresh="refresh" ref="einladen"></ModRaidSpielerEinladenComp>
+            <ModRaidSpielerListComp :raid="raid" :spieler="spieler" v-on:refresh="refresh"></ModRaidSpielerListComp>
+        </v-expansion-panel-content>
+    </v-expansion-panel>
 </template>
 
 <script>
