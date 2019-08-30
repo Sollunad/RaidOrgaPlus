@@ -1,21 +1,27 @@
 <template>
-    <v-btn-toggle v-model="buttonValue">
+    <v-btn-toggle v-model="buttonValue" rounded>
         <v-tooltip bottom>
-            <v-btn flat color="green" slot="activator">
-                <v-icon>check_circle</v-icon>
-            </v-btn>
+            <template v-slot:activator="{on}">
+                <v-btn v-on="on">
+                    <v-icon color="green">check_circle</v-icon>
+                </v-btn>
+            </template>
             Ich nehme teil
         </v-tooltip>
         <v-tooltip bottom>
-            <v-btn flat color="yellow" slot="activator">
-                <v-icon>check_circle_outline</v-icon>
-            </v-btn>
+            <template v-slot:activator="{on}">
+                <v-btn v-on="on">
+                    <v-icon color="yellow">check_circle_outline</v-icon>
+                </v-btn>
+            </template>
             Ich nehme vielleicht teil
         </v-tooltip>
         <v-tooltip bottom>
-            <v-btn flat color="red" slot="activator">
-                <v-icon>cancel</v-icon>
-            </v-btn>
+            <template v-slot:activator="{on}">
+                <v-btn v-on="on">
+                    <v-icon color="red">cancel</v-icon>
+                </v-btn>
+            </template>
             Ich nehme nicht teil
         </v-tooltip>
     </v-btn-toggle>

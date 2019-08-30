@@ -17,76 +17,104 @@
             </AnmeldungComp>
             <p></p>
             <v-tooltip bottom class="anmeldungen">
-                <v-btn flat icon slot="activator">
-                    <v-icon>people</v-icon>
-                </v-btn>
+                <template v-slot:activator="{on}">
+                    <v-btn icon v-on="on">
+                        <v-icon>people</v-icon>
+                    </v-btn>
+                </template>
                 <ListAnmeldungComp
                     v-if="anmeldungen.length > 0"
                     v-bind:anmeldungen="anmeldungen">
                 </ListAnmeldungComp>
             </v-tooltip>
             <v-tooltip bottom>
-                <v-btn flat icon @click="refresh" slot="activator">
-                    <v-icon>refresh</v-icon>
-                </v-btn>
+                <template v-slot:activator="{on}">
+                    <v-btn icon @click="refresh" v-on="on">
+                        <v-icon>refresh</v-icon>
+                    </v-btn>
+                </template>
                 <span>Refresh</span>
             </v-tooltip>
             <template
                 v-if="role > 0">
                 <v-tooltip bottom>
-                    <v-menu :close-on-content-click="false" slot="activator">
-                        <v-btn flat icon slot="activator">
-                            <v-icon>add</v-icon>
-                        </v-btn>
-                        <MenuWingComp
-                                v-bind:showFC="true"
-                                v-on:pick="addBoss">
-                        </MenuWingComp>
-                    </v-menu>
+                    <template v-slot:activator="{on}">
+                        <v-menu :close-on-content-click="false" v-on="on">
+                            <template v-slot:activator="{on}">
+                                <v-btn icon v-on="on">
+                                    <v-icon>add</v-icon>
+                                </v-btn>
+                            </template>
+                            <MenuWingComp
+                                    v-bind:showFC="true"
+                                    v-on:pick="addBoss">
+                            </MenuWingComp>
+                        </v-menu>
+                    </template>
                     <span>Bosse hinzufügen</span>
                 </v-tooltip>
                 <v-tooltip bottom>
-                    <v-btn flat icon @click="changeLock" slot="activator">
-                        <v-icon>{{ lockIcon }}</v-icon>
-                    </v-btn>
+                    <template v-slot:activator="{on}">
+                        <v-btn icon @click="changeLock" v-on="on">
+                            <v-icon>{{ lockIcon }}</v-icon>
+                        </v-btn>
+                    </template>
                     <span>Editieren sperren</span>
                 </v-tooltip>
                 <v-tooltip bottom>
-                    <v-btn flat icon @click="ersatz" slot="activator">
-                        <v-icon>perm_identity</v-icon>
-                    </v-btn>
+                    <template v-slot:activator="{on}">
+                        <v-btn icon @click="ersatz" v-on="on">
+                            <v-icon>perm_identity</v-icon>
+                        </v-btn>
+                    </template>
                     <span>Ersatzspieler</span>
                 </v-tooltip>
                 <v-tooltip bottom>
-                    <v-btn flat icon @click="share" slot="activator">
-                        <v-icon>share</v-icon>
-                    </v-btn>
+                    <template v-slot:activator="{on}">
+                        <v-btn icon @click="share" v-on="on">
+                            <v-icon>share</v-icon>
+                        </v-btn>
+                    </template>
                     <span>Aufstellung teilen</span>
                 </v-tooltip>
                 <v-tooltip bottom>
-                    <v-btn flat icon @click="archive" slot="activator">
-                        <v-icon>send</v-icon>
-                    </v-btn>
+                    <template v-slot:activator="{on}">
+                        <v-btn icon @click="archive" v-on="on">
+                            <v-icon>send</v-icon>
+                        </v-btn>
+                    </template>
                     <span>Termin archivieren</span>
                 </v-tooltip>
                 <v-tooltip bottom>
-                    <v-btn flat icon color="red" @click="deleteTermin" slot="activator">
-                        <v-icon>clear</v-icon>
-                    </v-btn>
+                    <template v-slot:activator="{on}">
+                        <v-btn icon color="red" @click="deleteTermin" v-on="on">
+                            <v-icon>clear</v-icon>
+                        </v-btn>
+                    </template>
                     <span>Termin löschen</span>
                 </v-tooltip>
             </template>
             <template
                 v-if="role === 0 && locked">
-                <v-btn flat icon>
-                    <v-icon>lock</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{on}">
+                        <v-btn icon v-on="on">
+                            <v-icon>lock</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Aufstellungen gesperrt</span>
+                </v-tooltip>
             </template>
         </template>
         <template v-if="role > 0 && active === false">
-            <v-btn flat icon @click="uploadLog" class="button">
-                <v-icon>cloud_upload</v-icon>
-            </v-btn>
+            <v-tooltip bottom>
+                <template v-slot:activator="{on}">
+                    <v-btn icon @click="uploadLog" class="button" v-on="on">
+                        <v-icon>cloud_upload</v-icon>
+                    </v-btn>
+                </template>
+                <span>Logs uploaden</span>
+            </v-tooltip>
         </template>
     </div>
 </template>

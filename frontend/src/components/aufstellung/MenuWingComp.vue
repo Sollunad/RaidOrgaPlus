@@ -5,7 +5,9 @@
                 :key="wing.id"
                 @click="">
             <v-menu>
-                <v-list-item-title slot="activator">Wing {{ index + 1 }}</v-list-item-title>
+                <template v-slot:activator="{on}">
+                    <v-list-item-title v-on="on">Wing {{ index + 1 }}</v-list-item-title>
+                </template>
                 <MenuBossComp
                     v-bind:wing="wing"
                     v-bind:showFC="showFC"
