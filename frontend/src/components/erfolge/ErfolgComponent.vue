@@ -5,9 +5,11 @@
             <img :src="encIcon">
         </v-avatar>
         <v-tooltip top>
-            <v-avatar v-if="conditionIcon" size="24" class="icon" slot="activator">
-                <img :src="conditionIcon">
-            </v-avatar>
+            <template v-slot:activator="{on}">
+                <v-avatar v-if="conditionIcon" size="24" class="icon" v-on="on">
+                    <img :src="conditionIcon">
+                </v-avatar>
+            </template>
             {{reqText}}
         </v-tooltip>
         <div class="name subheading">{{achievement.name}}</div>

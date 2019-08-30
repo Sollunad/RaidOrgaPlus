@@ -5,12 +5,12 @@
         </v-btn>
         <div class="container">
             <v-list two-line subheader>
-                <v-list-tile v-for="spieler in invitablePlayers" :key="spieler.id" @click="add(spieler)">
-                    <v-list-tile-content>
-                        <v-list-tile-title v-text="spieler.name"></v-list-tile-title>
-                        <v-list-tile-sub-title v-text="spieler.accname"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <v-list-item v-for="spieler in invitablePlayers" :key="spieler.id" @click="add(spieler)">
+                    <v-list-item-content>
+                        <v-list-item-title v-text="spieler.name"></v-list-item-title>
+                        <v-list-item-subtitle v-text="spieler.accname"></v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
             </v-list>
         </div>
     </v-dialog>

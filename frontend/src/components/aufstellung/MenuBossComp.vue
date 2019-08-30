@@ -1,11 +1,11 @@
 <template>
     <v-list>
-        <v-list-tile
+        <v-list-item
                 v-for="(boss, index) in bosses"
                 :key="index"
                 @click="pick(boss.id, boss.wing)">
-            <v-list-tile-title>{{ boss.name }}</v-list-tile-title>
-        </v-list-tile>
+            <v-list-item-title>{{ boss.name }}</v-list-item-title>
+        </v-list-item>
     </v-list>
 </template>
 

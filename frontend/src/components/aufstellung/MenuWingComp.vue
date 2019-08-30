@@ -1,18 +1,18 @@
 <template>
     <v-list>
-        <v-list-tile
+        <v-list-item
                 v-for="(wing, index) in wings"
                 :key="wing.id"
                 @click="">
             <v-menu>
-                <v-list-tile-title slot="activator">Wing {{ index + 1 }}</v-list-tile-title>
+                <v-list-item-title slot="activator">Wing {{ index + 1 }}</v-list-item-title>
                 <MenuBossComp
                     v-bind:wing="wing"
                     v-bind:showFC="showFC"
                     v-on:pick="pick">
                 </MenuBossComp>
             </v-menu>
-        </v-list-tile>
+        </v-list-item>
     </v-list>
 </template>
 

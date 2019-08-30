@@ -1,19 +1,19 @@
 <template>
         <div>
-            <v-list-tile avatar @click="saveRaid">
-                <v-list-tile-avatar v-if="raid.icon">
+            <v-list-item @click="saveRaid">
+                <v-list-item-avatar v-if="raid.icon">
                     <img :src="raid.icon">
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                    <v-list-tile-title>{{raid.name}}</v-list-tile-title>
-                    <v-list-tile-sub-title>Rolle: {{role}}</v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-list-tile-action>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title>{{raid.name}}</v-list-item-title>
+                    <v-list-item-subtitle>Rolle: {{role}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
                     <v-btn icon>
                         <v-icon>{{icon}}</v-icon>
                     </v-btn>
-                </v-list-tile-action>
-            </v-list-tile>
+                </v-list-item-action>
+            </v-list-item>
         </div>
 </template>
 

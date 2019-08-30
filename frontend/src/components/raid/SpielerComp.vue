@@ -24,7 +24,6 @@
                     v-for="build in prefer"
                     v-bind:key="`${build.class.id} ${build.role.id}`"
                     v-bind:build="build"
-                    disabled
             >
             </BuildChipComp>
             <p v-if="prefer.length > 0"></p>
@@ -32,7 +31,7 @@
                     v-for="build in notPrefer"
                     v-bind:key="`${build.class.id} ${build.role.id}`"
                     v-bind:build="build"
-                    small disabled
+                    :small="true"
             >
             </BuildChipComp>
         </div>

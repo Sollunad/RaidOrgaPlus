@@ -1,6 +1,6 @@
 <template>
     <v-chip
-            :close="close" :small="small" :disabled="disabled" :color="color" v-model="chip" light class="chip elevation-12">
+            :close="close" :small="small" :large="!small" :disabled="disabled" :color="color" v-model="chip" light class="chip elevation-12">
         <v-avatar class="classIcon" tile>
             <img :src="classIcon" v-if="classIcon">
         </v-avatar>
@@ -61,8 +61,8 @@
 
 <style scoped>
     .classIcon {
-        margin-left: 0;
-        margin-right: 15px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
     .roleIcon {
@@ -70,11 +70,13 @@
     }
 
     .star {
-        margin-left: 2px;
-        margin-right: 0;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
     .chip {
-        padding: 4px 0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        margin: 5px;
     }
 </style>
