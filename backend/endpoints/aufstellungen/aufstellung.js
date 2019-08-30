@@ -6,9 +6,10 @@ exports.delete = deleteBoss;
 exports.setSuccess = setSuccess;
 exports.loadBlanko = loadBlanko;
 exports.copyElements = copyElements;
+exports.setCM = setCM;
 
 async function getForTermin(termin) {
-    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success, Aufstellung.report FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
+    const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success, Aufstellung.report, Encounter.has_cm, Aufstellung.is_cm FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {
@@ -65,6 +66,16 @@ async function copyElements(from, to) {
         'ON DUPLICATE KEY UPDATE fk_spieler = f.fk_spieler, fk_class = f.fk_class, fk_role = f.fk_role';
     try {
         return await db.queryV(stmt, [to, from]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function setCM(aufstellung, cm) {
+    const stmt = 'UPDATE Aufstellung SET is_cm = ? WHERE id = ?';
+    try {
+        const value = cm? 1 : 0;
+        return await db.queryV(stmt, [value, aufstellung]);
     } catch(e) {
         throw e;
     }

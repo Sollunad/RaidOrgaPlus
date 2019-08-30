@@ -4,28 +4,75 @@
             <v-avatar class="avatar">
                 <img :src="icon()">
             </v-avatar>
-            <span>{{aufstellung.name}}{{isCm? ' CM' : ''}}</span>
-            <v-btn icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
-                <v-icon>clear</v-icon>
-            </v-btn>
-            <v-tooltip bottom>
-                <template v-slot:activator="{on}">
-                    <v-menu v-if="role > 0 && active" class="button" v-on="on">
-                        <template v-slot:activator="{on}">
-                            <v-btn icon v-on="on" class="button">
-                                <v-icon>input</v-icon>
-                            </v-btn>
-                        </template>
-                        <MenuAufstellungenComp
-                                v-bind:aufstellung="aufstellung"
-                                v-bind:all="all"
-                                v-on:refresh="refresh"
-                        ></MenuAufstellungenComp>
-                    </v-menu>
+            <span
+                v-bind:style="{color: isCM? '#E91E63': 'white'}">
+                {{aufstellung.name}}{{isCM? ' CM' : ''}}
+            </span>
+            <v-speed-dial
+                    v-model="fab"
+                    direction="bottom"
+                    class="dial"
+                    transition="slide-y-transition"
+                    v-if="role > 0 && active && !copyActive"
+            >
+                <template v-slot:activator>
+                    <v-btn
+                        v-model="fab"
+                        small
+                        fab
+                    >
+                        <v-icon>settings</v-icon>
+                    </v-btn>
                 </template>
-                <span>Einträge kopieren</span>
-            </v-tooltip>
-
+                <v-tooltip bottom>
+                    <template v-slot:activator="{on}">
+                        <v-btn
+                                fab
+                                small
+                                color="blue"
+                                @click="copy"
+                                v-on="on">
+                            <v-icon>input</v-icon>
+                        </v-btn>
+                    </template>
+                    Einträge hierher kopieren
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{on}">
+                        <v-btn
+                                v-if="aufstellung.has_cm"
+                                fab
+                                small
+                                color="pink"
+                                @click="changeCM"
+                                v-on="on">
+                            <v-icon>new_releases</v-icon>
+                        </v-btn>
+                    </template>
+                    CM umschalten
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{on}">
+                        <v-btn
+                                fab
+                                small
+                                color="red"
+                                @click="deleteBoss"
+                                v-on="on">
+                            <v-icon>delete</v-icon>
+                        </v-btn>
+                    </template>
+                    Boss löschen
+                </v-tooltip>
+            </v-speed-dial>
+            <v-btn
+                    v-if="role > 0 && active && copyActive"
+                    color="blue"
+                    class="dial"
+                    small
+                    fab>
+                <v-icon @click="copy">arrow_back</v-icon>
+            </v-btn>
             <v-btn icon :color="successColor" @click="toggleSuccess" class="button" v-if="!active">
                 <v-icon>{{successIcon}}</v-icon>
             </v-btn>
@@ -45,17 +92,19 @@
 
 <script>
     import _icons from '../../services/icons.js';
+    import _aufstellungen from '../../services/endpoints/aufstellungen';
     import MenuAufstellungenComp from "./MenuAufstellungenComp";
     import FileUploadComp from "../reports/FileUploadComp";
 
     export default {
         name: "AufstellungHeaderComp",
         components: {FileUploadComp, MenuAufstellungenComp},
-        props: ['aufstellung', 'role', 'active', 'success', 'all', 'uploadActive'],
+        props: ['aufstellung', 'role', 'active', 'success', 'uploadActive', 'copyActive'],
         data: () => ({
-            isCm: false,
+            isCM: false,
             showUpload: false,
             reportId: null,
+            fab: false
         }),
         computed: {
             successColor: function() {
@@ -93,10 +142,18 @@
             },
             uploadComplete: function(newId) {
                 this.reportId = newId;
+            },
+            copy: function() {
+                this.$emit('copy');
+            },
+            changeCM: async function() {
+                this.isCM = !this.isCM;
+                await _aufstellungen.setCM(this.aufstellung.id, this.isCM);
             }
         },
         created: function() {
             this.reportId = this.aufstellung.report;
+            this.isCM = this.aufstellung.is_cm;
         }
     }
 </script>
@@ -110,6 +167,13 @@
         font-size: 20px;
         font-weight: bold;
         padding: 0.5rem 1rem;
+        position: relative;
+    }
+
+    .dial {
+        position: absolute;
+        left: 86%;
+        top: 18%;
     }
 
     .button {

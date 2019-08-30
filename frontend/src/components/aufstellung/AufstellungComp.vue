@@ -5,13 +5,15 @@
             v-bind:role="role"
             v-bind:active="active"
             v-bind:success="success"
-            v-bind:all="all"
             v-bind:uploadActive="uploadActive"
+            v-bind:copyActive="copyActive"
             v-on:deleteBoss="deleteBoss"
             v-on:toggleSuccess="toggleSuccess"
-            v-on:refresh="refresh">
+            v-on:refresh="refresh"
+            v-on:copy="copy">
         </AufstellungHeaderComp>
         <AufstellungBodyComp
+                v-if="!copyActive"
                 v-bind:aufstellung="aufstellung"
                 v-bind:raid="raid"
                 v-bind:active="active"
@@ -22,6 +24,13 @@
                 v-bind:anmeldungen="anmeldungen"
                 v-bind:ersatz="ersatz">
         </AufstellungBodyComp>
+        <MenuAufstellungenComp
+            v-else
+            v-bind:aufstellung="aufstellung"
+            v-bind:all="all"
+            v-on:refresh="refresh"
+            class="menu">
+        </MenuAufstellungenComp>
     </div>
 </template>
 
@@ -29,13 +38,15 @@
     import AufstellungHeaderComp from "./AufstellungHeaderComp";
     import AufstellungBodyComp from "./AufstellungBodyComp";
     import _aufstellungen from '../../services/endpoints/aufstellungen';
+    import MenuAufstellungenComp from "./MenuAufstellungenComp";
 
     export default {
         name: "AufstellungComp",
-        components: {AufstellungBodyComp, AufstellungHeaderComp},
+        components: {MenuAufstellungenComp, AufstellungBodyComp, AufstellungHeaderComp},
         props: ['aufstellung', 'all', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz', 'uploadActive'],
         data: () => ({
-            success: false
+            success: false,
+            copyActive: false,
         }),
         methods: {
             deleteBoss: function() {
@@ -46,7 +57,11 @@
                 await _aufstellungen.setSuccess(this.aufstellung.id, this.success);
             },
             refresh: function() {
+                this.copyActive = false;
                 this.$emit('refresh');
+            },
+            copy: function() {
+                this.copyActive = !this.copyActive;
             }
         },
         created: async function() {
@@ -64,4 +79,5 @@
         height: 100%;
         box-shadow: 1px 1px 3px black;
     }
+
 </style>

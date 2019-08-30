@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { getForTermin, deleteBoss, setSuccess, getElements, setClass, setName, setRole, copyElements };
+export default { getForTermin, deleteBoss, setSuccess, setCM, getElements, setClass, setName, setRole, copyElements };
 
 async function getForTermin(termin) {
     return await con('aufstellungen', 'get', {termin}, true);
@@ -12,6 +12,10 @@ async function deleteBoss(aufstellung, termin) {
 
 async function setSuccess(aufstellung, success) {
     return await con('aufstellungen/success', 'put', {aufstellung, success}, true);
+}
+
+async function setCM(aufstellung, cm) {
+    return await con('aufstellungen/cm', 'put', {aufstellung, cm}, true);
 }
 
 async function getElements(termin) {
