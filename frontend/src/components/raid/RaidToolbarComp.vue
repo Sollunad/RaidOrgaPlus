@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar>
+    <v-toolbar color="#212121">
         <v-btn icon @click="back">
             <v-icon>arrow_back</v-icon>
         </v-btn>

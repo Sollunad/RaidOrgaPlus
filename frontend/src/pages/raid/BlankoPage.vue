@@ -52,7 +52,6 @@
         },
         methods: {
             pick: async function(wing) {
-                this.elements = await _blankos.getAllElements(this.raid.id);
                 this.wingFilter = wing.id;
             },
             copyBlanko: async function(info) {

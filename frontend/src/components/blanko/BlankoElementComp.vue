@@ -1,10 +1,12 @@
 <template>
     <div>
-        <v-menu :close-on-content-click="false" v-model="classMenuOpen" :lazy="true" v-if="role > 0">
-            <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearClass">
-                <img :src="emptyIcon" v-if="classIcon === ''">
-                <img :src="classIcon" v-else>
-            </v-avatar>
+        <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="role > 0">
+            <template v-slot:activator="{on}">
+                <v-avatar :size="20" :tile="true" class="avatar" v-on="on" @contextmenu.prevent="clearClass">
+                    <img :src="emptyIcon" v-if="classIcon === ''">
+                    <img :src="classIcon" v-else>
+                </v-avatar>
+            </template>
             <MenuClassComp
                     v-on:pick="pickClass">
             </MenuClassComp>
@@ -13,11 +15,13 @@
             <img :src="emptyIcon" v-if="classIcon === ''">
             <img :src="classIcon" v-else>
         </v-avatar>
-        <v-menu :lazy="true" v-if="role > 0">
-            <v-avatar :size="20" :tile="true" class="avatar" slot="activator" @contextmenu.prevent="clearRole">
-                <img :src="emptyIcon" v-if="roleIcon === ''">
-                <img :src="roleIcon" v-else>
-            </v-avatar>
+        <v-menu v-if="role > 0">
+            <template v-slot:activator="{on}">
+                <v-avatar :size="20" :tile="true" class="avatar" v-on="on" @contextmenu.prevent="clearRole">
+                    <img :src="emptyIcon" v-if="roleIcon === ''">
+                    <img :src="roleIcon" v-else>
+                </v-avatar>
+            </template>
             <MenuRoleComp
                     v-on:pick="pickRole">
             </MenuRoleComp>

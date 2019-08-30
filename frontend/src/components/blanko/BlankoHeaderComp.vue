@@ -4,17 +4,21 @@
             <img :src="icon()">
         </v-avatar>
         <span>{{boss.name}}</span>
-        <v-menu :close-on-content-click="false" v-if="role > 0" class="button" :lazy="true">
-            <v-tooltip slot="activator" bottom>
-                <v-btn flat icon v-if="role > 0" slot="activator">
-                    <v-icon>input</v-icon>
-                </v-btn>
-                <span>Import von anderem Boss</span>
-            </v-tooltip>
-            <MenuWingComp
-                    v-on:pick="copyBlanko">
-            </MenuWingComp>
-        </v-menu>
+        <v-tooltip bottom>
+            <template v-slot:activator="{on}">
+                <v-menu :close-on-content-click="false" v-if="role > 0" class="button" v-on="on">
+                    <template v-slot:activator="{on}">
+                        <v-btn icon v-on="on" class="button">
+                            <v-icon>input</v-icon>
+                        </v-btn>
+                    </template>
+                    <MenuWingComp
+                            v-on:pick="copyBlanko">
+                    </MenuWingComp>
+                </v-menu>
+            </template>
+            <span>Import von anderem Boss</span>
+        </v-tooltip>
     </div>
 </template>
 
@@ -53,5 +57,6 @@
 
     .button {
         float: right;
+        margin-top: 4px;
     }
 </style>

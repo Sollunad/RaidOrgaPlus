@@ -5,26 +5,31 @@
                 <img :src="icon()">
             </v-avatar>
             <span>{{aufstellung.name}}{{isCm? ' CM' : ''}}</span>
-            <v-btn flat icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
+            <v-btn icon color="red" @click="deleteBoss" class="button" v-if="role > 0 && active">
                 <v-icon>clear</v-icon>
             </v-btn>
-            <v-menu v-if="role > 0 && active" class="button" :lazy="true">
-                <v-tooltip slot="activator" bottom>
-                    <v-btn flat icon slot="activator">
-                        <v-icon>input</v-icon>
-                    </v-btn>
-                    <span>Einträge kopieren</span>
-                </v-tooltip>
-                <MenuAufstellungenComp
-                        v-bind:aufstellung="aufstellung"
-                        v-bind:all="all"
-                        v-on:refresh="refresh"
-                ></MenuAufstellungenComp>
-            </v-menu>
-            <v-btn flat icon :color="successColor" @click="toggleSuccess" class="button" v-if="!active">
+            <v-tooltip bottom>
+                <template v-slot:activator="{on}">
+                    <v-menu v-if="role > 0 && active" class="button" v-on="on">
+                        <template v-slot:activator="{on}">
+                            <v-btn icon v-on="on" class="button">
+                                <v-icon>input</v-icon>
+                            </v-btn>
+                        </template>
+                        <MenuAufstellungenComp
+                                v-bind:aufstellung="aufstellung"
+                                v-bind:all="all"
+                                v-on:refresh="refresh"
+                        ></MenuAufstellungenComp>
+                    </v-menu>
+                </template>
+                <span>Einträge kopieren</span>
+            </v-tooltip>
+
+            <v-btn icon :color="successColor" @click="toggleSuccess" class="button" v-if="!active">
                 <v-icon>{{successIcon}}</v-icon>
             </v-btn>
-            <v-btn flat icon class="button" v-if="reportLink" target="_newtab" :href="reportLink">
+            <v-btn icon class="button" v-if="reportLink" target="_newtab" :href="reportLink">
                 <v-icon>show_chart</v-icon>
             </v-btn>
         </div>
@@ -109,5 +114,6 @@
 
     .button {
         float: right;
+        margin-top: 4px;
     }
 </style>

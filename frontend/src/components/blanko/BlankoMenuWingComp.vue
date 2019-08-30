@@ -1,8 +1,10 @@
 <template>
     <v-menu>
-        <v-btn slot="activator" class="button">
-            {{ buttonText }}
-        </v-btn>
+        <template v-slot:activator="{on}">
+            <v-btn v-on="on" class="button">
+                {{ buttonText }}
+            </v-btn>
+        </template>
         <v-list>
             <v-list-item
                     v-for="wing in wings"
