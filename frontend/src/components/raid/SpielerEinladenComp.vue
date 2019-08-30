@@ -1,9 +1,11 @@
 <template>
     <div>
         <v-dialog width="fit-content" class="einladenButton">
-            <v-btn color="success" slot="activator">
-                Spieler einladen
-            </v-btn>
+            <template v-slot:activator="{on}">
+                <v-btn color="success" v-on="on" class="einladenButton">
+                    Spieler einladen
+                </v-btn>
+            </template>
             <div class="container">
                 <v-autocomplete
                         v-model="invited"
@@ -55,8 +57,8 @@
         watch: {
             invited: async function (newValue, oldValue) {
                 if (oldValue === null) return;
-                const invitedPlayer = newValue.filter(player => !oldValue.includes(player))[0];
-                const deletedPlayer = oldValue.filter(player => !newValue.includes(player))[0];
+                const invitedPlayer = newValue.find(player => !oldValue.includes(player));
+                const deletedPlayer = oldValue.find(player => !newValue.includes(player));
                 if (invitedPlayer) {
                     await _raids.invitePlayer(this.raid.id, invitedPlayer);
                 } else if (deletedPlayer) {
@@ -80,7 +82,7 @@
 
     @media only screen and (max-width: 599px) {
         .einladenButton {
-            margin: 5px 0 0 5px;
+            margin: 10px 0 0 5px;
         }
     }
 </style>

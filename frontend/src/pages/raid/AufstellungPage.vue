@@ -109,7 +109,7 @@
         }),
         methods: {
             anmelden: async function(type) {
-                const changedAnmeldung = this.anmeldungen.filter(a => a.id === this.user.id)[0];
+                const changedAnmeldung = this.anmeldungen.find(a => a.id === this.user.id);
                 if (changedAnmeldung) changedAnmeldung.type = type;
                 else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
                 await _termine.anmelden(this.user.id, this.termin.id, type);
@@ -131,11 +131,13 @@
             archive: function() {
                 this.archiveDialogOpen = true;
             },
-            archiveOK: function() {
+            archiveOK: async function(newTermin) {
                 this.archiveDialogOpen = false;
-                _termine.archive(this.termin.id).then(() => {
-                    window.history.back();
-                });
+                if (newTermin) {
+                    this.createNewTermin();
+                }
+                await _termine.archive(this.termin.id);
+                window.history.back();
             },
             closeArchiveDialog: function() {
                 this.archiveDialogOpen = false;
@@ -157,8 +159,11 @@
             deleteTermin: function() {
                 this.deleteDialogOpen = true;
             },
-            deleteOK: async function() {
+            deleteOK: async function(newTermin) {
                 this.deleteDialogOpen = false;
+                if (newTermin) {
+                    this.createNewTermin();
+                }
                 await _termine.deleteTermin(this.termin.id);
                 window.history.back();
             },
@@ -182,6 +187,15 @@
             },
             upload: function() {
                 this.uploadActive = !this.uploadActive;
+            },
+            createNewTermin: async function() {
+                const oldDate = this.termin.date.slice(4);
+                const dmy = oldDate.split('.');
+                const date = new Date(dmy[2], dmy[1] - 1, dmy[0]);
+                // I have to add 8 days here to get 7 but I don't know why.
+                date.setDate(date.getDate() + 8);
+                const dateString = date.toISOString().substr(0, 10);
+                await _termine.newTermin(this.raid.id, dateString, this.termin.time);
             }
         },
         created: async function() {

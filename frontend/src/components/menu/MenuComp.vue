@@ -1,13 +1,15 @@
 <template>
     <div>
         <v-navigation-drawer
+                app
                 v-model="drawer"
                 v-if="show"
-                clipped fixed app>
-            <MenuHeaderComp v-bind:user="user"></MenuHeaderComp>
+                clipped
+        >
             <MenuItemListComp
                 v-bind:user="user">
             </MenuItemListComp>
+
         </v-navigation-drawer>
         <MenuToolbarComp
             v-bind:loggedIn="show"
@@ -17,7 +19,6 @@
 </template>
 
 <script>
-    import MenuHeaderComp from "./MenuHeaderComp";
     import MenuItemListComp from "./MenuItemListComp";
     import MenuToolbarComp from "./MenuToolbarComp";
 
@@ -30,7 +31,6 @@
         components: {
             MenuToolbarComp,
             MenuItemListComp,
-            MenuHeaderComp,
         },
         methods: {
             toggleMenu: function() {

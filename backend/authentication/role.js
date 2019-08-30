@@ -11,7 +11,7 @@ function getRole(auth) {
 }
 
 function getRoleForRaid(auth, raid) {
-    const authedRaid = auth.raids.filter(r => r.id === parseInt(raid))[0];
+    const authedRaid = auth.raids.find(r => r.id === parseInt(raid));
     if (authedRaid) return authedRaid.role;
     return null;
 }

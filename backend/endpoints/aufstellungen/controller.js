@@ -5,6 +5,7 @@ const _roles = require('../../authentication/role');
 module.exports = [
     {function: getForTermin, path: '', method: 'get', authed: true},
     {function: putSuccess, path: '/success', method: 'put', authed: true},
+    {function: putCM, path: '/cm', method: 'put', authed: true},
     {function: deleteTermin, path: '', method: 'delete', authed: true},
     {function: getElement, path: '/elements', method: 'get', authed: true},
     {function: postElement, path: '/elements', method: 'post', authed: true},
@@ -26,6 +27,16 @@ async function putSuccess(req, authentication) {
     if (aufstellung && (success === true || success === false)) {
         const role = await _roles.forAufstellung(authentication, aufstellung);
         if (role > 0) return await _aufstellung.setSuccess(aufstellung, success);
+    }
+    return [];
+}
+
+async function putCM(req, authentication) {
+    const aufstellung = req.body.aufstellung;
+    const cm = req.body.cm;
+    if (aufstellung && (cm === true || cm === false)) {
+        const role = await _roles.forAufstellung(authentication, aufstellung);
+        if (role > 0) return await _aufstellung.setCM(aufstellung, cm);
     }
     return [];
 }

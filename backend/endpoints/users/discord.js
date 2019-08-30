@@ -7,13 +7,13 @@ exports.login = loginDiscord;
 exports.delete = deleteDiscordKeyForUser;
 exports.create = createDiscordKey;
 
-async function loginDiscord(key) {
+async function loginDiscord(key, agent) {
     await deleteInvalidKeys();
     const response = await getUserByDiscordKey(key);
     const user = response[0];
     if (user) {
         const uuid = uuidv4();
-        await _session.start(user.fk_spieler, uuid);
+        await _session.start(user.fk_spieler, uuid, agent);
         await deleteDiscordKey(key)
         return uuid;
     }

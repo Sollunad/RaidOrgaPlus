@@ -2,8 +2,10 @@
     <div class="moderation" v-if="user.role > 0">
         <v-tabs
                 class="elevation-6"
-                color="#212121"
+                background-color="#212121"
+                color="white"
                 show-arrows>
+            <v-tabs-slider color="info"></v-tabs-slider>
             <v-tab
                     v-for="name in moderationCompNames"
                     :key="name"
@@ -14,6 +16,7 @@
                     v-for="comp in moderationComps"
                     :key="comp.name"
                     class="moderationComp"
+                    eager
             >
                 <component :is="comp"></component>
             </v-tab-item>
@@ -30,7 +33,7 @@
         components: {ModUserListComp},
         props: ['user'],
         data: () => ({
-            moderationCompNames: ['Spieler-Verwaltung', 'Raid-Verwaltung (wip)'],
+            moderationCompNames: ['Spieler-Verwaltung', 'Raid-Verwaltung'],
             moderationComps: [ModUserListComp, ModRaidListComp],
         })
     }

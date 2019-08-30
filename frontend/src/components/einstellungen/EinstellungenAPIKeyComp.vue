@@ -17,6 +17,14 @@
             >
                 {{ buttonText }}
             </v-btn>
+            <v-tooltip right>
+                <template v-slot:activator="{on}">
+                    <v-btn icon v-on="on" class="tooltipButton">
+                        <v-icon>help</v-icon>
+                    </v-btn>
+                </template>
+                {{ permissionsText }}
+            </v-tooltip>
             <v-snackbar
                     v-model="snackbar"
                     :timeout="5000"
@@ -25,7 +33,6 @@
                 {{ snackbarText }}
                 <v-btn
                         color="pink"
-                        flat
                         @click="snackbar = false"
                 >
                     OK
@@ -39,7 +46,7 @@
     import _users from '../../services/endpoints/users';
 
     export default {
-        name: "ProfileAPIKeyComp",
+        name: "EinstellungenAPIKeyComp",
         props: ['user'],
         data: () => ({
             valid: true,
@@ -57,6 +64,14 @@
                     v => this.regex.test(v) || 'Bitte gib einen gültigen API-Key an',
                 ]
             },
+            permissionsText: function() {
+                const required = ['builds', 'characters', 'inventories', 'progression', 'unlocks'];
+                let text = 'Benötigt: account';
+                for (const req of required) {
+                    text += `, ${req}`;
+                }
+                return text;
+            }
         },
         methods: {
             async submit() {
@@ -87,5 +102,7 @@
 </script>
 
 <style scoped>
-
+ .tooltipButton {
+     margin-left: 5px;
+ }
 </style>

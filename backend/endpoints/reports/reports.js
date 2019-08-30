@@ -6,9 +6,11 @@ const uuid = require('uuid/v4');
 
 exports.addReport = addReport;
 
-async function addReport(aufstellung, evtc) {
-    const filepath = `reports/working/${aufstellung}.evtc`;
-    evtc.mv(filepath);
+async function addReport(aufstellung, file) {
+    const extension = file.name.split('.').slice(-1)[0];
+    if (!(extension === 'evtc' || extension === 'zevtc')) return;
+    const filepath = `reports/working/${aufstellung}.${extension}`;
+    file.mv(filepath);
     await parser.parse(filepath);
 
     const oldPath = glob.sync(`reports/working/${aufstellung}_*`)[0];

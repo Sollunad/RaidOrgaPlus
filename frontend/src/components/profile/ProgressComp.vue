@@ -9,6 +9,7 @@
                 v-bind:maxWing="maxWing"
                 v-bind:progress="progress"
                 v-bind:width="width"
+                v-bind:class="{ hasMargin: hasMarginBottom(index + 1) }"
                 :key="wing[0].wing"></ProgressWingComp>
     </div>
 </template>
@@ -31,6 +32,12 @@
                 return this.bosses.length;
             }
         },
+        methods: {
+            hasMarginBottom: function(wing) {
+                const lastWings = [4];
+                return lastWings.includes(wing);
+            }
+        },
         created: async function() {
             this.bosses = await _encounter.listEncounterGrouped();
             if (this.ownProfile) this.progress = await _progress.progress();
@@ -42,5 +49,9 @@
 <style scoped>
     .progress {
         width: fit-content;
+    }
+
+    .hasMargin {
+        margin-bottom: 20px;
     }
 </style>

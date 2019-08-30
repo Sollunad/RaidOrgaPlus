@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <v-container>
-            <v-layout row wrap>
+            <v-layout>
                 <v-flex xs6>
                     <MenuClassComp class="menu"
                         v-on:pick="pickClass"></MenuClassComp>
@@ -56,7 +56,7 @@
 <style scoped>
     .container {
         background-color: #444444;
-        padding: 0;
+        padding: 0 0 10px 0;
     }
 
     .menu {
@@ -65,5 +65,6 @@
 
     .chip {
         margin-left: 10px;
+        margin-right: 5px;
     }
 </style>

@@ -1,8 +1,12 @@
 <template>
-    <span class="form">
-        <input type="file" id="file" ref="file"/>
-        <v-btn v-on:click="submit()" :color="btnColor" class="button">{{btnText}}</v-btn>
-    </span>
+    <v-file-input
+            v-model="file"
+            :loading="loading"
+            :error="error"
+            :success="success"
+            accept=".evtc,.zevtc"
+            label="Log-File (.evtc oder .zevtc)"
+            class="upload"></v-file-input>
 </template>
 
 <script>
@@ -13,33 +17,43 @@
         props: ['aufstellung'],
         data: () => ({
             btnText: 'Senden',
-            btnColor: ''
+            btnColor: '',
+            loading: false,
+            error: false,
+            success: false,
+            file: null
         }),
         methods: {
             submit: async function() {
-                const evtc = this.file = this.$refs.file.files[0];
-                this.btnText = 'Laden...';
-                this.btnColor = '';
-                const response = await _reports.uploadReport(evtc, this.aufstellung.id);
-                if (response[0]) {
-                    this.btnText = 'Fertig!';
-                    this.btnColor = 'success';
-                    this.$emit('uploadComplete', response[0]);
+                this.error = false;
+                this.success = false;
+                const file = this.file;
+                if (file && (file.name.includes('.evtc') || file.name.includes('.zevtc'))) {
+                    this.loading = true;
+                    const response = await _reports.uploadReport(file, this.aufstellung.id);
+                    this.loading = false;
+                    if (response[0]) {
+                        this.$emit('uploadComplete', response[0]);
+                        this.success = true;
+                    } else {
+                        this.error = true;
+                    }
                 } else {
-                    this.btnText = 'Fehler!';
-                    this.btnColor = 'error';
+                    this.loading = false;
+                    this.error = true;
                 }
+            }
+        },
+        watch: {
+            file: function() {
+                this.submit();
             }
         }
     }
 </script>
 
 <style scoped>
-    .form {
-        margin-left: 7px;
-    }
-
-    .button {
-        margin-left: -10px;
+    .upload {
+        margin: -5px 5px;
     }
 </style>

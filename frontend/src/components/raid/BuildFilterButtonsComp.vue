@@ -55,17 +55,10 @@
 </script>
 
 <style scoped>
-    .container {
-        width: fit-content;
-        margin-right: 0;
-        margin-top: -40px;
-        margin-bottom: -20px;
-    }
-
     @media only screen and (max-width: 599px) {
         .container {
             width: fit-content;
-            margin-left: 0;
+            text-align: center;
             margin-top: -10px;
             margin-bottom: -20px;
         }

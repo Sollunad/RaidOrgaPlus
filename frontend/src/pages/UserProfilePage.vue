@@ -95,8 +95,6 @@
 </script>
 
 <style scoped>
-
-
     .username {
         margin-bottom: 40px;
     }
@@ -105,15 +103,13 @@
         margin-bottom: 30px;
     }
 
+    .profilepage {
+        margin: 4%;
+    }
+
     @media only screen and (max-width: 1263px) {
         .profilePicture {
             margin-bottom: 30px;
-        }
-    }
-
-    @media only screen and (min-width: 600px) {
-        .profilepage {
-            margin: 4%;
         }
     }
 </style>

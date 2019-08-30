@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="headline">Erfolge</div>
-        <div class="spinner" v-if="!achievements">
+        <div class="spinner" v-if="achievements.length === 0">
             <v-progress-circular
                     indeterminate
                     color="primary"

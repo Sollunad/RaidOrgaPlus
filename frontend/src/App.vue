@@ -1,6 +1,5 @@
 <template>
   <v-app
-    :dark="true"
     class="unselectable"
     v-resize="onResize">
     <MenuComp

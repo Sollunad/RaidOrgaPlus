@@ -70,8 +70,8 @@
         watch: {
             ersatz: async function (newValue, oldValue) {
                 if (oldValue === null) return;
-                const invitedPlayer = newValue.filter(player => !oldValue.includes(player))[0];
-                const deletedPlayer = oldValue.filter(player => !newValue.includes(player))[0];
+                const invitedPlayer = newValue.find(player => !oldValue.includes(player));
+                const deletedPlayer = oldValue.find(player => !newValue.includes(player));
                 if (invitedPlayer) {
                     await _termine.addErsatz(this.termin.id, invitedPlayer);
                 } else if (deletedPlayer) {

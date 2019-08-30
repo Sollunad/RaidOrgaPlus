@@ -6,7 +6,7 @@ exports.getSession = getSessionForDiscordUser;
 
 function getSessionForDiscordUser(user) {
     const sessions = _json.read('sessions');
-    const foundSession = sessions.filter(s => s.user === user)[0];
+    const foundSession = sessions.find(s => s.user === user);
     if (foundSession) {
         const validTo = foundSession.validTo;
         if ((new Date()).getTime() < validTo) {

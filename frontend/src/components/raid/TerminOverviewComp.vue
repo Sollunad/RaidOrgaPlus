@@ -5,22 +5,30 @@
                 indeterminate
                 color="primary"
         ></v-progress-circular>
-        <v-layout row
-                v-else-if="listNotEmpty"
-        >
-            <v-flex xs12 sm6 md4 lg3>
-                <v-card>
-                    <v-list two-line>
-                        <ListTerminComp
-                                v-for="termin in viewTermine"
-                                v-bind:key="termin.id"
-                                v-bind:termin="termin"
-                                v-on:saveTermin="saveTermin"
-                        ></ListTerminComp>
-                    </v-list>
-                </v-card>
-            </v-flex>
-        </v-layout>
+        <div v-else-if="listNotEmpty" class="terminList">
+            <v-layout row>
+                <v-flex xs12 sm6 md4 lg3>
+                    <v-pagination
+                            v-if="archived"
+                            circle
+                            class="paginator"
+                            v-model="page"
+                            :length="maxPages"
+                            :total-visible="7"
+                    ></v-pagination>
+                    <v-card>
+                        <v-list two-line>
+                            <ListTerminComp
+                                    v-for="termin in viewTermine"
+                                    v-bind:key="termin.id"
+                                    v-bind:termin="termin"
+                                    v-on:saveTermin="saveTermin"
+                            ></ListTerminComp>
+                        </v-list>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </div>
     </div>
 </template>
 
@@ -34,8 +42,17 @@
         props: ['raid', 'archived'],
         data: () => ({
             termine: null,
+            page: 1,
+            pageSize: 5,
         }),
         computed: {
+            maxPages: function() {
+                if (this.termine) {
+                    return Math.ceil(this.termine.length / this.pageSize);
+                } else {
+                    return 1;
+                }
+            },
             viewTermine: function() {
                 if (this.archived) {
                     let viewTermine = [];
@@ -43,7 +60,9 @@
                         termin.no = this.termine.length - index;
                         viewTermine.push(termin);
                     });
-                    return viewTermine;
+                    const firstEntry = (this.page - 1) * this.pageSize;
+                    const lastEntry = firstEntry + this.pageSize;
+                    return viewTermine.slice(firstEntry, lastEntry);
                 } else {
                     return this.termine;
                 }
@@ -71,5 +90,17 @@
 </script>
 
 <style scoped>
+    .paginator {
+        margin-bottom: 10px;
+    }
 
+    @media only screen and (max-width: 599px) {
+        .paginator {
+            margin-top: 10px;
+        }
+    }
+
+    .terminList {
+        margin-left: 10px;
+    }
 </style>

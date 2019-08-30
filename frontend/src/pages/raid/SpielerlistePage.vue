@@ -4,7 +4,9 @@
             v-if="role > 0"
             v-bind:raid="raid">
         </SpielerEinladenComp>
+        <!-- TODO: Reactivate #297 -->
         <BuildFilterButtonsComp
+                v-if="false"
                 v-on:setFilter="setFilter">
         </BuildFilterButtonsComp>
         <v-container grid-list-md>

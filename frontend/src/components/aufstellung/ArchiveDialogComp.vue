@@ -11,18 +11,25 @@
                 Dieser Vorgang kann nicht rückgängig gemacht werden!
             </v-card-text>
 
+            <v-checkbox
+                    class="checkbox"
+                    color="success"
+                    v-model="newTermin"
+                    label="Neuen Termin in 7 Tagen erstellen"
+            ></v-checkbox>
+
             <v-card-actions>
                 <v-spacer></v-spacer>
 
                 <v-btn
-                        flat="flat"
+                        text
                         @click="archiveCancel"
                 >
                     Abbrechen
                 </v-btn>
 
                 <v-btn
-                        flat="flat"
+                        text
                         @click="archiveOK"
                 >
                     Archivieren
@@ -36,9 +43,12 @@
     export default {
         name: "ArchiveDialogComp",
         props: ['open'],
+        data: () => ({
+            newTermin: false,
+        }),
         methods: {
             archiveOK: function() {
-                this.$emit('archiveOK');
+                this.$emit('archiveOK', this.newTermin);
             },
             archiveCancel: function() {
                 this.$emit('close');
@@ -58,5 +68,7 @@
 </script>
 
 <style scoped>
-
+    .checkbox {
+        margin-left: 5px;
+    }
 </style>

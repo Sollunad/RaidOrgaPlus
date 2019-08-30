@@ -1,15 +1,17 @@
 <template>
     <v-menu>
-        <v-btn slot="activator" class="button">
-            {{ buttonText }}
-        </v-btn>
+        <template v-slot:activator="{on}">
+            <v-btn v-on="on" class="button">
+                {{ buttonText }}
+            </v-btn>
+        </template>
         <v-list>
-            <v-list-tile
+            <v-list-item
                     v-for="wing in wings"
                     :key="wing.id"
                     @click="pick(wing)">
-                <v-list-tile-title>{{ tileText(wing) }}</v-list-tile-title>
-            </v-list-tile>
+                <v-list-item-title>{{ tileText(wing) }}</v-list-item-title>
+            </v-list-item>
         </v-list>
     </v-menu>
 </template>

@@ -62,7 +62,16 @@ exports.run = async (client, message, args) => {
                     .then(msg => msg.react(emojiYes))
                     .then(r => r.message.react(emojiMaybe))
                     .then(r => r.message.react(emojiNo))
-                    .then(r => handleReactions(r, termin, emojis, message.raid.name));
+                    .then(r => {
+                        handleReactions(r, termin, emojis, message.raid.name);
+                        const timer = setInterval(async function() {
+                            await resendEmbed(r.message, message.auth, termin, emojis, message.raid.name);
+                            if (isTerminInPast(termin)) {
+                                clearInterval(timer);
+                            }
+                        }, 1000 * 60 * 5);
+                    });
+
             }
         } else {
             /*
@@ -117,7 +126,8 @@ async function resendEmbed(message, session, termin, emojis, raidName) {
     let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
     if (allBosses === '') allBosses = 'Keine';
     const anmeldungen = await _termine.getAnmeldungen(session, termin.id);
-    const anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
+    let anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
+    if (anmeldungenString === '') anmeldungenString = 'Keine';
     let embed = _embeds.defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
         .addField('Datum', termin.date)
         .addField('Uhrzeit', termin.time)

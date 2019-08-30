@@ -3,17 +3,16 @@
         <h2>Discord-Account verknüpfen</h2>
         <p></p>
         <v-text-field
-                label="Outline"
-                disabled
                 single-line
                 outline
+                label="Button klicken, um Einmalpasswort zu generieren"
                 v-model="message"
         ></v-text-field>
         <p v-if="key">
             Bot-Befehl in Zwischenablage kopiert! Bitte an den Bot per PN schicken.
         </p>
         <v-btn @click="generateKey">
-            Einmalschlüssel generieren
+            Einmalpasswort generieren
         </v-btn>
     </div>
 </template>
@@ -36,7 +35,7 @@
         computed: {
             message: function() {
                 if (this.key) return `!orga login ${this.key}`;
-                else return `Generierten Befehl per PN an den Bot schicken`;
+                else return '';
             }
         },
     }

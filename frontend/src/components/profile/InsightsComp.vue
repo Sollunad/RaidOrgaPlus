@@ -5,7 +5,7 @@
         </div>
         <p></p>
         <v-progress-circular
-                v-if="!insights"
+                v-if="insights.length === 0"
                 indeterminate
                 color="primary"
         ></v-progress-circular>
