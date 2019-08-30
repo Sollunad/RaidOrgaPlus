@@ -18,7 +18,7 @@
         name: "FooterComp",
         components: {ChangelogComp},
         data: () => ({
-            versionNo: '1.2.1',
+            versionNo: '2.0',
         })
     }
 </script>
@@ -27,10 +27,6 @@
     .footer {
         text-align: left;
         width: 100%;
-    }
-
-    .footerText {
-        margin-left: 10px;
     }
 
     .feedback {

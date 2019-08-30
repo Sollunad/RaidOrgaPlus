@@ -106,10 +106,10 @@
                 },
                 {
                     no: '2.0',
-                    release: 'SoonTM',
+                    release: '31.08.2019',
                     features: [
                         'Open Beta!',
-                        'Update auf Vuetify 2.0',
+                        'Update auf Vuetify 2.0 - UI-Änderungen',
                         'CMs markieren',
                         'Besser Navigation innerhalb von Raids',
                         'Einteilung des Archivs in Seiten',
