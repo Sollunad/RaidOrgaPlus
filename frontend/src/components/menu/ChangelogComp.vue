@@ -102,20 +102,22 @@
                                 'Reports beinhalten jetzt ein Combat Replay'
                             ]
                         },
-                        {
-                            no: '1.2.2',
-                            release: 'SoonTM',
-                            features: [
-                                'CMs markieren',
-                                'Fortlaufende Termine',
-                                'Paging für Archiv-Einträge',
-                                'Raid-Übersicht im Profil'
-                            ]
-                        }
                     ]
                 },
                 {
-                    no: '1.3',
+                    no: '2.0',
+                    release: 'SoonTM',
+                    features: [
+                        'Open Beta!',
+                        'Update auf Vuetify 2.0',
+                        'CMs markieren',
+                        'Besser Navigation innerhalb von Raids',
+                        'Einteilung des Archivs in Seiten',
+                        'Fortlaufende Termine erstellen'
+                    ]
+                },
+                {
+                    no: '2.1',
                     release: 'SoonTM',
                     features: [
                         'Videos verlinken',
