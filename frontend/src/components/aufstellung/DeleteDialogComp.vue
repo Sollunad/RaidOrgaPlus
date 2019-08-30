@@ -11,11 +11,18 @@
                 Dieser Vorgang kann nicht rückgängig gemacht werden!
             </v-card-text>
 
+            <v-checkbox
+                    class="checkbox"
+                    color="success"
+                    v-model="newTermin"
+                    label="Neuen Termin in 7 Tagen erstellen"
+            ></v-checkbox>
+
             <v-card-actions>
                 <v-spacer></v-spacer>
 
                 <v-btn
-                        flat="flat"
+                        text
                         @click="deleteCancel"
                 >
                     Abbrechen
@@ -23,7 +30,7 @@
 
                 <v-btn
                         color="red darken-1"
-                        flat="flat"
+                        text
                         @click="deleteOK"
                 >
                     Löschen
@@ -37,9 +44,12 @@
     export default {
         name: "DeleteDialogComp",
         props: ['open'],
+        data: () => ({
+            newTermin: false,
+        }),
         methods: {
             deleteOK: function() {
-                this.$emit('deleteOK');
+                this.$emit('deleteOK', this.newTermin);
             },
             deleteCancel: function() {
                 this.$emit('close');
@@ -59,5 +69,7 @@
 </script>
 
 <style scoped>
-
+    .checkbox {
+        margin-left: 5px;
+    }
 </style>

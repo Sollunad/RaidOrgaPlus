@@ -94,12 +94,11 @@
             }
         },
         methods: {
-            submit: function() {
+            submit: async function() {
                 if (this.$refs.form.validate()) {
                     this.buttonColor = 'success';
-                    _termine.newTermin(this.raid.id, this.date, this.time).then(() => {
-                        window.history.back();
-                    });
+                    await _termine.newTermin(this.raid.id, this.date, this.time);
+                    window.history.back();
                 }
             }
         }

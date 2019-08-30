@@ -141,8 +141,8 @@
             addBoss: function(info) {
                 this.$emit('addBoss', info);
             },
-            archive: function() {
-                this.$emit('archive');
+            archive: function(newTermin) {
+                this.$emit('archive', newTermin);
             },
             refresh: function() {
                 this.$emit('refresh');
@@ -150,8 +150,8 @@
             changeLock: function() {
                 this.$emit('changeLocked');
             },
-            deleteTermin: function() {
-                this.$emit('deleteTermin');
+            deleteTermin: function(newTermin) {
+                this.$emit('deleteTermin', newTermin);
             },
             share: function() {
                 this.$emit('share');
