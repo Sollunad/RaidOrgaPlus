@@ -13,7 +13,7 @@
                 ></v-textarea>
             </v-flex>
             <v-flex xs1>
-                <v-btn icon flat class="button" @click="saveText" v-if="role > 0" :disabled="!isDirty">
+                <v-btn icon class="button" @click="saveText" v-if="role > 0" :disabled="!isDirty">
                     <v-icon>save</v-icon>
                 </v-btn>
             </v-flex>
