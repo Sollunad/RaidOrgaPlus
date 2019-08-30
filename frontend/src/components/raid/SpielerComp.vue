@@ -9,9 +9,11 @@
             :clickable="true">
         </NameComp>
         <v-dialog width="fit-content" v-if="kickable" class="button">
-            <v-btn flat icon color="red" slot="activator" class="button">
-                <v-icon>clear</v-icon>
-            </v-btn>
+            <template v-slot:activator="{on}">
+                <v-btn icon color="red" slot="activator" class="button" v-on="on">
+                    <v-icon>clear</v-icon>
+                </v-btn>
+            </template>
             <div class="container">
                 <p class="">Dies entfernt {{user.name}} aus dem Raid. Bist du sicher?</p>
                 <v-btn color="red" @click="kick">
@@ -48,7 +50,7 @@
     import _icons from '../../services/icons';
 
     export default {
-        name: "ListSpielerComp",
+        name: "SpielerComp",
         components: {NameComp, BuildChipComp},
         props: ['user', 'filter', 'role'],
         data: () => ({
@@ -111,7 +113,8 @@
 
     .button {
         float: right;
-        margin-top: 0;
+        margin-top: -1px;
+        margin-right: 3px;
     }
 
     .container {

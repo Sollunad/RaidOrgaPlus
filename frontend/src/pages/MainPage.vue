@@ -43,7 +43,7 @@
 <style scoped>
     @media only screen and (min-width: 600px) {
         .page {
-            margin: 1%;
+            margin: 1% 2%;
         }
     }
 </style>

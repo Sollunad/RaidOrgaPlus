@@ -6,7 +6,6 @@
                     <v-list-item
                             v-for="item in items"
                             :key="item.id"
-                            avatar
                             :to="item.route"
                     >
                         <v-list-item-action>

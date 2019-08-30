@@ -5,6 +5,7 @@
             <img v-if="isBuffWing" :src="icon()">
         </v-avatar>
         <ProgressBossComp
+                class="boss"
                 v-for="boss in bosses"
                 v-bind:boss="boss"
                 v-bind:progress="progress"
@@ -50,7 +51,7 @@
 <style scoped>
     .wing {
         border-radius: 15px;
-        margin: 10px 0;
+        margin: 5px 0;
     }
 
     @media only screen and (min-width: 600px) {
@@ -67,6 +68,10 @@
     .cotm {
         float: left;
         margin-right: 16px;
-        padding-top: 18px;
+        padding-top: 16px;
+    }
+
+    .boss {
+        margin: 5px;
     }
 </style>

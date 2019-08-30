@@ -18,9 +18,11 @@
                 {{ buttonText }}
             </v-btn>
             <v-tooltip right>
-                <v-btn flat icon slot="activator">
-                    <v-icon>help</v-icon>
-                </v-btn>
+                <template v-slot:activator="{on}">
+                    <v-btn flat icon v-on="on" class="tooltipButton">
+                        <v-icon>help</v-icon>
+                    </v-btn>
+                </template>
                 {{ permissionsText }}
             </v-tooltip>
             <v-snackbar
@@ -101,5 +103,7 @@
 </script>
 
 <style scoped>
-
+ .tooltipButton {
+     margin-left: 5px;
+ }
 </style>

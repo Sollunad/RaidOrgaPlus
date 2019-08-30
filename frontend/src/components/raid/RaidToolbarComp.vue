@@ -1,6 +1,6 @@
 <template>
     <v-toolbar>
-        <v-btn flat icon @click="back">
+        <v-btn icon @click="back">
             <v-icon>arrow_back</v-icon>
         </v-btn>
         <v-toolbar-title @click="toRaidDashboard" class="raidTitle">{{ raidName }}</v-toolbar-title>

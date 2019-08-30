@@ -1,9 +1,11 @@
 <template>
     <div>
         <v-dialog width="fit-content" class="einladenButton">
-            <v-btn color="success" slot="activator">
-                Spieler einladen
-            </v-btn>
+            <template v-slot:activator="{on}">
+                <v-btn color="success" v-on="on">
+                    Spieler einladen
+                </v-btn>
+            </template>
             <div class="container">
                 <v-autocomplete
                         v-model="invited"

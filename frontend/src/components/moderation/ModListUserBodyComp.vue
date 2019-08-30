@@ -2,6 +2,7 @@
     <div>
         <div class="subheading textLine"><span class="font-weight-bold">Zuletzt online:</span> {{lastActive}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Letzte Raid-Anmeldung:</span> {{lastTermin}}</div>
+        <v-divider class="divider" v-if="hasDiscord || isInGuild"></v-divider>
         <div v-if="hasDiscord">
             <div class="headline heading">Discord</div>
             <ModListUserBodyRolesComp
@@ -105,6 +106,7 @@
 
     .openProfileButton {
         margin-top: 15px;
+        margin-right: 10px;
     }
 
     .heading {
