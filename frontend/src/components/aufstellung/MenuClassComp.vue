@@ -65,6 +65,6 @@
     }
 
     .icon {
-        margin-right: -1.5rem;
+        margin-right: -22px;
     }
 </style>
