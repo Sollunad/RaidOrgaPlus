@@ -1,24 +1,24 @@
 <template>
     <div>
-        <v-list-tile avatar>
-            <v-list-tile-avatar @click="openProfile">
+        <v-list-item>
+            <v-list-item-avatar @click="openProfile">
                 <img :src="avatarLink"/>
-            </v-list-tile-avatar>
-            <v-list-tile-content @click="openProfile">
-                <v-list-tile-title v-text="spieler.name"></v-list-tile-title>
-                <v-list-tile-sub-title v-text="spieler.accname"></v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action @click="changePlayerRole">
+            </v-list-item-avatar>
+            <v-list-item-content @click="openProfile">
+                <v-list-item-title v-text="spieler.name"></v-list-item-title>
+                <v-list-item-subtitle v-text="spieler.accname"></v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action @click="changePlayerRole">
                 <v-btn icon>
                     <v-icon>{{promoteDemoteIcon}}</v-icon>
                 </v-btn>
-            </v-list-tile-action>
-            <v-list-tile-action @click="kick">
+            </v-list-item-action>
+            <v-list-item-action @click="kick">
                 <v-btn icon>
                     <v-icon color="red">clear</v-icon>
                 </v-btn>
-            </v-list-tile-action>
-        </v-list-tile>
+            </v-list-item-action>
+        </v-list-item>
     </div>
 </template>
 

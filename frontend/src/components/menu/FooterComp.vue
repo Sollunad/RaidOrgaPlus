@@ -2,7 +2,9 @@
     <v-footer app fixed>
         <div class="footer">
             <v-dialog width="600">
-                <span class="version" slot="activator">v{{ versionNo }}</span>
+                <template v-slot:activator="{ on }">
+                    <span class="version" v-on="on">v{{ versionNo }}</span>
+                </template>
                 <ChangelogComp></ChangelogComp>
             </v-dialog>
             <span class="footerText">Made with ❤ by Sollunad.9780</span>

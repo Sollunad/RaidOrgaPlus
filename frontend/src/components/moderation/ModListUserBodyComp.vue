@@ -2,6 +2,7 @@
     <div>
         <div class="subheading textLine"><span class="font-weight-bold">Zuletzt online:</span> {{lastActive}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Letzte Raid-Anmeldung:</span> {{lastTermin}}</div>
+        <v-divider class="divider" v-if="hasDiscord || isInGuild"></v-divider>
         <div v-if="hasDiscord">
             <div class="headline heading">Discord</div>
             <ModListUserBodyRolesComp
@@ -20,9 +21,11 @@
             <div class="subheading textLine"><span class="font-weight-bold">Gildenrang:</span> {{user.guild.rank}}</div>
             <div class="subheading textLine"><span class="font-weight-bold">Gilde beigetreten:</span> {{guildJoinDate}}</div>
         </div>
-        <v-btn class="openProfileButton" @click="openLink" round>Profil öffnen</v-btn>
+        <v-btn class="openProfileButton" @click="openLink" rounded>Profil öffnen</v-btn>
         <v-dialog width="600" v-if="isInGuild">
-            <v-btn class="openProfileButton" slot="activator" round>Gildenhistorie</v-btn>
+            <template v-slot:activator="{on}">
+                <v-btn class="openProfileButton" v-on="on" rounded>Gildenhistorie</v-btn>
+            </template>
             <ModListUserGuildLogComp :log="user.guildLog"></ModListUserGuildLogComp>
         </v-dialog>
     </div>
@@ -103,6 +106,7 @@
 
     .openProfileButton {
         margin-top: 15px;
+        margin-right: 10px;
     }
 
     .heading {

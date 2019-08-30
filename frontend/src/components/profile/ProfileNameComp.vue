@@ -2,11 +2,11 @@
     <div>
         <div class="display-1" v-if="!edit">
             {{name}} ({{user.accname}})
-            <v-btn flat icon v-if="ownProfile" @click="startEditing">
+            <v-btn icon v-if="ownProfile" @click="startEditing">
                 <v-icon>edit</v-icon>
             </v-btn>
         </div>
-        <v-form ref="form" v-model="valid" lazy-validation class="form" v-if="edit">
+        <v-form ref="form" lazy-validation class="form" v-if="edit">
             <v-text-field
                     @keypress.enter="submit"
                     v-model="name"

@@ -6,15 +6,16 @@
                 color="primary"
         ></v-progress-circular>
         <div v-else-if="listNotEmpty">
-            <v-pagination
-                    v-if="archived"
-                    class="paginator"
-                    v-model="page"
-                    :length="maxPages"
-                    :total-visible="7"
-            ></v-pagination>
             <v-layout row>
                 <v-flex xs12 sm6 md4 lg3>
+                    <v-pagination
+                            v-if="archived"
+                            circle
+                            class="paginator"
+                            v-model="page"
+                            :length="maxPages"
+                            :total-visible="7"
+                    ></v-pagination>
                     <v-card>
                         <v-list two-line>
                             <ListTerminComp

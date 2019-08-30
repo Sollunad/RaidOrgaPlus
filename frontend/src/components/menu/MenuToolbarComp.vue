@@ -1,6 +1,10 @@
 <template>
-    <v-toolbar app fixed clipped-left>
-        <v-toolbar-side-icon v-if="loggedIn" @click.stop="$emit('toggleMenu')"></v-toolbar-side-icon>
+    <v-app-bar app clipped-left color="#212121">
+        <v-btn icon
+               v-if="loggedIn"
+               @click.stop="$emit('toggleMenu')">
+            <v-icon>menu</v-icon>
+        </v-btn>
         <v-toolbar-title>RaidOrga+</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon
@@ -8,7 +12,7 @@
                @click="logout">
             <v-icon>logout</v-icon>
         </v-btn>
-    </v-toolbar>
+    </v-app-bar>
 </template>
 
 <script>

@@ -2,6 +2,7 @@
     <div>
         <v-switch
                 v-model="switchValue"
+                color="info"
                 label="Für Profilbesucher anzeigen"
         ></v-switch>
     </div>

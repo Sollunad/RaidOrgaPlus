@@ -1,8 +1,10 @@
 <template>
     <v-tabs
             class="elevation-6"
-            color="#212121"
+            background-color="#212121"
+            color="white"
             show-arrows>
+        <v-tabs-slider color="info"></v-tabs-slider>
         <v-tab
                 v-for="name in progressCompNames"
                 :key="name"
@@ -13,6 +15,7 @@
                 v-for="comp in progressComps"
                 :key="comp.name"
                 class="progressComp"
+                eager
         >
             <component
                     :is="comp"

@@ -2,23 +2,26 @@
     <div>
         <v-text-field
                 outline
+                class="suche"
                 label="Suche nach Spielern"
                 prepend-inner-icon="search"
                 v-model="filterText"
         ></v-text-field>
-        <v-expansion-panel>
-            <v-expansion-panel-content v-for="user in filteredUsers" :key="user.accname">
-                <template slot="header">
+        <v-expansion-panels>
+            <v-expansion-panel v-for="user in filteredUsers" :key="user.accname">
+                <v-expansion-panel-header>
                     <ModListUserHeaderComp
                             v-bind:user="user">
                     </ModListUserHeaderComp>
-                </template>
-                <ModListUserBodyComp
-                    class="listRowBody"
-                    v-bind:user="user">
-                </ModListUserBodyComp>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <ModListUserBodyComp
+                            class="listRowBody"
+                            v-bind:user="user">
+                    </ModListUserBodyComp>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </div>
 </template>
 
@@ -59,5 +62,8 @@
 <style scoped>
     .listRowBody {
         margin: 0 0 1% 1%;
+    }
+    .suche {
+        margin: 0 10px;
     }
 </style>

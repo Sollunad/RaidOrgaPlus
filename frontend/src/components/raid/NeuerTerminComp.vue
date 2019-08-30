@@ -8,26 +8,27 @@
                     v-model="datePicker"
                     :return-value.sync="date"
                     persistent
-                    lazy
                     full-width
                     width="290px"
             >
-                <v-text-field
-                        slot="activator"
-                        v-model="dateFormatted"
-                        label="Datum"
-                        prepend-icon="event"
-                        readonly
-                        :rules="validationRules"
-                ></v-text-field>
+                <template v-slot:activator="{on}">
+                    <v-text-field
+                            v-on="on"
+                            v-model="dateFormatted"
+                            label="Datum"
+                            prepend-icon="event"
+                            readonly
+                            :rules="validationRules"
+                    ></v-text-field>
+                </template>
                 <v-date-picker
                         v-model="date"
                         scrollable
                         locale="de-DE"
                         :first-day-of-week="1">
                     <v-spacer></v-spacer>
-                    <v-btn flat color="primary" @click="datePicker = false">Abbrechen</v-btn>
-                    <v-btn flat color="primary" @click="$refs.datePicker.save(date)">OK</v-btn>
+                    <v-btn text color="primary" @click="datePicker = false">Abbrechen</v-btn>
+                    <v-btn text color="primary" @click="$refs.datePicker.save(date)">OK</v-btn>
                 </v-date-picker>
             </v-dialog>
             <v-dialog
@@ -35,18 +36,19 @@
                     v-model="timePicker"
                     :return-value.sync="time"
                     persistent
-                    lazy
                     full-width
                     width="290px"
             >
-                <v-text-field
-                        slot="activator"
-                        v-model="time"
-                        label="Uhrzeit"
-                        prepend-icon="access_time"
-                        readonly
-                        :rules="validationRules"
-                ></v-text-field>
+                <template v-slot:activator="{on}">
+                    <v-text-field
+                            v-on="on"
+                            v-model="time"
+                            label="Uhrzeit"
+                            prepend-icon="access_time"
+                            readonly
+                            :rules="validationRules"
+                    ></v-text-field>
+                </template>
                 <v-time-picker
                         v-if="timePicker"
                         v-model="time"
@@ -54,8 +56,8 @@
                         format="24hr"
                 >
                     <v-spacer></v-spacer>
-                    <v-btn flat color="primary" @click="timePicker = false">Abbrechen</v-btn>
-                    <v-btn flat color="primary" @click="$refs.timePicker.save(time)">OK</v-btn>
+                    <v-btn text color="primary" @click="timePicker = false">Abbrechen</v-btn>
+                    <v-btn text color="primary" @click="$refs.timePicker.save(time)">OK</v-btn>
                 </v-time-picker>
             </v-dialog>
             <v-btn

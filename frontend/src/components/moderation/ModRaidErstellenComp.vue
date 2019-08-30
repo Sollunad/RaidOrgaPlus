@@ -1,8 +1,10 @@
 <template>
     <v-dialog width="fit-content" class="erstellenButton" v-model="open">
-        <v-btn color="success" slot="activator">
-            Raid erstellen
-        </v-btn>
+        <template v-slot:activator="{on}">
+            <v-btn color="success" v-on="on" class="erstellenButton">
+                Raid erstellen
+            </v-btn>
+        </template>
         <div class="container">
             <v-text-field
                     @keypress.enter="submit"
@@ -47,6 +49,6 @@
     }
 
     .erstellenButton {
-        margin-bottom: 10px;
+        margin: 5px 0 10px 10px;
     }
 </style>

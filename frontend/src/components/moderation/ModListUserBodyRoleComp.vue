@@ -1,5 +1,5 @@
 <template>
-    <v-chip :text-color="color" >{{role.name}}</v-chip>
+    <v-chip :text-color="color" class="rolechip" >{{role.name}}</v-chip>
 </template>
 
 <script>
@@ -19,5 +19,7 @@
 </script>
 
 <style scoped>
-
+    .rolechip {
+        margin-right: 5px;
+    }
 </style>

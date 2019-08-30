@@ -1,12 +1,12 @@
 <template>
-    <v-list-tile :to="menuItem.route">
-        <v-list-tile-action>
+    <v-list-item :to="menuItem.route">
+        <v-list-item-action>
             <v-icon>{{ menuItem.icon }}</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-            <v-list-tile-title>{{ menuItem.title }}</v-list-tile-title>
-        </v-list-tile-content>
-    </v-list-tile>
+        </v-list-item-action>
+        <v-list-item-content>
+            <v-list-item-title>{{ menuItem.title }}</v-list-item-title>
+        </v-list-item-content>
+    </v-list-item>
 </template>
 
 <script>
