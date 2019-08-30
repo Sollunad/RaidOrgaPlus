@@ -176,4 +176,8 @@
     .anmeldung {
         margin: 1rem 0 0 0.5rem;
     }
+
+    .button {
+        margin-top: 15px;
+    }
 </style>
