@@ -22,9 +22,11 @@
             width="fit-content"
             v-model="addBuildDialog"
             v-if="!loading && ownProfile">
-            <v-chip slot="activator">
-                <v-icon>add</v-icon>
-            </v-chip>
+            <template v-slot:activator="{on}">
+                <v-chip v-on="on" class="addChip">
+                    <v-icon>add</v-icon>
+                </v-chip>
+            </template>
             <AddBuildComp
                     v-on:add="add"></AddBuildComp>
         </v-dialog>
@@ -101,5 +103,7 @@
 </script>
 
 <style scoped>
-
+    .addChip {
+        margin: 5px;
+    }
 </style>

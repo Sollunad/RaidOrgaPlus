@@ -6,10 +6,12 @@
                         v-for="(clss, index) in classes"
                         :key="index"
                         xs4>
-                    <v-menu :lazy="true" :open-on-hover="!isTouch" :open-on-click="isTouch" :close-on-content-click="false" :open-delay="isTouch? 0 : 200" @click.prevent="">
-                        <v-avatar :size="30" class="icon" slot="activator" :tile="true">
-                            <img :src="classIcon(clss.abbr)">
-                        </v-avatar>
+                    <v-menu :open-on-hover="!isTouch" :open-on-click="isTouch" :close-on-content-click="false" :open-delay="isTouch? 0 : 200" @click.prevent="">
+                        <template v-slot:activator="{on}">
+                            <v-avatar :size="30" class="icon" v-on="on" :tile="true">
+                                <img :src="classIcon(clss.abbr)">
+                            </v-avatar>
+                        </template>
                         <MenuSubclassComp
                             v-bind:base="clss.id"
                             v-on:pick="pick">

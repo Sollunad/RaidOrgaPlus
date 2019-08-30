@@ -19,7 +19,7 @@
             </v-btn>
             <v-tooltip right>
                 <template v-slot:activator="{on}">
-                    <v-btn flat icon v-on="on" class="tooltipButton">
+                    <v-btn icon v-on="on" class="tooltipButton">
                         <v-icon>help</v-icon>
                     </v-btn>
                 </template>
@@ -33,7 +33,6 @@
                 {{ snackbarText }}
                 <v-btn
                         color="pink"
-                        flat
                         @click="snackbar = false"
                 >
                     OK
@@ -47,7 +46,7 @@
     import _users from '../../services/endpoints/users';
 
     export default {
-        name: "ProfileAPIKeyComp",
+        name: "EinstellungenAPIKeyComp",
         props: ['user'],
         data: () => ({
             valid: true,
