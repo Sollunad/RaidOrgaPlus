@@ -32,7 +32,7 @@
         </v-avatar>
         <v-menu v-if="editAllowed" class="namemenu">
             <template v-slot:activator="{on}">
-                <NameComp v-on="on" v-bind:user="user" :truncate="true" v-on:rightclick="clearName"></NameComp>
+                <span v-on="on" @contextmenu.prevent="clearName">{{user.name}}</span>
             </template>
             <MenuNameComp
                 v-on:pick="pickName"
