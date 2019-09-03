@@ -93,18 +93,26 @@ function handleReactions(r, termin, emojis, raidName) {
         const user = r.users.filter(user => !user.bot).first();
         const session = _sessions.getSession(user.id);
         if (isTerminInPast(termin)) {
-            r.message.channel.send(`${user} Dieser Termin liegt in der Vergangenheit!`);
+            r.message.channel.send(`${user} Dieser Termin liegt in der Vergangenheit!`)
+                .then(msg => startDeleteReplyTimer(msg));
         } else if (session === 'Keine Session' || session === 'Abgelaufen') {
-            r.message.channel.send(`${user} Bitte logge dich zunächst über RaidOrga+ ein: https://orga.sollunad.de/#/einstellungen`);
+            r.message.channel.send(`${user} Bitte logge dich zunächst über RaidOrga+ ein: https://orga.sollunad.de/#/einstellungen`)
+                .then(msg => startDeleteReplyTimer(msg));
         } else {
             const type = getAnmeldungType(r.emoji.name);
             await _termine.putAnmeldung(session, termin.id, type);
             await resendEmbed(r.message, session, termin, emojis, raidName);
             const typeText = ['angemeldet', 'vielleicht da', 'abgemeldet'];
-            r.message.channel.send(`${user} Du bist nun ${typeText[type]} ${r.emoji}`);
+            r.message.channel.send(`${user} Du bist nun ${typeText[type]} ${r.emoji}`)
+                .then(msg => startDeleteReplyTimer(msg));
         }
         r.remove(user).catch(console.log);
     });
+}
+
+function startDeleteReplyTimer(reply) {
+    const waitTime = 1000 * 60;
+    reply.delete(waitTime);
 }
 
 function reactionFilter(reaction, user) {
