@@ -13,7 +13,7 @@ async function loginDiscord(key, agent) {
     const user = response[0];
     if (user) {
         const uuid = uuidv4();
-        await _session.start(user.fk_spieler, uuid, agent);
+        await _session.startDiscord(user.fk_spieler, uuid, agent);
         await deleteDiscordKey(key)
         return uuid;
     }

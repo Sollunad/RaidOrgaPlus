@@ -1,12 +1,22 @@
 const db = require('../../db/connector.js');
 
 exports.start = startSession;
+exports.startDiscord = startDiscordSession;
 exports.getUser = getUser;
 exports.invalidate = invalidateUuid;
 exports.invalidateExpired = invalidateExpired;
 
 async function startSession(id, uuid, agent) {
     const stmt = 'INSERT INTO Session (user, uuid, agent) VALUES (?, ?, ?)';
+    try {
+        return await db.queryV(stmt, [id, uuid, agent]);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function startDiscordSession(id, uuid, agent) {
+    const stmt = 'INSERT INTO Session (user, uuid, agent, created) VALUES (?, ?, ?, NOW() + INTERVAL 100 YEAR)';
     try {
         return await db.queryV(stmt, [id, uuid, agent]);
     } catch(e) {
