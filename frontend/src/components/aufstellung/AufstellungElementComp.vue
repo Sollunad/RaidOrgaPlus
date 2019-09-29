@@ -2,7 +2,7 @@
     <div>
         <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed">
             <template v-slot:activator="{on}">
-                <v-avatar :size="20" :tile="true" class="avatar" v-on="on" @contextmenu.prevent="clearClass">
+                <v-avatar :size="20" :tile="true" class="avatar hover" v-on="on" @contextmenu.prevent="clearClass">
                     <img :src="emptyIcon" v-if="classIcon === ''">
                     <img :src="classIcon" v-else>
                 </v-avatar>
@@ -17,7 +17,7 @@
         </v-avatar>
         <v-menu v-if="editAllowed">
             <template v-slot:activator="{on}">
-                <v-avatar :size="20" :tile="true" class="avatar" v-on="on" @contextmenu.prevent="clearRole">
+                <v-avatar :size="20" :tile="true" class="avatar hover" v-on="on" @contextmenu.prevent="clearRole">
                     <img :src="emptyIcon" v-if="roleIcon === ''">
                     <img :src="roleIcon" v-else>
                 </v-avatar>
@@ -32,7 +32,7 @@
         </v-avatar>
         <v-menu v-if="editAllowed" class="namemenu">
             <template v-slot:activator="{on}">
-                <span v-on="on" @contextmenu.prevent="clearName">{{user.name}}</span>
+                <span v-on="on" @contextmenu.prevent="clearName" class="hover">{{user.name}}</span>
             </template>
             <MenuNameComp
                 v-on:pick="pickName"
@@ -151,5 +151,9 @@
 
     .namemenu {
         margin-left: 0.2rem;
+    }
+
+    .hover {
+        cursor: pointer;
     }
 </style>
