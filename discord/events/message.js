@@ -38,4 +38,8 @@ module.exports = (client, message) => {
 
   // Run the command
   cmd.run(client, message, args);
+
+  if (message.channel.type === 'text') {
+    message.delete();
+  }
 };

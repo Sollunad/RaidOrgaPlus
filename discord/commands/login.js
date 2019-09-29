@@ -12,9 +12,6 @@ exports.run = async (client, message, args) => {
     } else {
         message.channel.send('Bitte gebe einen Einmalschlüssel an.');
     }
-    if (message.channel.type === 'text') {
-        message.delete();
-    }
 };
 
 exports.help = {
