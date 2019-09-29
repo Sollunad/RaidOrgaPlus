@@ -44,20 +44,12 @@ exports.run = async (client, message, args) => {
                 /*
                     Embed: 1 Termin
                  */
-                let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
-                if (allBosses === '') allBosses = 'Keine';
                 const anmeldungen = await _termine.getAnmeldungen(message.auth, termin.id);
                 const emojiYes = client.emojis.find(emoji => emoji.name === 'yes');
                 const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
                 const emojiNo = client.emojis.find(emoji => emoji.name === 'no');
                 const emojis = [emojiYes, emojiMaybe, emojiNo];
-                let anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
-                if (anmeldungenString === '') anmeldungenString = 'Keine';
-                let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Kommender Termin`)
-                    .addField('Datum', termin.date)
-                    .addField('Uhrzeit', termin.time)
-                    .addField('Geplante Bosse', allBosses)
-                    .addField('Anmeldungen', anmeldungenString);
+                const embed = getTerminEmbed(message.raid.name, termin, aufstellungen, anmeldungen, emojis);
                 message.channel.send(embed)
                     .then(msg => msg.react(emojiYes))
                     .then(r => r.message.react(emojiMaybe))
@@ -86,6 +78,18 @@ exports.run = async (client, message, args) => {
         }
     }
 };
+
+function getTerminEmbed(raidName, termin, aufstellungen, anmeldungen, emojis) {
+    let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}${a.is_cm? ' CM' : ''}`).join('\n');
+    if (allBosses === '') allBosses = 'Keine';
+    let anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
+    if (anmeldungenString === '') anmeldungenString = 'Keine';
+    return _embeds.defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
+        .addField('Datum', termin.date)
+        .addField('Uhrzeit', termin.time)
+        .addField('Geplante Bosse', allBosses)
+        .addField('Anmeldungen', anmeldungenString);
+}
 
 function handleReactions(r, termin, emojis, raidName) {
     const collector = r.message.createReactionCollector(reactionFilter);
@@ -131,16 +135,8 @@ function isTerminInPast(termin) {
 
 async function resendEmbed(message, session, termin, emojis, raidName) {
     const aufstellungen = await _aufstellungen.getAufstellungen(session, termin.id);
-    let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}`).join('\n');
-    if (allBosses === '') allBosses = 'Keine';
     const anmeldungen = await _termine.getAnmeldungen(session, termin.id);
-    let anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
-    if (anmeldungenString === '') anmeldungenString = 'Keine';
-    let embed = _embeds.defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
-        .addField('Datum', termin.date)
-        .addField('Uhrzeit', termin.time)
-        .addField('Geplante Bosse', allBosses)
-        .addField('Anmeldungen', anmeldungenString);
+    const embed = getTerminEmbed(raidName, termin, aufstellungen, anmeldungen, emojis);
     message.edit(embed);
 }
 
