@@ -28,8 +28,7 @@ async function addCache(uuid, agent) {
     await _session.invalidateExpired();
     const response = (await _session.getUser(uuid))[0];
     if (!response) return;
-    // TODO: Aktivieren in #294
-    // if (response.agent !== agent) return;
+    if (response.agent !== agent) return;
 
     let authObject = { user: response.user, role: response.role, uuid, agent };
     const raids = await _raids.listForPlayer(authObject.user);

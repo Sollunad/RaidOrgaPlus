@@ -1,0 +1,24 @@
+name: Build Pipeline
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      
+    - name: Install & Build
+      run: |
+        npm install
+        npm run build
+        dir
+        
+    - name: Upload artifacts    
+      uses: actions/upload-artifact@master
+      with:
+        name: build
+        path: frontend/dist
