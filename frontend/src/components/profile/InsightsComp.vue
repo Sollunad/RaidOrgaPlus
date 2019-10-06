@@ -22,6 +22,10 @@
                 <img :src="icon('craft')">
             </v-avatar>
             <span>{{type.crafted}}</span>
+            <v-avatar :size="26" tile class="useicon-fat">
+                <img :src="icon('coffer')">
+            </v-avatar>
+            <span>{{type.coffer}}</span>
             <p></p>
         </div>
     </div>
@@ -53,5 +57,13 @@
     .typeicon {
         margin-right: 5px;
         box-shadow: 1px 1px 2px black;
+    }
+
+    .useicon {
+        margin: 0 3px 0 3px;
+    }
+
+    .useicon-fat {
+        margin: 0 8px 0 8px;
     }
 </style>

@@ -24,12 +24,15 @@ async function insights(userId) {
 
         const craftedDivinations = getCountOfItemList(itemCounts, items.coalescence) * 150;
 
+        const cofferInsights = getCountOfItemList(itemCounts, items.coffers.insights);
+        const cofferDivinations = getCountOfItemList(itemCounts, items.coffers.divinations);
+
         return [
             {
-                name: 'li', hand: insights, crafted: craftedInsights
+                name: 'li', hand: insights, crafted: craftedInsights, coffer: cofferInsights
             },
             {
-                name: 'ld', hand: divinations, crafted: craftedDivinations
+                name: 'ld', hand: divinations, crafted: craftedDivinations, coffer: cofferDivinations
             }
 
         ]
