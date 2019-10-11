@@ -1,0 +1,6 @@
+{
+  "host": "sv.sollunad.de",
+  "user": "<<User der DB>>",
+  "password": "<<Passwort des DB-Nutzers",
+  "database": "raidorga"
+}
