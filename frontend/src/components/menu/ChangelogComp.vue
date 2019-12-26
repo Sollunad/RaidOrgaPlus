@@ -114,17 +114,17 @@
                         'Besser Navigation innerhalb von Raids',
                         'Einteilung des Archivs in Seiten',
                         'Fortlaufende Termine erstellen'
-                    ]
-                },
-                {
-                    no: '2.1',
-                    release: 'SoonTM',
-                    features: [
-                        'Videos verlinken',
-                        'Raid- und Nutzer-Statistiken',
-                        'Skillcards',
-                        'CompRechner 2.0',
-                        'Raid-Drop-Übersicht'
+                    ],
+                    subversions: [
+                        {
+                            no: '2.0.1',
+                            release: '26.12.2019',
+                            features: [
+                                'Live-Aufstellungen',
+                                'Legendäre Trophäen aus Coffern werden mitgezählt',
+                                'Anmeldungen visuell überarbeitet'
+                            ]
+                        },
                     ]
                 },
             ],
