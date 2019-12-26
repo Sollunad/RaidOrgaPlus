@@ -8,25 +8,20 @@
                 v-bind:termin="termin"
                 v-bind:role="role">
         </KommentarComp>
+
         <template
             v-if="active">
-            <AnmeldungComp
-                    v-on:anmelden="anmelden"
-                    v-bind:anmeldung="anmeldung"
-                    class="anmeldung">
-            </AnmeldungComp>
-            <p></p>
-            <v-tooltip bottom class="anmeldungen">
-                <template v-slot:activator="{on}">
-                    <v-btn icon v-on="on">
-                        <v-icon>people</v-icon>
-                    </v-btn>
-                </template>
+                <AnmeldungComp
+                        v-on:anmelden="anmelden"
+                        v-bind:anmeldung="anmeldung"
+                        class="anmeldung">
+                </AnmeldungComp>
                 <ListAnmeldungComp
-                    v-if="anmeldungen.length > 0"
-                    v-bind:anmeldungen="anmeldungen">
+                        class="anmeldungen"
+                        v-bind:anmeldungen="anmeldungen"
+                        v-bind:width="width">
                 </ListAnmeldungComp>
-            </v-tooltip>
+            <p></p>
             <v-tooltip bottom>
                 <template v-slot:activator="{on}">
                     <v-btn icon @click="refresh" v-on="on">
@@ -128,7 +123,7 @@
     export default {
         name: "TerminToolbarComp",
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
-        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user', 'anmeldungen'],
+        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user', 'anmeldungen', 'width'],
         computed: {
             lockIcon: function() {
                 return this.locked? 'lock' : 'lock_open';
@@ -179,5 +174,12 @@
 
     .button {
         margin-top: 15px;
+    }
+
+    .anmeldungen {
+        width: fit-content;
+        position: absolute;
+        top: 6.9rem;
+        right: 3%;
     }
 </style>
