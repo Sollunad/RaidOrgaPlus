@@ -10,6 +10,3 @@ service apache2 restart
 
 screen -S backend -X quit
 screen -d -m -S backend bash -c 'npm run start-backend'
-
-screen -S discord -X quit
-screen -d -m -S discord bash -c 'npm run start-discord'
