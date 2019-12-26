@@ -7,6 +7,7 @@
             v-bind:success="success"
             v-bind:uploadActive="uploadActive"
             v-bind:copyActive="copyActive"
+            v-bind:wsClient="wsClient"
             v-on:deleteBoss="deleteBoss"
             v-on:toggleSuccess="toggleSuccess"
             v-on:refresh="refresh"
@@ -22,12 +23,14 @@
                 v-bind:termin="termin"
                 v-bind:propElements="elements"
                 v-bind:anmeldungen="anmeldungen"
+                v-bind:wsClient="wsClient"
                 v-bind:ersatz="ersatz">
         </AufstellungBodyComp>
         <MenuAufstellungenComp
             v-else
             v-bind:aufstellung="aufstellung"
             v-bind:all="all"
+            v-bind:wsClient="wsClient"
             v-on:refresh="refresh"
             class="menu">
         </MenuAufstellungenComp>
@@ -43,7 +46,7 @@
     export default {
         name: "AufstellungComp",
         components: {MenuAufstellungenComp, AufstellungBodyComp, AufstellungHeaderComp},
-        props: ['aufstellung', 'all', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz', 'uploadActive'],
+        props: ['aufstellung', 'all', 'raid', 'role', 'active', 'locked', 'elements', 'termin', 'anmeldungen', 'ersatz', 'uploadActive', 'wsClient'],
         data: () => ({
             success: false,
             copyActive: false,

@@ -9,6 +9,7 @@
             v-bind:locked="locked"
             v-bind:user="user"
             v-bind:anmeldungen="anmeldungen"
+            v-bind:width="width"
             v-on:addBoss="addBoss"
             v-on:archive="archive"
             v-on:refresh="refresh"
@@ -43,7 +44,8 @@
                                 v-bind:elements="elementsForAufstellung(aufstellung.id)"
                                 v-bind:uploadActive="uploadActive"
                                 v-on:deleteBoss="deleteBoss"
-                                v-on:refresh="refresh">
+                                v-on:refresh="refresh"
+                                v-bind:wsClient="wsClient">
                         </AufstellungComp>
                     </v-flex>
                 </v-layout>
@@ -86,13 +88,14 @@
     import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp";
     import ShareDialogComp from "../../components/aufstellung/ShareDialogComp";
     import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp";
+    import WSClient from "../../services/websocket";
 
     export default {
         name: "AufstellungPage",
         components: {
             ErsatzDialogComp,
             ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
-        props: ['termin', 'raid', 'role', 'user'],
+        props: ['termin', 'raid', 'role', 'user', 'width'],
         data: () => ({
             aufstellungen: null,
             anmeldungen: [],
@@ -106,6 +109,7 @@
             uploadActive: false,
             isActive: null,
             anmeldung: null,
+            wsClient: null,
         }),
         methods: {
             anmelden: async function(type) {
@@ -113,6 +117,7 @@
                 if (changedAnmeldung) changedAnmeldung.type = type;
                 else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
                 await _termine.anmelden(this.user.id, this.termin.id, type);
+                this.wsClient.sendRefresh();
             },
             addBoss: async function(info) {
                 const [boss, wing] = info;
@@ -123,10 +128,12 @@
                     this.aufstellungen = await _termine.addBoss(this.termin.id, boss);
                     this.elements = await _aufstellungen.getElements(this.termin.id);
                 }
+                this.wsClient.sendRefresh();
             },
             deleteBoss: async function(aufstellungId) {
                 this.aufstellungen = await _aufstellungen.deleteBoss(aufstellungId, this.termin.id);
                 this.elements = await _aufstellungen.getElements(this.termin.id);
+                this.wsClient.sendRefresh();
             },
             archive: function() {
                 this.archiveDialogOpen = true;
@@ -155,6 +162,7 @@
                 this.elements = await _aufstellungen.getElements(this.termin.id);
                 this.locked = !this.locked;
                 await _termine.putLocked(this.termin.id, this.locked);
+                this.wsClient.sendRefresh();
             },
             deleteTermin: function() {
                 this.deleteDialogOpen = true;
@@ -198,6 +206,13 @@
                 await _termine.newTermin(this.raid.id, dateString, this.termin.time);
             }
         },
+        computed: {
+            wsOutput: function() {
+                if (this.wsClient) {
+                    return this.wsClient.output;
+                }
+            }
+        },
         created: async function() {
             if (!this.termin) window.location.href = '/#/raids';
             else {
@@ -207,7 +222,23 @@
                 this.locked = await _termine.isLocked(this.termin.id);
                 this.anmeldungen = await _termine.getAnmeldungenForTermin(this.termin.id);
                 if (this.isActive) {
-                    this.anmeldung = await _termine.getAnmeldungForSpieler(this.user.id, this.termin.id)
+                    this.anmeldung = await _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
+                    this.wsClient = new WSClient(this.termin.id);
+                }
+            }
+        },
+        beforeDestroy: function() {
+            if (this.wsClient) {
+                this.wsClient.close();
+            }
+        },
+        watch: {
+            wsOutput: function(value) {
+                if (value) {
+                    this.wsClient.output = null;
+                    if (value === 'Refresh') {
+                        this.refresh();
+                    }
                 }
             }
         }

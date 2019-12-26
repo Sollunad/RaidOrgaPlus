@@ -10,6 +10,8 @@ const https = require('https');
 
 const auth = require('./authentication/auth').auth;
 
+const websocket = require('./websocket/websocket');
+
 let endpoints = [];
 
 const corsOptions = {
@@ -101,15 +103,19 @@ try {
 }
 
 function serveHTTPS(credentials) {
-    https.createServer(credentials, app).listen(8080, function () {
+    const server = https.createServer(credentials, app);
+    server.listen(8080, function () {
         logger.info('Server über HTTPS gestartet auf Port 8080!');
     });
+    websocket.start(server);
 }
 
 function serveHTTP() {
-    http.createServer(app).listen(8081, function () {
+    const server = http.createServer(app);
+    server.listen(8081, function () {
         logger.info('Server über HTTP gestartet auf Port 8081!');
     });
+    websocket.start(server);
 }
 
 function logRequest(method, endpoint, user) {

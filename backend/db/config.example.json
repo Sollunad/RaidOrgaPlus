@@ -1,0 +1,6 @@
+{
+  "host": "<<URL der DB>>",
+  "user": "<<User der DB>>",
+  "password": "<<Passwort des DB-Nutzers>>",
+  "database": "<<Name der DB>>"
+}

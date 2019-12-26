@@ -56,7 +56,7 @@
     export default {
         name: "AufstellungElementComp",
         components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position', 'propElement', 'raid', 'active', 'locked', 'role', 'termin', 'anmeldungen', 'ersatz'],
+        props: ['aufstellung', 'position', 'propElement', 'raid', 'active', 'locked', 'role', 'termin', 'anmeldungen', 'ersatz', 'wsClient'],
         data: () => ({
             classMenuOpen: false,
             editedElement: null
@@ -100,33 +100,39 @@
                 this.prepareEditedElement();
                 this.editedElement.class = clss.abbr;
                 await _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
+                this.wsClient.sendRefresh();
             },
             clearClass: async function() {
                 this.prepareEditedElement();
                 this.editedElement.class = '';
                 await _aufstellungen.setClass(this.aufstellung.id, this.position, 0);
+                this.wsClient.sendRefresh();
             },
             pickRole: async function(role) {
                 this.prepareEditedElement();
                 this.editedElement.role = role.abbr;
                 await _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
+                this.wsClient.sendRefresh();
             },
             clearRole: async function() {
                 this.prepareEditedElement();
                 this.editedElement.role = '';
                 await _aufstellungen.setRole(this.aufstellung.id, this.position, 0);
+                this.wsClient.sendRefresh();
             },
             pickName: async function(user) {
                 this.prepareEditedElement();
                 this.editedElement.name = user.name;
                 this.editedElement.accname = user.accname;
                 await _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
+                this.wsClient.sendRefresh();
             },
             clearName: async function() {
                 this.prepareEditedElement();
                 this.editedElement.name = '???';
                 this.editedElement.accname = '???';
                 await _aufstellungen.setName(this.aufstellung.id, this.position, 0);
+                this.wsClient.sendRefresh();
             },
             prepareEditedElement: function() {
                 if (!this.element) {
