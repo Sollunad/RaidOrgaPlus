@@ -18,7 +18,7 @@
 
     export default {
         name: "MenuAufstellungenComp",
-        props: ['all', 'aufstellung'],
+        props: ['all', 'aufstellung', 'wsClient'],
         computed: {
             filtered: function() {
                 return this.all.filter(a => a.id !== this.aufstellung.id);
@@ -27,6 +27,7 @@
         methods: {
             pick: async function(aufstellung) {
                 await _aufstellungen.copyElements(aufstellung.id, this.aufstellung.id);
+                this.wsClient.sendRefresh();
                 this.$emit('refresh');
             },
             avatar: function(aufstellung) {

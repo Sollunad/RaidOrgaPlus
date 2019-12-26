@@ -41,7 +41,6 @@
                 return [this.yesCount, this.maybeCount, this.falseCount];
             },
             showDetailsInHeader: function() {
-                console.log(this.open);
                 return this.width > 500;
             }
         },

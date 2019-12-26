@@ -16,7 +16,8 @@
                         v-bind:role="role"
                         v-bind:termin="termin"
                         v-bind:anmeldungen="anmeldungen"
-                        v-bind:ersatz="ersatz">
+                        v-bind:ersatz="ersatz"
+                        v-bind:wsClient="wsClient">
                     </AufstellungElementComp>
                 </v-flex>
             </v-layout>
@@ -30,7 +31,7 @@
     export default {
         name: "AufstellungBodyComp",
         components: {AufstellungElementComp},
-        props: ['aufstellung', 'raid', 'active', 'locked', 'propElements', 'role', 'termin', 'anmeldungen', 'ersatz'],
+        props: ['aufstellung', 'raid', 'active', 'locked', 'propElements', 'role', 'termin', 'anmeldungen', 'ersatz', 'wsClient'],
         methods: {
             propElement: function(position) {
                 if (this.propElements) return this.propElements.find(e => e.pos === position);

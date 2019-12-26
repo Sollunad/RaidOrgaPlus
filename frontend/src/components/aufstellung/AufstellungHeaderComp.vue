@@ -99,7 +99,7 @@
     export default {
         name: "AufstellungHeaderComp",
         components: {FileUploadComp, MenuAufstellungenComp},
-        props: ['aufstellung', 'role', 'active', 'success', 'uploadActive', 'copyActive'],
+        props: ['aufstellung', 'role', 'active', 'success', 'uploadActive', 'copyActive', 'wsClient'],
         data: () => ({
             isCM: false,
             showUpload: false,
@@ -149,6 +149,7 @@
             changeCM: async function() {
                 this.isCM = !this.isCM;
                 await _aufstellungen.setCM(this.aufstellung.id, this.isCM);
+                this.wsClient.sendRefresh();
             }
         },
         created: function() {
