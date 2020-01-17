@@ -5,7 +5,7 @@
                 <v-flex
                         v-for="(role, index) in roles"
                         :key="index"
-                        xs6>
+                        xs4>
                     <v-avatar :size="30" class="icon" slot="activator" @click="pick(role)" :tile="true">
                         <img :src="roleIcon(role.abbr)">
                     </v-avatar>
@@ -24,10 +24,11 @@
             roles: [
                 { id: 1, abbr: 'P' },
                 { id: 2, abbr: 'C' },
-                { id: 3, abbr: 'T' },
                 { id: 4, abbr: 'H' },
+                { id: 3, abbr: 'T' },
                 { id: 5, abbr: 'U' },
                 { id: 6, abbr: 'B' },
+                { id: 7, abbr: 'S' }
             ]
         }),
         methods: {
