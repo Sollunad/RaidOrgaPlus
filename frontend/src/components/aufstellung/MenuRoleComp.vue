@@ -20,23 +20,30 @@
 
     export default {
         name: "MenuRoleComp",
-        data: () => ({
-            roles: [
-                { id: 1, abbr: 'P' },
-                { id: 2, abbr: 'C' },
-                { id: 4, abbr: 'H' },
-                { id: 3, abbr: 'T' },
-                { id: 5, abbr: 'U' },
-                { id: 6, abbr: 'B' },
-                { id: 7, abbr: 'S' }
-            ]
-        }),
+        props: ['showStar'],
         methods: {
             roleIcon: function(name) {
                 return _icons.roleIcon(name);
             },
             pick: function(role) {
                 this.$emit('pick', role);
+            }
+        },
+        computed: {
+            roles: function() {
+                const roles = [
+                    { id: 1, abbr: 'P' },
+                    { id: 2, abbr: 'C' },
+                    { id: 4, abbr: 'H' },
+                    { id: 3, abbr: 'T' },
+                    { id: 5, abbr: 'U' },
+                    { id: 6, abbr: 'B' },
+                    { id: 8, abbr: 'K' },
+                ];
+                if (this.showStar) {
+                    roles.push({ id: 7, abbr: 'S' });
+                }
+                return roles;
             }
         }
     }

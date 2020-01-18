@@ -23,7 +23,8 @@
                 </v-avatar>
             </template>
             <MenuRoleComp
-                v-on:pick="pickRole">
+                v-on:pick="pickRole"
+                :showStar="true">
             </MenuRoleComp>
         </v-menu>
         <v-avatar :size="20" :tile="true" class="avatar" v-else>
