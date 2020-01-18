@@ -5,6 +5,7 @@
                 v-model="drawer"
                 v-if="show"
                 clipped
+                style="z-index: 10001"
         >
             <MenuItemListComp
                 v-bind:user="user">
