@@ -18,7 +18,7 @@
         name: "FooterComp",
         components: {ChangelogComp},
         data: () => ({
-            versionNo: '2.0.1',
+            versionNo: '2.0.2',
         })
     }
 </script>

@@ -125,6 +125,16 @@
                                 'Anmeldungen visuell überarbeitet'
                             ]
                         },
+                        {
+                            no: '2.0.2',
+                            release: '20.01.2020',
+                            features: [
+                                'Extra-Rollen für Kite und Spezial-Einträge',
+                                'Menüleiste auf Mobilgeräten gefixt',
+                                'GCG als Spielereintrag hinzugefügt',
+                                'Raidleiter können alle Anmeldungen ändern'
+                            ]
+                        },
                     ]
                 },
             ],
