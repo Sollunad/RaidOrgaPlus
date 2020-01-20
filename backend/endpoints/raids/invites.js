@@ -21,7 +21,7 @@ async function invitablePlayers(raid) {
     const stmt = 'SELECT Spieler.id, Spieler.name, Spieler.accname FROM Spieler ' +
         'WHERE NOT Spieler.id IN (' +
             'SELECT fk_spieler FROM Spieler_Raid WHERE fk_raid = ?' +
-        ') AND Spieler.id > 1 ' +
+        ') AND Spieler.id > 9 ' +
         'ORDER BY Spieler.name';
     try {
         return await db.queryV(stmt, [raid, raid]);
