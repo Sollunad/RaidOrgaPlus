@@ -11,19 +11,26 @@
                 </span>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-                <div v-for="anmeldung in anmeldungen" v-bind:key="anmeldung.id" class="anmeldung">
-                    <span class="name">{{anmeldung.name}}</span>
-                    <v-icon :color="anmeldungColor(anmeldung.type)" class="icon">{{anmeldungIcon(anmeldung.type)}}</v-icon>
-                </div>
+                <ListAnmeldungEintragComp v-for="anmeldung in anmeldungen"
+                                          v-bind:anmeldung="anmeldung"
+                                          v-bind:user="user"
+                                          v-bind:role="role"
+                                          v-bind:termin="termin"
+                                          v-bind:key="anmeldung.id"
+                                          v-on:refresh="refresh"
+                                          class="anmeldung"/>
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-expansion-panels>
 </template>
 
 <script>
+    import ListAnmeldungEintragComp from "./ListAnmeldungEintragComp";
+
     export default {
         name: "ListAnmeldungComp",
-        props: ['anmeldungen', 'width'],
+        components: {ListAnmeldungEintragComp},
+        props: ['anmeldungen', 'width', 'user', 'role', 'termin'],
         data: () => ({
             open: undefined,
         }),
@@ -53,24 +60,17 @@
                 const colors = ['green', 'yellow', 'red', 'grey'];
                 return colors[type];
             },
+            refresh: function() {
+                this.$emit('refresh');
+            }
         }
     }
 </script>
 
 <style scoped>
-    .icon {
-        margin-left: 2rem;
-        margin-top: 0.2rem;
-        float: right;
-    }
-
     .header-icon {
         margin-left: 0.2rem;
         margin-right: 1rem;
-    }
-
-    .name {
-        font-size: 16px;
     }
 
     .anmeldung {

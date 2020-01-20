@@ -15,6 +15,7 @@ module.exports = [
     {function: archive, path: '/archive', method: 'put', authed: true},
     {function: addBoss, path: '/bosses', method: 'post', authed: true},
     {function: putAnmeldung, path: '/anmeldungen', method: 'put', authed: true},
+    {function: putAnmeldungLead, path: '/anmeldungenLead', method: 'put', authed: true},
     {function: getAnmeldungen, path: '/anmeldungen', method: 'get', authed: true},
     {function: getText, path: '/text', method: 'get', authed: true},
     {function: saveText, path: '/text', method: 'put', authed: true},
@@ -124,6 +125,17 @@ async function putAnmeldung(req, authentication) {
     if (termin && (type || type === 0)) {
         const role = await _roles.forTermin(authentication, termin);
         if (role >= 0) return await _anmeldungen.anmelden(authentication.user, termin, type);
+    }
+    return [];
+}
+
+async function putAnmeldungLead(req, authentication) {
+    const termin = req.body.termin;
+    const type = req.body.type;
+    const spieler = req.body.spieler;
+    if (termin && spieler && (type || type === 0)) {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role > 0) return await _anmeldungen.anmelden(spieler, termin, type);
     }
     return [];
 }

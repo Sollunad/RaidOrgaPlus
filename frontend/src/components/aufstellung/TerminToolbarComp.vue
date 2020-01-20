@@ -19,7 +19,11 @@
                 <ListAnmeldungComp
                         class="anmeldungen"
                         v-bind:anmeldungen="anmeldungen"
-                        v-bind:width="width">
+                        v-bind:user="user"
+                        v-bind:role="role"
+                        v-bind:termin="termin"
+                        v-bind:width="width"
+                        v-on:refresh="refresh">
                 </ListAnmeldungComp>
             <p></p>
             <v-tooltip bottom>

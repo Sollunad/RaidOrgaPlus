@@ -116,7 +116,7 @@
                 const changedAnmeldung = this.anmeldungen.find(a => a.id === this.user.id);
                 if (changedAnmeldung) changedAnmeldung.type = type;
                 else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
-                await _termine.anmelden(this.user.id, this.termin.id, type);
+                await _termine.anmelden(this.termin.id, type);
                 this.wsClient.sendRefresh();
             },
             addBoss: async function(info) {
@@ -210,6 +210,8 @@
             wsOutput: function() {
                 if (this.wsClient) {
                     return this.wsClient.output;
+                } else {
+                    return null;
                 }
             }
         },
