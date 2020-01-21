@@ -14,6 +14,7 @@ module.exports = [
     {function: getPlayersForRaid, path: '/raids/spieler', method: 'get', authed: true},
     {function: setPlayerRole, path: '/raids/role', method: 'put', authed: true},
     {function: removePlayer, path: '/raids/spieler', method: 'delete', authed: true},
+    {function: setComment, path: '/users/comment', method: 'put', authed: true},
 ];
 
 async function getUsers(req, authentication) {
@@ -123,5 +124,14 @@ async function setPlayerRole(req, authentication) {
     const role = _roles.getRole(authentication);
     if (role > 0 && raid && spieler && (role_to_set || role_to_set === 0)) {
         await _raids.setPlayerRole(raid, spieler, role_to_set);
+    }
+}
+
+async function setComment(req, authentication) {
+    const spieler = req.body.spieler;
+    const comment = req.body.comment;
+    if (spieler && comment) {
+        const role = _roles.getRole(authentication);
+        if (role > 0) await _users.setComment(spieler, comment);
     }
 }

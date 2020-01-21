@@ -1,6 +1,6 @@
 import con from '../connector';
 
-export default { getUsers, getRaids, createRaid, invitablePlayers, addSpieler, removeSpieler, setPlayerRole, getSpielerForRaid };
+export default { getUsers, getRaids, createRaid, invitablePlayers, addSpieler, removeSpieler, setPlayerRole, getSpielerForRaid, setComment };
 
 async function getUsers() {
     return await con('moderation/users', 'get', {}, true);
@@ -32,4 +32,8 @@ async function getSpielerForRaid(raid) {
 
 async function setPlayerRole(raid, spieler, role) {
     return await con('moderation/raids/role', 'put', {raid, spieler, role}, true);
+}
+
+async function setComment(spieler, comment) {
+    return await con('moderation/users/comment', 'put', {spieler, comment}, true);
 }

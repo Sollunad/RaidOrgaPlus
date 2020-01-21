@@ -21,7 +21,13 @@
             <div class="subheading textLine"><span class="font-weight-bold">Gildenrang:</span> {{user.guild.rank}}</div>
             <div class="subheading textLine"><span class="font-weight-bold">Gilde beigetreten:</span> {{guildJoinDate}}</div>
         </div>
-        <v-btn class="openProfileButton" @click="openLink" rounded>Profil öffnen</v-btn>
+        <v-btn class="openProfileButton" @click="openLink" rounded>Profil</v-btn>
+        <v-dialog width="600">
+            <template v-slot:activator="{on}">
+                <v-btn class="openProfileButton" v-on="on" rounded>Bearbeiten</v-btn>
+            </template>
+            <ModListUserEditComp :user="user"></ModListUserEditComp>
+        </v-dialog>
         <v-dialog width="600" v-if="isInGuild">
             <template v-slot:activator="{on}">
                 <v-btn class="openProfileButton" v-on="on" rounded>Gildenhistorie</v-btn>
@@ -34,9 +40,10 @@
 <script>
     import ModListUserBodyRolesComp from "./ModListUserBodyRolesComp";
     import ModListUserGuildLogComp from "./ModListUserGuildLogComp";
+    import ModListUserEditComp from "./ModListUserEditComp";
     export default {
         name: "ModListUserBodyComp",
-        components: {ModListUserGuildLogComp, ModListUserBodyRolesComp},
+        components: {ModListUserEditComp, ModListUserGuildLogComp, ModListUserBodyRolesComp},
         props: ['user'],
         computed: {
             hasDiscord: function() {
