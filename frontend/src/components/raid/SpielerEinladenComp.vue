@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog width="fit-content" class="einladenButton">
+        <v-dialog width="unset" class="einladenButton">
             <template v-slot:activator="{on}">
                 <v-btn color="success" v-on="on" class="einladenButton">
                     Spieler einladen

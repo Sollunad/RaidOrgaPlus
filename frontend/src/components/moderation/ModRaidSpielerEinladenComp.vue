@@ -1,5 +1,5 @@
 <template>
-    <v-dialog width="fit-content" v-model="open" class="addButton">
+    <v-dialog width="unset" v-model="open" class="addButton">
         <template v-slot:activator="{on}">
             <v-btn color="success" v-on="on" class="addButton">
                 Spieler hinzufügen

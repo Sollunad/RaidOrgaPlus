@@ -19,7 +19,7 @@
             v-on:togglePrefer="togglePrefer(build)">
         </BuildChipComp>
         <v-dialog
-            width="fit-content"
+            width="unset"
             v-model="addBuildDialog"
             v-if="!loading && ownProfile">
             <template v-slot:activator="{on}">

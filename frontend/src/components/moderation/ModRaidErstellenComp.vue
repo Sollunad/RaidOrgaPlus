@@ -1,5 +1,5 @@
 <template>
-    <v-dialog width="fit-content" class="erstellenButton" v-model="open">
+    <v-dialog width="unset" class="erstellenButton" v-model="open">
         <template v-slot:activator="{on}">
             <v-btn color="success" v-on="on" class="erstellenButton">
                 Raid erstellen

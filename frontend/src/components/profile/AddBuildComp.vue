@@ -3,11 +3,11 @@
         <v-container>
             <v-layout>
                 <v-flex xs6>
-                    <MenuClassComp class="menu"
+                    <MenuClassComp
                         v-on:pick="pickClass"></MenuClassComp>
                 </v-flex>
                 <v-flex xs6>
-                    <MenuRoleComp class="menu"
+                    <MenuRoleComp
                         v-on:pick="pickRole"></MenuRoleComp>
                 </v-flex>
             </v-layout>
@@ -57,10 +57,6 @@
     .container {
         background-color: #444444;
         padding: 0 0 10px 0;
-    }
-
-    .menu {
-        width: fit-content;
     }
 
     .chip {

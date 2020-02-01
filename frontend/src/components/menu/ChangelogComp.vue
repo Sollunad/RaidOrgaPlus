@@ -48,15 +48,64 @@
         data: () => ({
             versions: [
                 {
-                    no: '1.0',
-                    release: '26.02.2019',
+                    no: '2.0',
+                    release: '31.08.2019',
                     features: [
-                        'Spielerliste',
-                        'Termine / Archiv',
-                        'Blankos',
-                        'Meine Builds',
-                        'Weekly Progress',
-                        'LI / LD',
+                        'Open Beta!',
+                        'Update auf Vuetify 2.0 - UI-Änderungen',
+                        'CMs markieren',
+                        'Besser Navigation innerhalb von Raids',
+                        'Einteilung des Archivs in Seiten',
+                        'Fortlaufende Termine erstellen'
+                    ],
+                    subversions: [
+                        {
+                            no: '2.0.3',
+                            release: '01.02.2020',
+                            features: [
+                                'Dialogbreiten im Firefox gefixt',
+                            ]
+                        },
+                        {
+                            no: '2.0.2',
+                            release: '20.01.2020',
+                            features: [
+                                'Extra-Rollen für Kite und Spezial-Einträge',
+                                'Menüleiste auf Mobilgeräten gefixt',
+                                'GCG als Spielereintrag hinzugefügt',
+                                'Raidleiter können alle Anmeldungen ändern'
+                            ]
+                        },
+                        {
+                            no: '2.0.1',
+                            release: '26.12.2019',
+                            features: [
+                                'Live-Aufstellungen',
+                                'Legendäre Trophäen aus Coffern werden mitgezählt',
+                                'Anmeldungen visuell überarbeitet'
+                            ]
+                        },
+                    ]
+                },
+                {
+                    no: '1.2',
+                    release: '11.07.2019',
+                    features: [
+                        'Nutzerprofile',
+                        'Discord-Integration',
+                        'Übersicht über kommende Termine'
+                    ],
+                    subversions: [
+                        {
+                            no: '1.2.1',
+                            release: '26.07.2019',
+                            features: [
+                                'Homepage und Profile redesigned',
+                                'Erfolge sind jetzt im Profil',
+                                'Kleinere visuelle Verbesserungen',
+                                'Reports beinhalten jetzt ein Combat Replay'
+                            ]
+                        },
                     ]
                 },
                 {
@@ -84,57 +133,15 @@
                     ]
                 },
                 {
-                    no: '1.2',
-                    release: '11.07.2019',
+                    no: '1.0',
+                    release: '26.02.2019',
                     features: [
-                        'Nutzerprofile',
-                        'Discord-Integration',
-                        'Übersicht über kommende Termine'
-                    ],
-                    subversions: [
-                        {
-                            no: '1.2.1',
-                            release: '26.07.2019',
-                            features: [
-                                'Homepage und Profile redesigned',
-                                'Erfolge sind jetzt im Profil',
-                                'Kleinere visuelle Verbesserungen',
-                                'Reports beinhalten jetzt ein Combat Replay'
-                            ]
-                        },
-                    ]
-                },
-                {
-                    no: '2.0',
-                    release: '31.08.2019',
-                    features: [
-                        'Open Beta!',
-                        'Update auf Vuetify 2.0 - UI-Änderungen',
-                        'CMs markieren',
-                        'Besser Navigation innerhalb von Raids',
-                        'Einteilung des Archivs in Seiten',
-                        'Fortlaufende Termine erstellen'
-                    ],
-                    subversions: [
-                        {
-                            no: '2.0.1',
-                            release: '26.12.2019',
-                            features: [
-                                'Live-Aufstellungen',
-                                'Legendäre Trophäen aus Coffern werden mitgezählt',
-                                'Anmeldungen visuell überarbeitet'
-                            ]
-                        },
-                        {
-                            no: '2.0.2',
-                            release: '20.01.2020',
-                            features: [
-                                'Extra-Rollen für Kite und Spezial-Einträge',
-                                'Menüleiste auf Mobilgeräten gefixt',
-                                'GCG als Spielereintrag hinzugefügt',
-                                'Raidleiter können alle Anmeldungen ändern'
-                            ]
-                        },
+                        'Spielerliste',
+                        'Termine / Archiv',
+                        'Blankos',
+                        'Meine Builds',
+                        'Weekly Progress',
+                        'LI / LD',
                     ]
                 },
             ],

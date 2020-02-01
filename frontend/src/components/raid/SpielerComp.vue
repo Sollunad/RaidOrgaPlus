@@ -8,7 +8,7 @@
             class="name"
             :clickable="true">
         </NameComp>
-        <v-dialog width="fit-content" v-if="kickable" class="button">
+        <v-dialog width="unset" v-if="kickable" class="button">
             <template v-slot:activator="{on}">
                 <v-btn icon color="red" slot="activator" class="button" v-on="on">
                     <v-icon>clear</v-icon>
