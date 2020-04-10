@@ -24,7 +24,11 @@ async function addReport(aufstellung, file) {
     const oldReportName = await getReport(aufstellung);
     if (oldReportName) {
         const oldReportPath = `reports/parsed/${oldReportName}.html`;
-        fs.unlinkSync(oldReportPath);
+        try {
+            fs.unlinkSync(oldReportPath);
+        } catch(e) {
+
+        }
     }
 
     await writeReport(aufstellung, fileName);

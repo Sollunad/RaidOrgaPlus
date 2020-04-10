@@ -11,7 +11,11 @@ async function parse(filepath) {
     return new Promise((resolve, reject) => {
         exec('mono', [PARSER_PATH, '-c', CONFIG_PATH, '-p', filepath], function(err, data) {
             console.log(id);
-            fs.unlinkSync(filepath);
+            try {
+                fs.unlinkSync(filepath);
+            } catch(e) {
+
+            }
             if (err) {
                 reject(err);
             } else {
