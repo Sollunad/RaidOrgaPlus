@@ -115,7 +115,7 @@ function handleReactions(r, termin, emojis, raidName) {
 }
 
 function startDeleteReplyTimer(reply) {
-    const waitTime = 1000 * 60;
+    const waitTime = 1000 * 10;
     reply.delete(waitTime);
 }
 
