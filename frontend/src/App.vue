@@ -3,7 +3,6 @@
     class="unselectable"
     v-resize="onResize">
     <MenuComp
-      v-bind:user="user"
       v-bind:show="showContent && !withoutLoginAllowed">
     </MenuComp>
     <v-content>
@@ -54,7 +53,7 @@
         source: String
       },
       data: () => ({
-        user: {},
+          user: {},
         showLogin: false,
         withoutLoginAllowed: false,
         allowedRoutes: ['preview', 'reset'],
@@ -76,7 +75,10 @@
       },
       created: async function() {
           const user = await _users.get();
-          if (!Array.isArray(user) || user.length > 0) this.user = user;
+          if (!Array.isArray(user) || user.length > 0) {
+              this.user = user;
+              this.$store.commit('setUser', user);
+          }
           else this.showLogin = true;
           this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
 
