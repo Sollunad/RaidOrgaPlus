@@ -1,16 +1,13 @@
 <template>
     <v-list dense>
         <v-list-item @click="toHomescreen">
-            <v-list-item-avatar
-                    v-if="user">
+            <v-list-item-avatar>
                 <v-img :src="icon"/>
             </v-list-item-avatar>
 
             <v-list-item-content>
                 <v-list-item-title>
-                    <NameComp
-                            v-if="user"
-                            v-bind:user = "user"></NameComp>
+                    <NameComp :user = "user"></NameComp>
                 </v-list-item-title>
             </v-list-item-content>
         </v-list-item>
@@ -45,7 +42,6 @@
 
     export default {
         name: "MenuItemListComp",
-        props: ['user'],
         components: {
             NameComp,
             MenuItemComp
@@ -66,6 +62,9 @@
                 } else {
                     return _icons.miscIcon('raid');
                 }
+            },
+            user: function() {
+                return this.$store.getters.user;
             }
         },
         methods: {

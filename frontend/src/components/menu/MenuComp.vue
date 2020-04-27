@@ -5,12 +5,8 @@
                 v-model="drawer"
                 v-if="show"
                 clipped
-                style="z-index: 10001"
-        >
-            <MenuItemListComp
-                v-bind:user="user">
-            </MenuItemListComp>
-
+                style="z-index: 10001">
+            <MenuItemListComp/>
         </v-navigation-drawer>
         <MenuToolbarComp
             v-bind:loggedIn="show"
@@ -25,7 +21,7 @@
 
     export default {
         name: "MenuComp",
-        props: ['user', 'show'],
+        props: ['show'],
         data: () => ({
             drawer: null,
         }),
