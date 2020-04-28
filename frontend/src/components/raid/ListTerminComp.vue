@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-list-item @click="save" class="listTermin">
+        <v-list-item @click="openTermin" class="listTermin">
             <v-list-item-content>
                 <v-list-item-title v-html="headline"></v-list-item-title>
                 <v-list-item-subtitle v-html="termin.time"></v-list-item-subtitle>
@@ -37,8 +37,8 @@
             }
         },
         methods: {
-            save: function() {
-                this.$emit('saveTermin', this.termin);
+            openTermin: function() {
+                this.$store.dispatch('openTermin', this.termin);
             }
         }
     }

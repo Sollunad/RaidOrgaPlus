@@ -4,9 +4,7 @@
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex xs12 xl6>
-                    <HomepageTermineComp
-                            v-on:save="save">
-                    </HomepageTermineComp>
+                    <HomepageTermineComp />
                 </v-flex>
                 <v-flex xs12 xl6>
                     <div v-if="hasNoApi">
@@ -39,11 +37,6 @@
         computed: {
             user: function() {
                 return this.$store.getters.loggedInUser;
-            }
-        },
-        methods: {
-            save: function(clicked) {
-                this.$emit('saveBoth', clicked);
             }
         },
         created: async function() {

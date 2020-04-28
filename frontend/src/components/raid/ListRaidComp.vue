@@ -41,7 +41,7 @@
         },
         methods: {
             saveRaid: function() {
-                this.$emit('saveRaid', this.raid);
+                this.$store.dispatch('openRaid', this.raid);
             }
         }
     }

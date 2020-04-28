@@ -1,5 +1,6 @@
 import Vuex from "vuex";
 import user from './user';
+import raid from './raid';
 
 export default function() {
     return new Vuex.Store({
@@ -23,6 +24,7 @@ export default function() {
         },
         modules: {
             user,
+            raid,
         }
     })
 }

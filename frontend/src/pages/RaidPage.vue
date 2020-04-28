@@ -8,7 +8,6 @@
                 class="raidPageRouter"
                 v-bind:raid="raid"
                 v-bind:role="role"
-                v-on:saveTermin="saveTermin"
                 v-bind:termin="termin"
         >
         </router-view>
@@ -21,16 +20,16 @@
     export default {
         name: "RaidPage",
         components: {RaidToolbarComp},
-        props: ['raid', 'termin'],
-        methods: {
-            saveTermin: function(termin) {
-                this.$emit('saveTermin', termin);
-            }
-        },
         computed: {
             role: function() {
                 if (this.raid) return this.raid.role;
                 else return 0;
+            },
+            raid: function() {
+                return this.$store.getters.raid;
+            },
+            termin: function() {
+                return this.$store.getters.termin;
             }
         },
         created: function() {
