@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-list-item @click="save">
+        <v-list-item @click="openTermin">
             <v-list-item-content>
                 <v-list-item-title v-html="headline"></v-list-item-title>
                 <v-list-item-subtitle v-html="termin.time"></v-list-item-subtitle>
@@ -33,9 +33,9 @@
             }
         },
         methods: {
-            save: function() {
-                const emitRaid = { id: this.termin.raidID, name: this.termin.name, icon: this.termin.icon, role: this.termin.role };
-                this.$emit('save', {termin: this.termin, raid: emitRaid});
+            openTermin: function() {
+                const raid = { id: this.termin.raidID, name: this.termin.name, icon: this.termin.icon, role: this.termin.role };
+                this.$store.dispatch('openTerminFromHome', {termin: this.termin, raid: raid});
             }
         }
     }

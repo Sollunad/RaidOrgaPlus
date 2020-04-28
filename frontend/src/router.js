@@ -15,6 +15,7 @@ import PreviewPage from "./pages/PreviewPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import ModerationPage from "./pages/ModerationPage";
 import UserProfilePage from "./pages/UserProfilePage";
+import VueRouter from "vue-router";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -39,4 +40,6 @@ const routes = [
     { path: '/reset/:token', component: PasswordResetPage },
 ];
 
-export default routes;
+const router = new VueRouter({routes});
+
+export default router;

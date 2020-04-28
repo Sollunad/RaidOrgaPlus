@@ -22,7 +22,6 @@
                                     v-for="termin in viewTermine"
                                     v-bind:key="termin.id"
                                     v-bind:termin="termin"
-                                    v-on:saveTermin="saveTermin"
                             ></ListTerminComp>
                         </v-list>
                     </v-card>
@@ -73,11 +72,6 @@
                 } else {
                     return false;
                 }
-            }
-        },
-        methods: {
-            saveTermin: function(termin) {
-                this.$emit('saveTermin', termin);
             }
         },
         created: async function() {

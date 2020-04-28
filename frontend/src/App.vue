@@ -1,42 +1,23 @@
 <template>
-  <v-app
-    class="unselectable"
-    v-resize="onResize">
-    <MenuComp
-      v-bind:show="showContent && !withoutLoginAllowed">
-    </MenuComp>
+  <v-app class="unselectable" v-resize="onResize">
+    <MenuComp :show="showContent && !withoutLoginAllowed" />
     <v-content>
-        <MainPage
-                v-if="showContent">
-        </MainPage>
-        <LoginRegisterPage
-          v-else-if="showLogin">
-        </LoginRegisterPage>
+        <MainPage v-if="showContent" />
+        <LoginRegisterPage v-else-if="showLogin" />
         <div class="spinner" v-else>
-            <v-progress-circular
-                    indeterminate
-                    color="primary"
-            ></v-progress-circular>
+            <v-progress-circular indeterminate color="primary" />
         </div>
     </v-content>
-    <FooterComp></FooterComp>
+    <FooterComp />
   </v-app>
 </template>
 
 <script>
-  import Vue from 'vue';
-  import VueRouter from 'vue-router';
-
   import MenuComp from './components/menu/MenuComp.vue';
   import FooterComp from './components/menu/FooterComp';
 
   import MainPage from "./pages/MainPage";
   import LoginRegisterPage from "./pages/LoginRegisterPage";
-
-  import routes from './routes.js';
-
-  const router = new VueRouter({routes});
-  Vue.use(VueRouter);
 
   export default {
       components: {
@@ -65,7 +46,7 @@
               this.$store.dispatch('saveWindowWidth');
           },
           guardRoute: function() {
-              this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
+              this.withoutLoginAllowed = this.allowedRoutes.includes(this.$router.currentRoute.path.split('/')[1]);
           }
       },
       created: async function() {
@@ -73,7 +54,7 @@
           await this.$store.dispatch('getLoggedInUser');
 
           if ('serviceWorker' in navigator) {
-              navigator.serviceWorker.register('service-worker.js');
+              await navigator.serviceWorker.register('service-worker.js');
           }
       },
       mounted: function() {
@@ -83,8 +64,7 @@
           $route: function() {
               this.guardRoute();
           }
-      },
-      router
+      }
   }
 </script>
 

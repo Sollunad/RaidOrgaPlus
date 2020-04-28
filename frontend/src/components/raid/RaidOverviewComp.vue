@@ -14,7 +14,6 @@
                                 v-bind:key="raid.id"
                                 v-bind:raid="raid"
                                 v-bind:anmeldung="anmeldung(raid)"
-                                v-on:saveRaid="saveRaid"
                         ></ListRaidComp>
                     </v-list>
                 </v-card>
@@ -35,9 +34,6 @@
             anmeldungen: []
         }),
         methods: {
-            saveRaid: function(raid) {
-                this.$emit('saveRaid', raid);
-            },
             anmeldung: function(raid) {
                 if (this.anmeldungen) {
                     const anmeldung = this.anmeldungen.find(a => a.raid === raid.id);

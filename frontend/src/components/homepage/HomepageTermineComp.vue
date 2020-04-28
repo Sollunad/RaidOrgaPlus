@@ -16,7 +16,6 @@
                                 v-for="termin in termine"
                                 v-bind:key="termin.id"
                                 v-bind:termin="termin"
-                                v-on:save="save"
                         ></HomepageTerminComp>
                     </v-list>
                 </v-card>
@@ -42,11 +41,6 @@
                 } else {
                     return false;
                 }
-            }
-        },
-        methods: {
-            save: function(clicked) {
-                this.$emit('save', clicked);
             }
         },
         created: async function () {
