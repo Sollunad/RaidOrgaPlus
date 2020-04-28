@@ -35,7 +35,6 @@
 
     export default {
         name: "ProfileEmailComp",
-        props: ['user'],
         data: () => ({
             valid: true,
             email: '',
@@ -53,21 +52,19 @@
         methods: {
             async submit() {
                 if (this.$refs.form.validate()) {
-                    if (this.user) {
-                        const response = await _users.changeEmail(this.email, this.password);
-                        if (response) {
-                            this.buttonText = 'success';
-                            this.buttonColor = 'success';
-                        } else {
-                            this.buttonText = 'Passwort falsch';
-                            this.buttonColor = 'error';
-                        }
-                        const that = this;
-                        setTimeout(function() {
-                            that.buttonColor = '';
-                            that.buttonText = 'E-Mail aktualisieren';
-                        }, 2000)
+                    const response = await _users.changeEmail(this.email, this.password);
+                    if (response) {
+                        this.buttonText = 'success';
+                        this.buttonColor = 'success';
+                    } else {
+                        this.buttonText = 'Passwort falsch';
+                        this.buttonColor = 'error';
                     }
+                    const that = this;
+                    setTimeout(function() {
+                        that.buttonColor = '';
+                        that.buttonText = 'E-Mail aktualisieren';
+                    }, 2000)
                 }
             },
         }

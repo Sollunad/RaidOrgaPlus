@@ -1,26 +1,18 @@
 <template>
     <div class="profile">
-        <EinstellungenDiscordComp
-            v-bind:user="user">
-        </EinstellungenDiscordComp>
+        <EinstellungenDiscordComp/>
         <p></p>
         <v-divider></v-divider>
         <p></p>
-        <EinstellungenAPIKeyComp
-            v-bind:user="user">
-        </EinstellungenAPIKeyComp>
+        <EinstellungenAPIKeyComp/>
         <p></p>
         <v-divider></v-divider>
         <p></p>
-        <EinstellungenEmailComp
-            v-bind:user="user">
-        </EinstellungenEmailComp>
+        <EinstellungenEmailComp/>
         <p></p>
         <v-divider></v-divider>
         <p></p>
-        <EinstellungenPasswordComp
-            v-bind:user="user">
-        </EinstellungenPasswordComp>
+        <EinstellungenPasswordComp/>
     </div>
 </template>
 
@@ -35,15 +27,6 @@
         components: {
             EinstellungenDiscordComp,
             EinstellungenPasswordComp, EinstellungenEmailComp, EinstellungenAPIKeyComp},
-        props: ['user'],
-        data: () => ({
-            buildDialog: false
-        }),
-        methods: {
-            changeName: function(name) {
-                this.$emit('changeName', name);
-            }
-        }
     }
 </script>
 

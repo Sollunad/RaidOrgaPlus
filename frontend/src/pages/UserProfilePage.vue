@@ -14,8 +14,7 @@
                     <ProfileNameComp
                             class="username"
                             v-bind:user="visitedUser"
-                            v-bind:ownProfile="ownProfile"
-                            v-on:changeName="changeName">
+                            v-bind:ownProfile="ownProfile">
                     </ProfileNameComp>
                     <p></p>
                     <BuildsComp
@@ -81,11 +80,6 @@
             },
             showProgress: function() {
                 return this.ownProfile || this.hasShared;
-            }
-        },
-        methods: {
-            changeName: function (name) {
-                this.$emit('changeName', name);
             }
         },
         created: async function () {

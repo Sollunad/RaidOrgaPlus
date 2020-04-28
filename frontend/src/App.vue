@@ -7,10 +7,7 @@
     </MenuComp>
     <v-content>
         <MainPage
-                v-if="showContent"
-                v-on:changeName="changeName"
-                v-bind:user="user"
-                v-bind:width="width">
+                v-if="showContent">
         </MainPage>
         <LoginRegisterPage
           v-else-if="showLogin">
@@ -52,10 +49,8 @@
         source: String
       },
       data: () => ({
-        user: {},
         withoutLoginAllowed: false,
         allowedRoutes: ['preview', 'reset'],
-        width: 0
       }),
       computed: {
           showContent: function() {
@@ -66,9 +61,6 @@
           }
       },
       methods: {
-          changeName: async function(name) {
-              this.user.name = name;
-          },
           onResize: function() {
               this.$store.dispatch('saveWindowWidth');
           },
@@ -79,7 +71,6 @@
       created: async function() {
           this.guardRoute();
           await this.$store.dispatch('getLoggedInUser');
-          this.user = this.$store.getters.loggedInUser;
 
           if ('serviceWorker' in navigator) {
               navigator.serviceWorker.register('service-worker.js');

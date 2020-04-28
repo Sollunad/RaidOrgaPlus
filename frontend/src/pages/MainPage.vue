@@ -1,10 +1,8 @@
 <template>
     <router-view class="page"
-            v-bind:user="user"
             v-on:saveRaid="saveRaid"
             v-on:saveTermin="saveTermin"
             v-on:saveBoth="saveBoth"
-            v-on:changeName="changeName"
             v-bind:raid="raid"
             v-bind:termin="termin">
     </router-view>
@@ -13,7 +11,6 @@
 <script>
     export default {
         name: "MainPage",
-        props: ['user'],
         data: () => ({
             raid: null,
             termin: null
@@ -31,9 +28,6 @@
                 this.raid = clicked.raid;
                 this.termin = clicked.termin;
                 this.$router.push('raid/aufstellung');
-            },
-            changeName: function(name) {
-                this.$emit('changeName', name);
             }
         }
     }

@@ -43,12 +43,12 @@ async function anmeldenLead(spieler, termin, type) {
     return await con('termine/anmeldungenLead', 'put', {termin, spieler, type}, true);
 }
 
-async function getAnmeldungForSpieler(spieler, termin) {
-    return (await con('termine/anmeldungen', 'get', {termin, spieler}, true)).type;
+async function getAnmeldungForSpieler(termin) {
+    return (await con('termine/anmeldungen', 'get', {termin}, true)).type;
 }
 
 async function getAnmeldungenForTermin(termin) {
-    return (await con('termine/anmeldungen', 'get', {termin}, true));
+    return (await con('termine/anmeldungenAll', 'get', {termin}, true));
 }
 
 async function addBoss(termin, boss) {

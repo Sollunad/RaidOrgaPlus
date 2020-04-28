@@ -26,8 +26,6 @@
 </template>
 
 <script>
-    import _users from '../../services/endpoints/users';
-
     export default {
         name: "ProfileNameComp",
         props: ['user', 'ownProfile'],
@@ -45,11 +43,8 @@
             },
             submit: async function() {
                 if (this.$refs.form.validate()) {
-                    if (this.user) {
-                        await _users.changeName(this.name);
-                        this.$emit('changeName', this.name);
-                        this.edit = false;
-                    }
+                    await this.$store.dispatch('changeUserName', this.name);
+                    this.edit = false;
                 }
             },
         },

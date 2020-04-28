@@ -1,5 +1,5 @@
 <template>
-    <div class="moderation" v-if="user.role > 0">
+    <div class="moderation" v-if="showContainer">
         <v-tabs
                 class="elevation-6"
                 background-color="#212121"
@@ -31,11 +31,15 @@
     export default {
         name: "ModerationPage",
         components: {ModUserListComp},
-        props: ['user'],
         data: () => ({
             moderationCompNames: ['Spieler-Verwaltung', 'Raid-Verwaltung'],
             moderationComps: [ModUserListComp, ModRaidListComp],
-        })
+        }),
+        computed: {
+            showContainer: function() {
+                return this.$store.getters.loggedInUser.role > 0;
+            }
+        }
     }
 </script>
 

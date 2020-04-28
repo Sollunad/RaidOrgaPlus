@@ -99,7 +99,7 @@
             accName: '',
             accNameRules: [
                 v => !!v || 'Bitte gib deinen Accountnamen an',
-                v => /^[a-zA-Z\s]+.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
+                v => /^[a-zA-Z\s]+\.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
             ],
             name: '',
             nameRules: [

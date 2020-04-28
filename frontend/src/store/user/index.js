@@ -12,6 +12,9 @@ export default {
         setLoginState(state, id) {
             state.loginState = id;
         },
+        setUserName(state, name) {
+            state.loggedInUser.name = name;
+        },
     },
     actions: {
         async getLoggedInUser(context) {
@@ -24,6 +27,10 @@ export default {
                 context.commit('setLoginState', -1);
             }
         },
+        async changeUserName(context, name) {
+            await _users.changeName(this.name);
+            context.commit('setUserName', name);
+        }
     },
     getters: {
         loggedInUser(state) {

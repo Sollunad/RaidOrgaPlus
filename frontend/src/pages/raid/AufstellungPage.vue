@@ -7,7 +7,6 @@
             v-bind:active="isActive"
             v-bind:termin="termin"
             v-bind:locked="locked"
-            v-bind:user="user"
             v-bind:anmeldungen="anmeldungen"
             v-on:addBoss="addBoss"
             v-on:archive="archive"
@@ -94,7 +93,7 @@
         components: {
             ErsatzDialogComp,
             ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
-        props: ['termin', 'raid', 'role', 'user'],
+        props: ['termin', 'raid', 'role'],
         data: () => ({
             aufstellungen: null,
             anmeldungen: [],
@@ -112,9 +111,10 @@
         }),
         methods: {
             anmelden: async function(type) {
-                const changedAnmeldung = this.anmeldungen.find(a => a.id === this.user.id);
+                const user = this.$store.getters.loggedInUser;
+                const changedAnmeldung = this.anmeldungen.find(a => a.id === user.id);
                 if (changedAnmeldung) changedAnmeldung.type = type;
-                else this.anmeldungen.push({id: this.user.id, name: this.user.name, type: type});
+                else this.anmeldungen.push({id: user.id, name: user.name, type: type});
                 await _termine.anmelden(this.termin.id, type);
                 this.wsClient.sendRefresh();
             },
@@ -223,7 +223,7 @@
                 this.locked = await _termine.isLocked(this.termin.id);
                 this.anmeldungen = await _termine.getAnmeldungenForTermin(this.termin.id);
                 if (this.isActive) {
-                    this.anmeldung = await _termine.getAnmeldungForSpieler(this.user.id, this.termin.id);
+                    this.anmeldung = await _termine.getAnmeldungForSpieler(this.termin.id);
                     this.wsClient = new WSClient(this.termin.id);
                 }
             }
