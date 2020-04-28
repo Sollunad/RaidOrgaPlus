@@ -20,7 +20,7 @@
 
     export default {
         name: "ListRaidComp",
-        props: ['raid', 'user', 'anmeldung'],
+        props: ['raid', 'anmeldung'],
         computed: {
             role: function() {
                 switch(this.raid.role) {

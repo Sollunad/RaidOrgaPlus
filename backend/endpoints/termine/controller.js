@@ -16,7 +16,8 @@ module.exports = [
     {function: addBoss, path: '/bosses', method: 'post', authed: true},
     {function: putAnmeldung, path: '/anmeldungen', method: 'put', authed: true},
     {function: putAnmeldungLead, path: '/anmeldungenLead', method: 'put', authed: true},
-    {function: getAnmeldungen, path: '/anmeldungen', method: 'get', authed: true},
+    {function: getAnmeldung, path: '/anmeldungen', method: 'get', authed: true},
+    {function: getAnmeldungenAll, path: '/anmeldungenAll', method: 'get', authed: true},
     {function: getText, path: '/text', method: 'get', authed: true},
     {function: saveText, path: '/text', method: 'put', authed: true},
     {function: getErsatz, path: '/ersatz', method: 'get', authed: true},
@@ -140,16 +141,19 @@ async function putAnmeldungLead(req, authentication) {
     return [];
 }
 
-async function getAnmeldungen(req, authentication) {
-    const spieler = req.query.spieler;
+async function getAnmeldung(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
-        if (spieler) {
-            if (authentication.user === parseInt(spieler)) return await _anmeldungen.getAnmeldungForSpieler(spieler, termin);
-        } else {
-            const role = await _roles.forTermin(authentication, termin);
-            if (role >= 0) return await _anmeldungen.getAnmeldungenForTermin(termin);
-        }
+        return await _anmeldungen.getAnmeldungForSpieler(authentication.user, termin)
+    }
+    return [];
+}
+
+async function getAnmeldungenAll(req, authentication) {
+    const termin = req.query.termin;
+    if (termin) {
+        const role = await _roles.forTermin(authentication, termin);
+        if (role >= 0) return await _anmeldungen.getAnmeldungenForTermin(termin);
     }
     return [];
 }

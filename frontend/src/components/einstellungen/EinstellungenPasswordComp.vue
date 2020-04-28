@@ -44,7 +44,6 @@
 
     export default {
         name: "ProfilePasswordComp",
-        props: ['user'],
         data: () => ({
             valid: true,
             oldPassword: '',
@@ -65,21 +64,19 @@
         methods: {
             async submit() {
                 if (this.$refs.form.validate()) {
-                    if (this.user) {
-                        const response = await _users.changePassword(this.oldPassword, this.newPassword);
-                        if (response) {
-                            this.buttonText = 'success';
-                            this.buttonColor = 'success';
-                        } else {
-                            this.buttonText = 'Passwort falsch';
-                            this.buttonColor = 'error';
-                        }
-                        const that = this;
-                        setTimeout(function() {
-                            that.buttonColor = '';
-                            that.buttonText = 'Passwort aktualisieren';
-                        }, 2000)
+                    const response = await _users.changePassword(this.oldPassword, this.newPassword);
+                    if (response) {
+                        this.buttonText = 'success';
+                        this.buttonColor = 'success';
+                    } else {
+                        this.buttonText = 'Passwort falsch';
+                        this.buttonColor = 'error';
                     }
+                    const that = this;
+                    setTimeout(function() {
+                        that.buttonColor = '';
+                        that.buttonText = 'Passwort aktualisieren';
+                    }, 2000)
                 }
             },
         }

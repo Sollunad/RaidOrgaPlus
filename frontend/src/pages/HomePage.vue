@@ -33,10 +33,14 @@
     export default {
         name: "HomePage",
         components: {ProgressOverviewComp, HomepageTermineComp, EinladungenComp},
-        props: ['user'],
         data: () => ({
             hasNoApi: null
         }),
+        computed: {
+            user: function() {
+                return this.$store.getters.loggedInUser;
+            }
+        },
         methods: {
             save: function(clicked) {
                 this.$emit('saveBoth', clicked);

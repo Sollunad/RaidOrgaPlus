@@ -13,7 +13,6 @@
             <v-expansion-panel-content>
                 <ListAnmeldungEintragComp v-for="anmeldung in anmeldungen"
                                           v-bind:anmeldung="anmeldung"
-                                          v-bind:user="user"
                                           v-bind:role="role"
                                           v-bind:termin="termin"
                                           v-bind:key="anmeldung.id"
@@ -30,7 +29,7 @@
     export default {
         name: "ListAnmeldungComp",
         components: {ListAnmeldungEintragComp},
-        props: ['anmeldungen', 'user', 'role', 'termin'],
+        props: ['anmeldungen', 'role', 'termin'],
         data: () => ({
             open: undefined,
         }),

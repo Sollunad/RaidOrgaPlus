@@ -47,7 +47,6 @@
 
     export default {
         name: "EinstellungenAPIKeyComp",
-        props: ['user'],
         data: () => ({
             valid: true,
             apiKey: '',
@@ -65,12 +64,8 @@
                 ]
             },
             permissionsText: function() {
-                const required = ['builds', 'characters', 'inventories', 'progression', 'unlocks'];
-                let text = 'Benötigt: account';
-                for (const req of required) {
-                    text += `, ${req}`;
-                }
-                return text;
+                const required = ['account', 'builds', 'characters', 'inventories', 'progression', 'unlocks'];
+                return `Benötigt: ${required.join(', ')}`;
             }
         },
         methods: {
@@ -86,7 +81,7 @@
                             that.buttonText = 'API-Key aktualisieren';
                         }, 2000)
                     } else if (response === 'Permissions') {
-                        this.snackbarText = 'Fehlende Berechtigungen für den API-Key';
+                        this.snackbarText = 'Fehlende Berechtigungen für den API-Key (siehe ?-Tooltip)';
                         this.snackbar = true;
                     } else if (response === 'Wrong account') {
                         this.snackbarText = 'Der API-Key gehört nicht zu deinem Account!';

@@ -20,13 +20,13 @@
     export default {
         name: "ListAnmeldungEintragComp",
         components: {AnmeldungComp},
-        props: ['anmeldung', 'user', 'role', 'termin'],
+        props: ['anmeldung', 'role', 'termin'],
         data: () => ({
             editOpen: false
         }),
         computed: {
             editAllowed: function() {
-                return this.role > 0 && this.user.id !== this.anmeldung.id;
+                return this.role > 0;
             }
         },
         methods: {

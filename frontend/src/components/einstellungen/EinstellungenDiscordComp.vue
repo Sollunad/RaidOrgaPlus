@@ -22,14 +22,13 @@
 
     export default {
         name: "EinstellungenDiscordComp",
-        props: ['user'],
         data: () => ({
             key: null
         }),
         methods: {
             generateKey: async function() {
                 this.key = await _users.getDiscordKey();
-                navigator.clipboard.writeText(`!orga login ${this.key}`);
+                await navigator.clipboard.writeText(`!orga login ${this.key}`);
             }
         },
         computed: {
