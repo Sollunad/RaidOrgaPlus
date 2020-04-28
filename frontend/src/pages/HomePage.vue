@@ -1,9 +1,6 @@
 <template>
     <div>
-        <EinladungenComp
-            v-bind:user="user"
-            class="einladungen">
-        </EinladungenComp>
+        <EinladungenComp class="einladungen" />
         <v-container grid-list-md>
             <v-layout row wrap>
                 <v-flex xs12 xl6>
@@ -18,8 +15,7 @@
                     <div v-else>
                         <ProgressOverviewComp
                                 v-bind:user="user"
-                                v-bind:ownProfile="true"
-                                v-bind:width="width">
+                                v-bind:ownProfile="true">
                         </ProgressOverviewComp>
                     </div>
                 </v-flex>
@@ -37,7 +33,7 @@
     export default {
         name: "HomePage",
         components: {ProgressOverviewComp, HomepageTermineComp, EinladungenComp},
-        props: ['user', 'width'],
+        props: ['user'],
         data: () => ({
             hasNoApi: null
         }),

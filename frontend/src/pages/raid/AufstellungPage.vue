@@ -9,7 +9,6 @@
             v-bind:locked="locked"
             v-bind:user="user"
             v-bind:anmeldungen="anmeldungen"
-            v-bind:width="width"
             v-on:addBoss="addBoss"
             v-on:archive="archive"
             v-on:refresh="refresh"
@@ -95,7 +94,7 @@
         components: {
             ErsatzDialogComp,
             ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
-        props: ['termin', 'raid', 'role', 'user', 'width'],
+        props: ['termin', 'raid', 'role', 'user'],
         data: () => ({
             aufstellungen: null,
             anmeldungen: [],

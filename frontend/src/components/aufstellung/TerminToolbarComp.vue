@@ -22,7 +22,6 @@
                         v-bind:user="user"
                         v-bind:role="role"
                         v-bind:termin="termin"
-                        v-bind:width="width"
                         v-on:refresh="refresh">
                 </ListAnmeldungComp>
             <p></p>
@@ -127,7 +126,7 @@
     export default {
         name: "TerminToolbarComp",
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
-        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user', 'anmeldungen', 'width'],
+        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'user', 'anmeldungen'],
         computed: {
             lockIcon: function() {
                 return this.locked? 'lock' : 'lock_open';

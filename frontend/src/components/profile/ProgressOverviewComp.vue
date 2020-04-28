@@ -21,7 +21,6 @@
                     :is="comp"
                     v-bind:user="user"
                     v-bind:ownProfile="ownProfile"
-                    v-bind:width="width"
             >
             </component>
         </v-tab-item>
@@ -35,7 +34,7 @@
 
     export default {
         name: "ProgressOverviewComp",
-        props: ['user', 'ownProfile', 'width'],
+        props: ['user', 'ownProfile'],
         data: () => ({
             progressCompNames: ["Weekly Progress", "Trophäen", 'Erfolge'],
             progressComps: [ProgressComp, InsightsComp, ErfolgeComp],

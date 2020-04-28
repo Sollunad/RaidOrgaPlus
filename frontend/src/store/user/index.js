@@ -1,18 +1,39 @@
+import _users from '../../services/endpoints/users';
+
 export default {
     state: {
-        user: {}
+        loggedInUser: {},
+        loginState: 0,
     },
     mutations: {
-        setUser (state, user) {
-            state.user = user;
-        }
+        setLoggedInUser(state, user) {
+            state.loggedInUser = user;
+        },
+        setLoginState(state, id) {
+            state.loginState = id;
+        },
     },
     actions: {
-
+        async getLoggedInUser(context) {
+            const user = await _users.get();
+            if (!Array.isArray(user) || user.length > 0) {
+                this.user = user;
+                context.commit('setLoggedInUser', user);
+                context.commit('setLoginState', 1);
+            } else {
+                context.commit('setLoginState', -1);
+            }
+        },
     },
     getters: {
-        user(state) {
-            return state.user;
-        }
-    }
+        loggedInUser(state) {
+            return state.loggedInUser;
+        },
+        loginSuccess(state) {
+            return state.loginState === 1;
+        },
+        loginFailed(state) {
+            return state.loginState === -1;
+        },
+    },
 }

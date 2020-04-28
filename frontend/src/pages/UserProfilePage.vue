@@ -27,11 +27,10 @@
                         <p>Gib einen API-Key in den Einstellungen an, um hier deinen wöchentlichen Raid-Progress und Erfolge zu sehen!</p>
                     </div>
                     <div v-else-if="showProgress">
-                        <ProgressShareComp v-if="ownProfile" class="shareSwitch" v-bind:user="user"></ProgressShareComp>
+                        <ProgressShareComp v-if="ownProfile" class="shareSwitch"></ProgressShareComp>
                         <ProgressOverviewComp
                             v-bind:user="visitedUser"
-                            v-bind:ownProfile="ownProfile"
-                            v-bind:width="width">
+                            v-bind:ownProfile="ownProfile">
                         </ProgressOverviewComp>
                     </div>
                 </v-flex>
@@ -52,9 +51,8 @@
     export default {
         name: "UserProfilePage",
         components: {ProgressOverviewComp, ProgressShareComp, ProfilePictureComp, BuildsComp, ProfileNameComp},
-        props: ['user', 'width'],
         data: () => ({
-            visitedUser: null,
+            foreignUser: null,
             hasNoApi: null,
             hasShared: false
         }),
@@ -62,16 +60,20 @@
             visitedID: function () {
                 return this.$route.params.id;
             },
+            visitedUser: function() {
+                return this.visitedID ? this.foreignUser : this.$store.getters.loggedInUser;
+            },
             ownProfile: function () {
                 if (this.visitedUser) {
-                    return this.visitedUser.id === this.user.id;
+                    return this.visitedUser.id === this.$store.getters.loggedInUser.id;
                 }
                 return false;
             },
             profilePictureSize: function() {
-                if (this.width > 1510) {
+                const width = this.$store.getters.windowWidth;
+                if (width > 1510) {
                     return 128;
-                } else if (this.width > 1263) {
+                } else if (width > 1263) {
                     return 112;
                 } else {
                     return 96;
@@ -87,7 +89,7 @@
             }
         },
         created: async function () {
-            this.visitedUser = this.visitedID ? await _users.getWithID(this.visitedID) : this.user;
+            this.foreignUser = this.visitedID ? await _users.getWithID(this.visitedID) : null;
             this.hasNoApi = !(await _users.hasApi());
             this.hasShared = await _users.hasProgressShared(this.visitedID);
         }

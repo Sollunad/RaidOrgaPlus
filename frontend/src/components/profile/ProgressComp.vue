@@ -8,7 +8,6 @@
                 v-bind:wing="index + 1"
                 v-bind:maxWing="maxWing"
                 v-bind:progress="progress"
-                v-bind:width="width"
                 v-bind:class="{ hasMargin: hasMarginBottom(index + 1) }"
                 :key="wing[0].wing"></ProgressWingComp>
     </div>
@@ -22,7 +21,7 @@
     export default {
         name: "ProgressComp",
         components: {ProgressWingComp},
-        props: ['user', 'ownProfile', 'width'],
+        props: ['user', 'ownProfile'],
         data: () => ({
             bosses: [],
             progress: [],

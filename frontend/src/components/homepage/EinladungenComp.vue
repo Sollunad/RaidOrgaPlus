@@ -24,7 +24,6 @@
     export default {
         name: "EinladungenComp",
         components: {EinladungComp},
-        props: ['user'],
         data: () => ({
             invites: [],
         }),

@@ -13,7 +13,6 @@
 
     export default {
         name: "ProgressShareComp",
-        props: ['user'],
         data: () => ({
             share: null
         }),
