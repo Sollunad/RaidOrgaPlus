@@ -33,7 +33,6 @@
   import MenuComp from './components/menu/MenuComp.vue';
   import FooterComp from './components/menu/FooterComp';
 
-  import _users from './services/endpoints/users';
   import MainPage from "./pages/MainPage";
   import LoginRegisterPage from "./pages/LoginRegisterPage";
 
@@ -53,16 +52,17 @@
         source: String
       },
       data: () => ({
-          user: {},
-        showLogin: false,
+        user: {},
         withoutLoginAllowed: false,
         allowedRoutes: ['preview', 'reset'],
         width: 0
       }),
       computed: {
           showContent: function() {
-            const isLoggedIn = Object.keys(this.user).length > 0;
-            return this.withoutLoginAllowed || isLoggedIn;
+              return this.withoutLoginAllowed || this.$store.getters.loginSuccess;
+          },
+          showLogin: function() {
+              return this.$store.getters.loginFailed;
           }
       },
       methods: {
@@ -70,17 +70,16 @@
               this.user.name = name;
           },
           onResize: function() {
-              this.width = window.innerWidth;
+              this.$store.dispatch('saveWindowWidth');
+          },
+          guardRoute: function() {
+              this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
           }
       },
       created: async function() {
-          const user = await _users.get();
-          if (!Array.isArray(user) || user.length > 0) {
-              this.user = user;
-              this.$store.commit('setUser', user);
-          }
-          else this.showLogin = true;
-          this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
+          this.guardRoute();
+          await this.$store.dispatch('getLoggedInUser');
+          this.user = this.$store.getters.loggedInUser;
 
           if ('serviceWorker' in navigator) {
               navigator.serviceWorker.register('service-worker.js');
@@ -91,7 +90,7 @@
       },
       watch: {
           $route: function() {
-              this.withoutLoginAllowed = this.allowedRoutes.includes(router.currentRoute.path.split('/')[1]);
+              this.guardRoute();
           }
       },
       router

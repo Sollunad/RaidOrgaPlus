@@ -30,7 +30,7 @@
     export default {
         name: "ListAnmeldungComp",
         components: {ListAnmeldungEintragComp},
-        props: ['anmeldungen', 'width', 'user', 'role', 'termin'],
+        props: ['anmeldungen', 'user', 'role', 'termin'],
         data: () => ({
             open: undefined,
         }),
@@ -48,7 +48,7 @@
                 return [this.yesCount, this.maybeCount, this.falseCount];
             },
             showDetailsInHeader: function() {
-                return this.width > 500;
+                return this.$store.getters.windowWidth > 500;
             }
         },
         methods: {

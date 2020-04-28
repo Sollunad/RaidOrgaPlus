@@ -11,7 +11,6 @@
                 v-bind:user="user"
                 v-on:saveTermin="saveTermin"
                 v-bind:termin="termin"
-                v-bind:width="width"
         >
         </router-view>
     </div>
@@ -23,7 +22,7 @@
     export default {
         name: "RaidPage",
         components: {RaidToolbarComp},
-        props: ['user', 'raid', 'termin', 'width'],
+        props: ['user', 'raid', 'termin'],
         methods: {
             saveTermin: function(termin) {
                 this.$emit('saveTermin', termin);

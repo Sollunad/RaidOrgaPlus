@@ -64,7 +64,7 @@
                 }
             },
             user: function() {
-                return this.$store.getters.user;
+                return this.$store.getters.loggedInUser;
             }
         },
         methods: {

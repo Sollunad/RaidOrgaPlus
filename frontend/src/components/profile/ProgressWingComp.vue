@@ -21,7 +21,7 @@
     export default {
         name: "ProgressWingComp",
         components: {ProgressBossComp},
-        props: ['bosses', 'progress', 'wing', 'maxWing', 'width'],
+        props: ['bosses', 'progress', 'wing', 'maxWing'],
         methods: {
             icon: function() {
                 return _icons.miscIcon('cotm');
@@ -42,7 +42,7 @@
                 return this.wing === rotationWing;
             },
             showCotmIcons: function() {
-                return this.width > 460;
+                return this.$store.getters.windowWidth > 460;
             },
         }
     }
