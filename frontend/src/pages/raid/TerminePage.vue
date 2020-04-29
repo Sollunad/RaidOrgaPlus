@@ -1,11 +1,10 @@
 <template>
     <div>
         <TerminOverviewComp
-                v-bind:raid="raid"
                 v-bind:archived="false">
         </TerminOverviewComp>
         <v-btn color="success" class="buttonAdd" :to="'/raid/neuerTermin'"
-               v-if="role > 0">
+               v-if="showNeuerTermin">
             Neuer Termin
         </v-btn>
     </div>
@@ -17,7 +16,11 @@
     export default {
         name: "TerminePage",
         components: {TerminOverviewComp},
-        props: ['raid', 'role'],
+        computed: {
+            showNeuerTermin: function() {
+                return this.$store.getters.raidRole > 0;
+            }
+        }
     }
 </script>
 

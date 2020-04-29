@@ -74,7 +74,6 @@
 
     export default {
         name: "NeuerTerminComp",
-        props: ['raid'],
         data: () => ({
             valid: true,
             date: new Date().toISOString().substr(0, 10),
@@ -91,6 +90,9 @@
                 if (!this.date) return null;
                 const [year, month, day] = this.date.split('-')
                 return `${day}.${month}.${year}`
+            },
+            raid: function() {
+                return this.$store.getters.raid;
             }
         },
         methods: {

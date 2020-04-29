@@ -1,7 +1,7 @@
 <template>
     <div>
         <SpielerEinladenComp
-            v-if="role > 0"
+            v-if="showSpielerEinladen"
             v-bind:raid="raid">
         </SpielerEinladenComp>
         <!-- TODO: Reactivate #297 -->
@@ -17,7 +17,6 @@
                         xs12 sm6 lg4 xl3>
                     <SpielerComp
                             v-bind:user="listuser"
-                            v-bind:role="role"
                             v-bind:filter="filter"
                             v-on:kick="kick">
                     </SpielerComp>
@@ -37,11 +36,18 @@
     export default {
         name: "SpielerlistePage",
         components: {BuildFilterButtonsComp, SpielerEinladenComp, SpielerComp},
-        props: ['raid', 'role'],
         data: () => ({
             filter: '',
             users: [],
         }),
+        computed: {
+            raid: function() {
+                return this.$store.getters.raid;
+            },
+            showSpielerEinladen: function() {
+                return this.$store.getters.raidRole > 0;
+            }
+        },
         methods: {
             kick: async function(user) {
                 this.users = await _raids.kickPlayer(this.raid.id, user.id);
