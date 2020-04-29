@@ -38,7 +38,7 @@
     export default {
         name: "TerminOverviewComp",
         components: {ListTerminComp},
-        props: ['raid', 'archived'],
+        props: ['archived'],
         data: () => ({
             termine: null,
             page: 1,
@@ -72,6 +72,9 @@
                 } else {
                     return false;
                 }
+            },
+            raid: function() {
+                return this.$store.getters.raid;
             }
         },
         created: async function() {

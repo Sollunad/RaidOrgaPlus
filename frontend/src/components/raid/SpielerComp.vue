@@ -52,7 +52,7 @@
     export default {
         name: "SpielerComp",
         components: {NameComp, BuildChipComp},
-        props: ['user', 'filter', 'role'],
+        props: ['user', 'filter'],
         data: () => ({
             builds: null
         }),
@@ -71,7 +71,7 @@
                 return this.filtered.filter(b => !b.prefer);
             },
             kickable: function() {
-                return this.role > this.user.role;
+                return this.$store.getters.raidRole > this.user.role;
             }
         },
         methods: {

@@ -10,7 +10,6 @@
 <script>
     export default {
         name: "RaidToolbarComp",
-        props: ['raid'],
         methods: {
             back: function() {
                 window.history.back();
@@ -22,7 +21,7 @@
         },
         computed: {
             raidName: function() {
-                if (this.raid) return this.raid.name;
+                if (this.$store.getters.raid) return this.$store.getters.raid.name;
                 else return '';
             }
         }

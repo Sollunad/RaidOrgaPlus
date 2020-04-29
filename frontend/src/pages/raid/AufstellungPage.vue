@@ -41,7 +41,6 @@
         components: {
             ErsatzDialogComp,
             ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
-        props: ['termin', 'raid', 'role'],
         methods: {
             refresh: async function() {
                 await this.$store.dispatch('refresh');

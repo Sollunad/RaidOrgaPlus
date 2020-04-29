@@ -38,7 +38,6 @@
     export default {
         name: "BlankoPage",
         components: {BlankoMenuWingComp, BlankoComp},
-        props: ['raid', 'role'],
         data: () => ({
             wingFilter: 0,
             elements: null,
@@ -48,6 +47,12 @@
             filteredBosses: function() {
                 if (!this.wingFilter) return this.bosses;
                 return this.bosses.filter(b => b.wing === this.wingFilter);
+            },
+            raid: function() {
+                return this.$store.getters.raid;
+            },
+            role: function() {
+                return this.$store.getters.raidRole;
             }
         },
         methods: {

@@ -1,6 +1,5 @@
 <template>
     <TerminOverviewComp
-            v-bind:raid="raid"
             v-bind:archived="true">
     </TerminOverviewComp>
 </template>
@@ -11,7 +10,6 @@
     export default {
         name: "ArchivPage",
         components: {TerminOverviewComp},
-        props: ['raid'],
     }
 </script>
 

@@ -1,8 +1,7 @@
 <template>
     <div class="form">
         <NeuerTerminComp
-                v-if="role > 0"
-                v-bind:raid="raid">
+                v-if="showNeuerTermin">
         </NeuerTerminComp>
     </div>
 </template>
@@ -12,8 +11,12 @@
 
     export default {
         name: "NeuerTerminPage",
-        props: ['raid', 'role'],
-        components: {NeuerTerminComp}
+        components: {NeuerTerminComp},
+        computed: {
+            showNeuerTermin: function() {
+                return this.$store.getters.raidRole > 0;
+            }
+        }
     }
 </script>
 
