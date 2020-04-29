@@ -31,7 +31,7 @@
         }),
         methods: {
             pick: function(info) {
-                this.$emit('pick',info);
+                this.$emit('pick', info);
             }
         },
         created: async function() {

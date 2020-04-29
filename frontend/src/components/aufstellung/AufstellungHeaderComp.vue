@@ -13,7 +13,7 @@
                     direction="bottom"
                     class="dial"
                     transition="slide-y-transition"
-                    v-if="role > 0 && active && !copyActive"
+                    v-if="raidRole > 0 && active && !copyActive"
             >
                 <template v-slot:activator>
                     <v-btn
@@ -30,7 +30,7 @@
                                 fab
                                 small
                                 color="blue"
-                                @click="copy"
+                                @click="toggleCopy"
                                 v-on="on">
                             <v-icon>input</v-icon>
                         </v-btn>
@@ -66,12 +66,12 @@
                 </v-tooltip>
             </v-speed-dial>
             <v-btn
-                    v-if="role > 0 && active && copyActive"
+                    v-if="copyActive"
                     color="blue"
                     class="dial"
                     small
                     fab>
-                <v-icon @click="copy">arrow_back</v-icon>
+                <v-icon @click="toggleCopy">arrow_back</v-icon>
             </v-btn>
             <v-btn icon :color="successColor" @click="toggleSuccess" class="button" v-if="!active">
                 <v-icon>{{successIcon}}</v-icon>
@@ -93,20 +93,29 @@
 <script>
     import _icons from '../../services/icons.js';
     import _aufstellungen from '../../services/endpoints/aufstellungen';
-    import MenuAufstellungenComp from "./MenuAufstellungenComp";
     import FileUploadComp from "../reports/FileUploadComp";
 
     export default {
         name: "AufstellungHeaderComp",
-        components: {FileUploadComp, MenuAufstellungenComp},
-        props: ['aufstellung', 'role', 'active', 'success', 'uploadActive', 'copyActive', 'wsClient'],
+        components: {FileUploadComp},
+        props: ['aufstellung', 'copyActive'],
         data: () => ({
             isCM: false,
             showUpload: false,
             reportId: null,
-            fab: false
+            fab: false,
+            success: false,
         }),
         computed: {
+            raidRole: function() {
+                return this.$store.getters.raidRole;
+            },
+            active: function() {
+                return this.$store.getters.isActive;
+            },
+            uploadActive: function() {
+                return this.$store.getters.uploadActive;
+            },
             successColor: function() {
                 if (this.success) return 'green';
                 else return 'white';
@@ -130,30 +139,29 @@
                 else return '';
             },
             deleteBoss: function() {
-                this.$emit('deleteBoss');
+                this.$store.dispatch('deleteBoss', this.aufstellung);
             },
-            toggleSuccess: function() {
-                if (this.role > 0) {
-                    this.$emit('toggleSuccess');
+            toggleSuccess: async function() {
+                if (this.raidRole > 0) {
+                    this.success = !this.success;
+                    await _aufstellungen.setSuccess(this.aufstellung.id, this.success);
                 }
-            },
-            refresh: function() {
-                this.$emit('refresh');
             },
             uploadComplete: function(newId) {
                 this.reportId = newId;
             },
-            copy: function() {
-                this.$emit('copy');
+            toggleCopy: function() {
+                this.$emit('toggleCopy');
             },
             changeCM: async function() {
                 this.isCM = !this.isCM;
                 await _aufstellungen.setCM(this.aufstellung.id, this.isCM);
-                this.wsClient.sendRefresh();
+                await this.$store.dispatch('wsSendRefresh');
             }
         },
         created: function() {
             this.reportId = this.aufstellung.report;
+            this.success = this.aufstellung.success;
             this.isCM = this.aufstellung.is_cm;
         }
     }

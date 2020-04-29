@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-dialog
-                v-model="openComputed"
+                v-model="open"
                 max-width="290"
         >
             <v-card>
@@ -31,26 +31,36 @@
 </template>
 
 <script>
-    import _termine from '../../services/endpoints/termine';
-    import _raids from '../../services/endpoints/raids';
     import NameComp from "../menu/NameComp";
 
     export default {
         name: "ErsatzDialogComp",
         components: {NameComp},
-        props: ['raid', 'termin', 'open'],
-        data: () => ({
-            ersatz: null,
-            invitablePlayers: [],
-        }),
         computed: {
-            openComputed: {
+            termin: function() {
+                return this.$store.getters.termin;
+            },
+            raid: function() {
+                return this.$store.getters.raid;
+            },
+            open: {
                 get: function() {
-                    return this.open;
+                    return this.$store.getters.isDialogOpen('ersatz');
                 },
                 set: function() {
-                    this.$emit('close');
+                    this.$store.dispatch('closeDialog');
                 }
+            },
+            ersatz: {
+                get: function() {
+                    return this.$store.getters.ersatzIds;
+                },
+                set: function(newErsatz) {
+                    this.$store.dispatch('updateErsatz', newErsatz);
+                }
+            },
+            invitablePlayers: function() {
+                return this.$store.getters.invitablePlayers;
             }
         },
         methods: {
@@ -62,29 +72,7 @@
                 return name.indexOf(searchText) > -1 ||
                     accname.indexOf(searchText) > -1
             },
-            emitErsatz: function() {
-                const ersatzspieler = this.invitablePlayers.filter(p => this.ersatz.includes(p.id));
-                this.$emit('setErsatz', ersatzspieler);
-            }
-        },
-        watch: {
-            ersatz: async function (newValue, oldValue) {
-                if (oldValue === null) return;
-                const invitedPlayer = newValue.find(player => !oldValue.includes(player));
-                const deletedPlayer = oldValue.find(player => !newValue.includes(player));
-                if (invitedPlayer) {
-                    await _termine.addErsatz(this.termin.id, invitedPlayer);
-                } else if (deletedPlayer) {
-                    await _termine.deleteErsatz(this.termin.id, deletedPlayer);
-                }
-                this.emitErsatz();
-            }
-        },
-        created: async function() {
-            this.ersatz = (await _termine.getErsatz(this.termin.id)).map(p => p.id);
-            this.invitablePlayers = await _raids.invitablePlayers(this.raid.id);
-            this.emitErsatz();
-        },
+        }
     }
 </script>
 

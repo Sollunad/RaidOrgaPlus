@@ -11,17 +11,10 @@
 
         <template
             v-if="active">
-                <AnmeldungComp
-                        v-on:anmelden="anmelden"
-                        v-bind:anmeldung="anmeldung"
-                        class="anmeldung">
+                <AnmeldungComp class="anmeldung">
                 </AnmeldungComp>
                 <ListAnmeldungComp
-                        class="anmeldungen"
-                        v-bind:anmeldungen="anmeldungen"
-                        v-bind:role="role"
-                        v-bind:termin="termin"
-                        v-on:refresh="refresh">
+                        class="anmeldungen">
                 </ListAnmeldungComp>
             <p></p>
             <v-tooltip bottom>
@@ -52,7 +45,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <template v-slot:activator="{on}">
-                        <v-btn icon @click="changeLock" v-on="on">
+                        <v-btn icon @click="toggleLocked" v-on="on">
                             <v-icon>{{ lockIcon }}</v-icon>
                         </v-btn>
                     </template>
@@ -60,7 +53,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <template v-slot:activator="{on}">
-                        <v-btn icon @click="ersatz" v-on="on">
+                        <v-btn icon @click="openErsatzDialog" v-on="on">
                             <v-icon>perm_identity</v-icon>
                         </v-btn>
                     </template>
@@ -68,7 +61,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <template v-slot:activator="{on}">
-                        <v-btn icon @click="share" v-on="on">
+                        <v-btn icon @click="openShareDialog" v-on="on">
                             <v-icon>share</v-icon>
                         </v-btn>
                     </template>
@@ -76,7 +69,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <template v-slot:activator="{on}">
-                        <v-btn icon @click="archive" v-on="on">
+                        <v-btn icon @click="openArchiveDialog" v-on="on">
                             <v-icon>send</v-icon>
                         </v-btn>
                     </template>
@@ -84,7 +77,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <template v-slot:activator="{on}">
-                        <v-btn icon color="red" @click="deleteTermin" v-on="on">
+                        <v-btn icon color="red" @click="openDeleteDialog" v-on="on">
                             <v-icon>clear</v-icon>
                         </v-btn>
                     </template>
@@ -125,39 +118,44 @@
     export default {
         name: "TerminToolbarComp",
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
-        props: ['anmeldung', 'role', 'active', 'termin', 'locked', 'anmeldungen'],
         computed: {
             lockIcon: function() {
-                return this.locked? 'lock' : 'lock_open';
-            }
+                return this.$store.getters.isLocked? 'lock' : 'lock_open';
+            },
+            role: function() {
+                return this.$store.getters.raidRole;
+            },
+            termin: function() {
+                return this.$store.getters.termin;
+            },
+            active: function() {
+                return this.$store.getters.isActive;
+            },
         },
         methods: {
-            anmelden: function(type) {
-                this.$emit('anmelden', type);
-            },
             addBoss: function(info) {
-                this.$emit('addBoss', info);
+                this.$store.dispatch('addBoss', info);
             },
-            archive: function(newTermin) {
-                this.$emit('archive', newTermin);
+            openArchiveDialog: function() {
+                this.$store.dispatch('openDialog', 'archive');
             },
             refresh: function() {
-                this.$emit('refresh');
+                this.$store.dispatch('refresh');
             },
-            changeLock: function() {
-                this.$emit('changeLocked');
+            toggleLocked: async function() {
+                await this.$store.dispatch('toggleLocked');
             },
-            deleteTermin: function(newTermin) {
-                this.$emit('deleteTermin', newTermin);
+            openDeleteDialog: function() {
+                this.$store.dispatch('openDialog', 'delete');
             },
-            share: function() {
-                this.$emit('share');
+            openShareDialog: function() {
+                this.$store.dispatch('openDialog', 'share');
             },
-            ersatz: function() {
-                this.$emit('ersatz');
+            openErsatzDialog: function() {
+                this.$store.dispatch('openDialog', 'ersatz');
             },
             uploadLog: function() {
-                this.$emit('upload');
+                this.$store.dispatch('toggleUpload');
             }
         }
     }

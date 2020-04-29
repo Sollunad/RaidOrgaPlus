@@ -8,16 +8,7 @@
                         xs6>
                     <AufstellungElementComp
                         v-bind:position="i"
-                        v-bind:aufstellung="aufstellung"
-                        v-bind:propElement="propElement(i)"
-                        v-bind:raid="raid"
-                        v-bind:active="active"
-                        v-bind:locked="locked"
-                        v-bind:role="role"
-                        v-bind:termin="termin"
-                        v-bind:anmeldungen="anmeldungen"
-                        v-bind:ersatz="ersatz"
-                        v-bind:wsClient="wsClient">
+                        v-bind:aufstellung="aufstellung">
                     </AufstellungElementComp>
                 </v-flex>
             </v-layout>
@@ -31,12 +22,7 @@
     export default {
         name: "AufstellungBodyComp",
         components: {AufstellungElementComp},
-        props: ['aufstellung', 'raid', 'active', 'locked', 'propElements', 'role', 'termin', 'anmeldungen', 'ersatz', 'wsClient'],
-        methods: {
-            propElement: function(position) {
-                if (this.propElements) return this.propElements.find(e => e.pos === position);
-            }
-        }
+        props: ['aufstellung'],
     }
 </script>
 

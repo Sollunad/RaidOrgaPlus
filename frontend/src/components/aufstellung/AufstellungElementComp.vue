@@ -35,12 +35,7 @@
             <template v-slot:activator="{on}">
                 <span v-on="on" @contextmenu.prevent="clearName" class="hover">{{user.name}}</span>
             </template>
-            <MenuNameComp
-                v-on:pick="pickName"
-                v-bind:termin="termin"
-                v-bind:anmeldungen="anmeldungen"
-                v-bind:ersatz="ersatz">
-            </MenuNameComp>
+            <MenuNameComp v-on:pick="pickName"/>
         </v-menu>
         <NameComp v-else v-bind:user="user" :truncate="true" :clickable="true"></NameComp>
     </div>
@@ -57,23 +52,26 @@
     export default {
         name: "AufstellungElementComp",
         components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position', 'propElement', 'raid', 'active', 'locked', 'role', 'termin', 'anmeldungen', 'ersatz', 'wsClient'],
+        props: ['aufstellung', 'position'],
         data: () => ({
             classMenuOpen: false,
             editedElement: null
         }),
         computed: {
             editAllowed: function() {
-                return this.active && (!this.locked || this.role > 0);
+                return this.$store.getters.isActive && (!this.$store.getters.isLocked || this.$store.getters.raidRole > 0);
             },
             element: function() {
                 if (this.editedElement) {
                     return this.editedElement;
-                } else if (this.propElement) {
-                    return this.propElement;
+                } else if (this.storeElement) {
+                    return this.storeElement;
                 } else {
                     return null;
                 }
+            },
+            storeElement: function() {
+                return this.$store.getters.elementForPosition(this.aufstellung, this.position);
             },
             classIcon: function() {
                 if (this.element && this.element.class !== '') return _icons.classIcon(this.element.class);
@@ -101,39 +99,39 @@
                 this.prepareEditedElement();
                 this.editedElement.class = clss.abbr;
                 await _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
-                this.wsClient.sendRefresh();
+                await this.$store.dispatch('wsSendRefresh');
             },
             clearClass: async function() {
                 this.prepareEditedElement();
                 this.editedElement.class = '';
                 await _aufstellungen.setClass(this.aufstellung.id, this.position, 0);
-                this.wsClient.sendRefresh();
+                await this.$store.dispatch('wsSendRefresh');
             },
             pickRole: async function(role) {
                 this.prepareEditedElement();
                 this.editedElement.role = role.abbr;
                 await _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
-                this.wsClient.sendRefresh();
+                await this.$store.dispatch('wsSendRefresh');
             },
             clearRole: async function() {
                 this.prepareEditedElement();
                 this.editedElement.role = '';
                 await _aufstellungen.setRole(this.aufstellung.id, this.position, 0);
-                this.wsClient.sendRefresh();
+                await this.$store.dispatch('wsSendRefresh');
             },
             pickName: async function(user) {
                 this.prepareEditedElement();
                 this.editedElement.name = user.name;
                 this.editedElement.accname = user.accname;
                 await _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
-                this.wsClient.sendRefresh();
+                await this.$store.dispatch('wsSendRefresh');
             },
             clearName: async function() {
                 this.prepareEditedElement();
                 this.editedElement.name = '???';
                 this.editedElement.accname = '???';
                 await _aufstellungen.setName(this.aufstellung.id, this.position, 0);
-                this.wsClient.sendRefresh();
+                await this.$store.dispatch('wsSendRefresh');
             },
             prepareEditedElement: function() {
                 if (!this.element) {
@@ -144,7 +142,7 @@
             },
         },
         watch: {
-            propElement: function() {
+            storeElement: function() {
                 this.editedElement = null;
             }
         }
