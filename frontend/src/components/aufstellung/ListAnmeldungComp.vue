@@ -13,10 +13,7 @@
             <v-expansion-panel-content>
                 <ListAnmeldungEintragComp v-for="anmeldung in anmeldungen"
                                           v-bind:anmeldung="anmeldung"
-                                          v-bind:role="role"
-                                          v-bind:termin="termin"
                                           v-bind:key="anmeldung.id"
-                                          v-on:refresh="refresh"
                                           class="anmeldung"/>
             </v-expansion-panel-content>
         </v-expansion-panel>
@@ -29,11 +26,13 @@
     export default {
         name: "ListAnmeldungComp",
         components: {ListAnmeldungEintragComp},
-        props: ['anmeldungen', 'role', 'termin'],
         data: () => ({
             open: undefined,
         }),
         computed: {
+            anmeldungen: function() {
+              return this.$store.getters.anmeldungen;
+            },
             yesCount: function() {
                 return this.anmeldungen.filter(a => a.type === 0).length;
             },
@@ -58,9 +57,6 @@
             anmeldungColor: function(type) {
                 const colors = ['green', 'yellow', 'red', 'grey'];
                 return colors[type];
-            },
-            refresh: function() {
-                this.$emit('refresh');
             }
         }
     }

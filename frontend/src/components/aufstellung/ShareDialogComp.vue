@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-            v-model="openComputed"
+            v-model="open"
             max-width="400"
     >
         <v-card>
@@ -34,12 +34,14 @@
 
     export default {
         name: "ShareDialogComp",
-        props: ['open', 'termin'],
         data: () => ({
             switched: false,
             copied: false,
         }),
         computed: {
+            termin: function() {
+                return this.$store.getters.termin;
+            },
             switchValue: {
                 get: function() {
                     return this.switched;
@@ -49,12 +51,12 @@
                     await _preview.setPreviewable(this.termin.id, value);
                 }
             },
-            openComputed: {
+            open: {
                 get: function() {
-                    return this.open;
+                    return this.$store.getters.isDialogOpen('share');
                 },
                 set: function() {
-                    this.$emit('close');
+                    this.$store.dispatch('closeDialog');
                 }
             },
             previewLink: function() {

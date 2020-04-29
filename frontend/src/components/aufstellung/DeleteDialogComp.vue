@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-            v-model="openComputed"
+            v-model="open"
             max-width="290"
     >
         <v-card>
@@ -43,25 +43,24 @@
 <script>
     export default {
         name: "DeleteDialogComp",
-        props: ['open'],
         data: () => ({
             newTermin: false,
         }),
         methods: {
             deleteOK: function() {
-                this.$emit('deleteOK', this.newTermin);
+                this.$store.dispatch('delete', this.newTermin);
             },
             deleteCancel: function() {
-                this.$emit('close');
+                this.$store.dispatch('closeDialog');
             }
         },
         computed: {
-            openComputed: {
+            open: {
                 get: function() {
-                    return this.open;
+                    return this.$store.getters.isDialogOpen('delete');
                 },
                 set: function() {
-                    this.$emit('close');
+                    this.$store.dispatch('closeDialog');
                 }
             }
         }

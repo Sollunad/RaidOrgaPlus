@@ -30,14 +30,21 @@
 <script>
     export default {
         name: "AnmeldungComp",
-        props: ['anmeldung'],
+        props: ['foreignAnmeldung'],
         computed: {
             buttonValue: {
                 get: function() {
-                    return this.anmeldung;
+                    if (this.foreignAnmeldung) {
+                        return this.foreignAnmeldung;
+                    }
+                    return this.$store.getters.anmeldung;
                 },
-                set: function(type){
-                    this.$emit('anmelden', type);
+                set: async function(type){
+                    if (this.foreignAnmeldung) {
+                        this.$emit('anmelden', type);
+                    } else {
+                        await this.$store.dispatch('anmelden', type);
+                    }
                 }
             }
         }

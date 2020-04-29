@@ -2,8 +2,8 @@ import router from '../../router';
 
 export default {
     state: {
-        raid: {},
-        termin: {},
+        raid: null,
+        termin: null,
     },
     mutations: {
         setRaid(state, raid) {
@@ -26,7 +26,7 @@ export default {
             context.commit('setRaid', clicked.raid);
             context.commit('setTermin', clicked.termin);
             router.push('raid/aufstellung');
-        }
+        },
     },
     getters: {
         termin(state) {
@@ -34,6 +34,9 @@ export default {
         },
         raid(state) {
             return state.raid;
+        },
+        raidRole(state) {
+            return state.raid.role;
         }
     },
 }

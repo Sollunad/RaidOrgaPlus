@@ -33,7 +33,7 @@
             }
         },
         created: function() {
-            if (!this.raid) window.location.href = '/#/raids';
+            if (!this.$store.getters.raid) window.location.href = '/#/raids';
         }
     }
 </script>

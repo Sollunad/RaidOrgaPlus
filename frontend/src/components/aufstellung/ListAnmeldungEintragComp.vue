@@ -7,6 +7,7 @@
         </div>
         <div v-else>
             <AnmeldungComp
+                :foreignAnmeldung="anmeldung"
                 v-on:anmelden="anmelden">
             </AnmeldungComp>
         </div>
@@ -20,13 +21,16 @@
     export default {
         name: "ListAnmeldungEintragComp",
         components: {AnmeldungComp},
-        props: ['anmeldung', 'role', 'termin'],
+        props: ['anmeldung'],
         data: () => ({
             editOpen: false
         }),
         computed: {
             editAllowed: function() {
-                return this.role > 0;
+                return this.$store.getters.raidRole > 0;
+            },
+            termin: function() {
+                return this.$store.getters.termin;
             }
         },
         methods: {
@@ -44,7 +48,8 @@
             anmelden: async function(type) {
                 this.editOpen = false;
                 await _termine.anmeldenLead(this.anmeldung.id, this.termin.id, type);
-                this.$emit('refresh');
+                await this.$store.dispatch('refresh');
+                await this.$store.dispatch('wsSendRefresh');
             }
         }
     }

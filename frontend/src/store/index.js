@@ -1,6 +1,7 @@
 import Vuex from "vuex";
 import user from './user';
 import raid from './raid';
+import aufstellung from './aufstellung'
 
 export default function() {
     return new Vuex.Store({
@@ -25,6 +26,7 @@ export default function() {
         modules: {
             user,
             raid,
+            aufstellung,
         }
     })
 }

@@ -1,7 +1,7 @@
 <template>
     <v-list>
         <v-list-item
-                v-for="(user, index) in angemeldet"
+                v-for="(user, index) in dropdownList"
                 :key="index"
                 @click="pick(user)"
         >
@@ -15,9 +15,8 @@
 <script>
     export default {
         name: "MenuNameComp",
-        props: ['termin', 'anmeldungen', 'ersatz'],
         computed: {
-            angemeldet: function() {
+            dropdownList: function() {
                 const lfgUser = {
                     id: 1,
                     accname: 'LFG',
@@ -28,8 +27,8 @@
                     accname: 'GCG',
                     name: 'GCG'
                 };
-                let angemeldet = this.anmeldungen.filter(player => player.type < 2);
-                angemeldet = angemeldet.concat(this.ersatz);
+                let angemeldet = this.$store.getters.anmeldungen.filter(player => player.type < 2);
+                angemeldet = angemeldet.concat(this.$store.getters.ersatzSpieler);
                 angemeldet.push(lfgUser);
                 angemeldet.push(gcgUser);
                 return angemeldet;
