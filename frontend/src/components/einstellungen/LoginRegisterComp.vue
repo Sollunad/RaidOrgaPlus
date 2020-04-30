@@ -62,13 +62,10 @@
             ></v-progress-circular>
             <v-snackbar
                     v-model="snackbar"
-                    :timeout="5000"
-                    :top="true"
             >
                 {{ failureText }}
                 <v-btn
                         color="pink"
-                        text
                         @click="snackbar = false"
                 >
                     OK

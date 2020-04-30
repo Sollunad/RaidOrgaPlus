@@ -27,8 +27,6 @@
             </v-tooltip>
             <v-snackbar
                     v-model="snackbar"
-                    :timeout="5000"
-                    :top="true"
             >
                 {{ snackbarText }}
                 <v-btn
@@ -72,6 +70,8 @@
             async submit() {
                 if (this.$refs.form.validate()) {
                     const response = await _users.setApi(this.apiKey);
+                    this.snackbar = true;
+                    this.snackbarText = "Test!";
                     if (response === 'Success') {
                         this.buttonColor = 'success';
                         this.buttonText = 'Success!';
