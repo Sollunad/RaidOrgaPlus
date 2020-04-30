@@ -3,6 +3,7 @@ const _aufstellungen = require('../services/endpoints/aufstellungen');
 const _embeds = require('../services/util/embedProvider');
 const _icons = require('../services/icons');
 const _sessions = require('../services/store/sessions');
+const _reactions = require('../services/store/messages');
 
 exports.run = async (client, message, args) => {
     if (!message.raid) {
@@ -49,20 +50,15 @@ exports.run = async (client, message, args) => {
                 const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
                 const emojiNo = client.emojis.find(emoji => emoji.name === 'no');
                 const emojis = [emojiYes, emojiMaybe, emojiNo];
-                const embed = getTerminEmbed(message.raid.name, termin, aufstellungen, anmeldungen, emojis);
+                const embed = _embeds.terminEmbed(client, message.raid.name, termin, aufstellungen, anmeldungen);
                 message.channel.send(embed)
                     .then(msg => msg.react(emojiYes))
                     .then(r => r.message.react(emojiMaybe))
                     .then(r => r.message.react(emojiNo))
                     .then(r => {
-                        handleReactions(r, termin, emojis, message.raid.name);
-                        const timer = setInterval(async function() {
-                            await resendEmbed(r.message, message.auth, termin, emojis, message.raid.name);
-                            if (isTerminInPast(termin)) {
-                                clearInterval(timer);
-                            }
-                        }, 1000 * 60 * 5);
+                        _reactions.newMessageTermin(r.message.id, r.message.channel.id, termin, message.auth, message.raid.name);
                     });
+
 
             }
         } else {
@@ -78,80 +74,6 @@ exports.run = async (client, message, args) => {
         }
     }
 };
-
-function getTerminEmbed(raidName, termin, aufstellungen, anmeldungen, emojis) {
-    let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}${a.is_cm? ' CM' : ''}`).join('\n');
-    if (allBosses === '') allBosses = 'Keine';
-    let anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
-    if (anmeldungenString === '') anmeldungenString = 'Keine';
-    return _embeds.defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
-        .addField('Datum', termin.date)
-        .addField('Uhrzeit', termin.time)
-        .addField('Geplante Bosse', allBosses)
-        .addField('Anmeldungen', anmeldungenString);
-}
-
-function handleReactions(r, termin, emojis, raidName) {
-    const collector = r.message.createReactionCollector(reactionFilter);
-    collector.on('collect', async (r) => {
-        const user = r.users.filter(user => !user.bot).first();
-        const session = _sessions.getSession(user.id);
-        if (isTerminInPast(termin)) {
-            r.message.channel.send(`${user} Dieser Termin liegt in der Vergangenheit!`)
-                .then(msg => startDeleteReplyTimer(msg));
-        } else if (session === 'Keine Session' || session === 'Abgelaufen') {
-            r.message.channel.send(`${user} Bitte logge dich zunächst über RaidOrga+ ein: https://orga.sollunad.de/#/einstellungen`)
-                .then(msg => startDeleteReplyTimer(msg));
-        } else {
-            const type = getAnmeldungType(r.emoji.name);
-            await _termine.putAnmeldung(session, termin.id, type);
-            await resendEmbed(r.message, session, termin, emojis, raidName);
-            const typeText = ['angemeldet', 'vielleicht da', 'abgemeldet'];
-            r.message.channel.send(`${user} Du bist nun ${typeText[type]} ${r.emoji}`)
-                .then(msg => startDeleteReplyTimer(msg));
-        }
-        r.remove(user).catch(console.log);
-    });
-}
-
-function startDeleteReplyTimer(reply) {
-    const waitTime = 1000 * 10;
-    reply.delete(waitTime);
-}
-
-function reactionFilter(reaction, user) {
-    const reactionEmojiNames = ['yes', 'maybe', 'no'];
-    return reactionEmojiNames.includes(reaction.emoji.name) && !user.bot;
-}
-
-function isTerminInPast(termin) {
-    const dateArray = termin.date.slice(4).split('.');
-    const timeArray = termin.time.split(':');
-    const dateObject = {year: dateArray[2], month: dateArray[1] - 1, day: dateArray[0], hour: timeArray[0], minute: timeArray[1]};
-    const date = new Date(dateObject.year, dateObject.month, dateObject.day, dateObject.hour, dateObject.minute);
-    const now = new Date();
-    return date < now;
-}
-
-async function resendEmbed(message, session, termin, emojis, raidName) {
-    const aufstellungen = await _aufstellungen.getAufstellungen(session, termin.id);
-    const anmeldungen = await _termine.getAnmeldungen(session, termin.id);
-    const embed = getTerminEmbed(raidName, termin, aufstellungen, anmeldungen, emojis);
-    message.edit(embed);
-}
-
-function getAnmeldungType(emoji) {
-    switch (emoji) {
-        case 'yes':
-            return 0;
-        case 'maybe':
-            return 1;
-        case 'no':
-            return 2;
-        default:
-            return null;
-    }
-}
 
 exports.help = {
     usage: '!orga termine <termin> <aufstellung>',
