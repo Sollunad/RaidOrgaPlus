@@ -1,0 +1,20 @@
+const config = require("./config.json");
+const exec = require('child_process').execFile;
+
+function generateSchema() {
+    const arguments = [
+        '-h',
+        config.host,
+        '-d',
+        config.database,
+        '-u',
+        config.user,
+        '-x',
+        config.password,
+        '-o',
+        '"./output2"'
+    ];
+    exec('sequelize-auto', arguments);
+}
+
+generateSchema();
