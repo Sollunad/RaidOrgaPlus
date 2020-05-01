@@ -10,11 +10,10 @@ exports.startTimer = startTimer;
 function startTimer(client) {
     setInterval(async function() {
         refreshAll(client);
-    }, 1000 * 10);
+    }, 1000 * 60 * 5);
 }
 
 function refreshAll(client) {
-    console.log('refreshAll');
     const messages = _messages.getAll();
     for (const message of messages) {
         refreshMessage(client, message.messageId);
