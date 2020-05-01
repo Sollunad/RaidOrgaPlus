@@ -9,7 +9,7 @@ async function getTermine(session, raid){
 }
 
 async function getAnmeldungen(session, termin){
-    return await con.fetch('termine/anmeldungen', 'get', {termin}, session);
+    return await con.fetch('termine/anmeldungenAll', 'get', {termin}, session);
 }
 
 async function putAnmeldung(session, termin, type) {
