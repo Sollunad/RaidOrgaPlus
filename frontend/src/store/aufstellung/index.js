@@ -131,8 +131,10 @@ export default {
             const termin = context.getters.termin;
             if (boss === 0) {
                 context.commit('setAufstellungen', await _termine.addWing(termin.id, wing));
+                context.commit('setElements', await _aufstellungen.getElements(this.termin.id));
             } else {
                 context.commit('setAufstellungen', await _termine.addBoss(termin.id, boss));
+                context.commit('setElements', await _aufstellungen.getElements(this.termin.id));
             }
             context.dispatch('wsSendRefresh')
         },

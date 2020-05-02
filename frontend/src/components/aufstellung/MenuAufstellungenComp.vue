@@ -27,6 +27,7 @@
         methods: {
             pick: async function(aufstellung) {
                 await _aufstellungen.copyElements(aufstellung.id, this.aufstellung.id);
+                await this.$store.dispatch('refresh');
                 await this.$store.dispatch('wsSendRefresh');
                 this.$emit('stopCopy');
             },
