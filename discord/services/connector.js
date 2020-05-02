@@ -5,7 +5,7 @@ exports.fetch = fetch;
 
 async function fetch(endpoint, method, params, auth) {
     try {
-        let url = config.production + endpoint;
+        let url = config.development + endpoint;
         if (auth) {
             params.auth = auth;
         }

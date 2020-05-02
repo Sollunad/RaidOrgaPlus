@@ -1,14 +1,22 @@
 const _json = require('./jsonHandler');
 
 exports.newMessageTermin = newMessageTermin;
+exports.newMessageKalender = newMessageKalender;
 exports.getMessage = getMessage;
 exports.deleteMessage = deleteMessage;
 exports.getAll = getAll;
 
 function newMessageTermin(messageId, channelId, termin, session, raidName) {
     let messages = _json.read('messages');
-    const newReaction = { messageId, channelId, termin, session, raidName, type: "termin" };
-    messages.push(newReaction);
+    const newMessage = { messageId, channelId, termin, session, raidName, type: "termin" };
+    messages.push(newMessage);
+    _json.write('messages', messages);
+}
+
+function newMessageKalender(messageId, channelId) {
+    let messages = _json.read('messages');
+    const newMessage = { messageId, channelId, type: "kalender" };
+    messages.push(newMessage);
     _json.write('messages', messages);
 }
 

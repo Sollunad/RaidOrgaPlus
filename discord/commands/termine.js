@@ -2,8 +2,7 @@ const _termine = require('../services/endpoints/termine');
 const _aufstellungen = require('../services/endpoints/aufstellungen');
 const _embeds = require('../services/util/embedProvider');
 const _icons = require('../services/icons');
-const _sessions = require('../services/store/sessions');
-const _reactions = require('../services/store/messages');
+const _messages = require('../services/store/messages');
 
 exports.run = async (client, message, args) => {
     if (!message.raid) {
@@ -40,7 +39,7 @@ exports.run = async (client, message, args) => {
                     .addField('Boss', `(${pickedAufstellung}) ${aufstellung.name}`)
                     .addField('Aufstellung', aufstellungString)
                     .setThumbnail(_icons.encIcon(aufstellung.abbr));
-                message.channel.send(embed);
+                await message.channel.send(embed);
             } else {
                 /*
                     Embed: 1 Termin
@@ -49,14 +48,13 @@ exports.run = async (client, message, args) => {
                 const emojiYes = client.emojis.find(emoji => emoji.name === 'yes');
                 const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
                 const emojiNo = client.emojis.find(emoji => emoji.name === 'no');
-                const emojis = [emojiYes, emojiMaybe, emojiNo];
                 const embed = _embeds.terminEmbed(client, message.raid.name, termin, aufstellungen, anmeldungen);
                 message.channel.send(embed)
                     .then(msg => msg.react(emojiYes))
                     .then(r => r.message.react(emojiMaybe))
                     .then(r => r.message.react(emojiNo))
                     .then(r => {
-                        _reactions.newMessageTermin(r.message.id, r.message.channel.id, termin, message.auth, message.raid.name);
+                        _messages.newMessageTermin(r.message.id, r.message.channel.id, termin, message.auth, message.raid.name);
                     });
 
 
@@ -70,7 +68,7 @@ exports.run = async (client, message, args) => {
                 const termin = termine[i];
                 embed = embed.addField(`(${i + 1}) ${termin.date}`, termin.time);
             }
-            message.channel.send(embed);
+            await message.channel.send(embed);
         }
     }
 };

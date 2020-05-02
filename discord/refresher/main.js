@@ -7,7 +7,7 @@ const _util = require('../services/util/util');
 exports.refreshMessage = refreshMessage;
 exports.startTimer = startTimer;
 
-const REFRESH_RATE = 1000 * 5;
+const REFRESH_RATE = 1000 * 60 * 10;
 
 function startTimer(client) {
     setInterval(async function() {
@@ -33,13 +33,22 @@ function refreshMessage(client, messageId) {
             } else {
                 await resendTerminEmbed(client, messageObject, messageInfo.session, messageInfo.termin, messageInfo.raidName);
             }
+        } else if (messageInfo.type === "kalender") {
+            await resendKalenderEmbed(messageObject);
         }
-    }).catch(_messages.deleteMessage(messageId));
+    }).catch((error) => {
+        _messages.deleteMessage(messageId)
+    });
 }
 
 async function resendTerminEmbed(client, message, session, termin, raidName) {
     const aufstellungen = await _aufstellungen.getAufstellungen(session, termin.id);
     const anmeldungen = await _termine.getAnmeldungen(session, termin.id);
     const embed = _embeds.terminEmbed(client, raidName, termin, aufstellungen, anmeldungen);
-    message.edit(embed);
+    await message.edit(embed);
+}
+
+async function resendKalenderEmbed(message) {
+    const embed = _embeds.kalenderEmbed();
+    await message.edit(embed);
 }
