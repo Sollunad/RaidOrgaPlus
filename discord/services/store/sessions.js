@@ -15,7 +15,7 @@ function getSessionForDiscordUser(user) {
 }
 
 async function login(user, discordKey) {
-    const session = await _users.login(discordKey);
+    const session = await _users.login(discordKey, user.id);
     if (session) {
         let userId = user.id;
         let newSessions = _json.read('sessions');

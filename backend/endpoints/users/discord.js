@@ -7,14 +7,15 @@ exports.login = loginDiscord;
 exports.delete = deleteDiscordKeyForUser;
 exports.create = createDiscordKey;
 
-async function loginDiscord(key, agent) {
+async function loginDiscord(key, discordId, agent) {
     await deleteInvalidKeys();
     const response = await getUserByDiscordKey(key);
     const user = response[0];
     if (user) {
         const uuid = uuidv4();
         await _session.startDiscord(user.fk_spieler, uuid, agent);
-        await deleteDiscordKey(key)
+        await saveDiscordId(user.fk_spieler, discordId);
+        await deleteDiscordKey(key);
         return uuid;
     }
 }
@@ -61,6 +62,16 @@ async function deleteInvalidKeys() {
     const stmt = 'DELETE FROM DiscordKey WHERE created < NOW() - INTERVAL 1 HOUR';
     try {
         return await db.query(stmt);
+    } catch(e) {
+        throw e;
+    }
+}
+
+async function saveDiscordId(user, id) {
+    console.log(user, id);
+    const stmt = 'UPDATE Spieler SET discord = ? WHERE id = ?';
+    try {
+        return await db.queryV(stmt, [id, user]);
     } catch(e) {
         throw e;
     }

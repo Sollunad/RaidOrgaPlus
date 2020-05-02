@@ -73,11 +73,12 @@ async function loginUser(req) {
     const accName = req.body.accName;
     const pwd = req.body.pwd;
     const key = req.body.key;
+    const discordId = req.body.id;
     const user_agent = req.header('user-agent');
     if (accName && pwd) {
         return await _login.login(accName, pwd, user_agent);
-    } else if (key) {
-        return await _discord.login(key, user_agent);
+    } else if (key && discordId) {
+        return await _discord.login(key, discordId, user_agent);
     } else {
         return [];
     }
