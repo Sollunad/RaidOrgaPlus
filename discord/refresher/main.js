@@ -7,10 +7,12 @@ const _util = require('../services/util/util');
 exports.refreshMessage = refreshMessage;
 exports.startTimer = startTimer;
 
+const REFRESH_RATE = 1000 * 5;
+
 function startTimer(client) {
     setInterval(async function() {
         refreshAll(client);
-    }, 1000 * 60 * 5);
+    }, REFRESH_RATE);
 }
 
 function refreshAll(client) {
@@ -32,7 +34,7 @@ function refreshMessage(client, messageId) {
                 await resendTerminEmbed(client, messageObject, messageInfo.session, messageInfo.termin, messageInfo.raidName);
             }
         }
-    });
+    }).catch(_messages.deleteMessage(messageId));
 }
 
 async function resendTerminEmbed(client, message, session, termin, raidName) {
