@@ -59,5 +59,8 @@ function getAvatarURL(member) {
 }
 
 function findUser(roUser, discordUsers) {
-    return discordUsers.find(d => d.nickname.includes(roUser.accname));
+    if (!roUser.discord) return;
+    return discordUsers.find(d => {
+        return d.id.toString() === roUser.discord.toString();
+    });
 }

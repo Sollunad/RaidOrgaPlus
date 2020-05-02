@@ -29,11 +29,12 @@ async function getUsers(req, authentication) {
             const guildUser = _guild.findUser(user, guildUsers);
             if (discordUser) {
                 user.discord = discordUser;
+            } else {
+                user.discord = null;
             }
             if (guildUser) {
                 user.guild = guildUser;
                 user.guildLog = _guild.filterLogByUser(user, guildLog);
-
             }
         }
         return users;

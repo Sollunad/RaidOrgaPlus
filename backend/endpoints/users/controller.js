@@ -46,6 +46,8 @@ async function getUser(req, authentication) {
         const discordUser = _discordUsers.findUser(user, discordUsers);
         if (discordUser) {
             user.discord = discordUser;
+        } else {
+            user.discord = null;
         }
         return user;
     }
