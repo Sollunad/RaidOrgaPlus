@@ -1,13 +1,42 @@
 <template>
     <div>
-        <v-text-field
-                outline
+        <v-chip-group
+                multiple
+                column
+                active-class="activeChip"
                 class="suche"
-                label="Suche nach Spielern"
-                prepend-inner-icon="search"
-                v-model="filterText"
-        ></v-text-field>
-        <v-expansion-panels>
+                v-model="activeFilter"
+        >
+            <v-chip filter v-for="filter in filterList" :key="filter">
+                {{ filter }}
+            </v-chip>
+        </v-chip-group>
+        <v-container>
+            <v-layout row wrap>
+                <v-flex xs12 sm6>
+                    <v-text-field
+                            outline
+                            class="suche"
+                            label="Suche nach Spielern"
+                            prepend-inner-icon="search"
+                            v-model="filterText"
+                    ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6>
+                    <v-text-field
+                            outline
+                            class="suche"
+                            label="Suche nach Rollen"
+                            prepend-inner-icon="search"
+                            v-model="roleText"
+                    ></v-text-field>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <div v-if="users.length > 0" class="suche">
+            Zeige {{filteredUsers.length}} / {{users.length}}
+        </div>
+        <v-expansion-panels class="list">
             <v-expansion-panel v-for="user in filteredUsers" :key="user.accname">
                 <v-expansion-panel-header>
                     <ModListUserHeaderComp
@@ -37,6 +66,13 @@
             users: [],
             open: null,
             filterText: '',
+            roleText: '',
+            filterList: [
+                'Mit Discord',
+                'Ohne Discord',
+                '14 Tage inaktiv',
+            ],
+            activeFilter: [0],
         }),
         computed: {
             filteredUsers: function() {
@@ -45,12 +81,44 @@
         },
         methods: {
             isInFilter: function (user) {
+                return this.isInNameFilter(user) && this.isInChipFilter(user) && this.isInRoleFilter(user);
+            },
+            isInChipFilter: function(user) {
+                for (const filter of this.activeFilter) {
+                    const filterString = this.filterList[filter];
+                    let currentTruth;
+                    if (filterString === 'Mit Discord') {
+                        currentTruth = this.hasDiscord(user);
+                    } else if (filterString === 'Ohne Discord') {
+                        currentTruth = !this.hasDiscord(user);
+                    } else if (filterString === '14 Tage inaktiv') {
+                        currentTruth = this.twoWeeksInactive(user);
+                    }
+                    if (!currentTruth) return false;
+                }
+                return true;
+            },
+            isInNameFilter: function(user) {
                 const name = user.name.toLowerCase();
                 const accname = user.accname.toLowerCase();
                 const searchText = this.filterText.toLowerCase();
 
                 return name.indexOf(searchText) > -1 ||
                     accname.indexOf(searchText) > -1
+            },
+            isInRoleFilter: function(user) {
+                if (this.roleText === '') return true;
+                if (!user.discord) return false;
+                const searchText = this.roleText.toLowerCase();
+                return !!user.discord.roles.find(r => r.name.toLowerCase().indexOf(searchText) > -1)
+            },
+            hasDiscord: function(user) {
+                return !!user.discord;
+            },
+            twoWeeksInactive: function(user) {
+                const date = new Date(user.lastActive);
+                const diff = new Date() - date;
+                return diff > 1000 * 60 * 60 * 24 * 14;
             }
         },
         created: async function() {
@@ -65,5 +133,12 @@
     }
     .suche {
         margin: 0 10px;
+    }
+    .activeChip {
+        font-weight: bold;
+        color: lightblue;
+    }
+    .list {
+        margin-top: 10px;
     }
 </style>

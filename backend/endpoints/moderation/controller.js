@@ -53,10 +53,11 @@ async function getRaids(req, authentication) {
                 const discordUser = _discord.findUser(user, discordUsers);
                 if (discordUser) {
                     user.discord = discordUser;
+                } else {
+                    user.discord = null;
                 }
             }
             raid.spieler = users;
-
         }
         return raids;
     }
