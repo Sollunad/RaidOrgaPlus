@@ -120,7 +120,10 @@
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
         computed: {
             lockIcon: function() {
-                return this.$store.getters.isLocked? 'lock' : 'lock_open';
+                return this.locked? 'lock' : 'lock_open';
+            },
+            locked: function() {
+                return this.$store.getters.isLocked;
             },
             role: function() {
                 return this.$store.getters.raidRole;
