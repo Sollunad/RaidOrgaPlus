@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="subheading textLine"><span class="font-weight-bold">Zuletzt online:</span> {{lastActive}}</div>
+        <div class="subheading textLine"><span class="font-weight-bold">Erste Raid-Anmeldung:</span> {{firstTermin}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Letzte Raid-Anmeldung:</span> {{lastTermin}}</div>
         <v-divider class="divider" v-if="hasDiscord || isInGuild"></v-divider>
         <div v-if="hasDiscord">
@@ -84,20 +85,26 @@
                 if (days === 1) return 'vor 1 Tag';
                 else return `vor ${days} Tagen`;
             },
+            firstTermin: function() {
+                return this.parseDate(this.user.firstTermin);
+            },
             lastTermin: function() {
-                if (this.user.lastTermin) {
-                    const date = new Date(this.user.lastTermin);
-                    const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric'};
-                    return date.toLocaleDateString('de-DE', dateOptions);
-                } else {
-                    return 'Nie'
-                }
+                return this.parseDate(this.user.lastTermin);
             }
         },
         methods: {
             openLink: function() {
                 this.$router.push(`/profil/${this.user.id}`);
-            }
+            },
+            parseDate: function(dateString) {
+                if (dateString) {
+                    const date = new Date(dateString);
+                    const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric'};
+                    return date.toLocaleDateString('de-DE', dateOptions);
+                } else {
+                    return 'Nie'
+                }
+            },
         }
     }
 </script>

@@ -71,6 +71,7 @@
                 'Mit Discord',
                 'Ohne Discord',
                 '14 Tage inaktiv',
+                '1. Raid vier Wochen her',
             ],
             activeFilter: [0],
         }),
@@ -93,6 +94,8 @@
                         currentTruth = !this.hasDiscord(user);
                     } else if (filterString === '14 Tage inaktiv') {
                         currentTruth = this.twoWeeksInactive(user);
+                    } else if (filterString === '1. Raid vier Wochen her') {
+                        currentTruth = this.firstRaidFourWeeks(user);
                     }
                     if (!currentTruth) return false;
                 }
@@ -119,7 +122,13 @@
                 const date = new Date(user.lastActive);
                 const diff = new Date() - date;
                 return diff > 1000 * 60 * 60 * 24 * 14;
-            }
+            },
+            firstRaidFourWeeks: function(user) {
+                if (!user.firstTermin) return false;
+                const date = new Date(user.firstTermin);
+                const diff = new Date() - date;
+                return diff > 1000 * 60 * 60 * 24 * 28;
+            },
         },
         created: async function() {
             this.users = await _moderation.getUsers();
