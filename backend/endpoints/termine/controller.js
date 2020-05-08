@@ -77,9 +77,16 @@ async function postTermin(req, authentication) {
     const raid = req.body.raid;
     const date = req.body.date;
     const time = req.body.time;
+    const endtime = req.body.endtime;
     if (raid && date && time) {
         const role = await _roles.forRaid(authentication, raid);
-        if (role > 0) return await _termin.newTermin(raid, date, time);
+        if (role > 0) {
+            if (endtime) {
+                return await _termin.newTerminWithEndTime(raid, date, time, endtime);
+            } else {
+                return await _termin.newTermin(raid, date, time);
+            }
+        }
     }
     return [];
 }

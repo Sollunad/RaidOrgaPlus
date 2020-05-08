@@ -84,10 +84,15 @@ function mapTermin(termin) {
         id: termin.id,
         date: new Date(termin.date),
         time: termin.time.slice(0,5),
+        endtime: termin.endtime? termin.endtime.slice(0,5) : null,
         raid: termin.name
     }
 }
 
 function terminToString(termin) {
-    return `${termin.time} | ${termin.raid}\n`;
+    if (termin.endtime) {
+        return `${termin.time} - ${termin.endtime} | ${termin.raid}\n`
+    } else {
+        return `${termin.time}         | ${termin.raid}\n`
+    }
 }

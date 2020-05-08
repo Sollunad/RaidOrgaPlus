@@ -16,5 +16,8 @@ function mapTerminDate(termin) {
 
     newTerminObject.date = `${weekday}, ${dateString}`;
     newTerminObject.time = termin.time.slice(0,5);
+    if (newTerminObject.endtime) {
+        newTerminObject.endtime = termin.endtime.slice(0,5);
+    }
     return newTerminObject;
 }

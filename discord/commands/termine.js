@@ -66,7 +66,11 @@ exports.run = async (client, message, args) => {
             let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Alle Termine`);
             for (let i = 0; i < termine.length; i++) {
                 const termin = termine[i];
-                embed = embed.addField(`(${i + 1}) ${termin.date}`, termin.time);
+                if (termin.endtime) {
+                    embed = embed.addField(`(${i + 1}) ${termin.date}`, `${termin.time} - ${termin.endtime}`);
+                } else {
+                    embed = embed.addField(`(${i + 1}) ${termin.date}`, termin.time);
+                }
             }
             await message.channel.send(embed);
         }

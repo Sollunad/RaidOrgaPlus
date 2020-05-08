@@ -76,7 +76,6 @@ async function deleteInvalidKeys() {
 }
 
 async function saveDiscordId(user, id) {
-    console.log(user, id);
     const stmt = 'UPDATE Spieler SET discord = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [id, user]);

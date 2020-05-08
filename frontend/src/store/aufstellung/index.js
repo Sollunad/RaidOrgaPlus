@@ -174,7 +174,7 @@ export default {
             // I have to add 8 days here to get 7 but I don't know why.
             date.setDate(date.getDate() + 8);
             const dateString = date.toISOString().substr(0, 10);
-            await _termine.newTermin(raid.id, dateString, termin.time);
+            await _termine.newTermin(raid.id, dateString, termin.time, termin.endtime);
         },
         toggleLocked: async function(context) {
             context.commit('toggleLocked');

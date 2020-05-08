@@ -10,7 +10,6 @@ async function parse(filepath) {
     const id = filepath.split('/')[2].split('.')[0];
     return new Promise((resolve, reject) => {
         exec('mono', [PARSER_PATH, '-c', CONFIG_PATH, '-p', filepath], function(err, data) {
-            console.log(id);
             try {
                 fs.unlinkSync(filepath);
             } catch(e) {

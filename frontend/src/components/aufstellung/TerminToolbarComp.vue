@@ -1,7 +1,7 @@
 <template>
     <div class="toolbar">
         <div class="datetime" v-if="termin">
-            {{termin.date}} {{termin.time}}
+            {{headline}}
         </div>
         <KommentarComp
                 v-if="active === false"
@@ -119,6 +119,13 @@
         name: "TerminToolbarComp",
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
         computed: {
+            headline: function() {
+              if (this.termin.endtime) {
+                  return `${this.termin.date} ${this.termin.time} - ${this.termin.endtime}`;
+              } else {
+                  return `${this.termin.date} ${this.termin.time}`;
+              }
+            },
             lockIcon: function() {
                 return this.locked? 'lock' : 'lock_open';
             },

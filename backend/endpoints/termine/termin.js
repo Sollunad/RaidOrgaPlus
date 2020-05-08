@@ -7,6 +7,7 @@ exports.listArchived = listArchived;
 exports.listAllIds = listAllIds;
 exports.getRaidId = getRaidId;
 exports.newTermin = newTermin;
+exports.newTerminWithEndTime = newTerminWithEndTime;
 exports.archive = archive;
 exports.addBoss = addBoss;
 exports.addWing = addWing;
@@ -64,7 +65,7 @@ async function listAllIds(raidId) {
 }
 
 async function listActive(userId, raidId) {
-    const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Spieler_Termin.type ' +
+    const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Termin.endtime, Spieler_Termin.type ' +
         'FROM Termin ' +
         'JOIN Raid ON Termin.fk_raid = Raid.id ' +
         'LEFT JOIN Spieler_Termin ON Spieler_Termin.fk_spieler = ? AND Spieler_Termin.fk_termin = Termin.id ' +
@@ -78,7 +79,7 @@ async function listActive(userId, raidId) {
 }
 
 async function listArchived(raidId) {
-    const stmt = 'SELECT Termin.id, Termin.date, Termin.time FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
+    const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Termin.endtime FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
     try {
         return (await db.queryV(stmt, raidId)).map(dateMapper.map);
     } catch(e) {
@@ -94,6 +95,16 @@ async function newTermin(raid, date, time) {
         throw e;
     }
 }
+
+async function newTerminWithEndTime(raid, date, time, endtime) {
+    const stmt = 'INSERT INTO Termin (fk_raid, date, time, endtime) VALUES (?,?,?,?)';
+    try {
+        return await db.queryV(stmt, [raid, date, time, endtime]);
+    } catch(e) {
+        throw e;
+    }
+}
+
 
 async function archive(termin) {
     const stmt = 'UPDATE Termin SET isArchived = 1, isLocked = 0, preview = 0 WHERE id = ?';

@@ -4,7 +4,7 @@ const dateMapper = require('./dateMapper');
 exports.getHomepageTermine = getHomepageTermine;
 
 async function getHomepageTermine(user) {
-    const stmt = 'SELECT Termin.id, Raid.id AS raidID, Raid.name, Raid.icon, Spieler_Raid.role, Termin.date, Termin.time, Spieler_Termin.type ' +
+    const stmt = 'SELECT Termin.id, Raid.id AS raidID, Raid.name, Raid.icon, Spieler_Raid.role, Termin.date, Termin.time, Termin.endtime, Spieler_Termin.type ' +
         'FROM Termin ' +
         'JOIN Raid ON Termin.fk_raid = Raid.id ' +
         'JOIN Spieler_Raid ON Raid.id = Spieler_Raid.fk_raid ' +
