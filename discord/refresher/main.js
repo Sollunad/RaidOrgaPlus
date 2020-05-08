@@ -49,6 +49,6 @@ async function resendTerminEmbed(client, message, session, termin, raidName) {
 }
 
 async function resendKalenderEmbed(message) {
-    const embed = _embeds.kalenderEmbed();
+    const embed = await _embeds.kalenderEmbed();
     await message.edit(embed);
 }
