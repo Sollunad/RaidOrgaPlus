@@ -3,7 +3,7 @@
         <v-list-item @click="openTermin">
             <v-list-item-content>
                 <v-list-item-title v-html="headline"></v-list-item-title>
-                <v-list-item-subtitle v-html="termin.time"></v-list-item-subtitle>
+                <v-list-item-subtitle v-html="subline"></v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
                 <v-btn icon>
@@ -21,6 +21,13 @@
         computed: {
             headline: function() {
                 return `${this.termin.date} (${this.termin.name})`;
+            },
+            subline: function() {
+                if (this.termin.endtime) {
+                    return `${this.termin.time} - ${this.termin.endtime}`;
+                } else {
+                    return this.termin.time;
+                }
             },
             icon: function() {
                 if (this.termin) {
