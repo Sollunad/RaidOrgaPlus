@@ -1,5 +1,7 @@
 const db = require('../../db/connector.js');
 const _session = require('./session.js');
+const _user = require('./user.js');
+const _discord = require('../../discord/users');
 const pw = require('generate-password');
 const uuidv4 = require('uuid/v4');
 
@@ -10,13 +12,19 @@ exports.create = createDiscordKey;
 async function loginDiscord(key, discordId, agent) {
     await deleteInvalidKeys();
     const response = await getUserByDiscordKey(key);
+    await deleteDiscordKey(key);
     const user = response[0];
     if (user) {
-        const uuid = uuidv4();
-        await _session.startDiscord(user.fk_spieler, uuid, agent);
-        await saveDiscordId(user.fk_spieler, discordId);
-        await deleteDiscordKey(key);
-        return uuid;
+        const discordUser = await _discord.getUser(discordId);
+        const discordName = discordUser.nickname;
+        const userId = user.fk_spieler;
+        const userObject = (await _user.get(userId))[0];
+        if (discordName.includes(userObject.accname)) {
+            const uuid = uuidv4();
+            await _session.startDiscord(userId, uuid, agent);
+            await saveDiscordId(userId, discordId);
+            return uuid;
+        }
     }
 }
 

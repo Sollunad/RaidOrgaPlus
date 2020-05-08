@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
         if (loggedIn) {
             message.channel.send('Du bist jetzt eingeloggt!');
         } else {
-            message.channel.send('Der Einmalschlüssel war nicht gültig. Bitte melde dich erneut an.');
+            message.channel.send('Das Einloggen hat nicht funktioniert. Stelle sicher, dass der Einmalschlüssel gültig ist und dein Discord-Name auf dem Rising Light-Discord deinen Accountnamen enthält.');
         }
     } else {
         message.channel.send('Bitte gebe einen Einmalschlüssel an.');
