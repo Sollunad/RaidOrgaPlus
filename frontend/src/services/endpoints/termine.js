@@ -23,8 +23,8 @@ async function listArchived(raid) {
     return await con('termine', 'get', {raid, archive: 1}, true);
 }
 
-async function newTermin(raid, date, time) {
-    return await con('termine', 'post', {raid, date, time}, true);
+async function newTermin(raid, date, time, endtime) {
+    return await con('termine', 'post', {raid, date, time, endtime}, true);
 }
 
 async function deleteTermin(termin) {

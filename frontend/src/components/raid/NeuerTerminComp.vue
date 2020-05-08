@@ -3,68 +3,38 @@
         <h2>Neuer Termin</h2>
         <p></p>
         <v-form ref="form" v-model="valid" lazy-validation>
-            <v-dialog
-                    ref="datePicker"
-                    v-model="datePicker"
-                    :return-value.sync="date"
-                    persistent
-                    full-width
-                    width="290px"
-            >
-                <template v-slot:activator="{on}">
-                    <v-text-field
-                            v-on="on"
-                            v-model="dateFormatted"
-                            label="Datum"
-                            prepend-icon="event"
-                            readonly
-                            :rules="validationRules"
-                    ></v-text-field>
-                </template>
-                <v-date-picker
-                        v-model="date"
-                        scrollable
-                        locale="de-DE"
-                        :first-day-of-week="1">
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="datePicker = false">Abbrechen</v-btn>
-                    <v-btn text color="primary" @click="$refs.datePicker.save(date)">OK</v-btn>
-                </v-date-picker>
-            </v-dialog>
-            <v-dialog
-                    ref="timePicker"
-                    v-model="timePicker"
-                    :return-value.sync="time"
-                    persistent
-                    full-width
-                    width="290px"
-            >
-                <template v-slot:activator="{on}">
-                    <v-text-field
-                            v-on="on"
-                            v-model="time"
-                            label="Uhrzeit"
-                            prepend-icon="access_time"
-                            readonly
-                            :rules="validationRules"
-                    ></v-text-field>
-                </template>
-                <v-time-picker
-                        v-if="timePicker"
-                        v-model="time"
-                        full-width
-                        format="24hr"
-                >
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="timePicker = false">Abbrechen</v-btn>
-                    <v-btn text color="primary" @click="$refs.timePicker.save(time)">OK</v-btn>
-                </v-time-picker>
-            </v-dialog>
-            <v-btn
-                    @click="submit"
-                    :color=buttonColor>
-                OK
-            </v-btn>
+
+            <v-container>
+                <v-row>
+                    <v-col cols="12" md="6" lg="5" xl="4">
+                        <v-date-picker
+                                v-model="date"
+                                scrollable
+                                locale="de-DE"
+                                :first-day-of-week="1">
+                        </v-date-picker>
+                    </v-col>
+                    <v-col cols="12" sm="6" lg="3">
+                        <v-text-field
+                                v-model="time"
+                                label="Beginn"
+                                prepend-icon="access_time"
+                                :rules="validationRulesStart"
+                        ></v-text-field>
+                        <v-text-field
+                                v-model="endtime"
+                                label="Ende (optional)"
+                                prepend-icon="access_time"
+                                :rules="validationRulesEnd"
+                        ></v-text-field>
+                        <v-btn
+                                @click="submit"
+                                :color=buttonColor>
+                            OK
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-container>
         </v-form>
     </div>
 </template>
@@ -78,19 +48,19 @@
             valid: true,
             date: new Date().toISOString().substr(0, 10),
             time: null,
+            endtime: null,
             datePicker: false,
             timePicker: false,
-            validationRules: [
-                v => !!v || 'Feld darf nicht leer sein'
+            validationRulesStart: [
+                v => !!v || 'Feld darf nicht leer sein',
+                v => /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(v) || 'Bitte gib eine gültige Uhrzeit an',
+            ],
+            validationRulesEnd: [
+                v => !v || /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(v) || 'Bitte gib eine gültige Uhrzeit an',
             ],
             buttonColor: ''
         }),
         computed: {
-            dateFormatted: function() {
-                if (!this.date) return null;
-                const [year, month, day] = this.date.split('-')
-                return `${day}.${month}.${year}`
-            },
             raid: function() {
                 return this.$store.getters.raid;
             }
@@ -99,7 +69,7 @@
             submit: async function() {
                 if (this.$refs.form.validate()) {
                     this.buttonColor = 'success';
-                    await _termine.newTermin(this.raid.id, this.date, this.time);
+                    await _termine.newTermin(this.raid.id, this.date, this.time, this.endtime);
                     window.history.back();
                 }
             }
