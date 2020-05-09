@@ -7,11 +7,33 @@
         </v-btn>
         <v-toolbar-title>RaidOrga+</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon
-               v-if="loggedIn"
-               @click="logout">
-            <v-icon>logout</v-icon>
-        </v-btn>
+        <span v-if="loggedIn">
+            <v-btn icon @click="showBuildCheck = !showBuildCheck">
+                <v-icon>{{buildCheckIcon}}</v-icon>
+            </v-btn>
+            <div class="buildCheckWarning" v-if="showWarning">
+                <v-card class="mx-auto" max-width="344" outlined>
+                    <v-card-text v-if="!buildCheckSuccess" class="white--text">
+                        <p class="headline mb-7 font-weight-bold">Neue Version verfügbar!</p>
+                        <p>Deine Version: <span class="red--text">{{frontendBuild}}</span></p>
+                        <p>Aktuelle Version: <span class="green--text">{{backendBuild}}</span></p>
+                        <span>Refreshe deinen Browser oder klicke hier, um die neueste Version zu erhalten:</span>
+                    </v-card-text>
+                    <v-card-text v-else class="white--text">
+                        <p class="headline mb-5 font-weight-bold">Aktuelle Version installiert!</p>
+                        <p>An dieser Stelle erfährst du, sobald es eine neue Version von RaidOrga+ gibt.</p>
+                        <span>Aktuelle Version: <span class="green--text">{{frontendBuild}}</span></span>
+                    </v-card-text>
+
+                    <v-card-actions v-if="!buildCheckSuccess">
+                        <v-btn text @click="refreshPage">Seite neu laden</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </div>
+            <v-btn icon @click="logout">
+                <v-icon>logout</v-icon>
+            </v-btn>
+        </span>
     </v-app-bar>
 </template>
 
@@ -22,10 +44,33 @@
     export default {
         name: "MenuToolbarComp",
         props: ['loggedIn'],
+        data: () => ({
+            showBuildCheck: false,
+        }),
+        computed: {
+            buildCheckSuccess: function() {
+                return this.$store.getters.buildCheck;
+            },
+            buildCheckIcon: function() {
+                return this.buildCheckSuccess? 'verified_user' : 'update';
+            },
+            showWarning: function() {
+                return this.showBuildCheck || !this.buildCheckSuccess;
+            },
+            frontendBuild: function() {
+                return this.$store.getters.frontendBuild;
+            },
+            backendBuild: function() {
+                return this.$store.getters.backendBuild;
+            }
+        },
         methods: {
             logout: async function() {
                 await _users.invalidateSession();
                 _cookies.deleteCookie('session');
+                window.location.reload();
+            },
+            refreshPage: function() {
                 window.location.reload();
             }
         }
@@ -33,5 +78,9 @@
 </script>
 
 <style scoped>
-
+    .buildCheckWarning {
+        top: 60px;
+        right: 20px;
+        position: absolute;
+    }
 </style>

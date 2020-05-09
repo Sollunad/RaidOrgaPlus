@@ -1,9 +1,12 @@
 import _users from '../../services/endpoints/users';
+import _build from '../../services/endpoints/build';
 
 export default {
     state: {
         loggedInUser: {},
         loginState: 0,
+        buildCheck: null,
+        frontendBuild: '2020_05_09',
     },
     mutations: {
         setLoggedInUser(state, user) {
@@ -15,8 +18,15 @@ export default {
         setUserName(state, name) {
             state.loggedInUser.name = name;
         },
+        setBuildCheck(state, success) {
+            state.buildCheck = success;
+        },
     },
     actions: {
+        async checkBuild(context) {
+            const successState = await _build.checkBuild(context.getters.frontendBuild);
+            context.commit('setBuildCheck', successState);
+        },
         async getLoggedInUser(context) {
             const user = await _users.get();
             if (!Array.isArray(user) || user.length > 0) {
@@ -42,5 +52,14 @@ export default {
         loginFailed(state) {
             return state.loginState === -1;
         },
+        frontendBuild(state) {
+            return state.frontendBuild;
+        },
+        backendBuild(state) {
+            return state.buildCheck === 'Success'? state.frontendBuild : state.buildCheck;
+        },
+        buildCheck(state) {
+            return state.buildCheck === 'Success';
+        }
     },
 }

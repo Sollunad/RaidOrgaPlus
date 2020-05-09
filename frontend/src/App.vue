@@ -8,22 +8,19 @@
             <v-progress-circular indeterminate color="primary" />
         </div>
     </v-content>
-    <FooterComp />
   </v-app>
 </template>
 
 <script>
-  import MenuComp from './components/menu/MenuComp.vue';
-  import FooterComp from './components/menu/FooterComp';
+    import MenuComp from './components/menu/MenuComp.vue';
 
-  import MainPage from "./pages/MainPage";
-  import LoginRegisterPage from "./pages/LoginRegisterPage";
+    import MainPage from "./pages/MainPage";
+    import LoginRegisterPage from "./pages/LoginRegisterPage";
 
-  export default {
+    export default {
       components: {
         LoginRegisterPage,
         MainPage,
-        FooterComp,
         MenuComp,
       },
       props: {
@@ -51,6 +48,7 @@
       },
       created: async function() {
           this.guardRoute();
+          await this.$store.dispatch('checkBuild');
           await this.$store.dispatch('getLoggedInUser');
 
           if ('serviceWorker' in navigator) {
