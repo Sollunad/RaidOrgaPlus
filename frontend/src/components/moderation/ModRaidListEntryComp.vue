@@ -29,8 +29,8 @@
         methods: {
             refresh: async function() {
                 this.spieler = await _moderation.getSpielerForRaid(this.raid.id);
-                this.$refs.einladen.refreshInvitable();
-            }
+                await this.$refs.einladen.refreshInvitable();
+            },
         },
         mounted: function() {
             this.spieler = this.raid.spieler;
