@@ -2,6 +2,7 @@ import _termine from "../../services/endpoints/termine";
 import _aufstellungen from "../../services/endpoints/aufstellungen";
 import WSClient from "../../services/websocket";
 import _raids from "../../services/endpoints/raids";
+import _preview from "../../services/endpoints/preview";
 
 export default {
     state: {
@@ -71,6 +72,12 @@ export default {
                 context.commit('setInvitablePlayers', await _raids.invitablePlayers(raid.id));
                 context.commit('startWSClient', termin);
             }
+        },
+        loadAufstellungenPreview: async function(context, terminId) {
+            context.commit('setAufstellungen', await _preview.getAufstellungen(terminId));
+            context.commit('setElements', await _preview.getElements(terminId));
+            context.commit('setLocked', true);
+            context.commit('setActive', true);
         },
         clearWS: function(context) {
             if (context.getters.wsClient) {

@@ -11,10 +11,7 @@
                             :key="aufstellung.id"
                             xs12 md6 xl3>
                         <AufstellungComp
-                                v-bind:aufstellung="aufstellung"
-                                v-bind:elements="elementsForAufstellung(aufstellung.id)"
-                                v-bind:active="true"
-                                v-bind:locked="true">
+                                v-bind:aufstellung="aufstellung">
                         </AufstellungComp>
                     </v-flex>
                 </v-layout>
@@ -24,32 +21,26 @@
 </template>
 
 <script>
-    import _preview from '../services/endpoints/preview';
     import AufstellungComp from "../components/aufstellung/AufstellungComp";
 
     export default {
         name: "PreviewPage",
         components: {AufstellungComp},
-        data: () => ({
-            aufstellungen: [],
-            elements: []
-        }),
         computed: {
             termin: function() {
                 return this.$route.params.id;
+            },
+            aufstellungen: function() {
+                return this.$store.getters.aufstellungen;
             }
         },
         methods: {
-            elementsForAufstellung: function(aufstellung) {
-                if (this.elements) return this.elements.filter(e => e.aufstellung === aufstellung);
-            },
             backToMainPage: function() {
                 window.location.href = '/';
             }
         },
         created: async function() {
-            this.aufstellungen = await _preview.getAufstellungen(this.termin);
-            this.elements = await _preview.getElements(this.termin);
+            await this.$store.dispatch('loadAufstellungenPreview', this.termin);
         }
     }
 </script>

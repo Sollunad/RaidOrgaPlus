@@ -36,7 +36,10 @@ export default {
             return state.raid;
         },
         raidRole(state) {
-            return state.raid.role;
+            if (state.raid) {
+                return state.raid.role;
+            }
+            return 0;
         }
     },
 }
