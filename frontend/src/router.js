@@ -16,6 +16,7 @@ import PasswordResetPage from "./pages/PasswordResetPage";
 import ModerationPage from "./pages/ModerationPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import VueRouter from "vue-router";
+import HelpPage from "./pages/HelpPage";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -35,6 +36,7 @@ const routes = [
     { path: '/profil/:id', component: UserProfilePage },
     { path: '/einstellungen', component: EinstellungenPage },
     { path: '/skills', component: SkillsPage },
+    { path: '/help', component: HelpPage },
     { path: '/preview/:id', component: PreviewPage },
     { path: '/moderation', component: ModerationPage },
     { path: '/reset/:token', component: PasswordResetPage },
