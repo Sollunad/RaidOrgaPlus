@@ -47,8 +47,8 @@
         data: () => ({
             valid: true,
             date: new Date().toISOString().substr(0, 10),
-            time: null,
-            endtime: null,
+            time: '',
+            endtime: '',
             datePicker: false,
             timePicker: false,
             validationRulesStart: [
@@ -73,6 +73,24 @@
                     window.history.back();
                 }
             }
+        },
+        watch: {
+            time: function(newVal, oldVal) {
+                if (oldVal.length === 1 && newVal.length === 2) {
+                    this.time = this.time + ':';
+                }
+                if (oldVal.length === 3 && newVal.length === 2 && oldVal.endsWith(':')) {
+                    this.time = this.time.slice(0, -1);
+                }
+            },
+            endtime: function(newVal, oldVal) {
+                if (oldVal.length === 1 && newVal.length === 2) {
+                    this.endtime = this.endtime + ':';
+                }
+                if (oldVal.length === 3 && newVal.length === 2 && oldVal.endsWith(':')) {
+                    this.endtime = this.endtime.slice(0, -1);
+                }
+            },
         }
     }
 </script>
