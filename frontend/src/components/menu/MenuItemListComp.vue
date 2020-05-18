@@ -24,14 +24,6 @@
                 <v-list-item-title>Moderation</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-        <v-list-item target="_newtab" href="https://docs.google.com/document/d/1oyVaFsCu8_kX4zyU96crqzGix8bMLsPrrjjMtfwpunA/edit?usp=sharing">
-            <v-list-item-action>
-                <v-icon>help</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-                <v-list-item-title>Hilfe</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
     </v-list>
 </template>
 
@@ -52,6 +44,7 @@
                 { id: 1, icon: 'explore', title: 'Meine Raids', route: '/raids' },
                 { id: 2, icon: 'account_circle', title: 'Profil', route: '/profil' },
                 { id: 3, icon: 'settings', title: 'Einstellungen', route: '/einstellungen' },
+                { id: 4, icon: 'help', title: 'Hilfe', route: '/help' },
                 //{ id: 3, icon: 'beenhere', title: 'Skills', route: '/skills'},
             ]
         }),
@@ -70,7 +63,7 @@
         methods: {
             toHomescreen: function() {
                 this.$router.push('/');
-            }
+            },
         }
     }
 </script>
