@@ -22,15 +22,9 @@
                     accname: 'LFG',
                     name: 'LFG'
                 };
-                const gcgUser = {
-                    id: 2,
-                    accname: 'GCG',
-                    name: 'GCG'
-                };
                 let angemeldet = this.$store.getters.anmeldungen.filter(player => player.type < 2);
                 angemeldet = angemeldet.concat(this.$store.getters.ersatzSpieler);
                 angemeldet.push(lfgUser);
-                angemeldet.push(gcgUser);
                 return angemeldet;
             }
         },
