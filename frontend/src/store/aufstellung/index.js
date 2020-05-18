@@ -60,6 +60,8 @@ export default {
         loadAufstellungen: async function(context) {
             const termin = context.getters.termin;
             const raid = context.getters.raid;
+            context.commit('setAnmeldungen', []);
+            context.commit('setAufstellungen', []);
             context.dispatch('closeDialog');
             context.commit('setActive', !await _termine.isArchived(termin.id));
             context.commit('setAufstellungen', await _aufstellungen.getForTermin(termin.id));
