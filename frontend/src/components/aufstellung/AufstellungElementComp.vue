@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="{'highlighted': isSelfUser}">
         <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed">
             <template v-slot:activator="{on}">
                 <v-avatar :size="20" :tile="true" class="avatar hover" v-on="on" @contextmenu.prevent="clearClass">
@@ -33,11 +33,11 @@
         </v-avatar>
         <v-menu v-if="editAllowed" class="namemenu">
             <template v-slot:activator="{on}">
-                <span v-on="on" @contextmenu.prevent="clearName" class="hover">{{user.name}}</span>
+                <span v-on="on" @contextmenu.prevent="clearName" class="hover" :class="{'bold': isSelfUser}">{{user.name}}</span>
             </template>
             <MenuNameComp v-on:pick="pickName"/>
         </v-menu>
-        <NameComp v-else v-bind:user="user" :truncate="true" :clickable="true"></NameComp>
+        <NameComp v-else v-bind:user="user" :truncate="true" :clickable="true" :class="{'bold': isSelfUser}"></NameComp>
     </div>
 </template>
 
@@ -91,7 +91,12 @@
                 else return {
                     id: 0, name: '???', accname: '???'
                 };
-            }
+            },
+            isSelfUser: function() {
+                if (!this.element || !this.$store.getters.loggedInUser) return false;
+                const selfAccName = this.$store.getters.loggedInUser.accname;
+                return this.element.accname === selfAccName;
+            },
         },
         methods: {
             pickClass: async function(clss) {
@@ -160,5 +165,14 @@
 
     .hover {
         cursor: pointer;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .highlighted {
+        background-color: #454431;
+        border-radius: 10px;
     }
 </style>
