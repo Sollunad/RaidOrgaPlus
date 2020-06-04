@@ -155,7 +155,8 @@
             async register() {
                 const success = await _users.register(this.accName, this.password, this.name, this.email);
                 if (success) {
-                    this.login();
+                    this.registerMode = false;
+                    this.loading = false;
                 } else {
                     this.loading = false;
                     this.snackbar = true;
