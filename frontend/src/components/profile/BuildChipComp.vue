@@ -36,7 +36,7 @@
                 else return '';
             },
             starColor: function() {
-                if (this.build && this.build.prefer) return 'amber darken-1';
+                if (this.build && this.build.prefer) return 'yellow darken-3';
                 else return 'black';
             },
             starIcon: function() {
