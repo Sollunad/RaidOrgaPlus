@@ -21,7 +21,7 @@ function terminEmbed(client, raidName, termin, aufstellungen, anmeldungen) {
     if (anmeldungenString === '') anmeldungenString = 'Keine';
     return defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
         .addField('Datum', termin.date)
-        .addField('Uhrzeit', termin.time)
+        .addField('Uhrzeit', `${termin.time} - ${termin.endtime}`)
         .addField('Geplante Bosse', allBosses)
         .addField('Anmeldungen', anmeldungenString);
 }
