@@ -172,7 +172,7 @@
     }
 
     .highlighted {
-        background-color: #454431;
+        background-color: #444;
         border-radius: 10px;
     }
 </style>
