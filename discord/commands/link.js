@@ -2,6 +2,7 @@ const _raids = require('../services/endpoints/raids');
 const _channels = require('../services/store/channels');
 
 exports.run = async (client, message, args) => {
+    message.channel.startTyping();
     const raids = await _raids.getRaids(message.auth);
     const allowedRaids = raids.filter(r => r.role > 0);
     if (args[0] && args[0] <= allowedRaids.length) {
@@ -17,6 +18,7 @@ exports.run = async (client, message, args) => {
     } else {
         message.channel.send('Du hast keine Raids, die du verlinken könntest.');
     }
+    message.channel.stopTyping();
 };
 
 exports.help = {

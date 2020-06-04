@@ -12,6 +12,7 @@ exports.run = async (client, message, args) => {
     const pickedTermin = args[0];
     const pickedAufstellung = args[1];
 
+    message.channel.startTyping();
     const termine = await _termine.getTermine(message.auth, message.raid.id);
     if (termine.length === 0) {
         message.channel.send('Es gibt keine kommenden Termine oder dir fehlt die Berechtigung, diese anzuzeigen.');
@@ -75,6 +76,7 @@ exports.run = async (client, message, args) => {
             await message.channel.send(embed);
         }
     }
+    message.channel.stopTyping();
 };
 
 exports.help = {
