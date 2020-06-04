@@ -38,7 +38,7 @@ export default {
             }
         },
         async changeUserName(context, name) {
-            await _users.changeName(this.name);
+            await _users.changeName(name);
             context.commit('setUserName', name);
         }
     },
