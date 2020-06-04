@@ -6,7 +6,7 @@ export default {
         loggedInUser: {},
         loginState: 0,
         buildCheck: null,
-        frontendBuild: '2020_05_18',
+        frontendBuild: '2020_06_04',
     },
     mutations: {
         setLoggedInUser(state, user) {

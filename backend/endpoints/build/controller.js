@@ -2,7 +2,7 @@ module.exports = [
     {function: checkBuildVersion, path: '', method: 'get', authed: false},
 ];
 
-const EXPECTED_BUILD = '2020_05_18';
+const EXPECTED_BUILD = '2020_06_04';
 
 async function checkBuildVersion(req, authentication) {
     const fe_build = req.query.build;
