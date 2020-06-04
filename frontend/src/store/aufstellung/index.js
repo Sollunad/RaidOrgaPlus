@@ -19,45 +19,49 @@ export default {
         openDialog: null,
     },
     mutations: {
-        setActive: function(state, isActive) {
+        setActive: function (state, isActive) {
             state.isActive = isActive;
         },
-        setAufstellungen: function(state, aufstellungen) {
+        setAufstellungen: function (state, aufstellungen) {
             state.aufstellungen = aufstellungen;
         },
-        setElements: function(state, elements) {
+        setElements: function (state, elements) {
             state.elements = elements;
         },
-        setLocked: function(state, locked) {
+        setLocked: function (state, locked) {
             state.locked = locked;
         },
-        setAnmeldungen: function(state, anmeldungen) {
+        setAnmeldungen: function (state, anmeldungen) {
             state.anmeldungen = anmeldungen;
         },
-        setAnmeldung: function(state, anmeldung) {
+        setAnmeldung: function (state, anmeldung) {
             state.anmeldung = anmeldung;
         },
-        startWSClient: function(state, termin) {
+        startWSClient: function (state, termin) {
             state.wsClient = new WSClient(termin.id);
         },
-        setErsatzspieler: function(state, ersatzspieler) {
+        setErsatzspieler: function (state, ersatzspieler) {
             state.ersatzspieler = ersatzspieler;
         },
-        setInvitablePlayers: function(state, invitablePlayers) {
+        setInvitablePlayers: function (state, invitablePlayers) {
             state.invitablePlayers = invitablePlayers;
         },
-        toggleUpload: function(state) {
+        toggleUpload: function (state) {
             state.uploadActive = !state.uploadActive;
         },
-        setOpenDialog: function(state, dialog) {
+        setOpenDialog: function (state, dialog) {
             state.openDialog = dialog;
         },
-        toggleLocked: function(state) {
+        toggleLocked: function (state) {
             state.locked = !state.locked;
+        },
+        addElement(state, element) {
+            state.elements = state.elements.filter(e => e.aufstellung !== element.aufstellung || e.pos !== element.pos);
+            state.elements.push(element);
         }
     },
     actions: {
-        loadAufstellungen: async function(context) {
+        loadAufstellungen: async function (context) {
             const termin = context.getters.termin;
             const raid = context.getters.raid;
             context.commit('setAnmeldungen', []);
@@ -75,23 +79,23 @@ export default {
                 context.commit('startWSClient', termin);
             }
         },
-        loadAufstellungenPreview: async function(context, terminId) {
+        loadAufstellungenPreview: async function (context, terminId) {
             context.commit('setAufstellungen', await _preview.getAufstellungen(terminId));
             context.commit('setElements', await _preview.getElements(terminId));
             context.commit('setLocked', true);
             context.commit('setActive', true);
         },
-        clearWS: function(context) {
+        clearWS: function (context) {
             if (context.getters.wsClient) {
                 context.getters.wsClient.output = null;
             }
         },
-        closeWS: function(context) {
+        closeWS: function (context) {
             if (context.getters.wsClient) {
                 context.getters.wsClient.close();
             }
         },
-        updateErsatz: async function(context, newValue) {
+        updateErsatz: async function (context, newValue) {
             const oldValue = context.getters.ersatzIds;
             const termin = context.getters.termin;
             if (oldValue !== null) {
@@ -107,7 +111,7 @@ export default {
             const newErsatzspieler = context.getters.invitablePlayers.filter(p => newValue.includes(p.id));
             context.commit('setErsatzspieler', newErsatzspieler);
         },
-        anmelden: async function(context, type) {
+        anmelden: async function (context, type) {
             const user = context.getters.loggedInUser;
             const termin = context.getters.termin;
             const changedAnmeldung = context.getters.anmeldungen.find(a => a.id === user.id);
@@ -116,7 +120,7 @@ export default {
             await _termine.anmelden(termin.id, type);
             context.dispatch('wsSendRefresh');
         },
-        refresh: async function(context) {
+        refresh: async function (context) {
             const termin = context.getters.termin;
             const raid = context.getters.raid;
             context.commit('setAufstellungen', await _aufstellungen.getForTermin(termin.id));
@@ -127,15 +131,15 @@ export default {
             context.commit('setErsatzspieler', await _termine.getErsatz(termin.id));
             context.commit('setInvitablePlayers', await _raids.invitablePlayers(raid.id));
         },
-        wsSendRefresh: function(context) {
+        wsSendRefresh: function (context) {
             if (context.getters.wsClient) {
                 context.getters.wsClient.sendRefresh();
             }
         },
-        toggleUpload: function(context) {
+        toggleUpload: function (context) {
             context.commit('toggleUpload');
         },
-        addBoss: async function(context, info) {
+        addBoss: async function (context, info) {
             const [boss, wing] = info;
             const termin = context.getters.termin;
             if (boss === 0) {
@@ -147,18 +151,18 @@ export default {
             }
             context.dispatch('wsSendRefresh')
         },
-        deleteBoss: async function(context, aufstellung) {
+        deleteBoss: async function (context, aufstellung) {
             const termin = context.getters.termin;
             context.commit('setAufstellungen', await _aufstellungen.deleteBoss(aufstellung.id, termin.id));
             context.dispatch('wsSendRefresh');
         },
-        openDialog: function(context, dialog) {
+        openDialog: function (context, dialog) {
             context.commit('setOpenDialog', dialog);
         },
-        closeDialog: function(context) {
+        closeDialog: function (context) {
             context.commit('setOpenDialog', null);
         },
-        archive: async function(context, newTermin) {
+        archive: async function (context, newTermin) {
             context.dispatch('closeDialog');
             if (newTermin) {
                 context.dispatch('createNewTermin');
@@ -166,7 +170,7 @@ export default {
             await _termine.archive(context.getters.termin.id);
             window.history.back();
         },
-        delete: async function(context, newTermin) {
+        delete: async function (context, newTermin) {
             context.dispatch('closeDialog');
             if (newTermin) {
                 context.dispatch('createNewTermin');
@@ -174,7 +178,7 @@ export default {
             await _termine.deleteTermin(context.getters.termin.id);
             window.history.back();
         },
-        createNewTermin: async function(context) {
+        createNewTermin: async function (context) {
             const termin = context.getters.termin;
             const raid = context.getters.raid;
             const oldDate = termin.date.slice(4);
@@ -185,56 +189,130 @@ export default {
             const dateString = date.toISOString().substr(0, 10);
             await _termine.newTermin(raid.id, dateString, termin.time, termin.endtime);
         },
-        toggleLocked: async function(context) {
+        toggleLocked: async function (context) {
             context.commit('toggleLocked');
             await _termine.putLocked(context.getters.termin.id, context.getters.isLocked);
             context.dispatch('wsSendRefresh');
         },
+        pickClass: async function (context, { aufstellung, position, clss }) {
+            let element = context.getters.elementForPosition(aufstellung, position);
+            if (!element) {
+                element = context.getters.dummyElement(aufstellung, position);
+            }
+            element.class = clss.abbr;
+            context.commit('addElement', element);
+            await _aufstellungen.setClass(aufstellung, position, clss.id);
+            context.dispatch('wsSendRefresh');
+        },
+        clearClass: async function (context, { aufstellung, position }) {
+            let element = context.getters.elementForPosition(aufstellung, position);
+            if (!element) {
+                element = context.getters.dummyElement(aufstellung, position);
+            }
+            element.class = '';
+            context.commit('addElement', element);
+            await _aufstellungen.setClass(aufstellung, position, 0);
+            context.dispatch('wsSendRefresh');
+        },
+        pickRole: async function (context, { aufstellung, position, role }) {
+            let element = context.getters.elementForPosition(aufstellung, position);
+            if (!element) {
+                element = context.getters.dummyElement(aufstellung, position);
+            }
+            element.role = role.abbr;
+            context.commit('addElement', element);
+            await _aufstellungen.setRole(aufstellung, position, role.id);
+            context.dispatch('wsSendRefresh');
+        },
+        clearRole: async function (context, { aufstellung, position }) {
+            let element = context.getters.elementForPosition(aufstellung, position);
+            if (!element) {
+                element = context.getters.dummyElement(aufstellung, position);
+            }
+            element.role = '';
+            context.commit('addElement', element);
+            await _aufstellungen.setRole(aufstellung.id, position, 0);
+            context.dispatch('wsSendRefresh');
+        },
+        pickName: async function (context, { aufstellung, position, user }) {
+            let element = context.getters.elementForPosition(aufstellung, position);
+            if (!element) {
+                element = context.getters.dummyElement(aufstellung, position);
+            }
+            element.id = user.id;
+            element.name = user.name;
+            element.accname = user.accname;
+            context.commit('addElement', element);
+            await _aufstellungen.setName(aufstellung, position, user.id);
+            context.dispatch('wsSendRefresh');
+        },
+        clearName: async function (context, { aufstellung, position }) {
+            let element = context.getters.elementForPosition(aufstellung, position);
+            if (!element) {
+                element = context.getters.dummyElement(aufstellung, position);
+            }
+            element.id = 0;
+            element.name = '???';
+            element.accname = '???';
+            context.commit('addElement', element);
+            await _aufstellungen.setName(aufstellung, position, 0);
+            context.dispatch('wsSendRefresh');
+        }
     },
     getters: {
-        isActive: function(state) {
+        isActive: function (state) {
             return state.isActive;
         },
-        isLocked: function(state) {
+        isLocked: function (state) {
             return state.locked;
         },
-        wsClient: function(state) {
+        wsClient: function (state) {
             return state.wsClient;
         },
-        wsOutput: function(state) {
+        wsOutput: function (state) {
             if (state.wsClient) {
                 return state.wsClient.output;
             }
             return null;
         },
-        elementForPosition: function(state) {
-            return function(aufstellung, position) {
-                return state.elements.find(e => e.aufstellung === aufstellung.id && e.pos === position);
+        elementForPosition: function (state) {
+            return function (aufstellung, position) {
+                return state.elements.find(e => e.aufstellung === aufstellung && e.pos === position);
             }
         },
-        ersatzSpieler: function(state) {
+        dummyElement: function () {
+            return function (aufstellung, position) {
+                return {aufstellung, pos: position, class: '', role: '', name: '???', accname: '???', id: 0};
+            }
+        },
+        isNameDoubled: function (state) {
+            return function (aufstellung, name) {
+                return state.elements.filter(e => e.aufstellung === aufstellung.id && e.name === name).length > 1;
+            }
+        },
+        ersatzSpieler: function (state) {
             return state.ersatzspieler;
         },
-        ersatzIds: function(state) {
+        ersatzIds: function (state) {
             return state.ersatzspieler.map(p => p.id);
         },
-        invitablePlayers: function(state) {
+        invitablePlayers: function (state) {
             return state.invitablePlayers;
         },
-        anmeldungen: function(state) {
+        anmeldungen: function (state) {
             return state.anmeldungen;
         },
-        anmeldung: function(state) {
+        anmeldung: function (state) {
             return state.anmeldung;
         },
-        aufstellungen: function(state) {
+        aufstellungen: function (state) {
             return state.aufstellungen;
         },
-        uploadActive: function(state) {
+        uploadActive: function (state) {
             return state.uploadActive;
         },
-        isDialogOpen: function(state) {
-            return function(dialog) {
+        isDialogOpen: function (state) {
+            return function (dialog) {
                 return state.openDialog === dialog;
             }
         }

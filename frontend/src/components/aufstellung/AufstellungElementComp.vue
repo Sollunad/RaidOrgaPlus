@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'highlighted': isSelfUser}">
+    <div :class="{'highlighted': isSelfUser, 'doubled': isNameDoubled}">
         <v-menu :close-on-content-click="false" v-model="classMenuOpen" v-if="editAllowed">
             <template v-slot:activator="{on}">
                 <v-avatar :size="20" :tile="true" class="avatar hover" v-on="on" @contextmenu.prevent="clearClass">
@@ -55,23 +55,18 @@
         props: ['aufstellung', 'position'],
         data: () => ({
             classMenuOpen: false,
-            editedElement: null
+            //element: null,
         }),
         computed: {
             editAllowed: function() {
                 return this.$store.getters.isActive && (!this.$store.getters.isLocked || this.$store.getters.raidRole > 0);
             },
             element: function() {
-                if (this.editedElement) {
-                    return this.editedElement;
-                } else if (this.storeElement) {
-                    return this.storeElement;
-                } else {
-                    return null;
-                }
+                return this.$store.getters.elementForPosition(this.aufstellung.id, this.position);
             },
-            storeElement: function() {
-                return this.$store.getters.elementForPosition(this.aufstellung, this.position);
+            isNameDoubled: function() {
+                if (!this.element || !this.element.name || this.element.id <= 1) return false;
+                return this.$store.getters.isNameDoubled(this.aufstellung, this.element.name);
             },
             classIcon: function() {
                 if (this.element && this.element.class !== '') return _icons.classIcon(this.element.class);
@@ -101,55 +96,56 @@
         methods: {
             pickClass: async function(clss) {
                 this.classMenuOpen = false;
-                this.prepareEditedElement();
-                this.editedElement.class = clss.abbr;
-                await _aufstellungen.setClass(this.aufstellung.id, this.position, clss.id);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$store.dispatch('pickClass', {
+                    aufstellung: this.aufstellung.id,
+                    position: this.position,
+                    clss
+                });
+                this.loadElementFromStore();
             },
             clearClass: async function() {
-                this.prepareEditedElement();
-                this.editedElement.class = '';
-                await _aufstellungen.setClass(this.aufstellung.id, this.position, 0);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$store.dispatch('clearClass', {
+                    aufstellung: this.aufstellung.id,
+                    position: this.position,
+                });
+                this.loadElementFromStore();
             },
             pickRole: async function(role) {
-                this.prepareEditedElement();
-                this.editedElement.role = role.abbr;
-                await _aufstellungen.setRole(this.aufstellung.id, this.position, role.id);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$store.dispatch('pickRole', {
+                    aufstellung: this.aufstellung.id,
+                    position: this.position,
+                    role
+                });
+                this.loadElementFromStore();
             },
             clearRole: async function() {
-                this.prepareEditedElement();
-                this.editedElement.role = '';
-                await _aufstellungen.setRole(this.aufstellung.id, this.position, 0);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$store.dispatch('clearRole', {
+                    aufstellung: this.aufstellung.id,
+                    position: this.position,
+                });
+                this.loadElementFromStore();
             },
             pickName: async function(user) {
-                this.prepareEditedElement();
-                this.editedElement.name = user.name;
-                this.editedElement.accname = user.accname;
-                await _aufstellungen.setName(this.aufstellung.id, this.position, user.id);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$store.dispatch('pickName', {
+                    aufstellung: this.aufstellung.id,
+                    position: this.position,
+                    user
+                });
+                this.loadElementFromStore();
             },
             clearName: async function() {
-                this.prepareEditedElement();
-                this.editedElement.name = '???';
-                this.editedElement.accname = '???';
-                await _aufstellungen.setName(this.aufstellung.id, this.position, 0);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$store.dispatch('clearName', {
+                    aufstellung: this.aufstellung.id,
+                    position: this.position,
+                });
+                this.loadElementFromStore();
             },
-            prepareEditedElement: function() {
-                if (!this.element) {
-                    this.editedElement = {class: '', role: '', name: '???', accname: '???'};
-                } else {
-                    this.editedElement = this.element;
-                }
-            },
-        },
-        watch: {
-            storeElement: function() {
-                this.editedElement = null;
+            loadElementFromStore: function() {
+                //this.element = this.$store.getters.elementForPosition(this.aufstellung, this.position);
             }
+        },
+        created: function() {
+            this.loadElementFromStore();
         }
     }
 </script>
@@ -174,5 +170,13 @@
     .highlighted {
         background-color: #444;
         border-radius: 10px;
+    }
+
+    .doubled {
+        border-style: solid;
+        border-radius: 10px;
+        border-width: 1px;
+        border-color: red;
+        margin: -1px;
     }
 </style>
