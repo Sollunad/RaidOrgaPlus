@@ -2,7 +2,7 @@ const _roles = require('../../authentication/role');
 const _reports = require('./reports');
 
 module.exports = [
-    {function: upload, path: '', method: 'post', authed: false},
+    {function: upload, path: '', method: 'post', authed: true},
 ];
 
 async function upload(req, authentication) {
