@@ -49,6 +49,9 @@ export default {
         toggleUpload: function (state) {
             state.uploadActive = !state.uploadActive;
         },
+        stopUpload: function(state) {
+            state.uploadActive = false;
+        },
         setOpenDialog: function (state, dialog) {
             state.openDialog = dialog;
         },
@@ -66,6 +69,8 @@ export default {
             const raid = context.getters.raid;
             context.commit('setAnmeldungen', []);
             context.commit('setAufstellungen', []);
+            context.commit('stopUpload');
+            context.commit('setActive', null);
             context.dispatch('closeDialog');
             context.commit('setActive', !await _termine.isArchived(termin.id));
             context.commit('setAufstellungen', await _aufstellungen.getForTermin(termin.id));
