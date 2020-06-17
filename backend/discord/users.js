@@ -17,7 +17,12 @@ async function getUser(id) {
 }
 
 async function getAllUsers() {
-    return client.guilds.get(RISING_LIGHT_ID).members.filter(m => m.user.bot === false).map(mapMember);
+    try {
+        return client.guilds.get(RISING_LIGHT_ID).members.filter(m => m.user.bot === false).map(mapMember);
+    } catch (e) {
+        console.log(e);
+        return [];
+    }
 }
 
 function mapMember(member) {
