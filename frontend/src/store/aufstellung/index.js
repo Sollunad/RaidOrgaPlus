@@ -236,7 +236,7 @@ export default {
             }
             element.role = '';
             context.commit('addElement', element);
-            await _aufstellungen.setRole(aufstellung.id, position, 0);
+            await _aufstellungen.setRole(aufstellung, position, 0);
             context.dispatch('wsSendRefresh');
         },
         pickName: async function (context, { aufstellung, position, user }) {
