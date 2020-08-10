@@ -37,7 +37,7 @@ async function getUser(req, authentication) {
     let user = null;
     if (id) {
         const role = _roles.getRole(authentication);
-        if (role >= 0) user = (await _user.get(id))[0];
+        if (role != null) user = (await _user.get(id))[0];
     } else {
         user = (await _user.get(authentication.user))[0];
     }

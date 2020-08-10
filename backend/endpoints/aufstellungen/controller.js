@@ -16,7 +16,7 @@ async function getForTermin(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _aufstellung.getForTermin(termin);
+        if (role != null) return await _aufstellung.getForTermin(termin);
     }
     return [];
 }
@@ -62,10 +62,10 @@ async function getElement(req, authentication) {
     const aufstellung = req.query.aufstellung;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _element.getForTermin(termin);
+        if (role != null) return await _element.getForTermin(termin);
     } else if (aufstellung) {
         const role = await _roles.forAufstellung(authentication, aufstellung);
-        if (role >= 0) return await _element.getForAufstellung(aufstellung);
+        if (role != null) return await _element.getForAufstellung(aufstellung);
     }
     return [];
 }
@@ -77,7 +77,7 @@ async function postElement(req, authentication) {
     const value = req.body.value;
     if (aufstellung && position && type && (value || value === 0)) {
         const role = await _roles.forAufstellung(authentication, aufstellung);
-        if (role >= 0) {
+        if (role != null) {
             if (type === "class") {
                 return _element.setClass(aufstellung, position, value);
             } else if (type === "role") {

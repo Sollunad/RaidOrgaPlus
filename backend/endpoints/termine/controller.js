@@ -30,7 +30,7 @@ async function getTermine(req, authentication) {
     const archive = req.query.archive;
     if (raid) {
         const role = await _roles.forRaid(authentication, raid);
-        if (role >= 0) {
+        if (role != null) {
             if (archive === "1") {
                 return await _termin.listArchived(raid);
             } else {
@@ -46,7 +46,7 @@ async function isArchived(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _termin.isArchived(termin);
+        if (role != null) return await _termin.isArchived(termin);
     }
     return [];
 }
@@ -55,7 +55,7 @@ async function isLocked(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _termin.isLocked(termin);
+        if (role != null) return await _termin.isLocked(termin);
     }
     return [];
 }
@@ -132,7 +132,7 @@ async function putAnmeldung(req, authentication) {
     const type = req.body.type;
     if (termin && (type || type === 0)) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _anmeldungen.anmelden(authentication.user, termin, type);
+        if (role != null) return await _anmeldungen.anmelden(authentication.user, termin, type);
     }
     return [];
 }
@@ -160,7 +160,7 @@ async function getAnmeldungenAll(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return await _anmeldungen.getAnmeldungenForTermin(termin);
+        if (role != null) return await _anmeldungen.getAnmeldungenForTermin(termin);
     }
     return [];
 }
@@ -178,7 +178,7 @@ async function getText(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) return (await _termin.getText(termin))[0];
+        if (role != null) return (await _termin.getText(termin))[0];
     }
     return [];
 }
@@ -197,7 +197,7 @@ async function getErsatz(req, authentication) {
     const termin = req.query.termin;
     if (termin) {
         const role = await _roles.forTermin(authentication, termin);
-        if (role >= 0) {
+        if (role != null) {
             return await _ersatz.getErsatz(termin);
         }
     }

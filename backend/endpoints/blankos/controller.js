@@ -12,7 +12,7 @@ async function getElements(req, authentication) {
     const enc = req.query.enc;
     if (raid) {
         const role = await _roles.forRaid(authentication, raid);
-        if (role >= 0) {
+        if (role != null) {
             if (enc) {
                 return await _blanko.getElementsByEncounter(raid, enc);
             } else {

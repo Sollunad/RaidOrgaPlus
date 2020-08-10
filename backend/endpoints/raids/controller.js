@@ -32,7 +32,7 @@ async function listPlayers(req, authentication) {
     const raid = req.query.raid;
     if (raid) {
         const role = await _roles.forRaid(authentication, raid);
-        if (role >= 0) return await _raids.listPlayers(raid);
+        if (role != null) return await _raids.listPlayers(raid);
     }
     return [];
 }
