@@ -25,7 +25,7 @@ function start(server) {
                 const authentication = await _auth.auth(query.session, agent);
                 const role = await _role.forTermin(authentication, query.termin);
 
-                if (role >= 0) {
+                if (role != null) {
                     connection.session = query.session;
                     connection.termin = query.termin;
                     connection.uuid = uuid.v4();
