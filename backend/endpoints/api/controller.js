@@ -18,6 +18,7 @@ async function setAufstellung(req, authentication) {
     if (role <= 0) return "{\"error\":\"no permission\"}";
 
     for (boss of data) {
+        var aufstellung = boss.aufstellungId;
         if (boss.aufstellungId == null)
         {
             if (boss.bossId == null) continue;
