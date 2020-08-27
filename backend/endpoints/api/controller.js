@@ -18,14 +18,14 @@ async function setAufstellung(req, authentication) {
     if (role <= 0) return "{\"error\":\"no permission\"}";
 
     for (boss of data) {
-        var aufstellung = boss.aufstellungId;
+        let aufstellung = boss.aufstellungId;
         if (boss.aufstellungId == null)
         {
             if (boss.bossId == null) continue;
             const allBosses = await _termin.addBoss(termin, boss.bossId)
             aufstellung = allBosses[allBosses.length - 1].id;
             if (boss.isCM === true || boss.isCM === false) {
-                await _aufstellung.setCM(aufstellung, cm);
+                await _aufstellung.setCM(aufstellung, boss.isCM);
             }
         }
         for (player of boss.positionen) {
