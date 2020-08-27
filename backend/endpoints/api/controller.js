@@ -14,7 +14,7 @@ async function setAufstellung(req, authentication) {
     const termin = req.body.body.terminId;
     const data = req.body.body.aufstellungen;
 
-    const role = await _roles.forAufstellung(authentication, aufstellung);
+    const role = await _roles.getRoleForTermin(authentication, termin);
     if (role <= 0) return "{\"error\":\"no permission\"}";
 
     for (boss of data) {
