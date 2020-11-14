@@ -15,8 +15,7 @@ async function setAufstellung(req, authentication) {
     const data = req.body.body.aufstellungen;
 
     const terminExists = await _db.queryV('SELECT count(*) AS count FROM termine WHERE termine.id = ?', [terminId])
-    if (terminExists.count === 0) return []; //Does not work as expected
-    // if terminExists is returned the client gets: {"count":0} as application/json if non existent termin
+    if (terminExists[0].count === 0) return [];
 
     const role = await _roles.getRoleForTermin(authentication, termin);
     if (role <= 0) return [];
@@ -27,7 +26,7 @@ async function setAufstellung(req, authentication) {
         {
             if (boss.bossId == null) continue;
             await _termin.addBoss(termin, boss.bossId).then(function(res) {
-                aufstellung = res.insertId // however here I can interact with the db return and accsess it (also converts to application/json if returned to the client)
+                aufstellung = res.insertId
                 if (boss.isCM === true || boss.isCM === false) {
                     await _aufstellung.setCM(aufstellung, boss.isCM);
                 }
@@ -35,8 +34,8 @@ async function setAufstellung(req, authentication) {
         }
         else
         {
-            const res = await _db.queryV('SELECT count(*) AS count FROM Aufstellung id = ? and fk_termin = ?', [aufstellung, terminId])
-            if (res.count <= 0) continue; // probably same issue here
+            const aufstellungTerminExists = await _db.queryV('SELECT count(*) AS count FROM Aufstellung id = ? and fk_termin = ?', [aufstellung, terminId])
+            if (aufstellungTerminExists[0].count === 0) continue;
         }
         if (aufstellung == null) continue;
 
