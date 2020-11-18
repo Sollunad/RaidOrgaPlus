@@ -14,7 +14,8 @@ async function setAufstellung(req, authentication) {
     const termin = req.body.body.terminId;
     const data = req.body.body.aufstellungen;
 
-    const terminExists = await _db.queryV('SELECT count(*) AS count FROM termine WHERE termine.id = ?', [terminId])
+    const stmt = 'SELECT count(*) AS count FROM termine WHERE termine.id = ?';
+    const terminExists = await _db.queryV(stmt, [terminId]);
     if (terminExists[0].count === 0) return [];
 
     const role = await _roles.getRoleForTermin(authentication, termin);
@@ -26,7 +27,7 @@ async function setAufstellung(req, authentication) {
         {
             if (boss.bossId == null) continue;
             await _termin.addBoss(termin, boss.bossId).then(function(res) {
-                aufstellung = res.insertId
+                aufstellung = res.insertId;
                 if (boss.isCM === true || boss.isCM === false) {
                     await _aufstellung.setCM(aufstellung, boss.isCM);
                 }
@@ -34,7 +35,8 @@ async function setAufstellung(req, authentication) {
         }
         else
         {
-            const aufstellungTerminExists = await _db.queryV('SELECT count(*) AS count FROM Aufstellung id = ? and fk_termin = ?', [aufstellung, terminId])
+            const stmt2 = 'SELECT count(*) AS count FROM Aufstellung id = ? and fk_termin = ?';
+            const aufstellungTerminExists = await _db.queryV(stmt2, [aufstellung, terminId]);
             if (aufstellungTerminExists[0].count === 0) continue;
         }
         if (aufstellung == null) continue;
