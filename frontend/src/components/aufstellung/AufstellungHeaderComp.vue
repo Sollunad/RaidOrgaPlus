@@ -125,7 +125,7 @@
                 else return 'check_circle_outline';
             },
             reportLink: function() {
-                const baseLink = 'https://sv.sollunad.de:8080/reports/';
+                const baseLink = 'https://koji.sollunad.de:8080/reports/';
                 if (this.reportId) {
                     return `${baseLink}${this.reportId}.html`;
                 } else {
