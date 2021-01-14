@@ -14,7 +14,7 @@ async function setAufstellung(req, authentication) {
     const termin = req.body.body.terminId;
     const data = req.body.body.aufstellungen;
 
-    const stmt = 'SELECT count(*) AS count FROM Termine WHERE id = ?';
+    const stmt = 'SELECT count(*) AS count FROM Termin WHERE id = ?';
     const terminExists = await _db.queryV(stmt, [termin]);
     if (terminExists[0].count === 0) return [];
 
