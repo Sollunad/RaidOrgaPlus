@@ -1,5 +1,4 @@
 const _aufstellung = require('../aufstellungen/aufstellung');
-const _element = require('../aufstellungen/element');
 const _roles = require('../../authentication/role');
 const _termin = require('../termine/termin');
 const _db = require('../../db/connector');
@@ -8,7 +7,6 @@ const { reduce } = require('../raids/controller');
 module.exports = [
     {function: setAufstellung, path: '/aufstellungen', method: 'post', authed: true},
 ];
-
 
 async function setAufstellung(req, authentication) {
     const termin = req.body.body.terminId;
@@ -67,7 +65,6 @@ async function setAufstellung(req, authentication) {
                 }
                 catch (e) {
                     // Ignore, next element
-                    continue;
                 }
             }
         }
