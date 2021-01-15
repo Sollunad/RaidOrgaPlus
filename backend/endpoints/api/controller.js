@@ -14,16 +14,22 @@ async function setAufstellung(req, authentication) {
 
     const stmt = 'SELECT count(*) AS count FROM Termin WHERE id = ?';
     const terminExists = await _db.queryV(stmt, [termin]);
-    if (terminExists[0].count === 0) return [];
+    if (terminExists[0].count === 0) {
+        return [];
+    }
 
     const role = await _roles.getRoleForTermin(authentication, termin);
-    if (role <= 0) return [];
+    if (role <= 0) {
+        return [];
+    }
 
     for (boss of data) {
         let aufstellung = boss.aufstellungId;
         if (boss.aufstellungId == null)
         {
-            if (boss.bossId == null) continue;
+            if (boss.bossId == null) {
+                continue;
+            }
             try {
                 let res = await _termin.addBoss(termin, boss.bossId);
                 aufstellung = res.insertId;
@@ -45,9 +51,13 @@ async function setAufstellung(req, authentication) {
         {
             const stmt2 = 'SELECT count(*) AS count FROM Aufstellung WHERE (id = ?) and (fk_termin = ?)';
             const aufstellungTerminExists = await _db.queryV(stmt2, [aufstellung, termin]);
-            if (aufstellungTerminExists[0].count === 0) continue;
+            if (aufstellungTerminExists[0].count === 0) {
+                continue;
+            }
         }
-        if (aufstellung == null) continue;
+        if (aufstellung == null) {
+            continue;
+        }
 
         if (boss.success === true || boss.success === false) {
             await _aufstellung.setSuccess(aufstellung, boss.success);
