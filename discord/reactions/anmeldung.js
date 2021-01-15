@@ -11,7 +11,7 @@ async function anmeldungHandler(client, messageInfo, reaction, user) {
         reaction.message.channel.send(`${user} Dieser Termin liegt in der Vergangenheit!`)
             .then(msg => startDeleteReplyTimer(msg));
     } else if (session === 'Keine Session' || session === 'Abgelaufen') {
-        reaction.message.channel.send(`${user} Bitte logge dich zunächst über RaidOrga+ ein: https://orga.sollunad.de/#/einstellungen`)
+        reaction.message.channel.send(`${user} Bitte logge dich zunächst über RaidOrga+ ein: https://orga.rising-light.de/#/einstellungen`)
             .then(msg => startDeleteReplyTimer(msg));
     } else {
         const type = getAnmeldungType(reaction.emoji.name);

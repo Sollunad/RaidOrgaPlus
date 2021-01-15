@@ -20,7 +20,7 @@ function sendEmail(user, subject, text) {
 
 function sendPasswortResetMail(user, token) {
     const subject = 'Passwort-Reset angefordert';
-    const link = `https://orga.sollunad.de/#/reset/${token}`;
+    const link = `https://orga.rising-light.de/#/reset/${token}`;
     const text =
         `Hallo ${user.name},` +
         `\nfür deinen Account mit dem Accountnamen ${user.accname} wurde ein Passwort-Reset angefordert. Unter folgendem Link kannst du dein Passwort neu setzen:` +
