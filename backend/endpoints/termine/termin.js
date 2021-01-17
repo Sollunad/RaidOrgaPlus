@@ -16,6 +16,7 @@ exports.setLocked = setLocked;
 exports.delete = deleteTermin;
 exports.getText = getText;
 exports.saveText = saveText;
+exports.doesTerminExist = doesTerminExist;
 
 async function isArchived(terminId) {
     const stmt = 'SELECT isArchived FROM Termin WHERE id = ?';
@@ -158,4 +159,10 @@ async function saveText(termin, text) {
     } catch(e) {
         throw e;
     }
+}
+
+async function doesTerminExist(termin) {
+    const stmt = 'SELECT count(*) AS count FROM Termin WHERE id = ?';
+    const terminExists = await db.queryV(stmt, [termin]);
+    return !(terminExists[0].count === 0);
 }
