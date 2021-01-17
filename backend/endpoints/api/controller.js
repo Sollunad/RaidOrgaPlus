@@ -4,37 +4,69 @@ const _roles = require('../../authentication/role');
 const _termin = require('../termine/termin');
 
 module.exports = [
-    {function: setAufstellung, path: '/aufstellung', method: 'post', authed: true},
+    {function: setAufstellung, path: '/aufstellungen', method: 'post', authed: true},
 ];
 
-
 async function setAufstellung(req, authentication) {
-    const invalidData = "{\"error\":\"invalid data\"}";
-    
     const termin = req.body.body.terminId;
     const data = req.body.body.aufstellungen;
 
-    const role = await _roles.getRoleForTermin(authentication, termin);
-    if (role <= 0) return "{\"error\":\"no permission\"}";
+    if (!(await _termin.doesTerminExist(termin))) {
+        return [];
+    }
+
+    const role = await _roles.forTermin(authentication, termin);
+    if (!role || role <= 0) {
+        return [];
+    }
 
     for (boss of data) {
         let aufstellung = boss.aufstellungId;
         if (boss.aufstellungId == null)
         {
-            if (boss.bossId == null) continue;
-            const allBosses = await _termin.addBoss(termin, boss.bossId)
-            aufstellung = allBosses[allBosses.length - 1].id;
+            if (boss.bossId == null) {
+                continue;
+            }
+            try {
+                let res = await _termin.addBoss(termin, boss.bossId);
+                aufstellung = res.insertId;
+            } catch (e) {
+                //Unable to insert, next boss
+                continue;
+            }
             if (boss.isCM === true || boss.isCM === false) {
-                await _aufstellung.setCM(aufstellung, boss.isCM);
+                try {
+                    await _aufstellung.setCM(aufstellung, boss.isCM);
+                } catch (e) {
+                    //Ignore not possible to set CM.
+                }
+            }
+        }
+        else
+        {
+            if (!(await _aufstellung.getForTermin(termin)).some(e => e.id === aufstellung)) {
+                continue;
+            }
+        }
+
+        if (boss.success === true || boss.success === false) {
+            try {
+                await _aufstellung.setSuccess(aufstellung, boss.success);
+            } catch (e) {
+                //Ignore not possible to set success.
             }
         }
         for (player of boss.positionen) {
             if (1 <= player.position && player.position <= 10) {
-                await _element.setClass(aufstellung, player.position, player.classId);
-                await _element.setRole(aufstellung, player.position, player.roleId);
-                await _element.setName(aufstellung, player.position, player.spielerId);
+                
+                try {
+                    await _element.setCompleteElement(aufstellung, player.position, player.classId, player.roleId, player.spielerId)
+                } catch (e) {
+                    // Ignore, next element
+                }
             }
         }
     }
-    return "{\"status\":\"OK\"}";
+
+    return await _aufstellung.getForTermin(termin);
 }

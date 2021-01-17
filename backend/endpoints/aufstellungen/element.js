@@ -5,6 +5,7 @@ exports.getForAufstellung = getForAufstellung;
 exports.setClass = setClass;
 exports.setRole = setRole;
 exports.setName = setName;
+exports.setCompleteElement = setCompleteElement;
 
 async function getForTermin(termin) {
     const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
@@ -57,6 +58,16 @@ async function setName(aufstellung, position, name){
     try {
         return await db.queryV(stmt, [aufstellung, position, name, name]);
     } catch(e) {
+        throw e;
+    }
+}
+
+async function setCompleteElement(aufstellung, position, classId, roleId, playerId) {
+    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class, fk_role, fk_spieler) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?, fk_role = ?, fk_spieler = ?';
+    try {
+        return await db.queryV(stmt, [aufstellung, position, classId, roleId, playerId, classId, roleId, playerId]);
+    }
+    catch (e) {
         throw e;
     }
 }
