@@ -11,7 +11,7 @@ async function setAufstellung(req, authentication) {
     const termin = req.body.body.terminId;
     const data = req.body.body.aufstellungen;
 
-    if (!await _termin.doesTerminExist(termin)) {
+    if (!(await _termin.doesTerminExist(termin))) {
         return [];
     }
 
