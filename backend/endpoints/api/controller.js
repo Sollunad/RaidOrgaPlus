@@ -15,7 +15,7 @@ async function setAufstellung(req, authentication) {
         return [];
     }
 
-    const role = await _roles.getRoleForTermin(authentication, termin);
+    const role = await _roles.forTermin(authentication, termin);
     if (!role || role <= 0) {
         return [];
     }
