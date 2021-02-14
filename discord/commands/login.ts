@@ -1,6 +1,5 @@
 import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
-
-const _sessions = require('../services/store/sessions.js');
+import * as _sessions from "../services/store/sessions";
 
 exports.run = async (client: DiscordClient, message: DiscordMessage, args: string[]) => {
     const key = args[0];

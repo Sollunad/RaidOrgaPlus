@@ -1,10 +1,9 @@
 import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
-
-const _termine = require('../services/endpoints/termine');
-const _aufstellungen = require('../services/endpoints/aufstellungen');
-const _embeds = require('../services/util/embedProvider');
-const _icons = require('../services/icons');
-const _messages = require('../services/store/messages');
+import * as _termine from "../services/endpoints/termine";
+import * as _aufstellungen from "../services/endpoints/aufstellungen";
+import * as _embeds from "../services/util/embedProvider";
+import * as _icons from "../services/icons";
+import * as _messages from "../services/store/messages";
 
 exports.run = async (client: DiscordClient, message: DiscordMessage, args: number[]) => {
     if (!message.raid) {
@@ -29,11 +28,11 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
                 const aufstellung = aufstellungen[pickedAufstellung - 1];
                 const elements = await _aufstellungen.getElements(message.auth, aufstellung.id);
                 let aufstellungString = '';
-                const empty = client.emojis.find(emoji => emoji.name === 'empty');
+                const empty = client.emojis.cache.find(emoji => emoji.name === 'empty');
                 for (let i = 0; i < elements.length; i++) {
                     const element = elements[i];
-                    const clss = client.emojis.find(emoji => emoji.name === element.class.toLowerCase());
-                    const role = client.emojis.find(emoji => emoji.name === element.role.toLowerCase() + '_');
+                    const clss = client.emojis.cache.find(emoji => emoji.name === element.class.toLowerCase());
+                    const role = client.emojis.cache.find(emoji => emoji.name === element.role.toLowerCase() + '_');
                     aufstellungString += `${clss? clss : empty} ${role? role: empty} - ${element.name}\n`
                 }
                 let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Aufstellung`)
@@ -48,9 +47,9 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
                     Embed: 1 Termin
                  */
                 const anmeldungen = await _termine.getAnmeldungen(message.auth, termin.id);
-                const emojiYes = client.emojis.find(emoji => emoji.name === 'yes');
-                const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
-                const emojiNo = client.emojis.find(emoji => emoji.name === 'no');
+                const emojiYes = client.emojis.cache.find(emoji => emoji.name === 'yes');
+                const emojiMaybe = client.emojis.cache.find(emoji => emoji.name === 'maybe');
+                const emojiNo = client.emojis.cache.find(emoji => emoji.name === 'no');
                 const embed = _embeds.terminEmbed(client, message.raid.name, termin, aufstellungen, anmeldungen);
                 message.channel.send(embed)
                     .then(msg => msg.react(emojiYes))
