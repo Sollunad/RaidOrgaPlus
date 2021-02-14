@@ -1,11 +1,10 @@
-const axios = require('axios');
-const config = require('./config.json');
+// const axios = require('axios');
+import axios from "axios";
+import config from "./config.json";
 
-exports.fetch = fetch;
-
-async function fetch(endpoint, method, params, auth) {
+export default async function fetch(endpoint, method, params, auth?) {
     try {
-        let url = config.production + endpoint;
+        let url = config.development + endpoint;
         if (auth) {
             params.auth = auth;
         }

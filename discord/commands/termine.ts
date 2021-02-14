@@ -1,10 +1,12 @@
+import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
+
 const _termine = require('../services/endpoints/termine');
 const _aufstellungen = require('../services/endpoints/aufstellungen');
 const _embeds = require('../services/util/embedProvider');
 const _icons = require('../services/icons');
 const _messages = require('../services/store/messages');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client: DiscordClient, message: DiscordMessage, args: number[]) => {
     if (!message.raid) {
         message.channel.send('Für diesen Channel wurde kein Raid verlinkt.');
         return;

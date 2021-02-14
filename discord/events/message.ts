@@ -1,7 +1,10 @@
-const _sessions = require('../services/store/sessions');
-const _channels = require('../services/store/channels');
+import * as _sessions from "../services/store/sessions";
+import * as _channels from "../services/store/channels";
+import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
 
-module.exports = (client, message) => {
+import { Message } from "discord.js";
+
+module.exports = (client: DiscordClient, message: DiscordMessage) => {
   // Ignore all bots
   if (message.author.bot) return;
 

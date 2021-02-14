@@ -1,8 +1,10 @@
-const Discord = require("discord.js");
-const Enmap = require("enmap");
-const fs = require("fs");
-const client = new Discord.Client();
-const config = require("./config.json");
+import { DiscordClient } from "./models/DiscordClient";
+import config from "./config.json";
+
+import Enmap = require("enmap");
+import * as fs from "fs";
+
+const client = new DiscordClient();
 // We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
 client.config = config;
 
@@ -21,7 +23,7 @@ client.userdata = new Enmap();
 fs.readdir("./commands/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
-    if (!file.endsWith(".js")) return;
+    if (!file.endsWith(".js") && !file.endsWith(".ts")) return;
     let props = require(`./commands/${file}`);
     let commandName = file.split(".")[0];
     console.log(`Attempting to load command ${commandName}`);

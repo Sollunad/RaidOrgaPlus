@@ -1,4 +1,6 @@
-exports.run = (client, message, args) => {
+import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
+
+exports.run = (client: DiscordClient, message: DiscordMessage, args: string[]) => {
     const commands = client.commands.array();
     let helpString = "";
     commands.forEach(function(command) {

@@ -1,8 +1,9 @@
-exports.anmeldungHandler = anmeldungHandler;
-const _termine = require('../services/endpoints/termine');
-const _sessions = require('../services/store/sessions');
-const _refresher = require('../refresher/main');
-const _util = require('../services/util/util');
+import * as _termine from "../services/endpoints/termine";
+import * as _sessions from "../services/store/sessions";
+import * as _refresher from "../refresher/main";
+import * as _util from "../services/util/util";
+
+export { anmeldungHandler };
 
 async function anmeldungHandler(client, messageInfo, reaction, user) {
     const session = _sessions.getSession(user.id);

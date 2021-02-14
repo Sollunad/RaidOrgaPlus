@@ -1,19 +1,15 @@
-const Discord = require("discord.js");
-const _icons = require('../icons');
-const _kalender = require('../endpoints/kalender');
+import { MessageEmbed } from "discord.js";
+import * as _icons from "../icons";
+import * as _kalender from "../endpoints/kalender";
 
-exports.defaultEmbed = defaultEmbed;
-exports.terminEmbed = terminEmbed;
-exports.kalenderEmbed = kalenderEmbed;
-
-function defaultEmbed() {
-    return new Discord.RichEmbed()
+export function defaultEmbed() {
+    return new MessageEmbed()
         .setColor('#F55535')
         .setTimestamp()
         .setFooter('RaidOrga+', _icons.miscIcon('raid'))
 }
 
-function terminEmbed(client, raidName, termin, aufstellungen, anmeldungen) {
+export function terminEmbed(client, raidName, termin, aufstellungen, anmeldungen) {
     const emojis = getAnmeldeEmojis(client);
     let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}${a.is_cm? ' CM' : ''}`).join('\n');
     if (allBosses === '') allBosses = 'Keine';
@@ -33,7 +29,7 @@ function getAnmeldeEmojis(client) {
     return [emojiYes, emojiMaybe, emojiNo];
 }
 
-async function kalenderEmbed() {
+export async function kalenderEmbed() {
     const week = await getTermine();
     let embed = defaultEmbed().setTitle(`Rising Light Kalender`)
         .setThumbnail(_icons.miscIcon('raid'));

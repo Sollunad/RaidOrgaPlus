@@ -1,8 +1,7 @@
-const _users = require('../endpoints/users');
-const _json = require('./jsonHandler');
+import * as _users from "../endpoints/users";
+import * as _json from "./jsonHandler";
 
-exports.login = login;
-exports.getSession = getSessionForDiscordUser;
+export { login, getSessionForDiscordUser as getSession };
 
 function getSessionForDiscordUser(user) {
     const sessions = _json.read('sessions');
