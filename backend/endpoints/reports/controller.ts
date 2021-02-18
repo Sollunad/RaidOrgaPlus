@@ -1,12 +1,17 @@
+import { Request } from 'express';
+import { UploadedFile } from 'express-fileupload';
+import { Authentication } from 'models/Auth';
+import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import * as _roles from '../../authentication/role';
 import * as _reports from './reports';
 
-export = [
+const endpoints: ControllerEndpoint[] = [
     {function: upload, path: '', method: 'post', authed: true},
 ];
+export default endpoints;
 
-async function upload(req, authentication) {
-    const evtc = req.files.file;
+async function upload(req: Request, authentication: Authentication): Promise<string[]> {
+    const evtc = req.files.file as UploadedFile;
     const aufstellung = req.body.aufstellung;
 
     if (evtc && aufstellung) {

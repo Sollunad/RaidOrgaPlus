@@ -1,11 +1,20 @@
-const WebSocketServer = require('websocket').server;
-const _role = require('../authentication/role');
-const _auth = require('../authentication/auth');
-const uuid = require('uuid');
+import { connection, server as WebSocketServer} from "websocket";
+import * as _role from '../authentication/role';
+import * as _auth from '../authentication/auth';
+import uuid from 'uuid';
+import { ParsedUrlQuery } from "querystring";
+import { Server as httpServer } from "http";
+import { Server as httpsServer } from "https";
 
-let connections = [];
+interface websocketConnection extends connection {
+	session: string;
+	termin: string;
+	uuid: string;
+}
 
-export function start(server) {
+let connections: websocketConnection[] = [];
+
+export function start(server: httpServer | httpsServer): void {
     const wsServer = new WebSocketServer({
         httpServer: server,
         autoAcceptConnections: false
@@ -15,17 +24,17 @@ export function start(server) {
         if (!originIsAllowed(request.origin)) {
             request.reject();
         } else {
-            const connection = request.accept('echo-protocol', request.origin);
-            const query = request.resourceURL.query;
+            const connection: websocketConnection = request.accept('echo-protocol', request.origin) as websocketConnection;
+            const query = request.resourceURL.query as ParsedUrlQuery;
 
             if (query.session && query.termin) {
                 const agent = request.httpRequest.headers['user-agent'];
-                const authentication = await _auth.auth(query.session, agent);
-                const role = await _role.forTermin(authentication, query.termin);
+                const authentication = await _auth.auth(query.session as string, agent);
+                const role = await _role.forTermin(authentication, Number(query.termin as string));
 
                 if (role != null) {
-                    connection.session = query.session;
-                    connection.termin = query.termin;
+                    connection.session = query.session as string;
+                    connection.termin = query.termin as string;
                     connection.uuid = uuid.v4();
                     connections.push(connection);
 
@@ -44,13 +53,13 @@ export function start(server) {
     });
 }
 
-function sendMessageToAll(message) {
+function sendMessageToAll(message): void {
     connections.forEach((connection) => {
         connection.sendUTF(message);
     })
 }
 
-function sendMessageToAllInTermin(sender, message) {
+function sendMessageToAllInTermin(sender, message): void {
     connections.forEach((connection) => {
         if (connection.uuid !== sender.uuid && connection.termin === sender.termin) {
             connection.sendUTF(message);
@@ -58,6 +67,6 @@ function sendMessageToAllInTermin(sender, message) {
     })
 }
 
-function originIsAllowed(origin) {
+function originIsAllowed(origin): boolean {
     return true;
 }

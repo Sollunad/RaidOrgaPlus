@@ -4,8 +4,15 @@ import * as _raids from './raids';
 import * as _invites from '../raids/invites';
 import * as _discord from '../../discord/users';
 import * as _guild from '../../gw2api/guilds';
+import { Request } from 'express';
+import { Authentication } from 'models/Auth';
+import { Spieler } from 'models/Spieler';
+import { OkPacket } from 'mysql';
+import { ControllerEndpoint } from 'models/ControllerEndpoint';
 
-export = [
+type Users = (Spieler & { firstTermin: Date, lastTermin: Date, guild: any, guildLog: any})[];
+
+const endpoints: ControllerEndpoint[] = [
     {function: getUsers, path: '/users', method: 'get', authed: true},
     {function: getRaids, path: '/raids', method: 'get', authed: true},
     {function: createRaid, path: '/raids', method: 'post', authed: true},
@@ -16,17 +23,19 @@ export = [
     {function: removePlayer, path: '/raids/spieler', method: 'delete', authed: true},
     {function: setComment, path: '/users/comment', method: 'put', authed: true},
 ];
+export default endpoints;
 
-async function getUsers(req, authentication) {
+async function getUsers(req: Request, authentication: Authentication): Promise<Users> {
     const role = _roles.getRole(authentication);
     if (role > 0) {
-        const users: any = await _users.getUsers();
+        const users: Users = await _users.getUsers() as Users;
         const discordUsers = await _discord.getAllUsers();
         const guildUsers = await _guild.getUsers();
         const guildLog = await _guild.getGuildLog();
         for (const user of users) {
             const discordUser = _discord.findUser(user, discordUsers);
             const guildUser = _guild.findUser(user, guildUsers);
+			// TODO: the property discord of the user needs to be of type 'string | DiscordMember'.
             if (discordUser) {
                 user.discord = discordUser;
             } else {
@@ -42,13 +51,14 @@ async function getUsers(req, authentication) {
     return [];
 }
 
-async function getRaids(req, authentication) {
+async function getRaids(req: Request, authentication: Authentication): Promise<any> {
     const role = _roles.getRole(authentication);
     if (role > 0) {
+		// TODO adjust the type
         const raids: any = await _raids.getRaids();
         const discordUsers = await _discord.getAllUsers();
         for (const raid of raids) {
-            const users: any = await _raids.listPlayers(raid.id);
+            const users = await _raids.listPlayers(raid.id);
             for (const user of users) {
                 const discordUser = _discord.findUser(user, discordUsers);
                 if (discordUser) {
@@ -64,12 +74,12 @@ async function getRaids(req, authentication) {
     return [];
 }
 
-async function getPlayersForRaid(req, authentication) {
-    const raid = req.query.raid;
+async function getPlayersForRaid(req: Request, authentication: Authentication): Promise<Spieler[]> {
+    const raid = parseInt(req.query.raid as string);
     const role = _roles.getRole(authentication);
     if (role > 0 && raid) {
         const discordUsers = await _discord.getAllUsers();
-        const users: any = await _raids.listPlayers(raid);
+        const users = await _raids.listPlayers(raid);
         for (const user of users) {
             const discordUser = _discord.findUser(user, discordUsers);
             if (discordUser) {
@@ -81,17 +91,17 @@ async function getPlayersForRaid(req, authentication) {
     return [];
 }
 
-async function createRaid(req, authentication) {
+async function createRaid(req: Request, authentication: Authentication): Promise<OkPacket> {
     const name = req.body.name;
     const role = _roles.getRole(authentication);
     if (role > 0 && name) {
         await _raids.createRaid(name);
     }
-    return [];
+    return;
 }
 
-async function invitablePlayers(req, authentication) {
-    const raid = req.query.raid;
+async function invitablePlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {
+    const raid = parseInt(req.query.raid as string);
     const role = _roles.getRole(authentication);
     if (role > 0 && raid) {
         return await _invites.invitable(raid);
@@ -99,27 +109,27 @@ async function invitablePlayers(req, authentication) {
     return [];
 }
 
-async function addPlayer(req, authentication) {
+async function addPlayer(req: Request, authentication: Authentication): Promise<OkPacket> {
     const raid = req.body.raid;
     const spieler = req.body.spieler;
     const role = _roles.getRole(authentication);
     if (role > 0 && raid && spieler) {
         await _raids.addPlayer(raid, spieler);
     }
-    return [];
+    return;
 }
 
-async function removePlayer(req, authentication) {
+async function removePlayer(req: Request, authentication: Authentication): Promise<OkPacket> {
     const raid = req.body.raid;
     const spieler = req.body.spieler;
     const role = _roles.getRole(authentication);
     if (role > 0 && raid && spieler) {
         await _raids.removePlayer(raid, spieler);
     }
-    return [];
+    return;
 }
 
-async function setPlayerRole(req, authentication) {
+async function setPlayerRole(req: Request, authentication: Authentication): Promise<void> {
     const raid = req.body.raid;
     const spieler = req.body.spieler;
     const role_to_set = req.body.role;
@@ -129,7 +139,7 @@ async function setPlayerRole(req, authentication) {
     }
 }
 
-async function setComment(req, authentication) {
+async function setComment(req: Request, authentication: Authentication): Promise<void> {
     const spieler = req.body.spieler;
     const comment = req.body.comment;
     if (spieler && comment) {

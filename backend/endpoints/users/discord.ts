@@ -3,7 +3,9 @@ import * as _session from './session';
 import * as _user from './user';
 import * as _discord from '../../discord/users';
 import pw from 'generate-password';
-import uuidv4 from 'uuid/v4';
+import { v4 } from 'uuid';
+import { DiscordKey } from 'models/DiscordKey';
+import { OkPacket } from 'mysql';
 
 export {
 	loginDiscord as login, deleteDiscordKeyForUser as delete, createDiscordKey as create
@@ -20,7 +22,7 @@ async function loginDiscord(key, discordId, agent) {
         const userId = user.fk_spieler;
         const userObject = (await _user.get(userId))[0];
         if (discordName.includes(userObject.accname)) {
-            const uuid = uuidv4();
+            const uuid = v4();
             await _session.startDiscord(userId, uuid, agent);
             await saveDiscordId(userId, discordId);
             return uuid;
@@ -28,7 +30,7 @@ async function loginDiscord(key, discordId, agent) {
     }
 }
 
-async function createDiscordKey(user) {
+async function createDiscordKey(user: number): Promise<string[]> {
     const randomKey = pw.generate({length: 10, numbers: true});
     const stmt = 'INSERT INTO DiscordKey (discord_key, fk_spieler) VALUES (?, ?)';
     try {
@@ -39,7 +41,7 @@ async function createDiscordKey(user) {
     }
 }
 
-async function getUserByDiscordKey(key) {
+async function getUserByDiscordKey(key: string): Promise<DiscordKey[]> {
     const stmt = 'SELECT * FROM DiscordKey WHERE discord_key = ? AND created > NOW() - INTERVAL 1 HOUR';
     try {
         return await db.queryV(stmt, key);
@@ -48,7 +50,7 @@ async function getUserByDiscordKey(key) {
     }
 }
 
-async function deleteDiscordKey(key) {
+async function deleteDiscordKey(key: string): Promise<OkPacket> {
     const stmt = 'DELETE FROM DiscordKey WHERE discord_key = ?';
     try {
         return await db.queryV(stmt, key);
@@ -57,7 +59,7 @@ async function deleteDiscordKey(key) {
     }
 }
 
-async function deleteDiscordKeyForUser(user) {
+async function deleteDiscordKeyForUser(user: number): Promise<OkPacket> {
     const stmt = 'DELETE FROM DiscordKey WHERE fk_spieler = ?';
     try {
         return await db.queryV(stmt, user);
@@ -66,7 +68,7 @@ async function deleteDiscordKeyForUser(user) {
     }
 }
 
-async function deleteInvalidKeys() {
+async function deleteInvalidKeys(): Promise<OkPacket> {
     const stmt = 'DELETE FROM DiscordKey WHERE created < NOW() - INTERVAL 1 HOUR';
     try {
         return await db.query(stmt);
@@ -75,7 +77,7 @@ async function deleteInvalidKeys() {
     }
 }
 
-async function saveDiscordId(user, id) {
+async function saveDiscordId(user: number, id: number): Promise<OkPacket> {
     const stmt = 'UPDATE Spieler SET discord = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [id, user]);

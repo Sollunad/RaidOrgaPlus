@@ -1,3 +1,7 @@
+import { Raid } from 'models/Raid';
+import { SpielerTermin } from 'models/Spieler';
+import { Termin } from 'models/Termin';
+import { OkPacket } from 'mysql';
 import * as db from '../../db/connector';
 import * as dateMapper from './dateMapper';
 
@@ -6,36 +10,37 @@ export {
 	isLocked, setLocked, deleteTermin as delete, getText, saveText, doesTerminExist
 };
 
-async function isArchived(terminId) {
+async function isArchived(terminId: number): Promise<boolean> {
     const stmt = 'SELECT isArchived FROM Termin WHERE id = ?';
     try {
-        const response = await db.queryV(stmt, terminId);
-        return (response[0] && response[0].isArchived === 1);
+        const response: Termin[] = await db.queryV(stmt, terminId);
+        return (response[0] && response[0].isArchived);
     } catch(e) {
         throw e;
     }
 }
 
-async function isLocked(terminId) {
+async function isLocked(terminId: number): Promise<boolean> {
     const stmt = 'SELECT isLocked FROM Termin WHERE id = ?';
     try {
-        const response = await db.queryV(stmt, terminId);
-        return (response[0] && response[0].isLocked === 1);
+        const response: Termin[] = await db.queryV(stmt, terminId);
+        return (response[0] && response[0].isLocked);
     } catch(e) {
         throw e;
     }
 }
 
-async function setLocked(terminId, locked) {
+async function setLocked(terminId: number, locked: boolean): Promise<OkPacket> {
     const stmt = 'UPDATE Termin SET isLocked = ? WHERE id = ?';
+	const isLocked = locked ? 1 : 0;
     try {
-        return await db.queryV(stmt, [locked, terminId]);
+        return await db.queryV(stmt, [isLocked, terminId]);
     } catch(e) {
         throw e;
     }
 }
 
-async function getRaidId(terminId) {
+async function getRaidId(terminId: number): Promise<Raid[]> {
     const stmt = 'SELECT Raid.id FROM Raid JOIN Termin ON Termin.fk_raid = Raid.id WHERE Termin.id = ?';
     try {
         return (await db.queryV(stmt, terminId));
@@ -44,7 +49,7 @@ async function getRaidId(terminId) {
     }
 }
 
-async function listAllIds(raidId) {
+async function listAllIds(raidId: number): Promise<number[]> {
     const stmt = 'SELECT Termin.id FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ?';
     try {
         return (await db.queryV(stmt, raidId));
@@ -53,7 +58,7 @@ async function listAllIds(raidId) {
     }
 }
 
-async function listActive(userId, raidId) {
+async function listActive(userId: number, raidId: number): Promise<(Termin & SpielerTermin)[]> {
     const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Termin.endtime, Spieler_Termin.type ' +
         'FROM Termin ' +
         'JOIN Raid ON Termin.fk_raid = Raid.id ' +
@@ -61,22 +66,24 @@ async function listActive(userId, raidId) {
         'WHERE Raid.id = ? AND Termin.isArchived = 0 ' +
         'ORDER BY Termin.date, Termin.time';
     try {
-        return ((await db.queryV(stmt, [userId, raidId])) as any).map(dateMapper.map);
+		const result: (Termin & SpielerTermin)[] = await db.queryV(stmt, [userId, raidId]);
+        return result.map(dateMapper.map);
     } catch(e) {
         throw e;
     }
 }
 
-async function listArchived(raidId) {
+async function listArchived(raidId: number): Promise<Termin[]> {
     const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Termin.endtime FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ? AND Termin.isArchived = 1 ORDER BY Termin.date DESC, Termin.time DESC';
     try {
-        return ((await db.queryV(stmt, raidId)) as any).map(dateMapper.map);
+		const result: Termin[] = await db.queryV(stmt, raidId);
+        return result.map(dateMapper.map);
     } catch(e) {
         throw e;
     }
 }
 
-async function newTermin(raid, date, time) {
+async function newTermin(raid: number, date: any, time: any): Promise<OkPacket> {
     const stmt = 'INSERT INTO Termin (fk_raid, date, time) VALUES (?,?,?)';
     try {
         return await db.queryV(stmt, [raid, date, time]);
@@ -85,7 +92,7 @@ async function newTermin(raid, date, time) {
     }
 }
 
-async function newTerminWithEndTime(raid, date, time, endtime) {
+async function newTerminWithEndTime(raid: number, date: any, time: any, endtime: any): Promise<OkPacket> {
     const stmt = 'INSERT INTO Termin (fk_raid, date, time, endtime) VALUES (?,?,?,?)';
     try {
         return await db.queryV(stmt, [raid, date, time, endtime]);
@@ -95,7 +102,7 @@ async function newTerminWithEndTime(raid, date, time, endtime) {
 }
 
 
-async function archive(termin) {
+async function archive(termin: number): Promise<OkPacket> {
     const stmt = 'UPDATE Termin SET isArchived = 1, isLocked = 0, preview = 0 WHERE id = ?';
     try {
         return await db.queryV(stmt, termin);
@@ -104,7 +111,7 @@ async function archive(termin) {
     }
 }
 
-async function addBoss(termin, boss) {
+async function addBoss(termin: number, boss: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss) VALUES (?,?)';
     try {
         return await db.queryV(stmt, [termin, boss]);
@@ -113,7 +120,7 @@ async function addBoss(termin, boss) {
     }
 }
 
-async function addWing(termin, wing) {
+async function addWing(termin: number, wing: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO Aufstellung (fk_termin, fk_boss) SELECT ?, id FROM Encounter WHERE wing = ?';
     try {
         return await db.queryV(stmt, [termin, wing]);
@@ -122,7 +129,7 @@ async function addWing(termin, wing) {
     }
 }
 
-async function deleteTermin(termin) {
+async function deleteTermin(termin: number): Promise<OkPacket> {
     const stmt = 'DELETE FROM Termin WHERE id = ?';
     try {
         return await db.queryV(stmt, termin);
@@ -131,7 +138,7 @@ async function deleteTermin(termin) {
     }
 }
 
-async function getText(termin) {
+async function getText(termin: number): Promise<string[]> {
     const stmt = 'SELECT text FROM Termin WHERE id = ?';
     try {
         return await db.queryV(stmt, termin);
@@ -140,7 +147,7 @@ async function getText(termin) {
     }
 }
 
-async function saveText(termin, text) {
+async function saveText(termin: number, text: string): Promise<OkPacket> {
     const stmt = 'UPDATE Termin SET text = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [text, termin]);
@@ -149,8 +156,8 @@ async function saveText(termin, text) {
     }
 }
 
-async function doesTerminExist(termin) {
+async function doesTerminExist(termin: number): Promise<boolean> {
     const stmt = 'SELECT count(*) AS count FROM Termin WHERE id = ?';
-    const terminExists = await db.queryV(stmt, [termin]);
+    const terminExists: { count: number }[] = await db.queryV(stmt, [termin]);
     return !(terminExists[0].count === 0);
 }

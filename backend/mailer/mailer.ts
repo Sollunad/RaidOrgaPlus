@@ -1,12 +1,13 @@
 // const nodemailer = require('nodemailer');
 // const config = require("./config.json");
 
+import { Spieler } from "models/Spieler";
 import nodemailer from "nodemailer";
 import config from "./config.json";
 
 export { sendPasswortResetMail as passwortReset };
 
-function sendEmail(user, subject: string, text: string) {
+function sendEmail(user: Spieler, subject: string, text: string): void {
     const transporter = nodemailer.createTransport(config);
     const to = user.email;
 
@@ -21,7 +22,7 @@ function sendEmail(user, subject: string, text: string) {
     transporter.sendMail(mail);
 }
 
-function sendPasswortResetMail(user, token) {
+function sendPasswortResetMail(user: Spieler, token: string): void {
     const subject = 'Passwort-Reset angefordert';
     const link = `https://orga.rising-light.de/#/reset/${token}`;
     const text =

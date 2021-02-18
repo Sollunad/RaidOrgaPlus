@@ -2,12 +2,18 @@ import * as _aufstellung from '../aufstellungen/aufstellung';
 import * as _element from '../aufstellungen/element';
 import * as _roles from '../../authentication/role';
 import * as _termin from '../termine/termin';
+import { Request } from 'express';
+import { Authentication } from 'models/Auth';
+import { Aufstellung } from 'models/Aufstellung';
+import { Encounter } from 'models/Encounter';
+import { ControllerEndpoint } from 'models/ControllerEndpoint';
 
-export = [
+const endpoints: ControllerEndpoint[] = [
     {function: setAufstellung, path: '/aufstellungen', method: 'post', authed: true},
 ];
+export default endpoints;
 
-async function setAufstellung(req, authentication) {
+async function setAufstellung(req: Request, authentication: Authentication): Promise<(Aufstellung & Encounter)[]> {
     const termin = req.body.body.terminId;
     const data = req.body.body.aufstellungen;
 
@@ -20,7 +26,7 @@ async function setAufstellung(req, authentication) {
         return [];
     }
 
-    for (let boss of data) {
+    for (const boss of data) {
         let aufstellung = boss.aufstellungId;
         if (boss.aufstellungId == null)
         {
@@ -28,7 +34,7 @@ async function setAufstellung(req, authentication) {
                 continue;
             }
             try {
-                let res: any = await _termin.addBoss(termin, boss.bossId);
+                const res = await _termin.addBoss(termin, boss.bossId);
                 aufstellung = res.insertId;
             } catch (e) {
                 //Unable to insert, next boss
@@ -44,7 +50,7 @@ async function setAufstellung(req, authentication) {
         }
         else
         {
-            if (!(await _aufstellung.getForTermin(termin) as any).some(e => e.id === aufstellung)) {
+            if (!(await _aufstellung.getForTermin(termin)).some(e => e.id === aufstellung)) {
                 continue;
             }
         }
@@ -56,7 +62,7 @@ async function setAufstellung(req, authentication) {
                 //Ignore not possible to set success.
             }
         }
-        for (let player of boss.positionen) {
+        for (const player of boss.positionen) {
             if (1 <= player.position && player.position <= 10) {
                 
                 try {

@@ -1,7 +1,7 @@
 import * as db from '../../db/connector';
 import * as dateMapper from './dateMapper';
 
-export async function getHomepageTermine(user) {
+export async function getHomepageTermine(user: number): Promise<any[]> {
     const stmt = 'SELECT Termin.id, Raid.id AS raidID, Raid.name, Raid.icon, Spieler_Raid.role, Termin.date, Termin.time, Termin.endtime, Spieler_Termin.type ' +
         'FROM Termin ' +
         'JOIN Raid ON Termin.fk_raid = Raid.id ' +
@@ -10,7 +10,8 @@ export async function getHomepageTermine(user) {
         'WHERE Spieler_Raid.fk_spieler = ? AND Termin.isArchived = 0 ' +
         'ORDER BY Termin.date, Termin.time';
     try {
-        return ((await db.queryV(stmt, [user, user])) as any).map(dateMapper.map);
+		const response = await db.queryV<unknown[]>(stmt, [user, user]);
+        return response.map(dateMapper.map);
     } catch(e) {
         throw e;
     }

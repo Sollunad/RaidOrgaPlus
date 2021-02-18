@@ -1,5 +1,22 @@
-import { Client } from "discord.js";
+import { Client, GuildMember } from "discord.js";
+import { Spieler } from "models/Spieler";
 import config from "./config.json";
+
+interface DiscordRole {
+	id: string;
+	name: string;
+	color: string;
+}
+
+interface DiscordMember {
+	id: string;
+	username: string;
+	nickname: string;
+	roles: DiscordRole[];
+	joined: number;
+	avatar: string;
+	color: string;
+}
 
 class DiscordClient extends Client {
 	config: any;
@@ -13,20 +30,22 @@ const RISING_LIGHT_ID = '157565117070966784';
 const EVERYONE_ROLE_ID = '157565117070966784';
 const AVATAR_BASE_URL = 'https://cdn.discordapp.com/avatars';
 
-export async function getUser(id) {
+export async function getUser(id: string): Promise<DiscordMember> {
     return (await getAllUsers()).find(m => m.id === id);
 }
 
-export async function getAllUsers() {
+export async function getAllUsers(): Promise<DiscordMember[]> {
     try {
-        return client.guilds.get(RISING_LIGHT_ID).members.filter(m => m.user.bot === false).map(mapMember);
+		const guild = client.guilds.cache.get(config.server);
+		const members = await guild.members.fetch();
+        return members.filter(m => m.user.bot === false).map(mapMember);
     } catch (e) {
         console.log(e);
         return [];
     }
 }
 
-function mapMember(member) {
+function mapMember(member: GuildMember): DiscordMember {
     return {
         id: member.user.id,
         username: `${member.user.username}#${member.user.discriminator}`,
@@ -38,7 +57,7 @@ function mapMember(member) {
     }
 }
 
-function getNickname(member) {
+function getNickname(member: GuildMember): string {
     if (member.nickname === null) {
         return member.user.username;
     } else {
@@ -46,17 +65,17 @@ function getNickname(member) {
     }
 }
 
-function getRoles(member) {
-    return member.roles.filter(r => r.id !== EVERYONE_ROLE_ID).map(r => {
+function getRoles(member: GuildMember): DiscordRole[] {
+    return member.roles.cache.filter(r => r.id !== config.server).map(r => {
         return {id: r.id, name: r.name, color: parseColor(r.color)};
     });
 }
 
-function parseColor(number) {
+function parseColor(number: number): string {
     return `#${number.toString(16).padStart(6, '0')}`;
 }
 
-function getAvatarURL(member) {
+function getAvatarURL(member: GuildMember): string {
     if (member.user.avatar === null) {
         return null;
     } else {

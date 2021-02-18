@@ -2,15 +2,19 @@ import * as _progress from './progress';
 import * as _user from '../users/user';
 import * as _insights from './insights';
 import * as _achievements from './achievements';
+import { Request } from 'express';
+import { Authentication } from 'models/Auth';
+import { ControllerEndpoint } from 'models/ControllerEndpoint';
 
-export = [
+const endpoints: ControllerEndpoint[] = [
     {function: getProgress, path: '', method: 'get', authed: true},
     {function: getInsights, path: '/li', method: 'get', authed: true},
     {function: getAchievements, path: '/achievements', method: 'get', authed: true},
 ];
+export default endpoints;
 
-async function getProgress(req, authentication) {
-    const user = req.query.user;
+async function getProgress(req: Request, authentication: Authentication): Promise<any> {
+    const user = parseInt(req.query.user as string);
     if (user) {
         const isShared = await getShareValue(user);
         if (isShared) return await _progress.progress(user);
@@ -20,8 +24,8 @@ async function getProgress(req, authentication) {
     }
 }
 
-async function getInsights(req, authentication) {
-    const user = req.query.user;
+async function getInsights(req: Request, authentication: Authentication): Promise<any> {
+    const user = parseInt(req.query.user as string);
     if (user) {
         const isShared = await getShareValue(user);
         if (isShared) return await _insights.insights(user);
@@ -31,8 +35,8 @@ async function getInsights(req, authentication) {
     }
 }
 
-async function getAchievements(req, authentication) {
-    const user = req.query.user;
+async function getAchievements(req: Request, authentication: Authentication): Promise<any> {
+    const user = parseInt(req.query.user as string);
     if (user) {
         const isShared = await getShareValue(user);
         if (isShared) return await _achievements.achievementsDone(user);
@@ -42,10 +46,10 @@ async function getAchievements(req, authentication) {
     }
 }
 
-async function getShareValue(user) {
-    const response: any = await _user.hasProgressShared(user);
+async function getShareValue(user: number): Promise<boolean> {
+    const response = await _user.hasProgressShared(user);
     if (response.length > 0) {
-        const sharedValue = response[0].share;
-        return (!!sharedValue)
+        const sharedValue = response[0];
+        return sharedValue;
     }
 }

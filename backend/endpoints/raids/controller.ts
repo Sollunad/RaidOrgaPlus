@@ -1,8 +1,14 @@
 import * as _raids from './raids';
 import * as _invites from './invites';
 import * as _roles from '../../authentication/role';
+import { Request } from 'express';
+import { Authentication } from 'models/Auth';
+import { Spieler, SpielerRaid } from 'models/Spieler';
+import { Raid } from 'models/Raid';
+import { OkPacket } from 'mysql';
+import { ControllerEndpoint } from 'models/ControllerEndpoint';
 
-export = [
+const endpoints: ControllerEndpoint[] = [
     {function: getRaids, path: '', method: 'get', authed: true},
     {function: getRole, path: '/role', method: 'get', authed: true},
     {function: listPlayers, path: '/players', method: 'get', authed: true},
@@ -14,93 +20,94 @@ export = [
     {function: deleteInvite, path: '/invites', method: 'delete', authed: true},
     {function: anmeldungStatesForUser, path: '/anmeldungen', method: 'get', authed: true},
 ];
+export default endpoints;
 
-async function getRaids(req, authentication) {
+async function getRaids(req: Request, authentication: Authentication): Promise<(Raid & SpielerRaid)[]> {
     return await _raids.listForPlayer(authentication.user);
 }
 
-async function getRole(req, authentication) {
-    const raid = req.query.raid;
+async function getRole(req: Request, authentication: Authentication): Promise<{ role: number }> {
+    const raid = parseInt(req.query.raid as string);
     if (raid) {
-        const role = await _roles.forRaid(authentication, raid);
+        const role = _roles.forRaid(authentication, raid);
         return {role: role};
     }
-    return [];
+    return;
 }
 
-async function listPlayers(req, authentication) {
-    const raid = req.query.raid;
+async function listPlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {
+    const raid = parseInt(req.query.raid as string);
     if (raid) {
-        const role = await _roles.forRaid(authentication, raid);
+        const role = _roles.forRaid(authentication, raid);
         if (role != null) return await _raids.listPlayers(raid);
     }
     return [];
 }
 
-async function invitePlayer(req, authentication) {
+async function invitePlayer(req: Request, authentication: Authentication): Promise<OkPacket> {
     const user = req.body.user;
     const raid = req.body.raid;
     if (user && raid) {
-        const role = await _roles.forRaid(authentication, raid);
+        const role = _roles.forRaid(authentication, raid);
         if (role > 0) return await _invites.invitePlayer(user, raid);
     }
-    return [];
+    return;
 }
 
-async function getInvitablePlayers(req, authentication) {
-    const raid = req.query.raid;
+async function getInvitablePlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {
+    const raid = parseInt(req.query.raid as string);
     if (raid) {
-        const role = await _roles.forRaid(authentication, raid);
+        const role = _roles.forRaid(authentication, raid);
         if (role > 0) return await _invites.invitable(raid);
     }
     return [];
 }
 
-async function getPendingInvites(req, authentication) {
-    const raid = req.query.raid;
+async function getPendingInvites(req: Request, authentication: Authentication): Promise<any[]> {
+    const raid = parseInt(req.query.raid as string);
     if (raid) {
-        const role = await _roles.forRaid(authentication, raid);
-        if (role > 0) return ((await _invites.pendingForRaid(raid)) as any).map(p => p.spieler);
+        const role = _roles.forRaid(authentication, raid);
+        if (role > 0) return ((await _invites.pendingForRaid(raid))).map(p => p.spieler);
     } else {
         return (await _invites.pendingForPlayer(authentication.user));
     }
     return [];
 }
 
-async function acceptInvite(req, authentication) {
+async function acceptInvite(req: Request, authentication: Authentication): Promise<OkPacket> {
     const raid = req.body.raid;
     if (raid) {
         if (await _invites.isInvited(raid, authentication.user)){
             return await _invites.accept(raid, authentication.user);
         }
     }
-    return [];
+    return;
 }
 
-async function deleteInvite(req, authentication) {
+async function deleteInvite(req: Request, authentication: Authentication): Promise<OkPacket> {
     const raid = req.body.raid;
     const user = req.body.user;
     if (raid) {
         if (user){
-            const role = await _roles.forRaid(authentication, raid);
+            const role = _roles.forRaid(authentication, raid);
             if (role > 0) return await _invites.delete(raid, user);
         } else {
             return await _invites.delete(raid, authentication.user);
         }
     }
-    return [];
+    return;
 }
 
-async function anmeldungStatesForUser(req, authentication) {
+async function anmeldungStatesForUser(req: Request, authentication: Authentication): Promise<any> {
     return (await _raids.anmeldungStatesForUser(authentication.user));
 }
 
-async function kickPlayer(req, authentication) {
+async function kickPlayer(req: Request, authentication: Authentication): Promise<Spieler[]> {
     const raid = req.body.raid;
     const user = req.body.user;
     if (raid && user) {
-        const role = await _roles.forRaid(authentication, raid);
-        const kickRole = (await _raids.getRoleForPlayer(raid, user))[0].role;
+        const role = _roles.forRaid(authentication, raid);
+        const kickRole = (await _raids.getRoleForPlayer(raid, user))[0];
         if (role > 0 && role > kickRole) {
             return _raids.kickPlayer(raid, user).then(async () => {
                 return await _raids.listPlayers(raid);

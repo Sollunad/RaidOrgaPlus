@@ -1,3 +1,5 @@
+import { Spieler } from 'models/Spieler';
+import { OkPacket } from 'mysql';
 import * as db from '../../db/connector';
 
 const stmt = 'SELECT Spieler.id, Spieler.accname, Spieler.name, Spieler.lastActive, Spieler.comment, Spieler.discord, MIN(Termin.date) AS firstTermin, MAX(Termin.date) AS lastTermin FROM Spieler ' +
@@ -12,7 +14,7 @@ const stmt = 'SELECT Spieler.id, Spieler.accname, Spieler.name, Spieler.lastActi
     'AND Spieler.id NOT IN (SELECT DISTINCT fk_spieler FROM Spieler_Termin) ' +
     'ORDER BY accname';
 
-export async function getUsers() {
+export async function getUsers(): Promise<(Spieler & { firstTermin: Date, lastTermin: Date })[]> {
     try {
         return await db.query(stmt);
     } catch(e) {
@@ -20,10 +22,10 @@ export async function getUsers() {
     }
 }
 
-export async function setComment(spieler, comment) {
+export async function setComment(spieler: number, comment: string): Promise<OkPacket> {
     const stmt = 'UPDATE Spieler SET comment = ? WHERE id = ?';
     try {
-        return await db.queryV(stmt, [comment, spieler]);
+		return await db.queryV(stmt, [comment, spieler]);
     } catch(e) {
         throw e;
     }

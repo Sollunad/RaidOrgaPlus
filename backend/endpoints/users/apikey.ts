@@ -6,7 +6,7 @@ export {
 	getApiKey as api, setApiKey as setApi, hasApiKey as hasApi
 };
 
-async function getApiKey(userId) {
+async function getApiKey(userId: number): Promise<string[]> {
     const stmt = 'SELECT apikey FROM Spieler WHERE id = ?';
     try {
         return await db.queryV(stmt, userId);
@@ -15,12 +15,12 @@ async function getApiKey(userId) {
     }
 }
 
-async function hasApiKey(userId) {
+async function hasApiKey(userId: number): Promise<boolean> {
     const api_key = await getApiKey(userId);
-    return (api_key && api_key[0].apikey !== '' && api_key[0].apikey !== null);
+    return (api_key && api_key[0] !== '' && api_key[0] !== null);
 }
 
-async function setApiKey(userId, apiKey) {
+async function setApiKey(userId: number, apiKey: string): Promise<string> {
     try {
         const user = (await users.get(userId))[0];
         const keyName = await api.accName(apiKey);
@@ -40,7 +40,7 @@ async function setApiKey(userId, apiKey) {
     }
 }
 
-async function enoughPermissions(apiKey){
+async function enoughPermissions(apiKey: string): Promise<boolean> {
     try {
         const permissions = await api.permissions(apiKey);
         const required = ['account', 'builds', 'characters', 'inventories', 'progression', 'unlocks'];

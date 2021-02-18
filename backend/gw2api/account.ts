@@ -4,33 +4,33 @@ export { fetchProgress, getAccname as accName, getPermissions as permissions, ge
 
 const api = apiclient();
 
-async function getDoneAchievements(key) {
-    const achievements = await api.authenticate(key).account().achievements().get();
+async function getDoneAchievements(key): Promise<any[]> {
+    const achievements: any[] = await api.authenticate(key).account().achievements().get();
     return achievements.filter(a => a.done === true).map(a => a.id);
 }
 
-async function fetchProgress(key) {
+async function fetchProgress(key: string): Promise<any> {
     return api.authenticate(key).account().raids().get().then(res => {return res});
 }
 
-async function getAccname(key) {
+async function getAccname(key: string): Promise<any> {
     return api.authenticate(key).account().get().then(res => {return res.name});
 }
 
-async function getPermissions(key){
+async function getPermissions(key: string): Promise<any> {
     return api.authenticate(key).tokeninfo().get().then(res => {return res.permissions});
 }
 
-async function getItemCount(key) {
+async function getItemCount(key: string): Promise<any[]> {
     let items = [];
     items = items.concat(await getBankItems(key));
     items = items.concat(await getStorageItems(key));
     items = items.concat(await getSharedItems(key));
     items = items.concat(await getCharacterItems(key));
 
-    let count = [];
+    const count = [];
     items.forEach(item => {
-        let searchItem = count.filter(e => e.id === item.id);
+        const searchItem = count.filter(e => e.id === item.id);
         if (searchItem.length > 0) {
             searchItem[0].count = searchItem[0].count + item.count;
         } else {
@@ -40,25 +40,25 @@ async function getItemCount(key) {
     return count;
 }
 
-async function getBankItems(key){
+async function getBankItems(key: string): Promise<any> {
     return api.authenticate(key).account().bank().get().then(res => {
         return res.filter(e => e !== null);
     });
 }
 
-async function getStorageItems(key){
+async function getStorageItems(key: string): Promise<any> {
     return api.authenticate(key).account().materials().get().then(res => {
         return res.filter(e => e !== null);
     });
 }
 
-async function getSharedItems(key){
+async function getSharedItems(key: string): Promise<any> {
     return api.authenticate(key).account().inventory().get().then(res => {
         return res.filter(e => e !== null);
     });
 }
 
-async function getCharacterItems(key){
+async function getCharacterItems(key: string): Promise<any> {
     return api.authenticate(key).characters().all().then(res => {
         const equipByChar = res.map(e => e.equipment);
         let equip = [];
@@ -68,7 +68,7 @@ async function getCharacterItems(key){
         equip = equip.map(e => {return {id: e.id, count: 1}});
 
         const characterBags = res.map(e => e.bags.filter(e => e !== null).map(e => e.inventory.filter(e => e !== null)));
-        let inventory = [];
+        const inventory = [];
         characterBags.forEach(c => {
            c.forEach(b => {
                b.forEach(item => {

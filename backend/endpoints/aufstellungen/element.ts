@@ -1,6 +1,7 @@
+import { OkPacket } from 'mysql';
 import * as db from '../../db/connector';
 
-export async function getForTermin(termin) {
+export async function getForTermin(termin: number): Promise<any> {
     const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
         ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
         ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
@@ -14,7 +15,7 @@ export async function getForTermin(termin) {
     }
 }
 
-export async function getForAufstellung(aufstellung) {
+export async function getForAufstellung(aufstellung: number): Promise<any> {
     const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
         ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
         ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
@@ -28,7 +29,7 @@ export async function getForAufstellung(aufstellung) {
     }
 }
 
-export async function setClass(aufstellung, position, clss){
+export async function setClass(aufstellung: number, position: number, clss: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class) VALUES (?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?';
     try {
         return await db.queryV(stmt, [aufstellung, position, clss, clss]);
@@ -37,7 +38,7 @@ export async function setClass(aufstellung, position, clss){
     }
 }
 
-export async function setRole(aufstellung, position, role){
+export async function setRole(aufstellung: number, position: number, role: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_role) VALUES (?,?,?) ON DUPLICATE KEY UPDATE fk_role = ?';
     try {
         return await db.queryV(stmt, [aufstellung, position, role, role]);
@@ -46,7 +47,7 @@ export async function setRole(aufstellung, position, role){
     }
 }
 
-export async function setName(aufstellung, position, name){
+export async function setName(aufstellung: number, position: number, name: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler) VALUES (?,?,?) ON DUPLICATE KEY UPDATE fk_spieler = ?';
     try {
         return await db.queryV(stmt, [aufstellung, position, name, name]);
@@ -55,7 +56,7 @@ export async function setName(aufstellung, position, name){
     }
 }
 
-export async function setCompleteElement(aufstellung, position, classId, roleId, playerId) {
+export async function setCompleteElement(aufstellung: number, position: number, classId: number, roleId: number, playerId: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class, fk_role, fk_spieler) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?, fk_role = ?, fk_spieler = ?';
     try {
         return await db.queryV(stmt, [aufstellung, position, classId, roleId, playerId, classId, roleId, playerId]);

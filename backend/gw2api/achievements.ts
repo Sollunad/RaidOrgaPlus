@@ -4,7 +4,7 @@ import achievementInfo from './achievementInfo.json';
 const api = apiclient();
 const RAID_GROUP = '1CAFA333-0C2B-4782-BC4C-7DA30E9CE289';
 const CACHE_FOR = 1000 * 60 * 60;
-let _cache = {achievements: [], cachedUntil: 0};
+const _cache = {achievements: [], cachedUntil: 0};
 
 export async function getAchievements() {
     if (_cache === null || _cache.cachedUntil < Date.now()) return await fetchAndCache();
@@ -30,7 +30,7 @@ async function fetchAndCache() {
 function addAchievementInfo(wing, achievements) {
     const wing_info = achievementInfo.find(w => w.wing === wing);
     if (wing_info) {
-        for (let achievement of achievements) {
+        for (const achievement of achievements) {
             const achievement_info = wing_info.info.find(a => a.id === achievement.id);
             if (achievement_info) {
                 achievement.boss = achievement_info.boss;

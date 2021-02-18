@@ -1,6 +1,8 @@
+import { Spieler, SpielerTermin } from 'models/Spieler';
+import { OkPacket } from 'mysql';
 import * as db from '../../db/connector';
 
-export async function anmelden(spieler, termin, type) {
+export async function anmelden(spieler: number, termin: number, type: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO Spieler_Termin (fk_spieler, fk_termin, type) VALUES (?,?,?) ON DUPLICATE KEY UPDATE type=?';
     try {
         return await db.queryV(stmt, [spieler, termin, type, type]);
@@ -9,10 +11,10 @@ export async function anmelden(spieler, termin, type) {
     }
 }
 
-export async function getAnmeldungForSpieler(spieler, termin) {
+export async function getAnmeldungForSpieler(spieler: number, termin: number): Promise<{ type: number }> {
     const stmt = 'SELECT type FROM Spieler_Termin WHERE fk_spieler = ? AND fk_termin = ?';
     try {
-        const response: any = await db.queryV(stmt, [spieler, termin]);
+        const response: SpielerTermin[] = await db.queryV(stmt, [spieler, termin]);
         if (response.length === 0) return {type: null};
         else return {type: response[0].type};
     } catch(e) {
@@ -20,7 +22,7 @@ export async function getAnmeldungForSpieler(spieler, termin) {
     }
 }
 
-export async function getAnmeldungenForTermin(termin) {
+export async function getAnmeldungenForTermin(termin: number): Promise<(Spieler & SpielerTermin)[]> {
     const stmt = 'SELECT Spieler.id, Spieler.name, Spieler.accname, Spieler_Termin.type ' +
         'FROM Spieler_Termin JOIN Spieler ON Spieler.id = Spieler_Termin.fk_spieler ' +
         'WHERE fk_termin = ? ' +

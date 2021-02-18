@@ -1,6 +1,8 @@
+import { Raid } from 'models/Raid';
+import { Termin } from 'models/Termin';
 import * as db from '../../db/connector';
 
-export async function showTermineForNext7Days() {
+export async function showTermineForNext7Days(): Promise<(Termin & Raid)[]> {
     const stmt = 'SELECT Termin.id, Termin.date, Termin.time, Termin.endtime, Raid.name ' +
         'FROM Termin ' +
         'JOIN Raid ON Termin.fk_raid = Raid.id ' +

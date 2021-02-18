@@ -1,8 +1,12 @@
+import { Aufstellung } from "models/Aufstellung";
+import { Encounter } from "models/Encounter";
+import { Raid } from "models/Raid";
+import { OkPacket } from "mysql";
 import * as db from "../../db/connector";
 
 export { getForTermin, getRaidId, deleteBoss as delete, setSuccess, loadBlanko, copyElements, setCM };
 
-async function getForTermin(termin) {
+async function getForTermin(termin: number): Promise<(Aufstellung & Encounter)[]> {
     const stmt = 'SELECT Aufstellung.id, Encounter.name, Encounter.abbr, Aufstellung.success, Aufstellung.report, Encounter.has_cm, Aufstellung.is_cm FROM Aufstellung JOIN Encounter ON Encounter.id = Aufstellung.fk_boss WHERE fk_termin = ? FOR UPDATE';
     try {
         return await db.queryV(stmt, termin);
@@ -11,7 +15,7 @@ async function getForTermin(termin) {
     }
 }
 
-async function getRaidId(aufstellung) {
+async function getRaidId(aufstellung: number): Promise<Raid[]> {
     const stmt = 'SELECT Raid.id FROM Aufstellung JOIN Termin ON Termin.id = Aufstellung.fk_termin JOIN Raid ON Raid.id = Termin.fk_raid WHERE Aufstellung.id = ?';
     try {
         return await db.queryV(stmt, aufstellung);
@@ -20,7 +24,7 @@ async function getRaidId(aufstellung) {
     }
 }
 
-async function deleteBoss(aufstellung) {
+async function deleteBoss(aufstellung: number): Promise<OkPacket> {
     const stmt = 'DELETE FROM Aufstellung WHERE id = ?';
     try {
         return await db.queryV(stmt, aufstellung);
@@ -29,17 +33,17 @@ async function deleteBoss(aufstellung) {
     }
 }
 
-async function setSuccess(aufstellung, success) {
+async function setSuccess(aufstellung: number, success: boolean): Promise<OkPacket> {
     const stmt = 'UPDATE Aufstellung SET success = ? WHERE id = ?';
     try {
-        const successValue = success? 1 : 0;
+        const successValue = success ? 1 : 0;
         return await db.queryV(stmt, [successValue, aufstellung]);
     } catch(e) {
         throw e;
     }
 }
 
-async function loadBlanko(aufstellung) {
+async function loadBlanko(aufstellung: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, fk_role) ' +
         'SELECT ?, position, 0, fk_class, fk_role ' +
         'FROM BlankoElement ' +
@@ -52,7 +56,7 @@ async function loadBlanko(aufstellung) {
     }
 }
 
-async function copyElements(from, to) {
+async function copyElements(from: number, to: number): Promise<OkPacket> {
     const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, fk_role) ' +
         'SELECT ?, position, f.fk_spieler, f.fk_class, f.fk_role ' +
         'FROM AufstellungElement f ' +
@@ -65,10 +69,10 @@ async function copyElements(from, to) {
     }
 }
 
-async function setCM(aufstellung, cm) {
+async function setCM(aufstellung: number, cm: boolean): Promise<OkPacket> {
     const stmt = 'UPDATE Aufstellung SET is_cm = ? WHERE id = ?';
     try {
-        const value = cm? 1 : 0;
+        const value = cm ? 1 : 0;
         return await db.queryV(stmt, [value, aufstellung]);
     } catch(e) {
         throw e;

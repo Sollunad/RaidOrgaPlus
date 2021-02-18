@@ -1,19 +1,21 @@
-import express from "express";
+import express, { Request } from "express";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import fs from "fs";
 import http from "http";
 import https from "https";
+import nodeLogger from 'simple-node-logger';
 
 import { auth } from "./authentication/auth";
 import * as websocket from "./websocket/websocket";
+import { Endpoint } from "models/Endpoint";
+import { Dictionary } from "models/Dictionary";
+import { Authentication } from "models/Auth";
 
-const logger = require('simple-node-logger').createSimpleLogger('backend.log');
 const app = express();
+const logger = nodeLogger.createSimpleLogger('backend.log');
 
-// const websocket = require('./websocket/websocket');
-
-let endpoints = [];
+const endpoints: Dictionary<Dictionary<Endpoint>> = {};
 
 const corsOptions = {
     origin: '*',
@@ -30,16 +32,16 @@ app.use(fileUpload());
 fs.readdir('./endpoints/', (err, folders) => {
     folders.forEach(folder => {
         fs.readdir(`./endpoints/${folder}`, (err, files) => {
-            files.forEach(file => {
+            files.forEach(async file => {
                 if (file === 'controller.js') {
-                    const endpoints = require(`./endpoints/${folder}/controller.js`);
-                    endpoints.forEach(endpoint => {
+                    const endpoints = await import(`./endpoints/${folder}/controller.js`);
+                    endpoints.default.forEach(endpoint => {
                         registerEndpoint(folder, endpoint);
                     })
                 }
 				else if (file === 'controller.ts') {
-					const endpoints = require(`./endpoints/${folder}/controller.ts`);
-					endpoints.forEach(endpoint => {
+					const endpoints = await import(`./endpoints/${folder}/controller.ts`);
+					endpoints.default.forEach(endpoint => {
                         registerEndpoint(folder, endpoint);
                     })
 				}
@@ -48,10 +50,10 @@ fs.readdir('./endpoints/', (err, folders) => {
     });
 });
 
-function registerEndpoint(path, endpoint) {
+function registerEndpoint(path: string, endpoint: Endpoint) {
     const method = endpoint.method;
     const fullPath = `/${path}${endpoint.path}`;
-    if (!endpoints[method]) endpoints[method] = [];
+    if (!endpoints[method]) endpoints[method] = {};
     logger.debug(`Register ${method} @ ${fullPath}`);
     endpoints[method][fullPath] = endpoint;
 }
@@ -60,24 +62,24 @@ app.route('*').all(async function (req, res) {
     res.send(await requestHandler(req));
 });
 
-async function requestHandler(request) {
-    const method = request.method.toLowerCase();
-    const endpoint = endpoints[method][request._parsedUrl.pathname];
+async function requestHandler(request: Request) {
+    const method: string = request.method.toLowerCase();
+    const endpoint = endpoints[method][request.path];
     if (!endpoint) return [];
 
     const agent = request.header('user-agent');
-    let uuid, authentication;
-    if (method === 'get') uuid = request.query.auth;
+    let uuid: string, authentication: Authentication;
+    if (method === 'get') uuid = request.query.auth as string;
     else uuid = request.body.auth;
     if (uuid) authentication = await auth(uuid, agent);
 
     const authNeeded = endpoint.authed;
 
     if (authentication) {
-        logRequest(method, request._parsedUrl.pathname, authentication.user);
+        logRequest(method, request.originalUrl, authentication.user);
         return await endpoint.function(request, authentication);
     } else {
-        logRequest(method, request._parsedUrl.pathname);
+        logRequest(method, request.originalUrl);
         if (!authNeeded) {
             return await endpoint.function(request);
         }
@@ -125,7 +127,7 @@ function serveHTTP() {
     websocket.start(server);
 }
 
-function logRequest(method, endpoint, user?) {
+function logRequest(method: string, endpoint: string, user?: number) {
     if (user) {
         logger.info(method, ' @ ', endpoint, ' by ', user);
     } else {

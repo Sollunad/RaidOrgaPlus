@@ -1,7 +1,7 @@
 export { mapTerminDate as map };
 
 function mapTerminDate(termin) {
-    let newTerminObject = termin;
+    const newTerminObject = termin;
 
     let day = termin.date.getDate();
     if (day < 10) day = '0' + day;

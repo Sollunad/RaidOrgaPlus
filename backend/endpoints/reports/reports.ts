@@ -2,9 +2,12 @@ import * as db from '../../db/connector';
 import * as parser from '../../reports/parser';
 import glob from 'glob';
 import fs from 'fs';
-import uuid from 'uuid/v4';
+import { v4 } from 'uuid';
+import { UploadedFile } from 'express-fileupload';
+import { Aufstellung } from 'models/Aufstellung';
+import { OkPacket } from 'mysql';
 
-export async function addReport(aufstellung, file) {
+export async function addReport(aufstellung: number, file: UploadedFile): Promise<string[]> {
     const extension = file.name.split('.').slice(-1)[0];
     if (!(extension === 'evtc' || extension === 'zevtc')) return;
     const filepath = `reports/working/${aufstellung}.${extension}`;
@@ -12,10 +15,10 @@ export async function addReport(aufstellung, file) {
     await parser.parse(filepath);
 
     const oldPath = glob.sync(`reports/working/${aufstellung}_*`)[0];
-    const fileName = uuid();
+    const fileName = v4();
     const newPath = `reports/parsed/${fileName}.html`;
 
-    await fs.rename(oldPath, newPath, function(err) {
+    fs.rename(oldPath, newPath, function(err) {
         if (err) throw err;
     });
 
@@ -25,7 +28,7 @@ export async function addReport(aufstellung, file) {
         try {
             fs.unlinkSync(oldReportPath);
         } catch(e) {
-
+			throw e;
         }
     }
 
@@ -33,7 +36,7 @@ export async function addReport(aufstellung, file) {
     return [fileName];
 }
 
-async function writeReport(aufstellung, fileName) {
+async function writeReport(aufstellung: number, fileName: string): Promise<OkPacket> {
     const stmt = 'UPDATE Aufstellung SET report = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [fileName, aufstellung]);
@@ -42,10 +45,10 @@ async function writeReport(aufstellung, fileName) {
     }
 }
 
-async function getReport(aufstellung) {
+async function getReport(aufstellung: number): Promise<string> {
     const stmt = 'SELECT report FROM Aufstellung WHERE id = ?';
     try {
-        const response = (await db.queryV(stmt, aufstellung))[0];
+        const response: Aufstellung = await db.queryV(stmt, aufstellung)[0];
         if (response) {
             return response.report;
         } else {

@@ -11,7 +11,7 @@ export async function parse(filepath) {
             try {
                 fs.unlinkSync(filepath);
             } catch(e) {
-
+				throw e;
             }
             if (err) {
                 reject(err);

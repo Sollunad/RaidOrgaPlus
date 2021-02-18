@@ -1,11 +1,13 @@
 import * as db from '../../db/connector';
 import hash from 'password-hash';
+import { Spieler } from 'models/Spieler';
+import { OkPacket } from 'mysql';
 
 export {
 	getForId as get, getAllForId, changeName, changeEmail, changePassword, hasProgressShared, setProgressShared, setIconLink
 };
 
-async function getForId(userId) {
+async function getForId(userId: number): Promise<Spieler[]> {
     const stmt = 'SELECT id, accname, name, role, discord FROM Spieler WHERE id = ?';
     try {
         return await db.queryV(stmt, userId);
@@ -14,7 +16,7 @@ async function getForId(userId) {
     }
 }
 
-async function getAllForId(userId) {
+async function getAllForId(userId: number): Promise<Spieler[]> {
     const stmt = 'SELECT * FROM Spieler WHERE id = ?';
     try {
         return await db.queryV(stmt, userId);
@@ -23,7 +25,7 @@ async function getAllForId(userId) {
     }
 }
 
-async function changeName(userId, name) {
+async function changeName(userId: number, name: string): Promise<OkPacket> {
     try {
         const stmt = 'UPDATE Spieler SET name = ? WHERE id = ?';
         return await db.queryV(stmt, [name, userId]);
@@ -32,7 +34,7 @@ async function changeName(userId, name) {
     }
 }
 
-async function changeEmail(userId, email) {
+async function changeEmail(userId: number, email: string): Promise<OkPacket> {
     const stmt = 'UPDATE Spieler SET email = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [email, userId]);
@@ -41,7 +43,7 @@ async function changeEmail(userId, email) {
     }
 }
 
-async function changePassword(userId, pwd) {
+async function changePassword(userId: number, pwd: string): Promise<OkPacket> {
     const pwdHash = hash.generate(pwd);
     const stmt = 'UPDATE Spieler SET password = ? WHERE id = ?';
     try {
@@ -51,7 +53,7 @@ async function changePassword(userId, pwd) {
     }
 }
 
-async function hasProgressShared(userId) {
+async function hasProgressShared(userId: number): Promise<boolean[]> {
     const stmt = 'SELECT share FROM Spieler WHERE id = ?';
     try {
         return await db.queryV(stmt, userId);
@@ -60,16 +62,17 @@ async function hasProgressShared(userId) {
     }
 }
 
-async function setProgressShared(userId, value) {
+async function setProgressShared(userId: number, value: boolean): Promise<OkPacket> {
     const stmt = 'UPDATE Spieler SET share = ? WHERE id = ?';
+	const share = value ? 1 : 0;
     try {
-        return await db.queryV(stmt, [value, userId]);
+        return await db.queryV(stmt, [share, userId]);
     } catch(e) {
         throw e;
     }
 }
 
-async function setIconLink(userId, link) {
+async function setIconLink(userId: number, link: string): Promise<OkPacket> {
     const stmt = 'UPDATE Spieler SET icon = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [link, userId]);
