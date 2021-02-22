@@ -40,31 +40,33 @@
     </v-dialog>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "DeleteDialogComp",
         data: () => ({
             newTermin: false,
         }),
         methods: {
-            deleteOK: function() {
+            deleteOK: function(): void {
                 this.$store.dispatch('delete', this.newTermin);
             },
-            deleteCancel: function() {
+            deleteCancel: function(): void {
                 this.$store.dispatch('closeDialog');
             }
         },
         computed: {
             open: {
-                get: function() {
+                get: function(): any {
                     return this.$store.getters.isDialogOpen('delete');
                 },
-                set: function() {
+                set: function(): void {
                     this.$store.dispatch('closeDialog');
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

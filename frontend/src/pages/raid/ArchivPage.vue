@@ -4,13 +4,14 @@
     </TerminOverviewComp>
 </template>
 
-<script>
-    import TerminOverviewComp from "../../components/raid/TerminOverviewComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import TerminOverviewComp from "../../components/raid/TerminOverviewComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ArchivPage",
         components: {TerminOverviewComp},
-    }
+    })
 </script>
 
 <style scoped>

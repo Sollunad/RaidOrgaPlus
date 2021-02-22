@@ -12,28 +12,30 @@
     </v-list>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "MenuNameComp",
         computed: {
-            dropdownList: function() {
+            dropdownList: function(): any {
                 const lfgUser = {
                     id: 1,
                     accname: 'LFG',
                     name: 'LFG'
                 };
-                let angemeldet = this.$store.getters.anmeldungen.filter(player => player.type < 2);
+                let angemeldet = this.$store.getters.anmeldungen.filter((player: any) => player.type < 2);
                 angemeldet = angemeldet.concat(this.$store.getters.ersatzSpieler);
                 angemeldet.push(lfgUser);
                 return angemeldet;
             }
         },
         methods: {
-            pick: function(user) {
+            pick: function(user: any): void {
                 this.$emit('pick', user);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -28,15 +28,16 @@
     </div>
 </template>
 
-<script>
-    import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp";
-    import AufstellungComp from '../../components/aufstellung/AufstellungComp';
-    import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
-    import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp";
-    import ShareDialogComp from "../../components/aufstellung/ShareDialogComp";
-    import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp.vue";
+    import AufstellungComp from '../../components/aufstellung/AufstellungComp.vue';
+    import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp.vue";
+    import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp.vue";
+    import ShareDialogComp from "../../components/aufstellung/ShareDialogComp.vue";
+    import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungPage",
         components: {
             ErsatzDialogComp,
@@ -47,27 +48,27 @@
             },
         },
         computed: {
-            wsOutput: function() {
+            wsOutput: function(): any {
                 return this.$store.getters.wsOutput;
             },
-            ersatzspieler: function() {
+            ersatzspieler: function(): any {
                 return this.$store.getters.ersatzspieler;
             },
-            aufstellungen: function() {
+            aufstellungen: function(): any {
                 return this.$store.getters.aufstellungen;
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             if (!this.$store.getters.termin) window.location.href = '/#/raids';
             else {
                 await this.$store.dispatch('loadAufstellungen');
             }
         },
-        beforeDestroy: async function() {
+        beforeDestroy: async function(): Promise<void> {
             await this.$store.dispatch('closeWS');
         },
         watch: {
-            wsOutput: async function(value) {
+            wsOutput: async function(value): Promise<void> {
                 if (value) {
                     await this.$store.dispatch('clearWS');
                     if (value === 'Refresh') {
@@ -76,7 +77,7 @@
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

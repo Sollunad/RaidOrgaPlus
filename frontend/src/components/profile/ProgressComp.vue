@@ -13,36 +13,37 @@
     </div>
 </template>
 
-<script>
-    import ProgressWingComp from "./ProgressWingComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import ProgressWingComp from "./ProgressWingComp.vue";
     import _encounter from '../../services/endpoints/gamedata';
     import _progress from '../../services/endpoints/progress';
 
-    export default {
+    export default Vue.extend({
         name: "ProgressComp",
         components: {ProgressWingComp},
         props: ['user', 'ownProfile'],
         data: () => ({
-            bosses: [],
-            progress: [],
+            bosses: [] as any[],
+            progress: [] as any[],
         }),
         computed: {
-            maxWing: function() {
+            maxWing: function(): number {
                 return this.bosses.length;
             }
         },
         methods: {
-            hasMarginBottom: function(wing) {
+            hasMarginBottom: function(wing: any): any {
                 const lastWings = [4];
                 return lastWings.includes(wing);
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.bosses = await _encounter.listEncounterGrouped();
-            if (this.ownProfile) this.progress = await _progress.progress();
+            if (this.ownProfile) this.progress = await _progress.progress(null);
             else this.progress = await _progress.progress(this.user.id);
         }
-    }
+    })
 </script>
 
 <style scoped>

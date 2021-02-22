@@ -31,26 +31,27 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _progress from '../../services/endpoints/progress';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "InsightsComp",
         props: ['user', 'ownProfile'],
         data: () => ({
-            insights: []
+            insights: [] as any[]
         }),
         methods: {
-            icon: function(name) {
+            icon: function(name: any): string {
                 return _icons.miscIcon(name);
             }
         },
-        created: async function() {
-            if (this.ownProfile) this.insights = await _progress.insights();
+        created: async function(): Promise<void> {
+            if (this.ownProfile) this.insights = await _progress.insights(null);
             else this.insights = await _progress.insights(this.user.id);
         }
-    }
+    })
 </script>
 
 <style scoped>

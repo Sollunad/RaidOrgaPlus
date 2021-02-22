@@ -9,14 +9,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "ProfilePictureComp",
         props: ['user', 'ownProfile', 'size'],
         computed: {
-            iconLink: function() {
+            iconLink: function(): string {
                 if (this.user.discord) {
                     return this.user.discord.avatar;
                 } else {
@@ -24,7 +25,7 @@
                 }
             }
         },
-    }
+    })
 </script>
 
 <style scoped>

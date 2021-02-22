@@ -7,26 +7,27 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _moderation from '../../services/endpoints/moderation';
-    import ModRaidErstellenComp from "./ModRaidErstellenComp";
-    import ModRaidListEntryComp from "./ModRaidListEntryComp";
+    import ModRaidErstellenComp from "./ModRaidErstellenComp.vue";
+    import ModRaidListEntryComp from "./ModRaidListEntryComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ModRaidListComp",
         components: {ModRaidListEntryComp, ModRaidErstellenComp},
         data: () => ({
-            raids: []
+            raids: [] as any[]
         }),
-        created: async function() {
+        created: async function(): Promise<void> {
             this.raids = await _moderation.getRaids();
         },
         methods: {
-            refresh: async function() {
+            refresh: async function(): Promise<void> {
                 this.raids = await _moderation.getRaids();
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

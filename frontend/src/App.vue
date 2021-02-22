@@ -11,13 +11,14 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import MenuComp from './components/menu/MenuComp.vue';
 
-    import MainPage from "./pages/MainPage";
-    import LoginRegisterPage from "./pages/LoginRegisterPage";
+    import MainPage from "./pages/MainPage.vue";
+    import LoginRegisterPage from "./pages/LoginRegisterPage.vue";
 
-    export default {
+    export default Vue.extend({
       components: {
         LoginRegisterPage,
         MainPage,
@@ -31,22 +32,22 @@
         allowedRoutes: ['preview', 'reset'],
       }),
       computed: {
-          showContent: function() {
+          showContent: function(): boolean {
               return this.withoutLoginAllowed || this.$store.getters.loginSuccess;
           },
-          showLogin: function() {
+          showLogin: function(): any {
               return this.$store.getters.loginFailed;
           }
       },
       methods: {
-          onResize: function() {
+          onResize: function(): void {
               this.$store.dispatch('saveWindowWidth');
           },
-          guardRoute: function() {
+          guardRoute: function(): void {
               this.withoutLoginAllowed = this.allowedRoutes.includes(this.$router.currentRoute.path.split('/')[1]);
           }
       },
-      created: async function() {
+      created: async function(): Promise<void> {
           this.guardRoute();
           await this.$store.dispatch('checkBuild');
           await this.$store.dispatch('getLoggedInUser');
@@ -55,15 +56,15 @@
               await navigator.serviceWorker.register('service-worker.js');
           }
       },
-      mounted: function() {
+      mounted: function(): void {
           this.onResize();
       },
       watch: {
-          $route: function() {
+          $route: function(): void {
               this.guardRoute();
           }
       }
-  }
+  })
 </script>
 
 <style scoped>

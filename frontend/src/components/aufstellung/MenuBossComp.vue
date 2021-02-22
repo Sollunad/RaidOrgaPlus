@@ -9,12 +9,17 @@
     </v-list>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue, { PropType } from 'vue';
+
+    export default Vue.extend({
         name: "MenuBossComp",
-        props: ['wing', 'showFC'],
+		props: {
+			wing: Object as PropType<any>,
+			showFC: Object as PropType<any>
+		},
         computed: {
-            bosses: function() {
+            bosses: function(): any {
                 if (this.showFC) {
                     const fc = [{id:0, name:'Full Clear', wing: this.wing[0].wing}];
                     return fc.concat(this.wing);
@@ -25,11 +30,11 @@
             }
         },
         methods: {
-            pick: function(id, wing) {
+            pick: function(id: any, wing: any) {
                 this.$emit('pick', [id, wing]);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

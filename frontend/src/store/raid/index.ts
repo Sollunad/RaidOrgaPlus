@@ -1,41 +1,46 @@
 import router from '../../router';
 
+export interface Raid {
+	raid: any;
+	termin: any;
+}
+
 export default {
     state: {
         raid: null,
         termin: null,
-    },
+    } as Raid,
     mutations: {
-        setRaid(state, raid) {
+        setRaid(state: Raid, raid: any) {
             state.raid = raid;
         },
-        setTermin(state, termin) {
+        setTermin(state: Raid, termin: any) {
             state.termin = termin;
         },
     },
     actions: {
-        openRaid: function(context, raid) {
+        openRaid: function(context: any, raid: any) {
             context.commit('setRaid', raid);
             router.push('raid');
         },
-        openTermin: function(context, termin) {
+        openTermin: function(context: any, termin: any) {
             context.commit('setTermin', termin);
             router.push('aufstellung');
         },
-        openTerminFromHome: function(context, clicked) {
+        openTerminFromHome: function(context: any, clicked: any) {
             context.commit('setRaid', clicked.raid);
             context.commit('setTermin', clicked.termin);
             router.push('raid/aufstellung');
         },
     },
     getters: {
-        termin(state) {
+        termin(state: Raid): any {
             return state.termin;
         },
-        raid(state) {
+        raid(state: Raid): any {
             return state.raid;
         },
-        raidRole(state) {
+        raidRole(state: Raid): number {
             if (state.raid) {
                 return state.raid.role;
             }

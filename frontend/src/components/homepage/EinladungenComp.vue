@@ -17,30 +17,31 @@
     </div>
 </template>
 
-<script>
-    import EinladungComp from "./EinladungComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import EinladungComp from "./EinladungComp.vue";
     import _raids from '../../services/endpoints/raids';
 
-    export default {
+    export default Vue.extend({
         name: "EinladungenComp",
         components: {EinladungComp},
         data: () => ({
-            invites: [],
+            invites: [] as any[],
         }),
         methods: {
-            accept: async function(raidId) {
+            accept: async function(raidId: any): Promise<void> {
                 this.invites = this.invites.filter(r => r.id !== raidId);
                 await _raids.acceptInvite(raidId);
             },
-            decline: async function(raidId) {
+            decline: async function(raidId: any): Promise<void> {
                 this.invites = this.invites.filter(r => r.id !== raidId);
                 await _raids.deleteInviteAsSelf(raidId);
             },
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.invites = await _raids.pendingInvitesForPlayer();
         }
-    }
+    })
 </script>
 
 <style scoped>

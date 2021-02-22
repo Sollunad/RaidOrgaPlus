@@ -41,45 +41,49 @@
     </div>
 </template>
 
-<script>
-    import _icons from '../../services/icons.js';
+<script lang="ts">
+	import Vue, { PropType } from 'vue';
+    import _icons from '../../services/icons';
     import _aufstellungen from '../../services/endpoints/aufstellungen';
-    import MenuClassComp from "./MenuClassComp";
-    import MenuRoleComp from "./MenuRoleComp";
-    import MenuNameComp from "./MenuNameComp";
-    import NameComp from "../menu/NameComp";
+    import MenuClassComp from "./MenuClassComp.vue";
+    import MenuRoleComp from "./MenuRoleComp.vue";
+    import MenuNameComp from "./MenuNameComp.vue";
+    import NameComp from "../menu/NameComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungElementComp",
         components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position'],
+		props: {
+			aufstellung: Object as PropType<any>,
+			position: Object as PropType<any>
+		},
         data: () => ({
             classMenuOpen: false,
             //element: null,
         }),
         computed: {
-            editAllowed: function() {
+            editAllowed: function(): boolean {
                 return this.$store.getters.isActive && (!this.$store.getters.isLocked || this.$store.getters.raidRole > 0);
             },
-            element: function() {
+            element: function(): any {
                 return this.$store.getters.elementForPosition(this.aufstellung.id, this.position);
             },
-            isNameDoubled: function() {
+            isNameDoubled: function(): any {
                 if (!this.element || !this.element.name || this.element.id <= 1) return false;
                 return this.$store.getters.isNameDoubled(this.aufstellung, this.element.name);
             },
-            classIcon: function() {
+            classIcon: function(): string {
                 if (this.element && this.element.class !== '') return _icons.classIcon(this.element.class);
                 else return '';
             },
-            roleIcon: function() {
+            roleIcon: function(): string {
                 if (this.element && this.element.role !== '') return _icons.roleIcon(this.element.role);
                 else return '';
             },
-            emptyIcon: function() {
+            emptyIcon: function(): string {
                 return _icons.miscIcon('empty');
             },
-            user: function() {
+            user: function(): any {
                 if (this.element) return {
                     id: this.element.id, name: this.element.name, accname: this.element.accname
                 };
@@ -87,14 +91,14 @@
                     id: 0, name: '???', accname: '???'
                 };
             },
-            isSelfUser: function() {
+            isSelfUser: function(): boolean {
                 if (!this.element || !this.$store.getters.loggedInUser) return false;
                 const selfAccName = this.$store.getters.loggedInUser.accname;
                 return this.element.accname === selfAccName;
             },
         },
         methods: {
-            pickClass: async function(clss) {
+            pickClass: async function(clss: any) {
                 this.classMenuOpen = false;
                 await this.$store.dispatch('pickClass', {
                     aufstellung: this.aufstellung.id,
@@ -110,7 +114,7 @@
                 });
                 this.loadElementFromStore();
             },
-            pickRole: async function(role) {
+            pickRole: async function(role: any) {
                 await this.$store.dispatch('pickRole', {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
@@ -125,7 +129,7 @@
                 });
                 this.loadElementFromStore();
             },
-            pickName: async function(user) {
+            pickName: async function(user: any) {
                 await this.$store.dispatch('pickName', {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
@@ -147,7 +151,7 @@
         created: function() {
             this.loadElementFromStore();
         }
-    }
+    })
 </script>
 
 <style scoped>

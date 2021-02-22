@@ -54,17 +54,18 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _moderation from '../../services/endpoints/moderation';
-    import ModListUserHeaderComp from "./ModListUserHeaderComp";
-    import ModListUserBodyComp from "./ModListUserBodyComp";
+    import ModListUserHeaderComp from "./ModListUserHeaderComp.vue";
+    import ModListUserBodyComp from "./ModListUserBodyComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ModUserListComp",
         components: {ModListUserBodyComp, ModListUserHeaderComp},
         data: () => ({
-            users: [],
-            open: null,
+            users: [] as any[],
+            open: false,
             filterText: '',
             roleText: '',
             filterList: [
@@ -76,15 +77,15 @@
             activeFilter: [0],
         }),
         computed: {
-            filteredUsers: function() {
+            filteredUsers: function(): any[] {
                 return this.users.filter(u => this.isInFilter(u));
             }
         },
         methods: {
-            isInFilter: function (user) {
+            isInFilter: function (user: any): boolean {
                 return this.isInNameFilter(user) && this.isInChipFilter(user) && this.isInRoleFilter(user);
             },
-            isInChipFilter: function(user) {
+            isInChipFilter: function(user: any): boolean {
                 for (const filter of this.activeFilter) {
                     const filterString = this.filterList[filter];
                     let currentTruth;
@@ -101,7 +102,7 @@
                 }
                 return true;
             },
-            isInNameFilter: function(user) {
+            isInNameFilter: function(user: any): boolean {
                 const name = user.name.toLowerCase();
                 const accname = user.accname.toLowerCase();
                 const searchText = this.filterText.toLowerCase();
@@ -109,31 +110,31 @@
                 return name.indexOf(searchText) > -1 ||
                     accname.indexOf(searchText) > -1
             },
-            isInRoleFilter: function(user) {
+            isInRoleFilter: function(user: any): boolean {
                 if (this.roleText === '') return true;
                 if (!user.discord) return false;
                 const searchText = this.roleText.toLowerCase();
-                return !!user.discord.roles.find(r => r.name.toLowerCase().indexOf(searchText) > -1)
+                return !!user.discord.roles.find((r: any) => r.name.toLowerCase().indexOf(searchText) > -1)
             },
-            hasDiscord: function(user) {
+            hasDiscord: function(user: any): boolean {
                 return !!user.discord;
             },
-            twoWeeksInactive: function(user) {
+            twoWeeksInactive: function(user: any): boolean {
                 const date = new Date(user.lastActive);
-                const diff = new Date() - date;
+                const diff = new Date().getDate() - date.getDate();
                 return diff > 1000 * 60 * 60 * 24 * 14;
             },
-            firstRaidFourWeeks: function(user) {
+            firstRaidFourWeeks: function(user: any): boolean {
                 if (!user.firstTermin) return false;
                 const date = new Date(user.firstTermin);
-                const diff = new Date() - date;
+                const diff = new Date().getDate() - date.getDate();
                 return diff > 1000 * 60 * 60 * 24 * 28;
             },
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.users = await _moderation.getUsers();
         }
-    }
+    })
 </script>
 
 <style scoped>

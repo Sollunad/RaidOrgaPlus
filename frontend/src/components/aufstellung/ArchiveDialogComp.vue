@@ -39,31 +39,33 @@
     </v-dialog>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "ArchiveDialogComp",
         data: () => ({
             newTermin: false,
         }),
         methods: {
-            archiveOK: function() {
+            archiveOK: function(): void {
                 this.$store.dispatch('archive', this.newTermin);
             },
-            archiveCancel: function() {
+            archiveCancel: function(): void {
                 this.$store.dispatch('closeDialog');
             }
         },
         computed: {
             open: {
-                get: function() {
+                get: function(): any {
                     return this.$store.getters.isDialogOpen('archive');
                 },
-                set: function() {
+                set: function(): void {
                     this.$store.dispatch('closeDialog');
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

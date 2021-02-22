@@ -6,13 +6,15 @@
     </div>
 </template>
 
-<script>
-    import ModListUserEditCommentComp from "./ModListUserEditCommentComp";
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+    import ModListUserEditCommentComp from "./ModListUserEditCommentComp.vue";
+
+    export default Vue.extend({
         name: "ModListUserEditComp",
         components: {ModListUserEditCommentComp},
         props: ['user']
-    }
+    })
 </script>
 
 <style scoped>

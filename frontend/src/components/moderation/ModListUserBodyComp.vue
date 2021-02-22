@@ -38,22 +38,24 @@
     </div>
 </template>
 
-<script>
-    import ModListUserBodyRolesComp from "./ModListUserBodyRolesComp";
-    import ModListUserGuildLogComp from "./ModListUserGuildLogComp";
-    import ModListUserEditComp from "./ModListUserEditComp";
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+    import ModListUserBodyRolesComp from "./ModListUserBodyRolesComp.vue";
+    import ModListUserGuildLogComp from "./ModListUserGuildLogComp.vue";
+    import ModListUserEditComp from "./ModListUserEditComp.vue";
+
+    export default Vue.extend({
         name: "ModListUserBodyComp",
         components: {ModListUserEditComp, ModListUserGuildLogComp, ModListUserBodyRolesComp},
         props: ['user'],
         computed: {
-            hasDiscord: function() {
+            hasDiscord: function(): boolean {
                 return !!this.user.discord;
             },
-            isInGuild: function() {
+            isInGuild: function(): boolean {
                 return !!this.user.guild;
             },
-            discordJoinDate: function() {
+            discordJoinDate: function(): string {
                 if (this.hasDiscord) {
                     const date = new Date(this.user.discord.joined);
                     const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
@@ -62,7 +64,7 @@
                     return '';
                 }
             },
-            guildJoinDate: function() {
+            guildJoinDate: function(): string {
                 if (this.isInGuild) {
                     const date = new Date(this.user.guild.joined);
                     const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
@@ -71,10 +73,10 @@
                     return '';
                 }
             },
-            lastActive: function() {
+            lastActive: function(): string {
                 if (!this.user.lastActive) return 'Keine Aufzeichnung';
                 const date = new Date(this.user.lastActive);
-                const diff = new Date() - date;
+                const diff = new Date().getDate() - date.getDate();
                 const minutes = Math.ceil(diff / (1000 * 60));
                 if (minutes === 1) return 'gerade eben';
                 else if (minutes < 60) return `vor ${minutes} Minuten`;
@@ -85,18 +87,18 @@
                 if (days === 1) return 'vor 1 Tag';
                 else return `vor ${days} Tagen`;
             },
-            firstTermin: function() {
+            firstTermin: function(): string {
                 return this.parseDate(this.user.firstTermin);
             },
-            lastTermin: function() {
+            lastTermin: function(): string {
                 return this.parseDate(this.user.lastTermin);
             }
         },
         methods: {
-            openLink: function() {
+            openLink: function(): void {
                 this.$router.push(`/profil/${this.user.id}`);
             },
-            parseDate: function(dateString) {
+            parseDate: function(dateString: any): string {
                 if (dateString) {
                     const date = new Date(dateString);
                     const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric'};
@@ -106,7 +108,7 @@
                 }
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

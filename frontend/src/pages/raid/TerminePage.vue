@@ -10,18 +10,19 @@
     </div>
 </template>
 
-<script>
-    import TerminOverviewComp from "../../components/raid/TerminOverviewComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import TerminOverviewComp from "../../components/raid/TerminOverviewComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "TerminePage",
         components: {TerminOverviewComp},
         computed: {
-            showNeuerTermin: function() {
+            showNeuerTermin: function(): boolean {
                 return this.$store.getters.raidRole > 0;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

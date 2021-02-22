@@ -23,12 +23,13 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
-    import MenuSubclassComp from "./MenuSubclassComp";
-    import whatInput from 'what-input';
+    import MenuSubclassComp from "./MenuSubclassComp.vue";
+    const whatInput = require('what-input');
 
-    export default {
+    export default Vue.extend({
         name: "MenuClassComp",
         components: {MenuSubclassComp},
         data: () => ({
@@ -46,17 +47,17 @@
             isTouch: false
         }),
         methods: {
-            classIcon: function(name) {
+            classIcon: function(name: any): string {
                 return _icons.classIcon(name);
             },
-            pick: function(clss) {
+            pick: function(clss: any): void {
                 this.$emit('pick', clss);
             }
         },
-        created: function() {
+        created: function(): void {
             this.isTouch = (whatInput.ask() === 'touch');
         }
-    }
+    })
 </script>
 
 <style scoped>

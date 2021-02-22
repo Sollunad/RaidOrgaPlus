@@ -16,18 +16,19 @@
     </div>
 </template>
 
-<script>
-    import EinstellungenAPIKeyComp from "../components/einstellungen/EinstellungenAPIKeyComp";
-    import EinstellungenEmailComp from "../components/einstellungen/EinstellungenEmailComp";
-    import EinstellungenPasswordComp from "../components/einstellungen/EinstellungenPasswordComp";
-    import EinstellungenDiscordComp from "../components/einstellungen/EinstellungenDiscordComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import EinstellungenAPIKeyComp from "../components/einstellungen/EinstellungenAPIKeyComp.vue";
+    import EinstellungenEmailComp from "../components/einstellungen/EinstellungenEmailComp.vue";
+    import EinstellungenPasswordComp from "../components/einstellungen/EinstellungenPasswordComp.vue";
+    import EinstellungenDiscordComp from "../components/einstellungen/EinstellungenDiscordComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "EinstellungenPage",
         components: {
             EinstellungenDiscordComp,
             EinstellungenPasswordComp, EinstellungenEmailComp, EinstellungenAPIKeyComp},
-    }
+    })
 </script>
 
 <style scoped>

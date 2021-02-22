@@ -23,34 +23,35 @@
     </div>
 </template>
 
-<script>
-    import BlankoElementComp from "./BlankoElementComp";
-    import BlankoHeaderComp from "./BlankoHeaderComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import BlankoElementComp from "./BlankoElementComp.vue";
+    import BlankoHeaderComp from "./BlankoHeaderComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "BlankoComp",
         components: {BlankoHeaderComp, BlankoElementComp},
         props: ['raid', 'boss', 'elements', 'role'],
         computed: {
-            blankoElements: function() {
+            blankoElements: function(): any[] {
                 if (this.boss && this.elements) {
-                    return this.elements.filter(e => e.enc === this.boss.id);
+                    return this.elements.filter((e: any) => e.enc === this.boss.id);
                 } else {
                     return [];
                 }
             }
         },
         methods: {
-            propElement: function(position) {
+            propElement: function(position: any): any {
                 if (this.blankoElements) {
                     return this.blankoElements.find(e => e.pos === position);
                 }
             },
-            copyBlanko: function(info) {
+            copyBlanko: function(info: any): void {
                 this.$emit('copyBlanko', info);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

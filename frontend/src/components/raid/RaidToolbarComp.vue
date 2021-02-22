@@ -7,25 +7,27 @@
     </v-toolbar>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "RaidToolbarComp",
         methods: {
-            back: function() {
+            back: function(): void {
                 window.history.back();
             },
-            toRaidDashboard: function() {
+            toRaidDashboard: function(): void {
                 this.$router.push('/raids');
                 this.$router.push('/raid');
             }
         },
         computed: {
-            raidName: function() {
+            raidName: function(): string {
                 if (this.$store.getters.raid) return this.$store.getters.raid.name;
                 else return '';
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

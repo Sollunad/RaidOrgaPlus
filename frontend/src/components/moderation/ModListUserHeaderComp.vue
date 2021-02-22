@@ -10,21 +10,22 @@
     </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "ModListUserComp",
         props: ['user'],
         computed: {
-            avatarLink: function() {
+            avatarLink: function(): string {
                 if (this.user.discord) {
                     return this.user.discord.avatar;
                 } else {
                     return _icons.miscIcon('raid');
                 }
             },
-            styleObject: function() {
+            styleObject: function(): { color: string } {
                 if (this.user.discord) {
                     return { color: this.user.discord.color };
                 } else {
@@ -33,7 +34,7 @@
 
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

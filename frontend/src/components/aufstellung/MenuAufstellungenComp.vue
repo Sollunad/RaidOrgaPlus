@@ -12,33 +12,34 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _aufstellungen from '../../services/endpoints/aufstellungen';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "MenuAufstellungenComp",
         props: ['aufstellung'],
         computed: {
-            filtered: function() {
-                return this.$store.getters.aufstellungen.filter(a => a.id !== this.aufstellung.id);
+            filtered: function(): any {
+                return this.$store.getters.aufstellungen.filter((a: any) => a.id !== this.aufstellung.id);
             }
         },
         methods: {
-            pick: async function(aufstellung) {
+            pick: async function(aufstellung: any): Promise<void> {
                 await _aufstellungen.copyElements(aufstellung.id, this.aufstellung.id);
                 await this.$store.dispatch('refresh');
                 await this.$store.dispatch('wsSendRefresh');
                 this.$emit('stopCopy');
             },
-            avatar: function(aufstellung) {
+            avatar: function(aufstellung: any): string {
                 return _icons.encIcon(aufstellung.abbr);
             }
         },
         created: function() {
 
         }
-    }
+    })
 </script>
 
 <style scoped>

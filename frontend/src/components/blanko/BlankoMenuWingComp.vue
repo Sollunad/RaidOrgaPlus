@@ -16,36 +16,37 @@
     </v-menu>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _gamedata from '../../services/endpoints/gamedata';
 
-    export default {
+    export default Vue.extend({
         name: "BlankoMenuWingComp",
         props: ['currentWing'],
         data: () => ({
-            wings: [],
+            wings: [] as any[],
         }),
         computed: {
-              buttonText: function() {
+              buttonText: function(): string {
                   if (this.currentWing === 0) return 'Wing auswählen';
                   else return `Wing ${this.currentWing}`;
               }
         },
         methods: {
-            pick: function(wing) {
+            pick: function(wing: any): void {
                 this.$emit('pick', wing);
             },
-            tileText: function(wing) {
+            tileText: function(wing: any): string {
                 if (wing.id === 0) return 'Alles anzeigen';
                 else return `Wing ${wing.id}`;
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             const wings = await _gamedata.getWings();
             const showAll = {id: 0};
             this.wings = [showAll].concat(wings);
         }
-    }
+    })
 </script>
 
 <style scoped>

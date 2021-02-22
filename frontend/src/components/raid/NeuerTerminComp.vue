@@ -29,7 +29,7 @@
                         ></v-text-field>
                         <v-btn
                                 @click="submit"
-                                :color=buttonColor>
+                                :color="buttonColor">
                             OK
                         </v-btn>
                     </v-col>
@@ -39,10 +39,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import { VForm } from '@/models/Types';
+	import Vue from 'vue';
     import _termine from '../../services/endpoints/termine';
 
-    export default {
+    export default Vue.extend({
         name: "NeuerTerminComp",
         data: () => ({
             valid: true,
@@ -52,22 +54,25 @@
             datePicker: false,
             timePicker: false,
             validationRulesStart: [
-                v => !!v || 'Feld darf nicht leer sein',
-                v => /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(v) || 'Bitte gib eine gültige Uhrzeit an',
+                (v: boolean) => v || 'Feld darf nicht leer sein',
+                (v: string) => /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(v) || 'Bitte gib eine gültige Uhrzeit an',
             ],
             validationRulesEnd: [
-                v => !v || /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(v) || 'Bitte gib eine gültige Uhrzeit an',
+                (v: string) => !v || /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(v) || 'Bitte gib eine gültige Uhrzeit an',
             ],
             buttonColor: ''
         }),
         computed: {
-            raid: function() {
+            raid: function(): any {
                 return this.$store.getters.raid;
-            }
+            },
+			form: function(): VForm {
+				return this.$refs.form as VForm;
+			}
         },
         methods: {
-            submit: async function() {
-                if (this.$refs.form.validate()) {
+            submit: async function(): Promise<void> {
+                if (this.form.validate()) {
                     this.buttonColor = 'success';
                     await _termine.newTermin(this.raid.id, this.date, this.time, this.endtime);
                     window.history.back();
@@ -75,7 +80,7 @@
             }
         },
         watch: {
-            time: function(newVal, oldVal) {
+            time: function(newVal: string, oldVal: string): void {
                 if (oldVal.length === 1 && newVal.length === 2) {
                     this.time = this.time + ':';
                 }
@@ -83,7 +88,7 @@
                     this.time = this.time.slice(0, -1);
                 }
             },
-            endtime: function(newVal, oldVal) {
+            endtime: function(newVal: string, oldVal: string): void {
                 if (oldVal.length === 1 && newVal.length === 2) {
                     this.endtime = this.endtime + ':';
                 }
@@ -92,7 +97,7 @@
                 }
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

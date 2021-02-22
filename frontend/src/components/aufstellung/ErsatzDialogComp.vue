@@ -30,41 +30,42 @@
     </div>
 </template>
 
-<script>
-    import NameComp from "../menu/NameComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import NameComp from "../menu/NameComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ErsatzDialogComp",
         components: {NameComp},
         computed: {
-            termin: function() {
+            termin: function(): any {
                 return this.$store.getters.termin;
             },
-            raid: function() {
+            raid: function(): any {
                 return this.$store.getters.raid;
             },
             open: {
-                get: function() {
+                get: function(): any {
                     return this.$store.getters.isDialogOpen('ersatz');
                 },
-                set: function() {
+                set: function(): void {
                     this.$store.dispatch('closeDialog');
                 }
             },
             ersatz: {
-                get: function() {
+                get: function(): any {
                     return this.$store.getters.ersatzIds;
                 },
-                set: function(newErsatz) {
+                set: function(newErsatz: any): void {
                     this.$store.dispatch('updateErsatz', newErsatz);
                 }
             },
-            invitablePlayers: function() {
+            invitablePlayers: function(): any {
                 return this.$store.getters.invitablePlayers;
             }
         },
         methods: {
-            customFilter: function (item, queryText) {
+            customFilter: function (item: any, queryText: string) {
                 const name = item.name.toLowerCase();
                 const accname = item.accname.toLowerCase();
                 const searchText = queryText.toLowerCase();
@@ -73,7 +74,7 @@
                     accname.indexOf(searchText) > -1
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

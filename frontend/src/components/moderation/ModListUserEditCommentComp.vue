@@ -22,10 +22,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _moderation from '../../services/endpoints/moderation';
 
-    export default {
+    export default Vue.extend({
         name: "ModListUserEditCommentComp",
         props: ['user'],
         data: () => ({
@@ -34,29 +35,29 @@
             lastChange: 0,
         }),
         computed: {
-            rules: function () {
+            rules: function (): any {
                 return [
-                    v => (!v || v.length <= 1000) || 'Bitte halte dich kurz ;)'
+                    (v: string) => (!v || v.length <= 1000) || 'Bitte halte dich kurz ;)'
                 ];
             },
-            isDirty: function () {
+            isDirty: function (): boolean {
                 return !(this.text === this.savedText);
             }
         },
         methods: {
-            saveText: async function () {
+            saveText: async function (): Promise<void> {
                 if (this.text.length <= 1000) {
                     await _moderation.setComment(this.user.id, this.text);
                     this.savedText = this.text;
                 }
             }
         },
-        created: async function () {
+        created: async function (): Promise<void> {
             this.text = this.user.comment;
             this.savedText = this.text;
         },
         watch: {
-            text: function () {
+            text: function (): void {
                 this.lastChange = Date.now();
                 const currentChange = this.lastChange;
                 const that = this;
@@ -67,12 +68,12 @@
                 }, 2000)
             }
         },
-        beforeDestroy: function () {
+        beforeDestroy: function (): void {
             if (this.isDirty) {
                 this.saveText();
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -24,11 +24,12 @@
     </div>
 </template>
 
-<script>
-    import ModUserListComp from "../components/moderation/ModUserListComp";
-    import ModRaidListComp from "../components/moderation/ModRaidListComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import ModUserListComp from "../components/moderation/ModUserListComp.vue";
+    import ModRaidListComp from "../components/moderation/ModRaidListComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ModerationPage",
         components: {ModUserListComp},
         data: () => ({
@@ -36,11 +37,11 @@
             moderationComps: [ModUserListComp, ModRaidListComp],
         }),
         computed: {
-            showContainer: function() {
+            showContainer: function(): boolean {
                 return this.$store.getters.loggedInUser.role > 0;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

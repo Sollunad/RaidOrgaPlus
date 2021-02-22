@@ -7,20 +7,22 @@
     </div>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "ModListUserGuildLogEntryComp",
         props: ['entry'],
         computed: {
-            formattedEntry: function() {
+            formattedEntry: function(): string {
                 return `${this.formattedDate}: ${this.formattedType}${this.formattedBy}${this.formattedRankChange}`;
             },
-            formattedDate: function() {
+            formattedDate: function(): string {
                 const date = new Date(this.entry.time);
                 const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
                 return date.toLocaleDateString('de-DE', dateOptions);
             },
-            formattedType: function() {
+            formattedType: function(): string {
                 switch (this.entry.type) {
                     case 'joined': return 'Gilde beigetreten';
                     case 'invited': return 'Eingeladen';
@@ -31,7 +33,7 @@
                     default: return 'Unbekannter Eintrag';
                 }
             },
-            formattedBy: function() {
+            formattedBy: function(): string {
                 switch (this.entry.type) {
                     case 'invited': return ` von ${this.entry.invited_by}`;
                     case 'kick': return ` von ${this.entry.kicked_by}`;
@@ -39,7 +41,7 @@
                     default: return '';
                 }
             },
-            formattedRankChange: function() {
+            formattedRankChange: function(): string {
                 if (this.entry.type === 'rank_change') {
                     return `: ${this.entry.old_rank} => ${this.entry.new_rank}`;
                 } else {
@@ -47,7 +49,7 @@
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

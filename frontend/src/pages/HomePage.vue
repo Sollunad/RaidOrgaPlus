@@ -22,27 +22,28 @@
     </div>
 </template>
 
-<script>
-    import EinladungenComp from "../components/homepage/EinladungenComp";
-    import HomepageTermineComp from "../components/homepage/HomepageTermineComp";
-    import ProgressOverviewComp from "../components/profile/ProgressOverviewComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import EinladungenComp from "../components/homepage/EinladungenComp.vue";
+    import HomepageTermineComp from "../components/homepage/HomepageTermineComp.vue";
+    import ProgressOverviewComp from "../components/profile/ProgressOverviewComp.vue";
     import _users from '../services/endpoints/users';
 
-    export default {
+    export default Vue.extend({
         name: "HomePage",
         components: {ProgressOverviewComp, HomepageTermineComp, EinladungenComp},
         data: () => ({
-            hasNoApi: null
+            hasNoApi: false
         }),
         computed: {
-            user: function() {
+            user: function(): any {
                 return this.$store.getters.loggedInUser;
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.hasNoApi = !(await _users.hasApi());
         }
-    }
+    })
 </script>
 
 <style scoped>

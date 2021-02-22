@@ -27,12 +27,13 @@
     </v-tabs>
 </template>
 
-<script>
-    import ProgressComp from "./ProgressComp";
-    import InsightsComp from "./InsightsComp";
-    import ErfolgeComp from "../erfolge/ErfolgeComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import ProgressComp from "./ProgressComp.vue";
+    import InsightsComp from "./InsightsComp.vue";
+    import ErfolgeComp from "../erfolge/ErfolgeComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ProgressOverviewComp",
         props: ['user', 'ownProfile'],
         data: () => ({
@@ -40,7 +41,7 @@
             progressComps: [ProgressComp, InsightsComp, ErfolgeComp],
         })
 
-    }
+    })
 </script>
 
 <style scoped>

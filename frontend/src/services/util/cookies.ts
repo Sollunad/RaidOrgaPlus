@@ -1,13 +1,13 @@
 export default { setCookie, getCookie, deleteCookie };
 
-function setCookie(cname, cvalue) {
+function setCookie(cname: string, cvalue: string): void {
     const d = new Date();
     d.setTime(d.getTime() + (10 * 365 * 24 * 60 * 60 * 1000));
     const expires = "expires="+d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-function getCookie(cname) {
+function getCookie(cname: string): string {
     const name = cname + "=";
     const ca = document.cookie.replace(/\s+/g,"").split(';');
     for(let i = 0; i < ca.length; i++) {
@@ -19,6 +19,6 @@ function getCookie(cname) {
     return "";
 }
 
-function deleteCookie(cname) {
+function deleteCookie(cname: string): void {
     document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 }

@@ -22,26 +22,27 @@
     </div>
 </template>
 
-<script>
-    import _icons from '../../services/icons.js';
-    import MenuWingComp from "../aufstellung/MenuWingComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import _icons from '../../services/icons';
+    import MenuWingComp from "../aufstellung/MenuWingComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "BlankoHeaderComp",
         components: {MenuWingComp},
         props: ['boss', 'role'],
         methods: {
-            icon: function() {
+            icon: function(): string {
                 if (this.boss) return _icons.encIcon(this.boss.abbr);
                 else return '';
             },
-            copyBlanko: async function(info) {
+            copyBlanko: async function(info: any): Promise<void> {
                 const boss = info[0];
                 this.$emit('copyBlanko', [boss, this.boss.id]);
             }
 
         }
-    }
+    })
 </script>
 
 <style scoped>

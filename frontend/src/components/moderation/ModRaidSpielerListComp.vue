@@ -11,18 +11,20 @@
     </div>
 </template>
 
-<script>
-    import ModRaidSpielerListEntryComp from "./ModRaidSpielerListEntryComp";
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+    import ModRaidSpielerListEntryComp from "./ModRaidSpielerListEntryComp.vue";
+
+    export default Vue.extend({
         name: "ModRaidSpielerListComp",
         components: {ModRaidSpielerListEntryComp},
         props: ['spieler', 'raid'],
         methods: {
-            refresh: function() {
+            refresh: function(): void {
                 this.$emit('refresh');
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

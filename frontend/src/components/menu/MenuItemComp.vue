@@ -9,11 +9,13 @@
     </v-list-item>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "MenuItemComp",
         props: ['menuItem'],
-    }
+    })
 </script>
 
 <style scoped>

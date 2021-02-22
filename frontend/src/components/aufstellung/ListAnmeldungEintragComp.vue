@@ -14,11 +14,12 @@
     </div>
 </template>
 
-<script>
-    import AnmeldungComp from "./AnmeldungComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import AnmeldungComp from "./AnmeldungComp.vue";
     import _termine from '../../services/endpoints/termine';
 
-    export default {
+    export default Vue.extend({
         name: "ListAnmeldungEintragComp",
         components: {AnmeldungComp},
         props: ['anmeldung'],
@@ -26,33 +27,33 @@
             editOpen: false
         }),
         computed: {
-            editAllowed: function() {
+            editAllowed: function(): boolean {
                 return this.$store.getters.raidRole > 0;
             },
-            termin: function() {
+            termin: function(): any {
                 return this.$store.getters.termin;
             }
         },
         methods: {
-            anmeldungIcon: function(type) {
+            anmeldungIcon: function(type: number): string {
                 const icons = ['check_circle', 'check_circle_outline', 'cancel', 'help'];
                 return icons[type];
             },
-            anmeldungColor: function(type) {
+            anmeldungColor: function(type: number): string {
                 const colors = ['green', 'yellow', 'red', 'grey'];
                 return colors[type];
             },
-            clickIcon: function() {
+            clickIcon: function(): void {
                 this.editOpen = true;
             },
-            anmelden: async function(type) {
+            anmelden: async function(type: any): Promise<void> {
                 this.editOpen = false;
                 await _termine.anmeldenLead(this.anmeldung.id, this.termin.id, type);
                 await this.$store.dispatch('refresh');
                 await this.$store.dispatch('wsSendRefresh');
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

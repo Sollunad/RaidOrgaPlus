@@ -20,17 +20,18 @@
     </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _moderation from '../../services/endpoints/moderation';
 
-    export default {
+    export default Vue.extend({
         name: "ModRaidErstellenComp",
         data: () => ({
             enteredName: '',
             open: false
         }),
         methods: {
-            submit: async function() {
+            submit: async function(): Promise<void> {
                 if (this.enteredName) {
                     await _moderation.createRaid(this.enteredName);
                     this.open = false;
@@ -39,7 +40,7 @@
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

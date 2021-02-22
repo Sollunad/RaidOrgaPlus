@@ -9,10 +9,11 @@
             class="upload"></v-file-input>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _reports from '../../services/endpoints/reports';
 
-    export default {
+    export default Vue.extend({
         name: "FileUploadComp",
         props: ['aufstellung'],
         data: () => ({
@@ -24,10 +25,10 @@
             file: null
         }),
         methods: {
-            submit: async function() {
+            submit: async function(): Promise<void> {
                 this.error = false;
                 this.success = false;
-                const file = this.file;
+                const file: any = this.file;
                 if (file && (file.name.includes('.evtc') || file.name.includes('.zevtc'))) {
                     this.loading = true;
                     const response = await _reports.uploadReport(file, this.aufstellung.id);
@@ -45,11 +46,11 @@
             }
         },
         watch: {
-            file: function() {
+            file: function(): void {
                 this.submit();
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

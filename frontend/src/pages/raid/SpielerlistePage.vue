@@ -27,41 +27,42 @@
     </div>
 </template>
 
-<script>
-    import SpielerComp from "../../components/raid/SpielerComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import SpielerComp from "../../components/raid/SpielerComp.vue";
     import _raids from '../../services/endpoints/raids';
-    import SpielerEinladenComp from "../../components/raid/SpielerEinladenComp";
-    import BuildFilterButtonsComp from "../../components/raid/BuildFilterButtonsComp";
+    import SpielerEinladenComp from "../../components/raid/SpielerEinladenComp.vue";
+    import BuildFilterButtonsComp from "../../components/raid/BuildFilterButtonsComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "SpielerlistePage",
         components: {BuildFilterButtonsComp, SpielerEinladenComp, SpielerComp},
         data: () => ({
             filter: '',
-            users: [],
+            users: [] as any[],
         }),
         computed: {
-            raid: function() {
+            raid: function(): any {
                 return this.$store.getters.raid;
             },
-            showSpielerEinladen: function() {
+            showSpielerEinladen: function(): boolean {
                 return this.$store.getters.raidRole > 0;
             }
         },
         methods: {
-            kick: async function(user) {
+            kick: async function(user: any): Promise<void> {
                 this.users = await _raids.kickPlayer(this.raid.id, user.id);
             },
-            setFilter: function(filter) {
+            setFilter: function(filter: any): void {
                 this.filter = filter;
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             if (this.raid) {
                 this.users = await _raids.listPlayers(this.raid.id);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

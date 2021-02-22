@@ -15,26 +15,27 @@
     </div>
 </template>
 
-<script>
-    import MenuItemListComp from "./MenuItemListComp";
-    import MenuToolbarComp from "./MenuToolbarComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import MenuItemListComp from "./MenuItemListComp.vue";
+    import MenuToolbarComp from "./MenuToolbarComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "MenuComp",
         props: ['show'],
         data: () => ({
-            drawer: null,
+            drawer: false,
         }),
         components: {
             MenuToolbarComp,
             MenuItemListComp,
         },
         methods: {
-            toggleMenu: function() {
+            toggleMenu: function(): void {
                 this.drawer = !this.drawer;
             }
         }
-    }
+    })
 
 </script>
 

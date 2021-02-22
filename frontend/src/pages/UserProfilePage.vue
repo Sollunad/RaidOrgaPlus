@@ -38,37 +38,38 @@
     </div>
 </template>
 
-<script>
-    import ProfileNameComp from "../components/profile/ProfileNameComp";
-    import BuildsComp from "../components/profile/BuildsComp";
-    import ProfilePictureComp from "../components/profile/ProfilePictureComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import ProfileNameComp from "../components/profile/ProfileNameComp.vue";
+    import BuildsComp from "../components/profile/BuildsComp.vue";
+    import ProfilePictureComp from "../components/profile/ProfilePictureComp.vue";
     import _users from '../services/endpoints/users';
 
-    import ProgressShareComp from "../components/profile/ProgressShareComp";
-    import ProgressOverviewComp from "../components/profile/ProgressOverviewComp";
+    import ProgressShareComp from "../components/profile/ProgressShareComp.vue";
+    import ProgressOverviewComp from "../components/profile/ProgressOverviewComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "UserProfilePage",
         components: {ProgressOverviewComp, ProgressShareComp, ProfilePictureComp, BuildsComp, ProfileNameComp},
         data: () => ({
-            foreignUser: null,
-            hasNoApi: null,
+            foreignUser: null as any,
+            hasNoApi: false,
             hasShared: false
         }),
         computed: {
-            visitedID: function () {
+            visitedID: function (): string {
                 return this.$route.params.id;
             },
-            visitedUser: function() {
+            visitedUser: function(): any {
                 return this.visitedID ? this.foreignUser : this.$store.getters.loggedInUser;
             },
-            ownProfile: function () {
+            ownProfile: function (): boolean {
                 if (this.visitedUser) {
                     return this.visitedUser.id === this.$store.getters.loggedInUser.id;
                 }
                 return false;
             },
-            profilePictureSize: function() {
+            profilePictureSize: function(): number {
                 const width = this.$store.getters.windowWidth;
                 if (width > 1510) {
                     return 128;
@@ -78,16 +79,16 @@
                     return 96;
                 }
             },
-            showProgress: function() {
+            showProgress: function(): boolean {
                 return this.ownProfile || this.hasShared;
             }
         },
-        created: async function () {
+        created: async function (): Promise<void> {
             this.foreignUser = this.visitedID ? await _users.getWithID(this.visitedID) : null;
             this.hasNoApi = !(await _users.hasApi());
             this.hasShared = await _users.hasProgressShared(this.visitedID);
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -17,19 +17,21 @@
     </v-list-item>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "EinladungComp",
         props: ['raid'],
         methods: {
-            accept: function() {
+            accept: function(): void {
                 this.$emit('accept');
             },
-            decline: function() {
+            decline: function(): void {
                 this.$emit('decline');
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

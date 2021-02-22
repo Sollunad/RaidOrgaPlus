@@ -17,24 +17,25 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "ErfolgComponent",
         props: ['achievement', 'allDone'],
         computed: {
-            isDone: function() {
+            isDone: function(): boolean {
                 return this.allDone && this.allDone.indexOf(this.achievement.id) !== -1;
             },
-            encIcon: function() {
+            encIcon: function(): string | null {
                 if (this.achievement.boss) {
                     return _icons.encIcon(this.achievement.boss);
                 } else {
                     return null;
                 }
             },
-            conditionIcon: function() {
+            conditionIcon: function(): string | null {
                 const condition = this.achievement.condition;
                 if (condition === 'group') {
                     return _icons.miscIcon('contacts');
@@ -48,7 +49,7 @@
                     return null;
                 }
             },
-            reqText: function() {
+            reqText: function(): string | null {
                 const condition = this.achievement.condition;
                 if (condition === 'group') {
                     return 'Erfolg muss als Gruppe erledigt werden';
@@ -64,13 +65,13 @@
             }
         },
         watch: {
-            allDone: function () {
+            allDone: function (): void {
                 if (this.isDone) {
                     this.$emit('countDone');
                 }
             }
         },
-    }
+    })
 </script>
 
 <style scoped>

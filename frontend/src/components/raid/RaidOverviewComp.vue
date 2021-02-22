@@ -22,19 +22,20 @@
     </div>
 </template>
 
-<script>
-    import ListRaidComp from './ListRaidComp';
+<script lang="ts">
+	import Vue from 'vue';
+    import ListRaidComp from './ListRaidComp.vue';
     import _raids from '../../services/endpoints/raids';
 
-    export default {
+    export default Vue.extend({
         name: "RaidOverviewComp",
         components: {ListRaidComp},
         data: () => ({
-            raids: [],
-            anmeldungen: []
+            raids: [] as any[],
+            anmeldungen: [] as any[]
         }),
         methods: {
-            anmeldung: function(raid) {
+            anmeldung: function(raid: any): any {
                 if (this.anmeldungen) {
                     const anmeldung = this.anmeldungen.find(a => a.raid === raid.id);
                     return anmeldung;
@@ -45,7 +46,7 @@
             this.raids = await _raids.listForPlayer();
             this.anmeldungen = await _raids.getAnmeldungState();
         }
-    }
+    })
 </script>
 
 <style scoped>

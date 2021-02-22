@@ -29,51 +29,52 @@
     </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _preview from '../../services/endpoints/preview';
 
-    export default {
+    export default Vue.extend({
         name: "ShareDialogComp",
         data: () => ({
             switched: false,
             copied: false,
         }),
         computed: {
-            termin: function() {
+            termin: function(): any {
                 return this.$store.getters.termin;
             },
             switchValue: {
-                get: function() {
+                get: function(): boolean {
                     return this.switched;
                 },
-                set: async function(value) {
+                set: async function(value: boolean): Promise<void> {
                     this.switched = value;
                     await _preview.setPreviewable(this.termin.id, value);
                 }
             },
             open: {
-                get: function() {
+                get: function(): any {
                     return this.$store.getters.isDialogOpen('share');
                 },
-                set: function() {
+                set: function(): void {
                     this.$store.dispatch('closeDialog');
                 }
             },
-            previewLink: function() {
+            previewLink: function(): string {
                 return `https://orga.rising-light.de/#/preview/${this.termin.id}`;
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.switched = await _preview.getPreviewable(this.termin.id);
         },
         methods: {
-            copyLink: async function() {
+            copyLink: async function(): Promise<void> {
                 await navigator.clipboard.writeText(this.previewLink);
                 this.switchValue = true;
                 this.copied = true;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

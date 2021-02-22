@@ -20,29 +20,30 @@
     </div>
 </template>
 
-<script>
-    import AufstellungComp from "../components/aufstellung/AufstellungComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import AufstellungComp from "../components/aufstellung/AufstellungComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "PreviewPage",
         components: {AufstellungComp},
         computed: {
-            termin: function() {
+            termin: function(): string {
                 return this.$route.params.id;
             },
-            aufstellungen: function() {
+            aufstellungen: function(): any {
                 return this.$store.getters.aufstellungen;
             }
         },
         methods: {
-            backToMainPage: function() {
+            backToMainPage: function(): void {
                 window.location.href = '/';
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             await this.$store.dispatch('loadAufstellungenPreview', this.termin);
         }
-    }
+    })
 </script>
 
 <style scoped>

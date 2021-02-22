@@ -12,15 +12,17 @@
     </v-footer>
 </template>
 
-<script>
-    import ChangelogComp from "./ChangelogComp";
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+    import ChangelogComp from "./ChangelogComp.vue";
+
+    export default Vue.extend({
         name: "FooterComp",
         components: {ChangelogComp},
         data: () => ({
             versionNo: '2.0.3',
         })
-    }
+    })
 </script>
 
 <style scoped>

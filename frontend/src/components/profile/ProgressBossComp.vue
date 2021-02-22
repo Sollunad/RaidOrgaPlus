@@ -8,24 +8,25 @@
     </v-btn>
 </template>
 
-<script>
-    import _icons from '../../services/icons.js';
+<script lang="ts">
+	import Vue from 'vue';
+    import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "ProgressBossComp",
         props: ['boss', 'progress'],
         computed: {
-            progressColor: function() {
+            progressColor: function(): string {
                 if (this.progress && this.progress.indexOf(this.boss.apiname) !== -1) return 'success';
                 else return 'error';
             }
         },
         methods: {
-            icon: function(enc) {
+            icon: function(enc: any): string | undefined {
                 if (enc) return _icons.encIcon(enc);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

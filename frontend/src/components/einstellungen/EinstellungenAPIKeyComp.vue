@@ -13,7 +13,7 @@
             ></v-text-field>
             <v-btn
                     @click="submit"
-                    :color=buttonColor
+                    :color="buttonColor"
             >
                 {{ buttonText }}
             </v-btn>
@@ -40,10 +40,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import { VForm } from '@/models/Types';
+	import Vue from 'vue';
     import _users from '../../services/endpoints/users';
 
-    export default {
+    export default Vue.extend({
         name: "EinstellungenAPIKeyComp",
         data: () => ({
             valid: true,
@@ -55,20 +57,23 @@
             buttonText: 'API-Key aktualisieren'
         }),
         computed: {
-            apiKeyRules: function() {
+            apiKeyRules: function(): any[] {
                 return [
-                    v => !!v || 'Bitte gib einen API-Key an',
-                    v => this.regex.test(v) || 'Bitte gib einen gültigen API-Key an',
+                    (v: boolean) => v || 'Bitte gib einen API-Key an',
+                    (v: string) => this.regex.test(v) || 'Bitte gib einen gültigen API-Key an',
                 ]
             },
-            permissionsText: function() {
+            permissionsText: function(): string {
                 const required = ['account', 'builds', 'characters', 'inventories', 'progression', 'unlocks'];
                 return `Benötigt: ${required.join(', ')}`;
-            }
+            },
+			form: function(): VForm {
+				return this.$refs.form as VForm;
+			}
         },
         methods: {
-            async submit() {
-                if (this.$refs.form.validate()) {
+            async submit(): Promise<void> {
+                if (this.form.validate()) {
                     const response = await _users.setApi(this.apiKey);
                     this.snackbar = true;
                     this.snackbarText = "Test!";
@@ -93,7 +98,7 @@
                 }
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

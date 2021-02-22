@@ -43,49 +43,50 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _users from '../../services/endpoints/users';
-    import BuildChipComp from "../profile/BuildChipComp";
-    import NameComp from "../menu/NameComp";
+    import BuildChipComp from "../profile/BuildChipComp.vue";
+    import NameComp from "../menu/NameComp.vue";
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "SpielerComp",
         components: {NameComp, BuildChipComp},
         props: ['user', 'filter'],
         data: () => ({
-            builds: null
+            builds: [] as any[]
         }),
         computed: {
-            isRaidLead: function() {
+            isRaidLead: function(): boolean {
                 return this.user.role === 2;
             },
-            filtered: function() {
+            filtered: function(): any[] {
                 if (this.filter) return this.builds.filter(b => this.filter.indexOf(b.role.abbr) !== -1 );
                 else return this.builds;
             },
-            prefer: function() {
+            prefer: function(): any {
                 return this.filtered.filter(b => b.prefer);
             },
-            notPrefer: function() {
+            notPrefer: function(): any {
                 return this.filtered.filter(b => !b.prefer);
             },
-            kickable: function() {
+            kickable: function(): boolean {
                 return this.$store.getters.raidRole > this.user.role;
             }
         },
         methods: {
-            icon: function(name) {
+            icon: function(name: any): string {
                 return _icons.miscIcon(name);
             },
-            kick: function() {
+            kick: function(): void {
                 this.$emit('kick', this.user);
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.builds = await _users.getBuilds(this.user.id);
         }
-    }
+    })
 </script>
 
 <style scoped>

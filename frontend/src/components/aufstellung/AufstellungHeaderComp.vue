@@ -90,41 +90,45 @@
     </div>
 </template>
 
-<script>
-    import _icons from '../../services/icons.js';
+<script lang="ts">
+	import Vue, { PropType } from 'vue';
+    import _icons from '../../services/icons';
     import _aufstellungen from '../../services/endpoints/aufstellungen';
-    import FileUploadComp from "../reports/FileUploadComp";
+    import FileUploadComp from "../reports/FileUploadComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungHeaderComp",
         components: {FileUploadComp},
-        props: ['aufstellung', 'copyActive'],
+		props: {
+			aufstellung: Object as PropType<any>,
+			copyActive: Object as PropType<any>
+		},
         data: () => ({
             isCM: false,
             showUpload: false,
-            reportId: null,
+            reportId: '',
             fab: false,
             success: false,
         }),
         computed: {
-            raidRole: function() {
+            raidRole: function(): any {
                 return this.$store.getters.raidRole;
             },
-            active: function() {
+            active: function(): any {
                 return this.$store.getters.isActive;
             },
-            uploadActive: function() {
+            uploadActive: function(): any {
                 return this.$store.getters.uploadActive;
             },
-            successColor: function() {
+            successColor: function(): any {
                 if (this.success) return 'green';
                 else return 'white';
             },
-            successIcon: function() {
+            successIcon: function(): string {
                 if (this.success) return 'check_circle';
                 else return 'check_circle_outline';
             },
-            reportLink: function() {
+            reportLink: function(): string | boolean {
                 const baseLink = 'https://sv.rising-light.de:8080/reports/';
                 if (this.reportId) {
                     return `${baseLink}${this.reportId}.html`;
@@ -134,37 +138,37 @@
             }
         },
         methods: {
-            icon: function() {
+            icon: function(): string {
                 if (this.aufstellung) return _icons.encIcon(this.aufstellung.abbr);
                 else return '';
             },
-            deleteBoss: function() {
+            deleteBoss: function(): void {
                 this.$store.dispatch('deleteBoss', this.aufstellung);
             },
-            toggleSuccess: async function() {
+            toggleSuccess: async function(): Promise<void> {
                 if (this.raidRole > 0) {
                     this.success = !this.success;
                     await _aufstellungen.setSuccess(this.aufstellung.id, this.success);
                 }
             },
-            uploadComplete: function(newId) {
+            uploadComplete: function(newId: string): void {
                 this.reportId = newId;
             },
-            toggleCopy: function() {
+            toggleCopy: function(): void {
                 this.$emit('toggleCopy');
             },
-            changeCM: async function() {
+            changeCM: async function(): Promise<void> {
                 this.isCM = !this.isCM;
                 await _aufstellungen.setCM(this.aufstellung.id, this.isCM);
                 await this.$store.dispatch('wsSendRefresh');
             }
         },
-        created: function() {
+        created: function(): void {
             this.reportId = this.aufstellung.report;
             this.success = this.aufstellung.success;
             this.isCM = this.aufstellung.is_cm;
         }
-    }
+    })
 </script>
 
 <style scoped>

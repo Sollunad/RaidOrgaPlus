@@ -27,12 +27,13 @@
     </v-list>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import MenuItemComp from './MenuItemComp.vue';
-    import NameComp from "./NameComp";
+    import NameComp from "./NameComp.vue";
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "MenuItemListComp",
         components: {
             NameComp,
@@ -49,23 +50,23 @@
             ]
         }),
         computed: {
-            icon: function() {
+            icon: function(): string {
                 if (this.user.discord) {
                     return this.user.discord.avatar;
                 } else {
                     return _icons.miscIcon('raid');
                 }
             },
-            user: function() {
+            user: function(): any {
                 return this.$store.getters.loggedInUser;
             }
         },
         methods: {
-            toHomescreen: function() {
+            toHomescreen: function(): void {
                 this.$router.push('/');
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

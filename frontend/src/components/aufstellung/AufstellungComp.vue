@@ -18,12 +18,13 @@
     </div>
 </template>
 
-<script>
-    import AufstellungHeaderComp from "./AufstellungHeaderComp";
-    import AufstellungBodyComp from "./AufstellungBodyComp";
-    import MenuAufstellungenComp from "./MenuAufstellungenComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import AufstellungHeaderComp from "./AufstellungHeaderComp.vue";
+    import AufstellungBodyComp from "./AufstellungBodyComp.vue";
+    import MenuAufstellungenComp from "./MenuAufstellungenComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungComp",
         components: {MenuAufstellungenComp, AufstellungBodyComp, AufstellungHeaderComp},
         props: ['aufstellung'],
@@ -31,14 +32,14 @@
             copyActive: false,
         }),
         methods: {
-            stopCopy: function() {
+            stopCopy: function(): void {
                 this.copyActive = false;
             },
-            toggleCopy: function() {
+            toggleCopy: function(): void {
                 this.copyActive = !this.copyActive;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -109,66 +109,67 @@
     </div>
 </template>
 
-<script>
-    import MenuWingComp from "./MenuWingComp";
-    import AnmeldungComp from "./AnmeldungComp";
-    import ListAnmeldungComp from "./ListAnmeldungComp";
-    import KommentarComp from "./KommentarComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import MenuWingComp from "./MenuWingComp.vue";
+    import AnmeldungComp from "./AnmeldungComp.vue";
+    import ListAnmeldungComp from "./ListAnmeldungComp.vue";
+    import KommentarComp from "./KommentarComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "TerminToolbarComp",
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
         computed: {
-            headline: function() {
+            headline: function(): string {
               if (this.termin.endtime) {
                   return `${this.termin.date} ${this.termin.time} - ${this.termin.endtime}`;
               } else {
                   return `${this.termin.date} ${this.termin.time}`;
               }
             },
-            lockIcon: function() {
+            lockIcon: function(): string {
                 return this.locked? 'lock' : 'lock_open';
             },
-            locked: function() {
+            locked: function(): any {
                 return this.$store.getters.isLocked;
             },
-            role: function() {
+            role: function(): any {
                 return this.$store.getters.raidRole;
             },
-            termin: function() {
+            termin: function(): any {
                 return this.$store.getters.termin;
             },
-            active: function() {
+            active: function(): any {
                 return this.$store.getters.isActive;
             },
         },
         methods: {
-            addBoss: function(info) {
+            addBoss: function(info: any): void {
                 this.$store.dispatch('addBoss', info);
             },
-            openArchiveDialog: function() {
+            openArchiveDialog: function(): void {
                 this.$store.dispatch('openDialog', 'archive');
             },
-            refresh: function() {
+            refresh: function(): void {
                 this.$store.dispatch('refresh');
             },
-            toggleLocked: async function() {
+            toggleLocked: async function(): Promise<void> {
                 await this.$store.dispatch('toggleLocked');
             },
-            openDeleteDialog: function() {
+            openDeleteDialog: function(): void {
                 this.$store.dispatch('openDialog', 'delete');
             },
-            openShareDialog: function() {
+            openShareDialog: function(): void {
                 this.$store.dispatch('openDialog', 'share');
             },
-            openErsatzDialog: function() {
+            openErsatzDialog: function(): void {
                 this.$store.dispatch('openDialog', 'ersatz');
             },
-            uploadLog: function() {
+            uploadLog: function(): void {
                 this.$store.dispatch('toggleUpload');
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

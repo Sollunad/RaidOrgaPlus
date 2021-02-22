@@ -1,13 +1,13 @@
-const axios = require('axios');
-const _cookies = require('./util/cookies');
-const config = require('./config.json');
+import axios from 'axios';
+import _cookies from './util/cookies';
+import config from './config.json';
 
 export default fetch;
 
-async function fetch(endpoint, method, params, authed) {
-    const environment = process.env.NODE_ENV;
+async function fetch<T>(endpoint: string, method: string, params: any, authed: boolean): Promise<T> {
+    const environment = process.env.NODE_ENV as "development" | "production";
     let url = config[environment] + endpoint;
-    if (authed) params.auth = _cookies.default.getCookie('session');
+    if (authed) params.auth = _cookies.getCookie('session');
     if (method === 'get') {
         return (await axios({method, url, params})).data;
     } else if (method === 'form') {
