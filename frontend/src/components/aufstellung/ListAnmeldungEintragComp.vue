@@ -18,6 +18,7 @@
 	import Vue from 'vue';
     import AnmeldungComp from "./AnmeldungComp.vue";
     import _termine from '../../services/endpoints/termine';
+	import { MyActions } from '@/models/Store/State';
 
     export default Vue.extend({
         name: "ListAnmeldungEintragComp",
@@ -28,10 +29,10 @@
         }),
         computed: {
             editAllowed: function(): boolean {
-                return this.$store.getters.raidRole > 0;
+                return this.$vStore.getters.raidRole > 0;
             },
             termin: function(): any {
-                return this.$store.getters.termin;
+                return this.$vStore.getters.termin;
             }
         },
         methods: {
@@ -49,8 +50,8 @@
             anmelden: async function(type: any): Promise<void> {
                 this.editOpen = false;
                 await _termine.anmeldenLead(this.anmeldung.id, this.termin.id, type);
-                await this.$store.dispatch('refresh');
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$vStore.dispatch(MyActions.Refresh);
+                await this.$vStore.dispatch(MyActions.WsSendRefresh);
             }
         }
     })

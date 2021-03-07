@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+	import { MyActions } from '@/models/Store/State';
 	import Vue from 'vue';
 
     export default Vue.extend({
@@ -44,7 +45,7 @@
         methods: {
             openTermin: function(): void {
                 const raid = { id: this.termin.raidID, name: this.termin.name, icon: this.termin.icon, role: this.termin.role };
-                this.$store.dispatch('openTerminFromHome', {termin: this.termin, raid: raid});
+                this.$vStore.dispatch(MyActions.OpenTerminFromHome, {termin: this.termin, raid: raid});
             }
         }
     })

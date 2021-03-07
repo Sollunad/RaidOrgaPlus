@@ -43,10 +43,10 @@
         }),
         computed: {
             raid: function(): any {
-                return this.$store.getters.raid;
+                return this.$vStore.getters.raid;
             },
             showSpielerEinladen: function(): boolean {
-                return this.$store.getters.raidRole > 0;
+                return this.$vStore.getters.raidRole > 0;
             }
         },
         methods: {

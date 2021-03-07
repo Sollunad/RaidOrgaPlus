@@ -72,7 +72,7 @@
                 return this.filtered.filter(b => !b.prefer);
             },
             kickable: function(): boolean {
-                return this.$store.getters.raidRole > this.user.role;
+                return this.$vStore.getters.raidRole > this.user.role;
             }
         },
         methods: {

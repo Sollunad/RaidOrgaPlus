@@ -54,7 +54,7 @@
             datePicker: false,
             timePicker: false,
             validationRulesStart: [
-                (v: boolean) => v || 'Feld darf nicht leer sein',
+                (v: string) => !!v || 'Feld darf nicht leer sein',
                 (v: string) => /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(v) || 'Bitte gib eine gültige Uhrzeit an',
             ],
             validationRulesEnd: [
@@ -64,7 +64,7 @@
         }),
         computed: {
             raid: function(): any {
-                return this.$store.getters.raid;
+                return this.$vStore.getters.raid;
             },
 			form: function(): VForm {
 				return this.$refs.form as VForm;

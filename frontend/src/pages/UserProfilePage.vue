@@ -61,16 +61,16 @@
                 return this.$route.params.id;
             },
             visitedUser: function(): any {
-                return this.visitedID ? this.foreignUser : this.$store.getters.loggedInUser;
+				return this.visitedID ? this.foreignUser : this.$vStore.getters.loggedInUser;
             },
             ownProfile: function (): boolean {
                 if (this.visitedUser) {
-                    return this.visitedUser.id === this.$store.getters.loggedInUser.id;
+                    return this.visitedUser.id === this.$vStore.getters.loggedInUser.id;
                 }
                 return false;
             },
             profilePictureSize: function(): number {
-                const width = this.$store.getters.windowWidth;
+                const width = this.$vStore.getters.windowWidth;
                 if (width > 1510) {
                     return 128;
                 } else if (width > 1263) {

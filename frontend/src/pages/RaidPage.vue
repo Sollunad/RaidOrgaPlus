@@ -15,7 +15,7 @@
         name: "RaidPage",
         components: {RaidToolbarComp},
         created: function(): void {
-            if (!this.$store.getters.raid) window.location.href = '/#/raids';
+            if (!this.$vStore.getters.raid) window.location.href = '/#/raids';
         }
     })
 </script>

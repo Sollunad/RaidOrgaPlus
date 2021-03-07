@@ -59,7 +59,20 @@
     "rules": {},
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
-    }
+    },
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"rules": {
+				"@typescript-eslint/explicit-module-boundary-types": [
+					"warn",
+					{
+						"allowArgumentsExplicitlyTypedAsAny": true
+					}
+				]
+			}
+		}
+	]
   },
   "postcss": {
     "plugins": {

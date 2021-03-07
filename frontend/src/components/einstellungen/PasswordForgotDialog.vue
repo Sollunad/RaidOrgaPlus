@@ -40,7 +40,7 @@
         data: () => ({
             accname: '',
             accNameRules: [
-                (v: boolean) => !!v || 'Bitte gib deinen Accountnamen an',
+                (v: string) => !!v || 'Bitte gib deinen Accountnamen an',
                 (v: string) => /^[a-zA-Z\s]+.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
             ],
             buttonText: 'E-Mail senden',

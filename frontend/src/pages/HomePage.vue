@@ -37,7 +37,7 @@
         }),
         computed: {
             user: function(): any {
-                return this.$store.getters.loggedInUser;
+				return this.$vStore.getters.loggedInUser;
             }
         },
         created: async function(): Promise<void> {

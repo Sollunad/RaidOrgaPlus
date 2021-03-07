@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+	import { MyActions } from '@/models/Store/State';
 	import Vue from 'vue';
 
     export default Vue.extend({
@@ -47,7 +48,7 @@
         },
         methods: {
             openTermin: function() {
-                this.$store.dispatch('openTermin', this.termin);
+                this.$vStore.dispatch(MyActions.OpenTermin, this.termin);
             }
         }
     })

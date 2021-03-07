@@ -43,7 +43,7 @@
                 return this.wing === rotationWing;
             },
             showCotmIcons: function(): boolean {
-                return this.$store.getters.windowWidth > 460;
+                return this.$vStore.getters.windowWidth > 460;
             },
         }
     })

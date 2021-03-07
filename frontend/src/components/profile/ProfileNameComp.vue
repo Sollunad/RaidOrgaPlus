@@ -26,8 +26,9 @@
 </template>
 
 <script lang="ts">
+	import { MyActions } from '@/models/Store/State';
 	import { VForm } from '@/models/Types';
-import Vue from 'vue';
+	import Vue from 'vue';
 
     export default Vue.extend({
         name: "ProfileNameComp",
@@ -36,7 +37,7 @@ import Vue from 'vue';
             name: null,
             edit: false,
             nameRules: [
-                (v: boolean) => v || 'Bitte gib einen Namen an',
+                (v: string) => !!v || 'Bitte gib einen Namen an',
                 (v: string) => v.length <= 10 || 'Bitte wähle einen kürzeren Namen'
             ],
         }),
@@ -51,7 +52,7 @@ import Vue from 'vue';
             },
             submit: async function(): Promise<void> {
                 if (this.form.validate()) {
-                    await this.$store.dispatch('changeUserName', this.name);
+                    await this.$vStore.dispatch(MyActions.ChangeUserName, this.name);
                     this.edit = false;
                 }
             }

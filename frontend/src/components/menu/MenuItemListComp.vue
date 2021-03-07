@@ -58,7 +58,7 @@
                 }
             },
             user: function(): any {
-                return this.$store.getters.loggedInUser;
+                return this.$vStore.getters.loggedInUser;
             }
         },
         methods: {

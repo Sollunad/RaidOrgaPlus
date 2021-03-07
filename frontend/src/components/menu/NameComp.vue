@@ -17,7 +17,7 @@
             entered: false,
         }),
         computed: {
-            showName: function(): any {
+            showName: function(): string {
                 if (this.entered) {
                     if (this.truncate) {
                         const baseName = this.user.accname.split('.')[0];

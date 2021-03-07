@@ -41,6 +41,7 @@
 </template>
 
 <script lang="ts">
+	import { MyActions } from '@/models/Store/State';
 	import Vue from 'vue';
 
     export default Vue.extend({
@@ -50,19 +51,19 @@
         }),
         methods: {
             deleteOK: function(): void {
-                this.$store.dispatch('delete', this.newTermin);
+                this.$vStore.dispatch(MyActions.Delete, this.newTermin);
             },
             deleteCancel: function(): void {
-                this.$store.dispatch('closeDialog');
+                this.$vStore.dispatch(MyActions.CloseDialog);
             }
         },
         computed: {
             open: {
                 get: function(): any {
-                    return this.$store.getters.isDialogOpen('delete');
+                    return this.$vStore.getters.isDialogOpen('delete');
                 },
                 set: function(): void {
-                    this.$store.dispatch('closeDialog');
+                    this.$vStore.dispatch(MyActions.CloseDialog);
                 }
             }
         }

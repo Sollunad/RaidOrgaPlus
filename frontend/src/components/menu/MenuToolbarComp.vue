@@ -49,20 +49,20 @@
             showBuildCheck: false,
         }),
         computed: {
-            buildCheckSuccess: function(): any {
-                return this.$store.getters.buildCheck;
+            buildCheckSuccess: function(): boolean {
+                return this.$vStore.getters.buildCheck;
             },
             buildCheckIcon: function(): string {
-                return this.buildCheckSuccess? 'verified_user' : 'update';
+                return this.buildCheckSuccess ? 'verified_user' : 'update';
             },
             showWarning: function(): boolean {
                 return this.showBuildCheck || !this.buildCheckSuccess;
             },
-            frontendBuild: function(): any {
-                return this.$store.getters.frontendBuild;
+            frontendBuild: function(): string {
+                return this.$vStore.getters.frontendBuild;
             },
             backendBuild: function(): any {
-                return this.$store.getters.backendBuild;
+                return this.$vStore.getters.backendBuild;
             }
         },
         methods: {

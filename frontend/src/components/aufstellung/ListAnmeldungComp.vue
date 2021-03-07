@@ -31,23 +31,23 @@
             open: undefined,
         }),
         computed: {
-            anmeldungen: function(): any {
-              return this.$store.getters.anmeldungen;
+            anmeldungen: function() {
+              return this.$vStore.getters.anmeldungen;
             },
-            yesCount: function(): any {
+            yesCount: function(): number {
                 return this.anmeldungen.filter((a: any) => a.type === 0).length;
             },
-            maybeCount: function(): any {
+            maybeCount: function(): number {
                 return this.anmeldungen.filter((a: any) => a.type === 1).length;
             },
-            falseCount: function(): any {
+            falseCount: function(): number {
                 return this.anmeldungen.filter((a: any) => a.type === 2).length;
             },
-            anmeldungCount: function(): any {
+            anmeldungCount: function(): number[] {
                 return [this.yesCount, this.maybeCount, this.falseCount];
             },
             showDetailsInHeader: function(): boolean {
-                return this.$store.getters.windowWidth > 500;
+                return this.$vStore.getters.windowWidth > 500;
             }
         },
         methods: {

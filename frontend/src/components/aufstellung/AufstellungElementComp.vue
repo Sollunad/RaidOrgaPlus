@@ -49,13 +49,14 @@
     import MenuRoleComp from "./MenuRoleComp.vue";
     import MenuNameComp from "./MenuNameComp.vue";
     import NameComp from "../menu/NameComp.vue";
+import { MyActions } from '@/models/Store/State';
 
     export default Vue.extend({
         name: "AufstellungElementComp",
         components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
 		props: {
 			aufstellung: Object as PropType<any>,
-			position: Object as PropType<any>
+			position: Number
 		},
         data: () => ({
             classMenuOpen: false,
@@ -63,14 +64,14 @@
         }),
         computed: {
             editAllowed: function(): boolean {
-                return this.$store.getters.isActive && (!this.$store.getters.isLocked || this.$store.getters.raidRole > 0);
+                return this.$vStore.getters.isActive && (!this.$vStore.getters.isLocked || this.$vStore.getters.raidRole > 0);
             },
             element: function(): any {
-                return this.$store.getters.elementForPosition(this.aufstellung.id, this.position);
+                return this.$vStore.getters.elementForPosition(this.aufstellung.id, this.position);
             },
             isNameDoubled: function(): any {
                 if (!this.element || !this.element.name || this.element.id <= 1) return false;
-                return this.$store.getters.isNameDoubled(this.aufstellung, this.element.name);
+                return this.$vStore.getters.isNameDoubled(this.aufstellung, this.element.name);
             },
             classIcon: function(): string {
                 if (this.element && this.element.class !== '') return _icons.classIcon(this.element.class);
@@ -92,15 +93,15 @@
                 };
             },
             isSelfUser: function(): boolean {
-                if (!this.element || !this.$store.getters.loggedInUser) return false;
-                const selfAccName = this.$store.getters.loggedInUser.accname;
+                if (!this.element || !this.$vStore.getters.loggedInUser) return false;
+                const selfAccName = this.$vStore.getters.loggedInUser.accname;
                 return this.element.accname === selfAccName;
             },
         },
         methods: {
             pickClass: async function(clss: any) {
                 this.classMenuOpen = false;
-                await this.$store.dispatch('pickClass', {
+                await this.$vStore.dispatch(MyActions.PickClass, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                     clss
@@ -108,14 +109,14 @@
                 this.loadElementFromStore();
             },
             clearClass: async function() {
-                await this.$store.dispatch('clearClass', {
+                await this.$vStore.dispatch(MyActions.ClearClass, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                 });
                 this.loadElementFromStore();
             },
             pickRole: async function(role: any) {
-                await this.$store.dispatch('pickRole', {
+                await this.$vStore.dispatch(MyActions.PickRole, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                     role
@@ -123,14 +124,14 @@
                 this.loadElementFromStore();
             },
             clearRole: async function() {
-                await this.$store.dispatch('clearRole', {
+                await this.$vStore.dispatch(MyActions.ClearRole, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                 });
                 this.loadElementFromStore();
             },
             pickName: async function(user: any) {
-                await this.$store.dispatch('pickName', {
+                await this.$vStore.dispatch(MyActions.PickName, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                     user
@@ -138,14 +139,14 @@
                 this.loadElementFromStore();
             },
             clearName: async function() {
-                await this.$store.dispatch('clearName', {
+                await this.$vStore.dispatch(MyActions.ClearName, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                 });
                 this.loadElementFromStore();
             },
             loadElementFromStore: function() {
-                //this.element = this.$store.getters.elementForPosition(this.aufstellung, this.position);
+                //this.element = this.$vStore.getters.elementForPosition(this.aufstellung, this.position);
             }
         },
         created: function() {

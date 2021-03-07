@@ -15,7 +15,7 @@
         components: {NeuerTerminComp},
         computed: {
             showNeuerTermin: function(): boolean {
-                return this.$store.getters.raidRole > 0;
+                return this.$vStore.getters.raidRole > 0;
             }
         }
     })

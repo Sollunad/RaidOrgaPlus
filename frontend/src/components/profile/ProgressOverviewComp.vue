@@ -12,8 +12,8 @@
             {{ name }}
         </v-tab>
         <v-tab-item
-                v-for="comp in progressComps"
-                :key="comp.name"
+                v-for="(comp, i) in progressComps"
+                :key="i"
                 class="progressComp"
                 eager
         >

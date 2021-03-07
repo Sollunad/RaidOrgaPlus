@@ -35,7 +35,7 @@
             lastChange: 0,
         }),
         computed: {
-            rules: function (): any {
+            rules: function () {
                 return [
                     (v: string) => (!v || v.length <= 1000) || 'Bitte halte dich kurz ;)'
                 ];
@@ -60,6 +60,7 @@
             text: function (): void {
                 this.lastChange = Date.now();
                 const currentChange = this.lastChange;
+                // eslint-disable-next-line @typescript-eslint/no-this-alias
                 const that = this;
                 setTimeout(function () {
                     if (currentChange === that.lastChange && that.isDirty) {

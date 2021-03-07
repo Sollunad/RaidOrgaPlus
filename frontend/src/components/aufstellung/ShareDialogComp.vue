@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts">
+	import { MyActions } from '@/models/Store/State';
 	import Vue from 'vue';
     import _preview from '../../services/endpoints/preview';
 
@@ -41,7 +42,7 @@
         }),
         computed: {
             termin: function(): any {
-                return this.$store.getters.termin;
+                return this.$vStore.getters.termin;
             },
             switchValue: {
                 get: function(): boolean {
@@ -53,11 +54,11 @@
                 }
             },
             open: {
-                get: function(): any {
-                    return this.$store.getters.isDialogOpen('share');
+                get: function(): boolean {
+                    return this.$vStore.getters.isDialogOpen('share');
                 },
                 set: function(): void {
-                    this.$store.dispatch('closeDialog');
+                    this.$vStore.dispatch(MyActions.CloseDialog);
                 }
             },
             previewLink: function(): string {

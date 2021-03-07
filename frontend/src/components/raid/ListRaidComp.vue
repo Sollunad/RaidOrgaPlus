@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts">
+	import { MyActions } from '@/models/Store/State';
 	import Vue from 'vue';
 
     export default Vue.extend({
@@ -41,7 +42,7 @@
         },
         methods: {
             saveRaid: function() {
-                this.$store.dispatch('openRaid', this.raid);
+                this.$vStore.dispatch(MyActions.OpenRaid, this.raid);
             }
         }
     })

@@ -52,7 +52,7 @@
                 return `doneCount ${this.complete? 'success--text': ''}`
             },
             dropdownIcon: function(): string {
-                return this.show? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+                return this.show ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
             }
         },
         methods: {

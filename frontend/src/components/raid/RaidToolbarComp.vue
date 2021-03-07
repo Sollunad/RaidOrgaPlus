@@ -23,7 +23,7 @@
         },
         computed: {
             raidName: function(): string {
-                if (this.$store.getters.raid) return this.$store.getters.raid.name;
+                if (this.$vStore.getters.raid) return this.$vStore.getters.raid.name;
                 else return '';
             }
         }

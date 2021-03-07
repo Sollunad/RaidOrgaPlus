@@ -51,7 +51,7 @@
             oldPassword: '',
             newPassword: '',
             passwordRules: [
-                (v: boolean) => v || 'Bitte gib dein Passwort an',
+                (v: string) => !!v || 'Bitte gib dein Passwort an',
             ],
             buttonColor: '',
             buttonText: 'Passwort aktualisieren'
@@ -77,6 +77,7 @@
                         this.buttonText = 'Passwort falsch';
                         this.buttonColor = 'error';
                     }
+                    // eslint-disable-next-line @typescript-eslint/no-this-alias
                     const that = this;
                     setTimeout(function() {
                         that.buttonColor = '';

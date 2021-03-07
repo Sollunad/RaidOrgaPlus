@@ -24,8 +24,8 @@
                     accname: 'LFG',
                     name: 'LFG'
                 };
-                let angemeldet = this.$store.getters.anmeldungen.filter((player: any) => player.type < 2);
-                angemeldet = angemeldet.concat(this.$store.getters.ersatzSpieler);
+                let angemeldet = this.$vStore.getters.anmeldungen.filter((player: any) => player.type < 2);
+                angemeldet = angemeldet.concat(this.$vStore.getters.ersatzSpieler);
                 angemeldet.push(lfgUser);
                 return angemeldet;
             }

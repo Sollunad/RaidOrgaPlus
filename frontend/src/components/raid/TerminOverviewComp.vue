@@ -75,7 +75,7 @@
                 }
             },
             raid: function(): any {
-                return this.$store.getters.raid;
+                return this.$vStore.getters.raid;
             }
         },
         created: async function(): Promise<void> {

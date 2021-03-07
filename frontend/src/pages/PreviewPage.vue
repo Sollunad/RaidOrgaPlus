@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts">
+	import { MyActions } from '@/models/Store/State';
 	import Vue from 'vue';
     import AufstellungComp from "../components/aufstellung/AufstellungComp.vue";
 
@@ -32,7 +33,7 @@
                 return this.$route.params.id;
             },
             aufstellungen: function(): any {
-                return this.$store.getters.aufstellungen;
+                return this.$vStore.getters.aufstellungen;
             }
         },
         methods: {
@@ -41,7 +42,7 @@
             }
         },
         created: async function(): Promise<void> {
-            await this.$store.dispatch('loadAufstellungenPreview', this.termin);
+            await this.$vStore.dispatch(MyActions.LoadAufstellungenPreview, this.termin);
         }
     })
 </script>

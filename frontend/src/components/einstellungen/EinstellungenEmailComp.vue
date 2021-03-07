@@ -41,12 +41,12 @@
             valid: true,
             email: '',
             emailRules: [
-                (v: boolean) => v || 'Bitte gib eine E-Mail-Adresse an',
+                (v: string) => !!v || 'Bitte gib eine E-Mail-Adresse an',
                 (v: string) => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(\.[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)+$/.test(v) || 'Bitte gib eine gültige E-Mail-Adresse an',
             ],
             password: '',
             passwordRules: [
-                (v: boolean) => v || 'Bitte gib dein Passwort an',
+                (v: string) => !!v || 'Bitte gib dein Passwort an',
             ],
             buttonColor: '',
             buttonText: 'E-Mail aktualisieren'
@@ -67,6 +67,7 @@
                         this.buttonText = 'Passwort falsch';
                         this.buttonColor = 'error';
                     }
+                    // eslint-disable-next-line @typescript-eslint/no-this-alias
                     const that = this;
                     setTimeout(function() {
                         that.buttonColor = '';

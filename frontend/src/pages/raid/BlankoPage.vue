@@ -50,10 +50,10 @@
                 return this.bosses.filter(b => b.wing === this.wingFilter);
             },
             raid: function(): any {
-                return this.$store.getters.raid;
+                return this.$vStore.getters.raid;
             },
-            role: function(): any {
-                return this.$store.getters.raidRole;
+            role: function(): number {
+                return this.$vStore.getters.raidRole;
             }
         },
         methods: {

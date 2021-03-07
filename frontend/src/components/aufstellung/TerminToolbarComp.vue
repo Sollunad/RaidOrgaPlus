@@ -115,6 +115,7 @@
     import AnmeldungComp from "./AnmeldungComp.vue";
     import ListAnmeldungComp from "./ListAnmeldungComp.vue";
     import KommentarComp from "./KommentarComp.vue";
+	import { MyActions } from '@/models/Store/State';
 
     export default Vue.extend({
         name: "TerminToolbarComp",
@@ -128,45 +129,45 @@
               }
             },
             lockIcon: function(): string {
-                return this.locked? 'lock' : 'lock_open';
+                return this.locked ? 'lock' : 'lock_open';
             },
             locked: function(): any {
-                return this.$store.getters.isLocked;
+                return this.$vStore.getters.isLocked;
             },
             role: function(): any {
-                return this.$store.getters.raidRole;
+                return this.$vStore.getters.raidRole;
             },
             termin: function(): any {
-                return this.$store.getters.termin;
+                return this.$vStore.getters.termin;
             },
             active: function(): any {
-                return this.$store.getters.isActive;
+                return this.$vStore.getters.isActive;
             },
         },
         methods: {
             addBoss: function(info: any): void {
-                this.$store.dispatch('addBoss', info);
+                this.$vStore.dispatch(MyActions.AddBoss, info);
             },
             openArchiveDialog: function(): void {
-                this.$store.dispatch('openDialog', 'archive');
+                this.$vStore.dispatch(MyActions.OpenDialog, 'archive');
             },
             refresh: function(): void {
-                this.$store.dispatch('refresh');
+                this.$vStore.dispatch(MyActions.Refresh);
             },
             toggleLocked: async function(): Promise<void> {
-                await this.$store.dispatch('toggleLocked');
+                await this.$vStore.dispatch(MyActions.ToggleLocked);
             },
             openDeleteDialog: function(): void {
-                this.$store.dispatch('openDialog', 'delete');
+                this.$vStore.dispatch(MyActions.OpenDialog, 'delete');
             },
             openShareDialog: function(): void {
-                this.$store.dispatch('openDialog', 'share');
+                this.$vStore.dispatch(MyActions.OpenDialog, 'share');
             },
             openErsatzDialog: function(): void {
-                this.$store.dispatch('openDialog', 'ersatz');
+                this.$vStore.dispatch(MyActions.OpenDialog, 'ersatz');
             },
             uploadLog: function(): void {
-                this.$store.dispatch('toggleUpload');
+                this.$vStore.dispatch(MyActions.ToggleUpload);
             }
         }
     })

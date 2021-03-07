@@ -17,6 +17,8 @@
 
     import MainPage from "./pages/MainPage.vue";
     import LoginRegisterPage from "./pages/LoginRegisterPage.vue";
+	import { RootActions } from './models/Store/RootState';
+	import { UserActions } from './models/Store/UserState';
 
     export default Vue.extend({
       components: {
@@ -33,15 +35,15 @@
       }),
       computed: {
           showContent: function(): boolean {
-              return this.withoutLoginAllowed || this.$store.getters.loginSuccess;
+              return this.withoutLoginAllowed || this.$vStore.getters.loginSuccess;
           },
           showLogin: function(): any {
-              return this.$store.getters.loginFailed;
+              return this.$vStore.getters.loginFailed;
           }
       },
       methods: {
           onResize: function(): void {
-              this.$store.dispatch('saveWindowWidth');
+              this.$vStore.dispatch(RootActions.SaveWindowWidth, window.innerWidth);
           },
           guardRoute: function(): void {
               this.withoutLoginAllowed = this.allowedRoutes.includes(this.$router.currentRoute.path.split('/')[1]);
@@ -49,8 +51,8 @@
       },
       created: async function(): Promise<void> {
           this.guardRoute();
-          await this.$store.dispatch('checkBuild');
-          await this.$store.dispatch('getLoggedInUser');
+          await this.$vStore.dispatch(UserActions.CheckBuild);
+          await this.$vStore.dispatch(UserActions.GetLoggedInUser);
 
           if ('serviceWorker' in navigator) {
               await navigator.serviceWorker.register('service-worker.js');

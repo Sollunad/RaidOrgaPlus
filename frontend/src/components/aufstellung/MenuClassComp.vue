@@ -27,6 +27,7 @@
 	import Vue from 'vue';
     import _icons from '../../services/icons';
     import MenuSubclassComp from "./MenuSubclassComp.vue";
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const whatInput = require('what-input');
 
     export default Vue.extend({

@@ -13,8 +13,8 @@
                 {{ name }}
             </v-tab>
             <v-tab-item
-                    v-for="comp in moderationComps"
-                    :key="comp.name"
+                    v-for="(comp, i) in moderationComps"
+                    :key="i"
                     class="moderationComp"
                     eager
             >
@@ -38,7 +38,7 @@
         }),
         computed: {
             showContainer: function(): boolean {
-                return this.$store.getters.loggedInUser.role > 0;
+                return this.$vStore.getters.loggedInUser.role > 0;
             }
         }
     })

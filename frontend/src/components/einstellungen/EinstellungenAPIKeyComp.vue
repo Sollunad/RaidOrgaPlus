@@ -57,9 +57,9 @@
             buttonText: 'API-Key aktualisieren'
         }),
         computed: {
-            apiKeyRules: function(): any[] {
+            apiKeyRules: function() {
                 return [
-                    (v: boolean) => v || 'Bitte gib einen API-Key an',
+                    (v: string) => !!v || 'Bitte gib einen API-Key an',
                     (v: string) => this.regex.test(v) || 'Bitte gib einen gültigen API-Key an',
                 ]
             },
@@ -80,6 +80,7 @@
                     if (response === 'Success') {
                         this.buttonColor = 'success';
                         this.buttonText = 'Success!';
+                        // eslint-disable-next-line @typescript-eslint/no-this-alias
                         const that = this;
                         setTimeout(function() {
                             that.buttonColor = '';

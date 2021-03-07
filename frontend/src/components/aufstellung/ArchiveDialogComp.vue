@@ -40,7 +40,8 @@
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
+	import { MyActions } from '@/models/Store/State';
+import Vue from 'vue';
 
     export default Vue.extend({
         name: "ArchiveDialogComp",
@@ -49,19 +50,19 @@
         }),
         methods: {
             archiveOK: function(): void {
-                this.$store.dispatch('archive', this.newTermin);
+                this.$vStore.dispatch(MyActions.Archive, this.newTermin);
             },
             archiveCancel: function(): void {
-                this.$store.dispatch('closeDialog');
+                this.$vStore.dispatch(MyActions.CloseDialog);
             }
         },
         computed: {
             open: {
                 get: function(): any {
-                    return this.$store.getters.isDialogOpen('archive');
+                    return this.$vStore.getters.isDialogOpen('archive');
                 },
                 set: function(): void {
-                    this.$store.dispatch('closeDialog');
+                    this.$vStore.dispatch(MyActions.CloseDialog);
                 }
             }
         }

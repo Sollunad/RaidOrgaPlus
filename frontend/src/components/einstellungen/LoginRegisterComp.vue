@@ -97,21 +97,21 @@
             valid: true,
             accName: '',
             accNameRules: [
-                (v: boolean) => v || 'Bitte gib deinen Accountnamen an',
+                (v: string) => !!v || 'Bitte gib deinen Accountnamen an',
                 (v: string) => /^[a-zA-Z\s]+\.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
             ],
             name: '',
             nameRules: [
-                (v: boolean) => v || 'Bitte gib deinen Anzeigenamen an',
+                (v: string) => !!v || 'Bitte gib deinen Anzeigenamen an',
                 (v: string) => v.length <= 10 || 'Bitte wähle einen kürzeren Namen',
             ],
             password: '',
             passwordRules: [
-                (v: boolean) => !!v || 'Bitte gib dein Passwort an',
+                (v: string) => !!v || 'Bitte gib dein Passwort an',
             ],
             email: '',
             emailRules: [
-                (v: boolean) => !!v || 'Bitte gib eine E-Mail-Adresse an',
+                (v: string) => !!v || 'Bitte gib eine E-Mail-Adresse an',
                 (v: string) => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(\.[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)+$/.test(v) || 'Bitte gib eine gültige E-Mail-Adresse an',
             ],
             buttonColor: '',

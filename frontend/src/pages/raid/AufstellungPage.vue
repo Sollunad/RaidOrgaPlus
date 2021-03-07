@@ -36,6 +36,7 @@
     import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp.vue";
     import ShareDialogComp from "../../components/aufstellung/ShareDialogComp.vue";
     import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp.vue";
+	import { MyActions } from "@/models/Store/State";
 
     export default Vue.extend({
         name: "AufstellungPage",
@@ -44,33 +45,33 @@
             ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
         methods: {
             refresh: async function() {
-                await this.$store.dispatch('refresh');
+                await this.$vStore.dispatch(MyActions.Refresh);
             },
         },
         computed: {
             wsOutput: function(): any {
-                return this.$store.getters.wsOutput;
+                return this.$vStore.getters.wsOutput;
             },
             ersatzspieler: function(): any {
-                return this.$store.getters.ersatzspieler;
+                return this.$vStore.getters.ersatzSpieler;
             },
             aufstellungen: function(): any {
-                return this.$store.getters.aufstellungen;
+                return this.$vStore.getters.aufstellungen;
             }
         },
         created: async function(): Promise<void> {
-            if (!this.$store.getters.termin) window.location.href = '/#/raids';
+            if (!this.$vStore.getters.termin) window.location.href = '/#/raids';
             else {
-                await this.$store.dispatch('loadAufstellungen');
+                await this.$vStore.dispatch(MyActions.LoadAufstellungen);
             }
         },
         beforeDestroy: async function(): Promise<void> {
-            await this.$store.dispatch('closeWS');
+            await this.$vStore.dispatch(MyActions.CloseWS);
         },
         watch: {
             wsOutput: async function(value): Promise<void> {
                 if (value) {
-                    await this.$store.dispatch('clearWS');
+                    await this.$vStore.dispatch(MyActions.ClearWS);
                     if (value === 'Refresh') {
                         this.refresh();
                     }

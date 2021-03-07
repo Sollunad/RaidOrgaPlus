@@ -95,13 +95,14 @@
     import _icons from '../../services/icons';
     import _aufstellungen from '../../services/endpoints/aufstellungen';
     import FileUploadComp from "../reports/FileUploadComp.vue";
+	import { MyActions } from '@/models/Store/State';
 
     export default Vue.extend({
         name: "AufstellungHeaderComp",
         components: {FileUploadComp},
 		props: {
 			aufstellung: Object as PropType<any>,
-			copyActive: Object as PropType<any>
+			copyActive: Boolean
 		},
         data: () => ({
             isCM: false,
@@ -111,16 +112,16 @@
             success: false,
         }),
         computed: {
-            raidRole: function(): any {
-                return this.$store.getters.raidRole;
+            raidRole: function(): number {
+                return this.$vStore.getters.raidRole;
             },
             active: function(): any {
-                return this.$store.getters.isActive;
+                return this.$vStore.getters.isActive;
             },
-            uploadActive: function(): any {
-                return this.$store.getters.uploadActive;
+            uploadActive: function(): boolean {
+                return this.$vStore.getters.uploadActive;
             },
-            successColor: function(): any {
+            successColor: function(): string {
                 if (this.success) return 'green';
                 else return 'white';
             },
@@ -143,7 +144,7 @@
                 else return '';
             },
             deleteBoss: function(): void {
-                this.$store.dispatch('deleteBoss', this.aufstellung);
+                this.$vStore.dispatch(MyActions.DeleteBoss, this.aufstellung);
             },
             toggleSuccess: async function(): Promise<void> {
                 if (this.raidRole > 0) {
@@ -160,7 +161,7 @@
             changeCM: async function(): Promise<void> {
                 this.isCM = !this.isCM;
                 await _aufstellungen.setCM(this.aufstellung.id, this.isCM);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$vStore.dispatch(MyActions.WsSendRefresh);
             }
         },
         created: function(): void {
