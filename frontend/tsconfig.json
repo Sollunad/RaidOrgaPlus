@@ -24,6 +24,9 @@
 		"paths": {
 			"@/*": [
 				"src/*"
+			],
+			"models/*": [
+				"../models/build/*"
 			]
 		},
 		"lib": [
@@ -42,5 +45,8 @@
 	],
 	"exclude": [
 		"node_modules"
+	],
+	"references": [
+		{ "path": "../models" }
 	]
 }

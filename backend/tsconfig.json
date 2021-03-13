@@ -66,8 +66,17 @@
     /* Advanced Options */
     "skipLibCheck": true,                     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
-	"resolveJsonModule": true
+	"resolveJsonModule": true,
+	"paths": {
+		"models/*": [
+			"models/*",
+			"../models/build/*"
+		]
+	}
   },
   "include": ["./**/*"],
-  "exclude": ["node_modules", "./dist/**/*"]
+  "exclude": ["node_modules", "./dist/**/*"],
+  "references": [
+	  { "path": "../models" }
+  ]
 }
