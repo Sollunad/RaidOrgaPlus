@@ -24,18 +24,19 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _termine from '../../services/endpoints/termine';
-    import HomepageTerminComp from "./HomepageTerminComp";
+    import HomepageTerminComp from "./HomepageTerminComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "HomepageTermineComp",
         components: {HomepageTerminComp},
         data: () => ({
-            termine: null,
+            termine: [] as any[],
         }),
         computed: {
-            listNotEmpty: function () {
+            listNotEmpty: function (): boolean {
                 if (this.termine) {
                     return this.termine.length !== 0;
                 } else {
@@ -43,10 +44,10 @@
                 }
             }
         },
-        created: async function () {
+        created: async function (): Promise<void> {
             this.termine = await _termine.getHomepageTermine();
         }
-    }
+    })
 </script>
 
 <style scoped>

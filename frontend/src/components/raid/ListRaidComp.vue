@@ -15,14 +15,15 @@
     </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
+	import { MyActions } from '@/models/Store/State';
+	import Vue from 'vue';
 
-
-    export default {
+    export default Vue.extend({
         name: "ListRaidComp",
         props: ['raid', 'anmeldung'],
         computed: {
-            role: function() {
+            role: function(): string {
                 switch(this.raid.role) {
                     case 0: return "Spieler";
                     case 1: return "Lieutenant";
@@ -30,7 +31,7 @@
                     default: return "";
                 }
             },
-            icon: function() {
+            icon: function(): string {
                 if (this.anmeldung) {
                     const icons = ['check_circle', 'check_circle_outline', 'cancel', 'warning'];
                     return icons.slice(this.anmeldung.type)[0];
@@ -41,10 +42,10 @@
         },
         methods: {
             saveRaid: function() {
-                this.$store.dispatch('openRaid', this.raid);
+                this.$vStore.dispatch(MyActions.OpenRaid, this.raid);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

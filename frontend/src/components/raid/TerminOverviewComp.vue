@@ -31,30 +31,31 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _termine from '../../services/endpoints/termine';
-    import ListTerminComp from "./ListTerminComp";
+    import ListTerminComp from "./ListTerminComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "TerminOverviewComp",
         components: {ListTerminComp},
         props: ['archived'],
         data: () => ({
-            termine: null,
+            termine: [] as any[],
             page: 1,
             pageSize: 5,
         }),
         computed: {
-            maxPages: function() {
+            maxPages: function(): number {
                 if (this.termine) {
                     return Math.ceil(this.termine.length / this.pageSize);
                 } else {
                     return 1;
                 }
             },
-            viewTermine: function() {
+            viewTermine: function(): any[] {
                 if (this.archived) {
-                    let viewTermine = [];
+                    let viewTermine: any[] = [];
                     this.termine.forEach((termin, index) => {
                         termin.no = this.termine.length - index;
                         viewTermine.push(termin);
@@ -66,24 +67,24 @@
                     return this.termine;
                 }
             },
-            listNotEmpty: function() {
+            listNotEmpty: function(): boolean {
                 if (this.termine) {
                     return this.termine.length !== 0;
                 } else {
                     return false;
                 }
             },
-            raid: function() {
-                return this.$store.getters.raid;
+            raid: function(): any {
+                return this.$vStore.getters.raid;
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             if (this.raid) {
                 if (this.archived) this.termine = await _termine.listArchived(this.raid.id);
                 else this.termine = await _termine.listActive(this.raid.id);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

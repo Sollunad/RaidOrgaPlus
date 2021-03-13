@@ -2,10 +2,12 @@
     <router-view class="page"/>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "MainPage",
-    }
+    })
 </script>
 
 <style scoped>

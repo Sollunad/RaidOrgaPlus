@@ -43,7 +43,7 @@
             ></v-text-field>
             <v-btn
                     @click="submit"
-                    :color=buttonColor
+                    :color="buttonColor"
                     text
             >
                 {{ buttonText }}
@@ -83,34 +83,36 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import { VForm } from '@/models/Types';
+	import Vue from 'vue';
     import _users from '../../services/endpoints/users';
     import _cookies from '../../services/util/cookies';
-    import PasswordForgotDialog from "./PasswordForgotDialog";
+    import PasswordForgotDialog from "./PasswordForgotDialog.vue";
 
-    export default {
+    export default Vue.extend({
         name: "LoginComp",
         components: {PasswordForgotDialog},
         data: () => ({
             valid: true,
             accName: '',
             accNameRules: [
-                v => !!v || 'Bitte gib deinen Accountnamen an',
-                v => /^[a-zA-Z\s]+\.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
+                (v: string) => !!v || 'Bitte gib deinen Accountnamen an',
+                (v: string) => /^[a-zA-Z\s]+\.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
             ],
             name: '',
             nameRules: [
-                v => !!v || 'Bitte gib deinen Anzeigenamen an',
-                v => v.length <= 10 || 'Bitte wähle einen kürzeren Namen',
+                (v: string) => !!v || 'Bitte gib deinen Anzeigenamen an',
+                (v: string) => v.length <= 10 || 'Bitte wähle einen kürzeren Namen',
             ],
             password: '',
             passwordRules: [
-                v => !!v || 'Bitte gib dein Passwort an',
+                (v: string) => !!v || 'Bitte gib dein Passwort an',
             ],
             email: '',
             emailRules: [
-                v => !!v || 'Bitte gib eine E-Mail-Adresse an',
-                v => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(\.[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)+$/.test(v) || 'Bitte gib eine gültige E-Mail-Adresse an',
+                (v: string) => !!v || 'Bitte gib eine E-Mail-Adresse an',
+                (v: string) => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(\.[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)+$/.test(v) || 'Bitte gib eine gültige E-Mail-Adresse an',
             ],
             buttonColor: '',
             snackbar: false,
@@ -119,29 +121,32 @@
             passwordDialogOpen: false,
         }),
         computed: {
-            failureText: function() {
+            failureText: function(): string {
                 if (this.registerMode) return 'Registrieren fehlgeschlagen';
                 else return 'Anmeldedaten inkorrekt';
             },
-            buttonText: function() {
+            buttonText: function(): string {
                 if (this.registerMode) return 'Registrieren';
                 else return 'Anmelden';
             },
-            passwordRepeatRules: function() {
+            passwordRepeatRules: function(): any {
                 return [
-                    v => v === this.password || 'Passwörter müssen übereinstimmen'
+                    (v: string) => v === this.password || 'Passwörter müssen übereinstimmen'
                 ]
-            }
+            },
+			form: function(): VForm {
+				return this.$refs.form as VForm;
+			}
         },
         methods: {
-            async submit () {
-                if (this.$refs.form.validate()) {
+            async submit (): Promise<void> {
+                if (this.form.validate()) {
                     this.loading = true;
                     if (this.registerMode) this.register();
                     else this.login();
                 }
             },
-            async login() {
+            async login(): Promise<void> {
                 const uuid = await _users.login(this.accName, this.password);
                 if (uuid) {
                     this.buttonColor = 'success';
@@ -152,7 +157,7 @@
                     this.snackbar = true;
                 }
             },
-            async register() {
+            async register(): Promise<void> {
                 const success = await _users.register(this.accName, this.password, this.name, this.email);
                 if (success) {
                     this.registerMode = false;
@@ -162,11 +167,11 @@
                     this.snackbar = true;
                 }
             },
-            closeDialog() {
+            closeDialog(): void {
                 this.passwordDialogOpen = false;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -20,10 +20,11 @@
     </v-expansion-panels>
 </template>
 
-<script>
-    import ListAnmeldungEintragComp from "./ListAnmeldungEintragComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import ListAnmeldungEintragComp from "./ListAnmeldungEintragComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ListAnmeldungComp",
         components: {ListAnmeldungEintragComp},
         data: () => ({
@@ -31,35 +32,35 @@
         }),
         computed: {
             anmeldungen: function() {
-              return this.$store.getters.anmeldungen;
+              return this.$vStore.getters.anmeldungen;
             },
-            yesCount: function() {
-                return this.anmeldungen.filter(a => a.type === 0).length;
+            yesCount: function(): number {
+                return this.anmeldungen.filter((a: any) => a.type === 0).length;
             },
-            maybeCount: function() {
-                return this.anmeldungen.filter(a => a.type === 1).length;
+            maybeCount: function(): number {
+                return this.anmeldungen.filter((a: any) => a.type === 1).length;
             },
-            falseCount: function() {
-                return this.anmeldungen.filter(a => a.type === 2).length;
+            falseCount: function(): number {
+                return this.anmeldungen.filter((a: any) => a.type === 2).length;
             },
-            anmeldungCount: function() {
+            anmeldungCount: function(): number[] {
                 return [this.yesCount, this.maybeCount, this.falseCount];
             },
-            showDetailsInHeader: function() {
-                return this.$store.getters.windowWidth > 500;
+            showDetailsInHeader: function(): boolean {
+                return this.$vStore.getters.windowWidth > 500;
             }
         },
         methods: {
-            anmeldungIcon: function(type) {
+            anmeldungIcon: function(type: number): string {
                 const icons = ['check_circle', 'check_circle_outline', 'cancel', 'help'];
                 return icons[type];
             },
-            anmeldungColor: function(type) {
+            anmeldungColor: function(type: number): string {
                 const colors = ['green', 'yellow', 'red', 'grey'];
                 return colors[type];
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

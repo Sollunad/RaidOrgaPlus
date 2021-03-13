@@ -14,26 +14,29 @@
     </div>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import { MyActions } from '@/models/Store/State';
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "ListTerminComp",
         props: ['termin'],
         computed: {
-            headline: function() {
+            headline: function(): string {
                 if (this.termin.no) {
                     return `#${this.termin.no} - ${this.termin.date}`;
                 } else {
                     return this.termin.date;
                 }
             },
-            subline: function() {
+            subline: function(): string {
                 if (this.termin.endtime) {
                     return `${this.termin.time} - ${this.termin.endtime}`;
                 } else {
                     return this.termin.time;
                 }
             },
-            icon: function() {
+            icon: function(): string {
                 if (this.termin) {
                     if (this.termin.type === null) return 'warning';
                     const icons = ['check_circle', 'check_circle_outline', 'cancel'];
@@ -45,10 +48,10 @@
         },
         methods: {
             openTermin: function() {
-                this.$store.dispatch('openTermin', this.termin);
+                this.$vStore.dispatch(MyActions.OpenTermin, this.termin);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

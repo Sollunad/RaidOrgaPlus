@@ -3,7 +3,7 @@
         <v-list-item
                 v-for="(wing, index) in wings"
                 :key="wing.id"
-                @click="">
+                @click="null">
             <v-menu>
                 <template v-slot:activator="{on}">
                     <v-list-item-title v-on="on">Wing {{ index + 1 }}</v-list-item-title>
@@ -18,26 +18,27 @@
     </v-list>
 </template>
 
-<script>
-    import MenuBossComp from "./MenuBossComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import MenuBossComp from "./MenuBossComp.vue";
     import _gamedata from '../../services/endpoints/gamedata';
 
-    export default {
+    export default Vue.extend({
         name: "MenuWingComp",
         props: ['showFC'],
         components: {MenuBossComp},
         data: () => ({
-            wings: [],
+            wings: [] as any[],
         }),
         methods: {
-            pick: function(info) {
+            pick: function(info: any): void {
                 this.$emit('pick', info);
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.wings = await _gamedata.listEncounterGrouped();
         }
-    }
+    })
 </script>
 
 <style scoped>

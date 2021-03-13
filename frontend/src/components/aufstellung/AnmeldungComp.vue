@@ -27,28 +27,33 @@
     </v-btn-toggle>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import { MyActions } from '@/models/Store/State';
+	import Vue, { PropType } from 'vue';
+
+    export default Vue.extend({
         name: "AnmeldungComp",
-        props: ['foreignAnmeldung'],
+        props: {
+			foreignAnmeldung: Object as PropType<any>
+		},
         computed: {
             buttonValue: {
-                get: function() {
+                get: function(): any {
                     if (this.foreignAnmeldung) {
                         return this.foreignAnmeldung;
                     }
-                    return this.$store.getters.anmeldung;
+					return this.$vStore.getters.anmeldung;
                 },
-                set: async function(type){
+                set: async function(type: any): Promise<void> {
                     if (this.foreignAnmeldung) {
                         this.$emit('anmelden', type);
                     } else {
-                        await this.$store.dispatch('anmelden', type);
+						await this.$vStore.dispatch(MyActions.Anmelden, type);
                     }
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

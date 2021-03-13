@@ -6,26 +6,27 @@
     </span>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "BuildFilterButton",
         props: ['role', 'picked'],
         computed: {
-            color: function() {
+            color: function(): string {
                 return this.picked? 'success' : '';
             }
         },
         methods: {
-            click: function() {
+            click: function(): void {
                 this.$emit('click', this.role);
             },
-            roleIcon: function(role) {
+            roleIcon: function(role: any): string {
                 return _icons.roleIcon(role);
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

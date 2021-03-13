@@ -23,12 +23,13 @@
     </div>
 </template>
 
-<script>
-    import MenuClassComp from "../aufstellung/MenuClassComp";
-    import MenuRoleComp from "../aufstellung/MenuRoleComp";
-    import BuildChipComp from "./BuildChipComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import MenuClassComp from "../aufstellung/MenuClassComp.vue";
+    import MenuRoleComp from "../aufstellung/MenuRoleComp.vue";
+    import BuildChipComp from "./BuildChipComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "AddBuildComp",
         data: () => ({
            build: {
@@ -38,19 +39,19 @@
         }),
         components: {BuildChipComp, MenuRoleComp, MenuClassComp},
         methods: {
-            pickClass: function(clss) {
+            pickClass: function(clss: any): void {
                 this.build.class = clss;
             },
-            pickRole: function(role) {
+            pickRole: function(role: any): void {
                 this.build.role = role;
             },
-            addBuild: function() {
+            addBuild: function(): void {
                 this.$emit('add', {class: this.build.class, role: this.build.role});
                 this.build.class = null;
                 this.build.role = null;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

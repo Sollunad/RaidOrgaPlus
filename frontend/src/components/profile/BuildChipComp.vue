@@ -13,49 +13,50 @@
     </v-chip>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "BuildChipComp",
         props: ['close', 'build', 'small', 'disabled', 'star', 'ownProfile'],
         data: () => ({
             chip: true,
         }),
         computed: {
-            classIcon: function() {
+            classIcon: function(): string {
                 if (this.build && this.build.class) return _icons.classIcon(this.build.class.abbr);
                 else return '';
             },
-            roleIcon: function() {
+            roleIcon: function(): string {
                 if (this.build && this.build.role) return _icons.roleIcon(this.build.role.abbr);
                 else return '';
             },
-            color: function() {
+            color: function(): string {
                 if (this.build && this.build.class) return this.build.class.color;
                 else return '';
             },
-            starColor: function() {
+            starColor: function(): string {
                 if (this.build && this.build.prefer) return 'yellow darken-3';
                 else return 'black';
             },
-            starIcon: function() {
+            starIcon: function(): string {
                 if (this.build && this.build.prefer) return 'star';
                 else return 'star_outline';
             }
         },
         methods: {
-            togglePrefer: function() {
+            togglePrefer: function(): void {
                 if (this.ownProfile) {
                     this.$emit('togglePrefer');
                 }
             },
-            closeChip: function() {
+            closeChip: function(): void {
                 this.chip = false;
                 this.$emit('close');
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

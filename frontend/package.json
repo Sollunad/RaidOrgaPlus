@@ -23,16 +23,22 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@mdi/font": "^4.1.95",
+    "@types/websocket": "^1.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "@typescript-eslint/parser": "^4.15.1",
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-eslint": "^3.9.1",
+    "@vue/cli-plugin-typescript": "^4.5.11",
     "@vue/cli-service": "^3.9.0",
-    "babel-eslint": "^10.0.2",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.3",
+    "@vue/eslint-config-typescript": "^7.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.20.0",
+    "eslint-plugin-vue": "^7.6.0",
     "sass": "^1.22.10",
     "sass-loader": "^7.3.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
+    "typescript": "^4.1.5",
     "vue-cli-plugin-vuetify": "^0.4.6",
     "vue-template-compiler": "^2.6.10",
     "vuetify-loader": "^1.2.2"
@@ -44,12 +50,29 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "@vue/typescript/recommended"
+    ],
+    "plugins": [
+      "@typescript-eslint"
     ],
     "rules": {},
     "parserOptions": {
-      "parser": "babel-eslint"
-    }
+      "parser": "@typescript-eslint/parser"
+    },
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"rules": {
+				"@typescript-eslint/explicit-module-boundary-types": [
+					"warn",
+					{
+						"allowArgumentsExplicitlyTypedAsAny": true
+					}
+				]
+			}
+		}
+	]
   },
   "postcss": {
     "plugins": {

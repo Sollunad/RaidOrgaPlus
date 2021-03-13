@@ -21,18 +21,19 @@
     </div>
 </template>
 
-<script>
-    import BuildFilterButtonComp from "./BuildFilterButtonComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import BuildFilterButtonComp from "./BuildFilterButtonComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "BuildFilterButtons",
         components: {BuildFilterButtonComp},
         data: () => ({
             roles: ['P', 'C', 'T', 'H', 'U', 'B'],
-            picked: [],
+            picked: [] as any[],
         }),
         methods: {
-            click: function(role) {
+            click: function(role: any): void {
                 if (!this.isPicked(role)) {
                     this.picked.push(role);
                 } else {
@@ -40,18 +41,18 @@
                 }
                 this.$emit('setFilter', this.roleString());
             },
-            isPicked: function(role) {
+            isPicked: function(role: any): boolean {
                 return this.picked.indexOf(role) !== -1;
             },
-            roleString: function() {
+            roleString: function(): string {
                 return this.picked.join('');
             },
-            reset: function() {
+            reset: function(): void {
                 this.picked = [];
                 this.$emit('setFilter', this.roleString());
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

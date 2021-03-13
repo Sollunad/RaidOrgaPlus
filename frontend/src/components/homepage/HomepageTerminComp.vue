@@ -14,22 +14,25 @@
     </div>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import { MyActions } from '@/models/Store/State';
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "HomepageTerminComp",
         props: ['termin'],
         computed: {
-            headline: function() {
+            headline: function(): string {
                 return `${this.termin.date} (${this.termin.name})`;
             },
-            subline: function() {
+            subline: function(): any {
                 if (this.termin.endtime) {
                     return `${this.termin.time} - ${this.termin.endtime}`;
                 } else {
                     return this.termin.time;
                 }
             },
-            icon: function() {
+            icon: function(): string {
                 if (this.termin) {
                     if (this.termin.type === null) return 'warning';
                     const icons = ['check_circle', 'check_circle_outline', 'cancel'];
@@ -40,12 +43,12 @@
             }
         },
         methods: {
-            openTermin: function() {
+            openTermin: function(): void {
                 const raid = { id: this.termin.raidID, name: this.termin.name, icon: this.termin.icon, role: this.termin.role };
-                this.$store.dispatch('openTerminFromHome', {termin: this.termin, raid: raid});
+                this.$vStore.dispatch(MyActions.OpenTerminFromHome, {termin: this.termin, raid: raid});
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

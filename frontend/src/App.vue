@@ -11,13 +11,16 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import MenuComp from './components/menu/MenuComp.vue';
 
-    import MainPage from "./pages/MainPage";
-    import LoginRegisterPage from "./pages/LoginRegisterPage";
+    import MainPage from "./pages/MainPage.vue";
+    import LoginRegisterPage from "./pages/LoginRegisterPage.vue";
+	import { RootActions } from './models/Store/RootState';
+	import { UserActions } from './models/Store/UserState';
 
-    export default {
+    export default Vue.extend({
       components: {
         LoginRegisterPage,
         MainPage,
@@ -31,39 +34,39 @@
         allowedRoutes: ['preview', 'reset'],
       }),
       computed: {
-          showContent: function() {
-              return this.withoutLoginAllowed || this.$store.getters.loginSuccess;
+          showContent: function(): boolean {
+              return this.withoutLoginAllowed || this.$vStore.getters.loginSuccess;
           },
-          showLogin: function() {
-              return this.$store.getters.loginFailed;
+          showLogin: function(): any {
+              return this.$vStore.getters.loginFailed;
           }
       },
       methods: {
-          onResize: function() {
-              this.$store.dispatch('saveWindowWidth');
+          onResize: function(): void {
+              this.$vStore.dispatch(RootActions.SaveWindowWidth, window.innerWidth);
           },
-          guardRoute: function() {
+          guardRoute: function(): void {
               this.withoutLoginAllowed = this.allowedRoutes.includes(this.$router.currentRoute.path.split('/')[1]);
           }
       },
-      created: async function() {
+      created: async function(): Promise<void> {
           this.guardRoute();
-          await this.$store.dispatch('checkBuild');
-          await this.$store.dispatch('getLoggedInUser');
+          await this.$vStore.dispatch(UserActions.CheckBuild);
+          await this.$vStore.dispatch(UserActions.GetLoggedInUser);
 
           if ('serviceWorker' in navigator) {
               await navigator.serviceWorker.register('service-worker.js');
           }
       },
-      mounted: function() {
+      mounted: function(): void {
           this.onResize();
       },
       watch: {
-          $route: function() {
+          $route: function(): void {
               this.guardRoute();
           }
       }
-  }
+  })
 </script>
 
 <style scoped>

@@ -39,31 +39,34 @@
     </v-dialog>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import { MyActions } from '@/models/Store/State';
+import Vue from 'vue';
+
+    export default Vue.extend({
         name: "ArchiveDialogComp",
         data: () => ({
             newTermin: false,
         }),
         methods: {
-            archiveOK: function() {
-                this.$store.dispatch('archive', this.newTermin);
+            archiveOK: function(): void {
+                this.$vStore.dispatch(MyActions.Archive, this.newTermin);
             },
-            archiveCancel: function() {
-                this.$store.dispatch('closeDialog');
+            archiveCancel: function(): void {
+                this.$vStore.dispatch(MyActions.CloseDialog);
             }
         },
         computed: {
             open: {
-                get: function() {
-                    return this.$store.getters.isDialogOpen('archive');
+                get: function(): any {
+                    return this.$vStore.getters.isDialogOpen('archive');
                 },
-                set: function() {
-                    this.$store.dispatch('closeDialog');
+                set: function(): void {
+                    this.$vStore.dispatch(MyActions.CloseDialog);
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

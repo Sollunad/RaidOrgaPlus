@@ -90,41 +90,46 @@
     </div>
 </template>
 
-<script>
-    import _icons from '../../services/icons.js';
+<script lang="ts">
+	import Vue, { PropType } from 'vue';
+    import _icons from '../../services/icons';
     import _aufstellungen from '../../services/endpoints/aufstellungen';
-    import FileUploadComp from "../reports/FileUploadComp";
+    import FileUploadComp from "../reports/FileUploadComp.vue";
+	import { MyActions } from '@/models/Store/State';
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungHeaderComp",
         components: {FileUploadComp},
-        props: ['aufstellung', 'copyActive'],
+		props: {
+			aufstellung: Object as PropType<any>,
+			copyActive: Boolean
+		},
         data: () => ({
             isCM: false,
             showUpload: false,
-            reportId: null,
+            reportId: '',
             fab: false,
             success: false,
         }),
         computed: {
-            raidRole: function() {
-                return this.$store.getters.raidRole;
+            raidRole: function(): number {
+                return this.$vStore.getters.raidRole;
             },
-            active: function() {
-                return this.$store.getters.isActive;
+            active: function(): any {
+                return this.$vStore.getters.isActive;
             },
-            uploadActive: function() {
-                return this.$store.getters.uploadActive;
+            uploadActive: function(): boolean {
+                return this.$vStore.getters.uploadActive;
             },
-            successColor: function() {
+            successColor: function(): string {
                 if (this.success) return 'green';
                 else return 'white';
             },
-            successIcon: function() {
+            successIcon: function(): string {
                 if (this.success) return 'check_circle';
                 else return 'check_circle_outline';
             },
-            reportLink: function() {
+            reportLink: function(): string | boolean {
                 const baseLink = 'https://sv.rising-light.de:8080/reports/';
                 if (this.reportId) {
                     return `${baseLink}${this.reportId}.html`;
@@ -134,37 +139,37 @@
             }
         },
         methods: {
-            icon: function() {
+            icon: function(): string {
                 if (this.aufstellung) return _icons.encIcon(this.aufstellung.abbr);
                 else return '';
             },
-            deleteBoss: function() {
-                this.$store.dispatch('deleteBoss', this.aufstellung);
+            deleteBoss: function(): void {
+                this.$vStore.dispatch(MyActions.DeleteBoss, this.aufstellung);
             },
-            toggleSuccess: async function() {
+            toggleSuccess: async function(): Promise<void> {
                 if (this.raidRole > 0) {
                     this.success = !this.success;
                     await _aufstellungen.setSuccess(this.aufstellung.id, this.success);
                 }
             },
-            uploadComplete: function(newId) {
+            uploadComplete: function(newId: string): void {
                 this.reportId = newId;
             },
-            toggleCopy: function() {
+            toggleCopy: function(): void {
                 this.$emit('toggleCopy');
             },
-            changeCM: async function() {
+            changeCM: async function(): Promise<void> {
                 this.isCM = !this.isCM;
                 await _aufstellungen.setCM(this.aufstellung.id, this.isCM);
-                await this.$store.dispatch('wsSendRefresh');
+                await this.$vStore.dispatch(MyActions.WsSendRefresh);
             }
         },
-        created: function() {
+        created: function(): void {
             this.reportId = this.aufstellung.report;
             this.success = this.aufstellung.success;
             this.isCM = this.aufstellung.is_cm;
         }
-    }
+    })
 </script>
 
 <style scoped>

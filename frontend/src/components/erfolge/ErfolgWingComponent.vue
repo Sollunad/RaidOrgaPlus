@@ -25,11 +25,12 @@
     </div>
 </template>
 
-<script>
-    import ErfolgComponent from "./ErfolgComponent";
+<script lang="ts">
+	import Vue from 'vue';
+    import ErfolgComponent from "./ErfolgComponent.vue";
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "ErfolgWingComponent",
         components: {ErfolgComponent},
         props: ['allDone', 'wing'],
@@ -38,31 +39,31 @@
             show: false
         }),
         computed: {
-            wingIcon: function() {
+            wingIcon: function(): string {
                 return _icons.wingIcon(this.wing.wing);
             },
-            totalAchievements: function() {
+            totalAchievements: function(): number {
                 return this.wing.achievements.length;
             },
-            complete: function() {
+            complete: function(): boolean {
                 return this.done === this.totalAchievements;
             },
-            textClass: function() {
+            textClass: function(): string {
                 return `doneCount ${this.complete? 'success--text': ''}`
             },
-            dropdownIcon: function() {
-                return this.show? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+            dropdownIcon: function(): string {
+                return this.show ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
             }
         },
         methods: {
-            countDone: function() {
+            countDone: function(): void {
                 this.done++;
             },
-            toggleShow: function() {
+            toggleShow: function(): void {
                 this.show = !this.show;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

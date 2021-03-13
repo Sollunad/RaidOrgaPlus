@@ -29,51 +29,53 @@
     </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
+	import { MyActions } from '@/models/Store/State';
+	import Vue from 'vue';
     import _preview from '../../services/endpoints/preview';
 
-    export default {
+    export default Vue.extend({
         name: "ShareDialogComp",
         data: () => ({
             switched: false,
             copied: false,
         }),
         computed: {
-            termin: function() {
-                return this.$store.getters.termin;
+            termin: function(): any {
+                return this.$vStore.getters.termin;
             },
             switchValue: {
-                get: function() {
+                get: function(): boolean {
                     return this.switched;
                 },
-                set: async function(value) {
+                set: async function(value: boolean): Promise<void> {
                     this.switched = value;
                     await _preview.setPreviewable(this.termin.id, value);
                 }
             },
             open: {
-                get: function() {
-                    return this.$store.getters.isDialogOpen('share');
+                get: function(): boolean {
+                    return this.$vStore.getters.isDialogOpen('share');
                 },
-                set: function() {
-                    this.$store.dispatch('closeDialog');
+                set: function(): void {
+                    this.$vStore.dispatch(MyActions.CloseDialog);
                 }
             },
-            previewLink: function() {
+            previewLink: function(): string {
                 return `https://orga.rising-light.de/#/preview/${this.termin.id}`;
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.switched = await _preview.getPreviewable(this.termin.id);
         },
         methods: {
-            copyLink: async function() {
+            copyLink: async function(): Promise<void> {
                 await navigator.clipboard.writeText(this.previewLink);
                 this.switchValue = true;
                 this.copied = true;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

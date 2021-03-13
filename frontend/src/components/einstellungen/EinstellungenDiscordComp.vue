@@ -17,27 +17,28 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _users from '../../services/endpoints/users';
 
-    export default {
+    export default Vue.extend({
         name: "EinstellungenDiscordComp",
         data: () => ({
             key: null
         }),
         methods: {
-            generateKey: async function() {
+            generateKey: async function(): Promise<void> {
                 this.key = await _users.getDiscordKey();
                 await navigator.clipboard.writeText(`!orga login ${this.key}`);
             }
         },
         computed: {
-            message: function() {
+            message: function(): string {
                 if (this.key) return `!orga login ${this.key}`;
                 else return '';
             }
         },
-    }
+    })
 </script>
 
 <style scoped>

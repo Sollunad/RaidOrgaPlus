@@ -21,41 +21,42 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
     import _gamedata from '../../services/endpoints/gamedata';
 
-    export default {
+    export default Vue.extend({
         name: "MenuSubclassComp",
         props: ['base'],
         data: () => ({
             hovered: null,
-            classes: []
+            classes: [] as any[]
         }),
         methods: {
-            classIcon: function(name) {
+            classIcon: function(name: any): string {
                 return _icons.classIcon(name);
             },
-            pick: function(clss) {
+            pick: function(clss: any): void {
                 this.$emit('pick', clss);
             },
-            enter: function(index) {
+            enter: function(index: any): void {
                 this.hovered = index;
             },
-            leave: function() {
+            leave: function(): void {
                 this.hovered = null;
             },
-            isHovered: function(index) {
+            isHovered: function(index: any): boolean {
                 return this.hovered === index;
             },
-            backgroundColor: function(index) {
+            backgroundColor: function(index: any): string {
                 if (this.isHovered(index)) {
                     return this.darkenColor(this.classes[0].color);
                 } else {
                     return '';
                 }
             },
-            darkenColor: function(color) {
+            darkenColor: function(color: string): string {
                 const rValue = color.slice(1,3);
                 const gValue = color.slice(3,5);
                 const bValue = color.slice(5,7);
@@ -67,7 +68,7 @@
         created: async function() {
             this.classes = await _gamedata.getClassesForBase(this.base);
         }
-    }
+    })
 </script>
 
 <style scoped>

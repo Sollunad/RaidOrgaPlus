@@ -7,16 +7,17 @@
     </div>
 </template>
 
-<script>
-    import RaidToolbarComp from "../components/raid/RaidToolbarComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import RaidToolbarComp from "../components/raid/RaidToolbarComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "RaidPage",
         components: {RaidToolbarComp},
-        created: function() {
-            if (!this.$store.getters.raid) window.location.href = '/#/raids';
+        created: function(): void {
+            if (!this.$vStore.getters.raid) window.location.href = '/#/raids';
         }
-    }
+    })
 </script>
 
 <style scoped>

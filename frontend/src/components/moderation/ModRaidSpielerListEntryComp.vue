@@ -22,22 +22,23 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
     import _moderation from '../../services/endpoints/moderation';
 
-    export default {
+    export default Vue.extend({
         name: "ModRaidSpielerListEntryComp",
         props: ['spieler', 'raid'],
         computed: {
-            avatarLink: function() {
+            avatarLink: function(): string {
                 if (this.spieler.discord) {
                     return this.spieler.discord.avatar;
                 } else {
                     return _icons.miscIcon('raid');
                 }
             },
-            promoteDemoteIcon: function() {
+            promoteDemoteIcon: function(): string {
                 if (this.spieler.role === 2) {
                     return 'star';
                 } else {
@@ -46,20 +47,20 @@
             }
         },
         methods: {
-            openProfile: function() {
+            openProfile: function(): void {
                 this.$router.push(`/profil/${this.spieler.id}`);
             },
-            changePlayerRole: async function() {
+            changePlayerRole: async function(): Promise<void> {
                 const role = this.spieler.role === 2? 0 : 2;
                 await _moderation.setPlayerRole(this.raid.id, this.spieler.id, role);
                 this.$emit('refresh');
             },
-            kick: async function() {
+            kick: async function(): Promise<void> {
                 await _moderation.removeSpieler(this.raid.id, this.spieler.id);
                 this.$emit('refresh');
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

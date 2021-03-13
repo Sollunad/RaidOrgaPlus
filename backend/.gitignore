@@ -69,3 +69,5 @@ server.key
 reports/working
 reports/parsed
 !reports/Parser
+
+dist/

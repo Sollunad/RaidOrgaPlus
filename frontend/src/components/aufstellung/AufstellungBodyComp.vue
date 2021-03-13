@@ -16,14 +16,15 @@
     </div>
 </template>
 
-<script>
-    import AufstellungElementComp from "./AufstellungElementComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import AufstellungElementComp from "./AufstellungElementComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungBodyComp",
         components: {AufstellungElementComp},
         props: ['aufstellung'],
-    }
+    })
 </script>
 
 <style scoped>

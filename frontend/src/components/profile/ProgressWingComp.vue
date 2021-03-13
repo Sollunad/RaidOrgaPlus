@@ -14,38 +14,39 @@
     </div>
 </template>
 
-<script>
-    import ProgressBossComp from "./ProgressBossComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import ProgressBossComp from "./ProgressBossComp.vue";
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "ProgressWingComp",
         components: {ProgressBossComp},
         props: ['bosses', 'progress', 'wing', 'maxWing'],
         methods: {
-            icon: function() {
+            icon: function(): string {
                 return _icons.miscIcon('cotm');
             }
         },
         computed: {
-            isBuffWing: function() {
+            isBuffWing: function(): boolean {
                 return this.isLastWing || this.isRotationWing;
             },
-            isLastWing: function() {
+            isLastWing: function(): boolean {
                 return this.wing === this.maxWing;
             },
-            isRotationWing: function() {
+            isRotationWing: function(): boolean {
                 const timeReference = new Date('2019-01-21T00:00:10');
-                const difference = new Date() - timeReference;
+                const difference = new Date().getDate() - timeReference.getDate();
                 const rotations = Math.floor(difference / (1000*60*60*24*7*2));
                 const rotationWing = rotations % (this.maxWing - 1) + 1;
                 return this.wing === rotationWing;
             },
-            showCotmIcons: function() {
-                return this.$store.getters.windowWidth > 460;
+            showCotmIcons: function(): boolean {
+                return this.$vStore.getters.windowWidth > 460;
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

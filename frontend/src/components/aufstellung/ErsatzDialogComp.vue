@@ -30,41 +30,43 @@
     </div>
 </template>
 
-<script>
-    import NameComp from "../menu/NameComp";
+<script lang="ts">
+	import { MyActions } from '@/models/Store/State';
+	import Vue from 'vue';
+    import NameComp from "../menu/NameComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ErsatzDialogComp",
         components: {NameComp},
         computed: {
-            termin: function() {
-                return this.$store.getters.termin;
+            termin: function(): any {
+                return this.$vStore.getters.termin;
             },
-            raid: function() {
-                return this.$store.getters.raid;
+            raid: function(): any {
+                return this.$vStore.getters.raid;
             },
             open: {
-                get: function() {
-                    return this.$store.getters.isDialogOpen('ersatz');
+                get: function(): boolean {
+                    return this.$vStore.getters.isDialogOpen('ersatz');
                 },
-                set: function() {
-                    this.$store.dispatch('closeDialog');
+                set: function(): void {
+                    this.$vStore.dispatch(MyActions.CloseDialog);
                 }
             },
             ersatz: {
-                get: function() {
-                    return this.$store.getters.ersatzIds;
+                get: function(): any[] {
+                    return this.$vStore.getters.ersatzIds;
                 },
-                set: function(newErsatz) {
-                    this.$store.dispatch('updateErsatz', newErsatz);
+                set: function(newErsatz: any): void {
+                    this.$vStore.dispatch(MyActions.UpdateErsatz, newErsatz);
                 }
             },
-            invitablePlayers: function() {
-                return this.$store.getters.invitablePlayers;
+            invitablePlayers: function(): any[] {
+                return this.$vStore.getters.invitablePlayers;
             }
         },
         methods: {
-            customFilter: function (item, queryText) {
+            customFilter: function (item: any, queryText: string) {
                 const name = item.name.toLowerCase();
                 const accname = item.accname.toLowerCase();
                 const searchText = queryText.toLowerCase();
@@ -73,7 +75,7 @@
                     accname.indexOf(searchText) > -1
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

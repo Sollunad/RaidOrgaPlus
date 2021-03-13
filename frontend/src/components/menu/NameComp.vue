@@ -7,15 +7,17 @@
     </span>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "NameComp",
         props: ['user', 'truncate', 'clickable'],
         data: () => ({
             entered: false,
         }),
         computed: {
-            showName: function() {
+            showName: function(): string {
                 if (this.entered) {
                     if (this.truncate) {
                         const baseName = this.user.accname.split('.')[0];
@@ -34,11 +36,11 @@
             }
         },
         methods: {
-            openProfile: function() {
+            openProfile: function(): void {
                 if (this.user.id > 1 && this.clickable) this.$router.push(`/profil/${this.user.id}`);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

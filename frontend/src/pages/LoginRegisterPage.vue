@@ -4,15 +4,16 @@
     </div>
 </template>
 
-<script>
-    import LoginRegisterComp from '../components/einstellungen/LoginRegisterComp';
+<script lang="ts">
+	import Vue from 'vue';
+    import LoginRegisterComp from '../components/einstellungen/LoginRegisterComp.vue';
 
-    export default {
+    export default Vue.extend({
         name: "LoginPage",
         components: {LoginRegisterComp},
         data: () => ({
         })
-    }
+    })
 </script>
 
 <style scoped>

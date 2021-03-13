@@ -18,7 +18,7 @@
             ></v-text-field>
             <v-btn
                     @click="submit"
-                    :color=buttonColor
+                    :color="buttonColor"
             >
                 {{ buttonText }}
             </v-btn>
@@ -26,33 +26,38 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _users from '../services/endpoints/users';
+	import type { VForm } from '../models/Types';
 
-    export default {
+    export default Vue.extend({
         name: "PasswordResetPage",
         data: () => ({
             valid: true,
             newPassword: '',
             passwordRules: [
-                v => !!v || 'Bitte gib dein Passwort an',
+                (v: string) => !!v || 'Bitte gib dein Passwort an',
             ],
             buttonColor: '',
             buttonText: 'Passwort aktualisieren'
         }),
         computed: {
-            token: function() {
+            token: function(): string {
                 return this.$route.params.token;
             },
             passwordRepeatRules: function() {
                 return [
-                    v => v === this.newPassword || 'Passwörter müssen übcereinstimmen'
+                    (v: string) => v === this.newPassword || 'Passwörter müssen übereinstimmen'
                 ]
-            }
+            },
+			form: function(): VForm {
+				return this.$refs.form as VForm;
+			}
         },
         methods: {
-            async submit() {
-                if (this.$refs.form.validate()) {
+            async submit(): Promise<void> {
+                if (this.form.validate()) {
                     if (this.token) {
                         const response = await _users.resetPassword(this.token, this.newPassword);
                         if (response.length > 0) {
@@ -66,7 +71,7 @@
                 }
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

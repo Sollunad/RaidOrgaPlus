@@ -41,45 +41,50 @@
     </div>
 </template>
 
-<script>
-    import _icons from '../../services/icons.js';
+<script lang="ts">
+	import Vue, { PropType } from 'vue';
+    import _icons from '../../services/icons';
     import _aufstellungen from '../../services/endpoints/aufstellungen';
-    import MenuClassComp from "./MenuClassComp";
-    import MenuRoleComp from "./MenuRoleComp";
-    import MenuNameComp from "./MenuNameComp";
-    import NameComp from "../menu/NameComp";
+    import MenuClassComp from "./MenuClassComp.vue";
+    import MenuRoleComp from "./MenuRoleComp.vue";
+    import MenuNameComp from "./MenuNameComp.vue";
+    import NameComp from "../menu/NameComp.vue";
+import { MyActions } from '@/models/Store/State';
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungElementComp",
         components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
-        props: ['aufstellung', 'position'],
+		props: {
+			aufstellung: Object as PropType<any>,
+			position: Number
+		},
         data: () => ({
             classMenuOpen: false,
             //element: null,
         }),
         computed: {
-            editAllowed: function() {
-                return this.$store.getters.isActive && (!this.$store.getters.isLocked || this.$store.getters.raidRole > 0);
+            editAllowed: function(): boolean {
+                return this.$vStore.getters.isActive && (!this.$vStore.getters.isLocked || this.$vStore.getters.raidRole > 0);
             },
-            element: function() {
-                return this.$store.getters.elementForPosition(this.aufstellung.id, this.position);
+            element: function(): any {
+                return this.$vStore.getters.elementForPosition(this.aufstellung.id, this.position);
             },
-            isNameDoubled: function() {
+            isNameDoubled: function(): any {
                 if (!this.element || !this.element.name || this.element.id <= 1) return false;
-                return this.$store.getters.isNameDoubled(this.aufstellung, this.element.name);
+                return this.$vStore.getters.isNameDoubled(this.aufstellung, this.element.name);
             },
-            classIcon: function() {
+            classIcon: function(): string {
                 if (this.element && this.element.class !== '') return _icons.classIcon(this.element.class);
                 else return '';
             },
-            roleIcon: function() {
+            roleIcon: function(): string {
                 if (this.element && this.element.role !== '') return _icons.roleIcon(this.element.role);
                 else return '';
             },
-            emptyIcon: function() {
+            emptyIcon: function(): string {
                 return _icons.miscIcon('empty');
             },
-            user: function() {
+            user: function(): any {
                 if (this.element) return {
                     id: this.element.id, name: this.element.name, accname: this.element.accname
                 };
@@ -87,16 +92,16 @@
                     id: 0, name: '???', accname: '???'
                 };
             },
-            isSelfUser: function() {
-                if (!this.element || !this.$store.getters.loggedInUser) return false;
-                const selfAccName = this.$store.getters.loggedInUser.accname;
+            isSelfUser: function(): boolean {
+                if (!this.element || !this.$vStore.getters.loggedInUser) return false;
+                const selfAccName = this.$vStore.getters.loggedInUser.accname;
                 return this.element.accname === selfAccName;
             },
         },
         methods: {
-            pickClass: async function(clss) {
+            pickClass: async function(clss: any) {
                 this.classMenuOpen = false;
-                await this.$store.dispatch('pickClass', {
+                await this.$vStore.dispatch(MyActions.PickClass, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                     clss
@@ -104,14 +109,14 @@
                 this.loadElementFromStore();
             },
             clearClass: async function() {
-                await this.$store.dispatch('clearClass', {
+                await this.$vStore.dispatch(MyActions.ClearClass, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                 });
                 this.loadElementFromStore();
             },
-            pickRole: async function(role) {
-                await this.$store.dispatch('pickRole', {
+            pickRole: async function(role: any) {
+                await this.$vStore.dispatch(MyActions.PickRole, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                     role
@@ -119,14 +124,14 @@
                 this.loadElementFromStore();
             },
             clearRole: async function() {
-                await this.$store.dispatch('clearRole', {
+                await this.$vStore.dispatch(MyActions.ClearRole, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                 });
                 this.loadElementFromStore();
             },
-            pickName: async function(user) {
-                await this.$store.dispatch('pickName', {
+            pickName: async function(user: any) {
+                await this.$vStore.dispatch(MyActions.PickName, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                     user
@@ -134,20 +139,20 @@
                 this.loadElementFromStore();
             },
             clearName: async function() {
-                await this.$store.dispatch('clearName', {
+                await this.$vStore.dispatch(MyActions.ClearName, {
                     aufstellung: this.aufstellung.id,
                     position: this.position,
                 });
                 this.loadElementFromStore();
             },
             loadElementFromStore: function() {
-                //this.element = this.$store.getters.elementForPosition(this.aufstellung, this.position);
+                //this.element = this.$vStore.getters.elementForPosition(this.aufstellung, this.position);
             }
         },
         created: function() {
             this.loadElementFromStore();
         }
-    }
+    })
 </script>
 
 <style scoped>

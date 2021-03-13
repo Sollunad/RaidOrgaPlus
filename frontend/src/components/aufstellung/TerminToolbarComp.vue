@@ -109,66 +109,68 @@
     </div>
 </template>
 
-<script>
-    import MenuWingComp from "./MenuWingComp";
-    import AnmeldungComp from "./AnmeldungComp";
-    import ListAnmeldungComp from "./ListAnmeldungComp";
-    import KommentarComp from "./KommentarComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import MenuWingComp from "./MenuWingComp.vue";
+    import AnmeldungComp from "./AnmeldungComp.vue";
+    import ListAnmeldungComp from "./ListAnmeldungComp.vue";
+    import KommentarComp from "./KommentarComp.vue";
+	import { MyActions } from '@/models/Store/State';
 
-    export default {
+    export default Vue.extend({
         name: "TerminToolbarComp",
         components: {KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp},
         computed: {
-            headline: function() {
+            headline: function(): string {
               if (this.termin.endtime) {
                   return `${this.termin.date} ${this.termin.time} - ${this.termin.endtime}`;
               } else {
                   return `${this.termin.date} ${this.termin.time}`;
               }
             },
-            lockIcon: function() {
-                return this.locked? 'lock' : 'lock_open';
+            lockIcon: function(): string {
+                return this.locked ? 'lock' : 'lock_open';
             },
-            locked: function() {
-                return this.$store.getters.isLocked;
+            locked: function(): any {
+                return this.$vStore.getters.isLocked;
             },
-            role: function() {
-                return this.$store.getters.raidRole;
+            role: function(): any {
+                return this.$vStore.getters.raidRole;
             },
-            termin: function() {
-                return this.$store.getters.termin;
+            termin: function(): any {
+                return this.$vStore.getters.termin;
             },
-            active: function() {
-                return this.$store.getters.isActive;
+            active: function(): any {
+                return this.$vStore.getters.isActive;
             },
         },
         methods: {
-            addBoss: function(info) {
-                this.$store.dispatch('addBoss', info);
+            addBoss: function(info: any): void {
+                this.$vStore.dispatch(MyActions.AddBoss, info);
             },
-            openArchiveDialog: function() {
-                this.$store.dispatch('openDialog', 'archive');
+            openArchiveDialog: function(): void {
+                this.$vStore.dispatch(MyActions.OpenDialog, 'archive');
             },
-            refresh: function() {
-                this.$store.dispatch('refresh');
+            refresh: function(): void {
+                this.$vStore.dispatch(MyActions.Refresh);
             },
-            toggleLocked: async function() {
-                await this.$store.dispatch('toggleLocked');
+            toggleLocked: async function(): Promise<void> {
+                await this.$vStore.dispatch(MyActions.ToggleLocked);
             },
-            openDeleteDialog: function() {
-                this.$store.dispatch('openDialog', 'delete');
+            openDeleteDialog: function(): void {
+                this.$vStore.dispatch(MyActions.OpenDialog, 'delete');
             },
-            openShareDialog: function() {
-                this.$store.dispatch('openDialog', 'share');
+            openShareDialog: function(): void {
+                this.$vStore.dispatch(MyActions.OpenDialog, 'share');
             },
-            openErsatzDialog: function() {
-                this.$store.dispatch('openDialog', 'ersatz');
+            openErsatzDialog: function(): void {
+                this.$vStore.dispatch(MyActions.OpenDialog, 'ersatz');
             },
-            uploadLog: function() {
-                this.$store.dispatch('toggleUpload');
+            uploadLog: function(): void {
+                this.$vStore.dispatch(MyActions.ToggleUpload);
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -31,7 +31,7 @@
             ></v-text-field>
             <v-btn
                     @click="submit"
-                    :color=buttonColor
+                    :color="buttonColor"
             >
                 {{ buttonText }}
             </v-btn>
@@ -39,31 +39,36 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import { VForm } from '@/models/Types';
+	import Vue from 'vue';
     import _users from '../../services/endpoints/users';
 
-    export default {
+    export default Vue.extend({
         name: "ProfilePasswordComp",
         data: () => ({
             valid: true,
             oldPassword: '',
             newPassword: '',
             passwordRules: [
-                v => !!v || 'Bitte gib dein Passwort an',
+                (v: string) => !!v || 'Bitte gib dein Passwort an',
             ],
             buttonColor: '',
             buttonText: 'Passwort aktualisieren'
         }),
         computed: {
-            passwordRepeatRules: function() {
+            passwordRepeatRules: function(): any {
                 return [
-                    v => v === this.newPassword || 'Passwörter müssen übereinstimmen'
+                    (v: string) => v === this.newPassword || 'Passwörter müssen übereinstimmen'
                 ]
-            }
+            },
+			form: function(): VForm {
+				return this.$refs.form as VForm;
+			}
         },
         methods: {
-            async submit() {
-                if (this.$refs.form.validate()) {
+            async submit(): Promise<void> {
+                if (this.form.validate()) {
                     const response = await _users.changePassword(this.oldPassword, this.newPassword);
                     if (response) {
                         this.buttonText = 'success';
@@ -72,6 +77,7 @@
                         this.buttonText = 'Passwort falsch';
                         this.buttonColor = 'error';
                     }
+                    // eslint-disable-next-line @typescript-eslint/no-this-alias
                     const that = this;
                     setTimeout(function() {
                         that.buttonColor = '';
@@ -80,7 +86,7 @@
                 }
             },
         }
-    }
+    })
 </script>
 
 <style scoped>

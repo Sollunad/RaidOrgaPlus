@@ -4,13 +4,15 @@
     </div>
 </template>
 
-<script>
-    import ModListUserBodyRoleComp from "./ModListUserBodyRoleComp";
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+    import ModListUserBodyRoleComp from "./ModListUserBodyRoleComp.vue";
+
+    export default Vue.extend({
         name: "ModListUserBodyRolesComp",
         components: {ModListUserBodyRoleComp},
         props: ['roles']
-    }
+    })
 </script>
 
 <style scoped>

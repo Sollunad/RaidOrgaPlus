@@ -16,25 +16,26 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _gamedata from '../../services/endpoints/gamedata';
     import _progress from '../../services/endpoints/progress';
-    import ErfolgWingComponent from "./ErfolgWingComponent";
+    import ErfolgWingComponent from "./ErfolgWingComponent.vue";
 
-    export default {
+    export default Vue.extend({
         name: "ErfolgeComp",
         components: {ErfolgWingComponent},
         props: ['ownProfile', 'user'],
         data: () => ({
-            achievements: [],
-            allDone: [],
+            achievements: [] as any[],
+            allDone: [] as any[],
         }),
-        created: async function() {
+        created: async function(): Promise<void> {
             this.achievements = await _gamedata.getAchievements();
-            if (this.ownProfile) this.allDone = await _progress.achievements();
+            if (this.ownProfile) this.allDone = await _progress.achievements(null);
             else this.allDone = await _progress.achievements(this.user.id);
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -30,33 +30,34 @@
     </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _users from '../../services/endpoints/users';
 
-    export default {
+    export default Vue.extend({
         name: "PasswordForgotDialog",
         props: ['open'],
         data: () => ({
             accname: '',
             accNameRules: [
-                v => !!v || 'Bitte gib deinen Accountnamen an',
-                v => /^[a-zA-Z\s]+.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
+                (v: string) => !!v || 'Bitte gib deinen Accountnamen an',
+                (v: string) => /^[a-zA-Z\s]+.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
             ],
             buttonText: 'E-Mail senden',
             buttonClicked: false,
         }),
         computed: {
             openComputed: {
-                get: function() {
+                get: function(): any {
                     return this.open;
                 },
-                set: function() {
+                set: function(): void {
                     this.$emit('close');
                 }
             }
         },
         methods: {
-            resetPassword: async function() {
+            resetPassword: async function(): Promise<void> {
                 if (!this.buttonClicked) {
                     this.buttonClicked = true;
                     if (/^[a-zA-Z]+.\d{4}$/.test(this.accname)) {
@@ -69,7 +70,7 @@
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

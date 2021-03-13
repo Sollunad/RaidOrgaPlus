@@ -15,17 +15,18 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _icons from '../../services/icons';
 
-    export default {
+    export default Vue.extend({
         name: "MenuRoleComp",
         props: ['showStar'],
         methods: {
-            roleIcon: function(name) {
+            roleIcon: function(name: any): string {
                 return _icons.roleIcon(name);
             },
-            pick: function(role) {
+            pick: function(role: any) {
                 this.$emit('pick', role);
             }
         },
@@ -46,7 +47,7 @@
                 return roles;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

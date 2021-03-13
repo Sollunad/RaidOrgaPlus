@@ -31,21 +31,22 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _raids from '../../services/endpoints/raids';
-    import NameComp from "../menu/NameComp";
+    import NameComp from "../menu/NameComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "SpielerEinladenComp",
         components: {NameComp},
         props: ['raid'],
         data: () => ({
             disabled: false,
             invited: null,
-            invitablePlayers: [],
+            invitablePlayers: [] as any[],
         }),
         methods: {
-            customFilter: function (item, queryText) {
+            customFilter: function (item: any, queryText: string): boolean {
                 const name = item.name.toLowerCase();
                 const accname = item.accname.toLowerCase();
                 const searchText = queryText.toLowerCase();
@@ -55,7 +56,7 @@
             }
         },
         watch: {
-            invited: async function (newValue, oldValue) {
+            invited: async function (newValue: any[], oldValue: any[]): Promise<any> {
                 if (oldValue === null) return;
                 const invitedPlayer = newValue.find(player => !oldValue.includes(player));
                 const deletedPlayer = oldValue.find(player => !newValue.includes(player));
@@ -66,12 +67,12 @@
                 }
             }
         },
-        created: async function() {
+        created: async function(): Promise<void> {
             this.invited = await _raids.pendingInvitesForRaid(this.raid.id);
             this.invitablePlayers = await _raids.invitablePlayers(this.raid.id);
 
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -65,3 +65,5 @@ config.json
 !services/config.json
 
 stores/
+
+dist/

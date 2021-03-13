@@ -6,18 +6,19 @@
     </div>
 </template>
 
-<script>
-    import NeuerTerminComp from "../../components/raid/NeuerTerminComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import NeuerTerminComp from "../../components/raid/NeuerTerminComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "NeuerTerminPage",
         components: {NeuerTerminComp},
         computed: {
-            showNeuerTermin: function() {
-                return this.$store.getters.raidRole > 0;
+            showNeuerTermin: function(): boolean {
+                return this.$vStore.getters.raidRole > 0;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

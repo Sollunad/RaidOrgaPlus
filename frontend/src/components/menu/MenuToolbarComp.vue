@@ -37,44 +37,45 @@
     </v-app-bar>
 </template>
 
-<script>
+<script lang="ts">
+	import Vue from 'vue';
     import _users from '../../services/endpoints/users';
     import _cookies from '../../services/util/cookies';
 
-    export default {
+    export default Vue.extend({
         name: "MenuToolbarComp",
         props: ['loggedIn'],
         data: () => ({
             showBuildCheck: false,
         }),
         computed: {
-            buildCheckSuccess: function() {
-                return this.$store.getters.buildCheck;
+            buildCheckSuccess: function(): boolean {
+                return this.$vStore.getters.buildCheck;
             },
-            buildCheckIcon: function() {
-                return this.buildCheckSuccess? 'verified_user' : 'update';
+            buildCheckIcon: function(): string {
+                return this.buildCheckSuccess ? 'verified_user' : 'update';
             },
-            showWarning: function() {
+            showWarning: function(): boolean {
                 return this.showBuildCheck || !this.buildCheckSuccess;
             },
-            frontendBuild: function() {
-                return this.$store.getters.frontendBuild;
+            frontendBuild: function(): string {
+                return this.$vStore.getters.frontendBuild;
             },
-            backendBuild: function() {
-                return this.$store.getters.backendBuild;
+            backendBuild: function(): any {
+                return this.$vStore.getters.backendBuild;
             }
         },
         methods: {
-            logout: async function() {
+            logout: async function(): Promise<void> {
                 await _users.invalidateSession();
                 _cookies.deleteCookie('session');
                 window.location.reload();
             },
-            refreshPage: function() {
+            refreshPage: function(): void {
                 window.location.reload();
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

@@ -42,8 +42,10 @@
     </div>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "ChangelogComp",
         data: () => ({
             versions: [
@@ -142,11 +144,12 @@
                         'Meine Builds',
                         'Weekly Progress',
                         'LI / LD',
-                    ]
+                    ],
+					subversions: []
                 },
             ],
         })
-    }
+    })
 </script>
 
 <style scoped>

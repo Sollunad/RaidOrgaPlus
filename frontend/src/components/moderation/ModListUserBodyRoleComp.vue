@@ -2,12 +2,14 @@
     <v-chip :text-color="color" class="rolechip" >{{role.name}}</v-chip>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+
+    export default Vue.extend({
         name: "ModListUserBodyRoleComp",
         props: ['role'],
         computed: {
-            color: function() {
+            color: function(): string {
                 if (this.role.color === '#000000') {
                     return '#ffffff';
                 } else {
@@ -15,7 +17,7 @@
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

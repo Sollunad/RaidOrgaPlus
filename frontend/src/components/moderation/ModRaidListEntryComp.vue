@@ -14,28 +14,31 @@
     </v-expansion-panel>
 </template>
 
-<script>
-    import ModRaidSpielerListComp from "./ModRaidSpielerListComp";
-    import ModRaidSpielerEinladenComp from "./ModRaidSpielerEinladenComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import ModRaidSpielerListComp from "./ModRaidSpielerListComp.vue";
+    import ModRaidSpielerEinladenComp from "./ModRaidSpielerEinladenComp.vue";
     import _moderation from '../../services/endpoints/moderation';
 
-    export default {
+	type VInvitable = Vue & { refreshInvitable: () => Promise<void> }
+
+    export default Vue.extend({
         name: "ModRaidListEntryComp",
         components: {ModRaidSpielerEinladenComp, ModRaidSpielerListComp},
         props: ['raid'],
         data: () => ({
-            spieler: [],
+            spieler: [] as any[],
         }),
         methods: {
-            refresh: async function() {
+            refresh: async function(): Promise<void> {
                 this.spieler = await _moderation.getSpielerForRaid(this.raid.id);
-                await this.$refs.einladen.refreshInvitable();
+                await (this.$refs.einladen as VInvitable).refreshInvitable();
             },
         },
         mounted: function() {
             this.spieler = this.raid.spieler;
         }
-    }
+    })
 </script>
 
 <style scoped>

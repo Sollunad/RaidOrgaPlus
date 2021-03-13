@@ -34,22 +34,23 @@
     </div>
 </template>
 
-<script>
-    import _icons from '../../services/icons.js';
+<script lang="ts">
+	import Vue from 'vue';
+    import _icons from '../../services/icons';
     import _blankos from '../../services/endpoints/blankos';
-    import MenuClassComp from "../aufstellung/MenuClassComp";
-    import MenuRoleComp from "../aufstellung/MenuRoleComp";
+    import MenuClassComp from "../aufstellung/MenuClassComp.vue";
+    import MenuRoleComp from "../aufstellung/MenuRoleComp.vue";
 
-    export default {
+    export default Vue.extend({
         name: "BlankoElementComp",
         components: {MenuRoleComp, MenuClassComp},
         props: ['raid', 'boss', 'position', 'propElement', 'role'],
         data: () => ({
             classMenuOpen: false,
-            editedElement: null
+            editedElement: null as any
         }),
         computed: {
-            element: function() {
+            element: function(): any {
                 if (this.editedElement) {
                     return this.editedElement;
                 } else if (this.propElement) {
@@ -58,41 +59,41 @@
                     return null;
                 }
             },
-            classIcon: function() {
+            classIcon: function(): string {
                 if (this.element && this.element.class !== '') return _icons.classIcon(this.element.class);
                 else return '';
             },
-            roleIcon: function() {
+            roleIcon: function(): string {
                 if (this.element && this.element.role !== '') return _icons.roleIcon(this.element.role);
                 else return '';
             },
-            emptyIcon: function() {
+            emptyIcon: function(): string {
                 return _icons.miscIcon('empty');
             },
         },
         methods: {
-            pickClass: async function(clss) {
+            pickClass: async function(clss: any): Promise<void> {
                 this.classMenuOpen = false;
                 this.prepareEditedElement();
                 this.editedElement.class = clss.abbr;
                 await _blankos.setClass(this.raid.id, this.boss.id, this.position, clss.id);
             },
-            clearClass: async function() {
+            clearClass: async function(): Promise<void> {
                 this.prepareEditedElement();
                 this.editedElement.class = '';
                 await _blankos.setClass(this.raid.id, this.boss.id, this.position, 0);
             },
-            pickRole: async function(role) {
+            pickRole: async function(role: any): Promise<void> {
                 this.prepareEditedElement();
                 this.editedElement.role = role.abbr;
                 await _blankos.setRole(this.raid.id, this.boss.id, this.position, role.id);
             },
-            clearRole: async function() {
+            clearRole: async function(): Promise<void> {
                 this.prepareEditedElement();
                 this.editedElement.role = '';
                 await _blankos.setRole(this.raid.id, this.boss.id, this.position, 0);
             },
-            prepareEditedElement: function() {
+            prepareEditedElement: function(): void {
                 if (!this.element) {
                     this.editedElement = {class: '', role: ''};
                 } else {
@@ -101,11 +102,11 @@
             },
         },
         watch: {
-            propElement: function() {
+            propElement: function(): void {
                 this.editedElement = null;
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

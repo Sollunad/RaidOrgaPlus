@@ -4,13 +4,15 @@
     </div>
 </template>
 
-<script>
-    import ModListUserGuildLogEntryComp from "./ModListUserGuildLogEntryComp";
-    export default {
+<script lang="ts">
+	import Vue from 'vue';
+    import ModListUserGuildLogEntryComp from "./ModListUserGuildLogEntryComp.vue";
+
+    export default Vue.extend({
         name: "ModListUserGuildLogComp",
         components: {ModListUserGuildLogEntryComp},
         props: ['log']
-    }
+    })
 </script>
 
 <style scoped>

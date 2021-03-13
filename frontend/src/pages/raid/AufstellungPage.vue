@@ -28,55 +28,57 @@
     </div>
 </template>
 
-<script>
-    import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp";
-    import AufstellungComp from '../../components/aufstellung/AufstellungComp';
-    import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp";
-    import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp";
-    import ShareDialogComp from "../../components/aufstellung/ShareDialogComp";
-    import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp";
+<script lang="ts">
+	import Vue from 'vue';
+    import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp.vue";
+    import AufstellungComp from '../../components/aufstellung/AufstellungComp.vue';
+    import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp.vue";
+    import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp.vue";
+    import ShareDialogComp from "../../components/aufstellung/ShareDialogComp.vue";
+    import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp.vue";
+	import { MyActions } from "@/models/Store/State";
 
-    export default {
+    export default Vue.extend({
         name: "AufstellungPage",
         components: {
             ErsatzDialogComp,
             ShareDialogComp, DeleteDialogComp, ArchiveDialogComp, TerminToolbarComp, AufstellungComp},
         methods: {
             refresh: async function() {
-                await this.$store.dispatch('refresh');
+                await this.$vStore.dispatch(MyActions.Refresh);
             },
         },
         computed: {
-            wsOutput: function() {
-                return this.$store.getters.wsOutput;
+            wsOutput: function(): any {
+                return this.$vStore.getters.wsOutput;
             },
-            ersatzspieler: function() {
-                return this.$store.getters.ersatzspieler;
+            ersatzspieler: function(): any {
+                return this.$vStore.getters.ersatzSpieler;
             },
-            aufstellungen: function() {
-                return this.$store.getters.aufstellungen;
+            aufstellungen: function(): any {
+                return this.$vStore.getters.aufstellungen;
             }
         },
-        created: async function() {
-            if (!this.$store.getters.termin) window.location.href = '/#/raids';
+        created: async function(): Promise<void> {
+            if (!this.$vStore.getters.termin) window.location.href = '/#/raids';
             else {
-                await this.$store.dispatch('loadAufstellungen');
+                await this.$vStore.dispatch(MyActions.LoadAufstellungen);
             }
         },
-        beforeDestroy: async function() {
-            await this.$store.dispatch('closeWS');
+        beforeDestroy: async function(): Promise<void> {
+            await this.$vStore.dispatch(MyActions.CloseWS);
         },
         watch: {
-            wsOutput: async function(value) {
+            wsOutput: async function(value): Promise<void> {
                 if (value) {
-                    await this.$store.dispatch('clearWS');
+                    await this.$vStore.dispatch(MyActions.ClearWS);
                     if (value === 'Refresh') {
                         this.refresh();
                     }
                 }
             }
         }
-    }
+    })
 </script>
 
 <style scoped>
