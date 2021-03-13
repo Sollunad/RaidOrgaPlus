@@ -1,15 +1,16 @@
 import { MessageEmbed } from "discord.js";
 import * as _icons from "../icons";
 import * as _kalender from "../endpoints/kalender";
+import { DiscordClient } from "../../models/DiscordClient";
 
 export function defaultEmbed() {
     return new MessageEmbed()
         .setColor('#F55535')
         .setTimestamp()
-        .setFooter('RaidOrga+', _icons.miscIcon('raid'))
+        .setFooter('RaidOrga+', _icons.miscIcon('raid'));
 }
 
-export function terminEmbed(client, raidName, termin, aufstellungen, anmeldungen) {
+export function terminEmbed(client: DiscordClient, raidName: string, termin: any, aufstellungen: any[], anmeldungen: any[]) {
     const emojis = getAnmeldeEmojis(client);
     let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}${a.is_cm? ' CM' : ''}`).join('\n');
     if (allBosses === '') allBosses = 'Keine';
@@ -22,10 +23,10 @@ export function terminEmbed(client, raidName, termin, aufstellungen, anmeldungen
         .addField('Anmeldungen', anmeldungenString);
 }
 
-function getAnmeldeEmojis(client) {
-    const emojiYes = client.emojis.find(emoji => emoji.name === 'yes');
-    const emojiMaybe = client.emojis.find(emoji => emoji.name === 'maybe');
-    const emojiNo = client.emojis.find(emoji => emoji.name === 'no');
+function getAnmeldeEmojis(client: DiscordClient) {
+    const emojiYes = client.emojis.cache.find(emoji => emoji.name === 'yes');
+    const emojiMaybe = client.emojis.cache.find(emoji => emoji.name === 'maybe');
+    const emojiNo = client.emojis.cache.find(emoji => emoji.name === 'no');
     return [emojiYes, emojiMaybe, emojiNo];
 }
 
@@ -64,9 +65,9 @@ async function getTermine() {
     return weekdays_shifted;
 }
 
-function formatDate(date) {
+function formatDate(date: any) {
     let day = date.getDate();
-    day = day < 10? `0${day}` : day;
+    day = day < 10 ? `0${day}` : day;
     let month = date.getMonth();
     const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
     const weekday = date.getDay();
@@ -75,20 +76,20 @@ function formatDate(date) {
 
 }
 
-function mapTermin(termin) {
+function mapTermin(termin: any) {
     return {
         id: termin.id,
         date: new Date(termin.date),
         time: termin.time.slice(0,5),
         endtime: termin.endtime? termin.endtime.slice(0,5) : null,
         raid: termin.name
-    }
+    };
 }
 
-function terminToString(termin) {
+function terminToString(termin: any) {
     if (termin.endtime) {
-        return `${termin.time} - ${termin.endtime} | ${termin.raid}\n`
+        return `${termin.time} - ${termin.endtime} | ${termin.raid}\n`;
     } else {
-        return `${termin.time}         | ${termin.raid}\n`
+        return `${termin.time}         | ${termin.raid}\n`;
     }
 }

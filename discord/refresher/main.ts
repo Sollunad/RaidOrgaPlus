@@ -38,7 +38,7 @@ function refreshMessage(client: DiscordClient, messageId) {
 				await resendKalenderEmbed(messageObject);
 			}
 		}).catch((error) => {
-			_messages.deleteMessage(messageId)
+			console.error(error);
 		});
 	}
 }

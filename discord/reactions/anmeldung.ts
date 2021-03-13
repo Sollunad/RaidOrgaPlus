@@ -2,10 +2,12 @@ import * as _termine from "../services/endpoints/termine";
 import * as _sessions from "../services/store/sessions";
 import * as _refresher from "../refresher/main";
 import * as _util from "../services/util/util";
+import { DiscordClient } from "../models/DiscordClient";
+import { MessageReaction, User } from "discord.js";
 
 export { anmeldungHandler };
 
-async function anmeldungHandler(client, messageInfo, reaction, user) {
+async function anmeldungHandler(client: DiscordClient, messageInfo, reaction: MessageReaction, user: User) {
     const session = _sessions.getSession(user.id);
     const termin = messageInfo.termin;
     if (_util.isTerminInPast(termin)) {
