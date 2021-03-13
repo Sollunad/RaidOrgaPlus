@@ -16,7 +16,7 @@ async function reactionHandler(client: DiscordClient, eventData) {
         const user = client.users.cache.find(user => user.id === userId);
         if (channel.isText()) {
 			channel.messages.fetch(messageId).then(async (messageObject) => {
-				const emojiName = eventData.emoji.id? `${eventData.emoji.name}:${eventData.emoji.id}` : eventData.emoji.name;
+				const emojiName = eventData.emoji.id ? eventData.emoji.id : eventData.emoji.name;
 				const reaction = messageObject.reactions.cache.get(emojiName);
 	
 				if (messageInfo.type === "termin") {

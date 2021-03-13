@@ -3,7 +3,7 @@ import * as _sessions from "../services/store/sessions";
 import * as _refresher from "../refresher/main";
 import * as _util from "../services/util/util";
 import { DiscordClient } from "../models/DiscordClient";
-import { MessageReaction, User } from "discord.js";
+import { Message, MessageReaction, User } from "discord.js";
 
 export { anmeldungHandler };
 
@@ -26,9 +26,9 @@ async function anmeldungHandler(client: DiscordClient, messageInfo, reaction: Me
     }
 }
 
-function startDeleteReplyTimer(reply) {
+function startDeleteReplyTimer(reply: Message) {
     const waitTime = 1000 * 10;
-    reply.delete(waitTime);
+    reply.delete({ timeout: waitTime });
 }
 
 function getAnmeldungType(emoji) {

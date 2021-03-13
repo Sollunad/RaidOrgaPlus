@@ -4,6 +4,7 @@ import * as _aufstellungen from "../services/endpoints/aufstellungen";
 import * as _embeds from "../services/util/embedProvider";
 import * as _icons from "../services/icons";
 import * as _messages from "../services/store/messages";
+import { GuildEmoji } from "discord.js";
 
 exports.run = async (client: DiscordClient, message: DiscordMessage, args: number[]) => {
     if (!message.raid) {
@@ -47,9 +48,22 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
                     Embed: 1 Termin
                  */
                 const anmeldungen = await _termine.getAnmeldungen(message.auth, termin.id);
-                const emojiYes = client.emojis.cache.find(emoji => emoji.name === 'yes');
-                const emojiMaybe = client.emojis.cache.find(emoji => emoji.name === 'maybe');
-                const emojiNo = client.emojis.cache.find(emoji => emoji.name === 'no');
+                let emojiYes: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'yes');
+                let emojiMaybe: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'maybe');
+                let emojiNo: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'no');
+
+				if (emojiYes == null) {
+					emojiYes = "🟢"
+				}
+
+				if (emojiMaybe == null) {
+					emojiMaybe = "🟡"
+				}
+
+				if (emojiNo == null) {
+					emojiNo = "🔴"
+				}
+
                 const embed = _embeds.terminEmbed(client, message.raid.name, termin, aufstellungen, anmeldungen);
                 message.channel.send(embed)
                     .then(msg => msg.react(emojiYes))
