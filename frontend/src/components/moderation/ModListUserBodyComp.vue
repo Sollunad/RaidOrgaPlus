@@ -3,7 +3,14 @@
         <div class="subheading textLine"><span class="font-weight-bold">Zuletzt online:</span> {{lastActive}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Erste Raid-Anmeldung:</span> {{firstTermin}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Letzte Raid-Anmeldung:</span> {{lastTermin}}</div>
-        <v-divider class="divider" v-if="hasDiscord || isInGuild"></v-divider>
+        <v-divider class="divider" v-if="hasExtraAccounts || hasDiscord || isInGuild"></v-divider>
+		<div v-if="hasExtraAccounts">
+			<div class="headline heading">Extra Accounts</div>
+			<span v-for="(account, i) in user.extraAccounts" :key="i">
+				<div class="subheading textLine"><span class="font-weight-bold">Account {{i + 1}}:</span> {{account.accName}}</div>
+			</span>
+		</div>
+		<v-divider class="divider" v-if="hasExtraAccounts && (hasDiscord || isInGuild)"></v-divider>
         <div v-if="hasDiscord">
             <div class="headline heading">Discord</div>
             <ModListUserBodyRolesComp
@@ -58,7 +65,7 @@
             discordJoinDate: function(): string {
                 if (this.hasDiscord) {
                     const date = new Date(this.user.discord.joined);
-                    const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+                    const dateOptions: any = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
                     return date.toLocaleDateString('de-DE', dateOptions);
                 } else {
                     return '';
@@ -67,7 +74,7 @@
             guildJoinDate: function(): string {
                 if (this.isInGuild) {
                     const date = new Date(this.user.guild.joined);
-                    const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+                    const dateOptions: any = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
                     return date.toLocaleDateString('de-DE', dateOptions);
                 } else {
                     return '';
@@ -92,7 +99,10 @@
             },
             lastTermin: function(): string {
                 return this.parseDate(this.user.lastTermin);
-            }
+            },
+			hasExtraAccounts: function(): boolean {
+				return !!this.user.extraAccounts && this.user.extraAccounts.length > 0;
+			}
         },
         methods: {
             openLink: function(): void {
@@ -101,7 +111,7 @@
             parseDate: function(dateString: any): string {
                 if (dateString) {
                     const date = new Date(dateString);
-                    const dateOptions = {day: '2-digit', month: '2-digit', year: 'numeric'};
+                    const dateOptions: any = {day: '2-digit', month: '2-digit', year: 'numeric'};
                     return date.toLocaleDateString('de-DE', dateOptions);
                 } else {
                     return 'Nie'

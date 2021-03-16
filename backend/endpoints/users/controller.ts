@@ -35,6 +35,8 @@ const endpoints: ControllerEndpoint[] = [
     { function: getDiscordKey, path: '/discordKey', method: 'get', authed: true },
     { function: hasProgressShared, path: '/shared', method: 'get', authed: true },
     { function: setProgressShared, path: '/shared', method: 'put', authed: true },
+	{ function: getExtraAccounts, path: '/extraAccount', method: 'get', authed: true },
+	{ function: addExtraAccount, path: '/extraAccount', method: 'put', authed: true }
 ];
 export default endpoints;
 
@@ -232,4 +234,13 @@ async function setProgressShared(req: Request, authentication: Authentication): 
         return await _user.setProgressShared(authentication.user, shared);
     }
     return;
+}
+
+async function getExtraAccounts(req: Request, authentication: Authentication): Promise<unknown> {
+	return await _user.getExtraAccounts(authentication.user);
+}
+
+async function addExtraAccount(req: Request, authentication: Authentication): Promise<{ id: number }> {
+	const accName: string = req.body.accName;
+	return await _user.addExtraAccount(authentication.user, accName);
 }

@@ -1,8 +1,9 @@
 import con from '../connector';
+import { ExtraAccount } from 'models/ExtraAccount';
 
 export default { get, getWithID, hasApi, setApi, changeName, register, login,
     invalidateSession, getBuilds, addBuild, deleteBuild, putPrefer, changeEmail, changePassword, createResetToken,
-    resetPassword, getDiscordKey, hasProgressShared, setProgressShared };
+    resetPassword, getDiscordKey, hasProgressShared, setProgressShared, getExtraAccounts, addExtraAccount };
 
 async function get(): Promise<any> {
     return (await con('users', 'get', {}, true));
@@ -78,4 +79,12 @@ async function hasProgressShared(user: any): Promise<any> {
 
 async function setProgressShared(shared: any): Promise<any> {
     return await con('users/shared', 'put', {shared}, true);
+}
+
+async function getExtraAccounts(): Promise<ExtraAccount[]> {
+	return await con('users/extraAccount', 'get', {}, true);
+}
+
+async function addExtraAccount(accName: string): Promise<{ id: number }> {
+	return await con('users/extraAccount', 'put', {accName}, true);
 }
