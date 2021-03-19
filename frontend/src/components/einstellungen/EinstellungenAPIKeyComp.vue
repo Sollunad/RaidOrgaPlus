@@ -76,7 +76,7 @@
                 if (this.form.validate()) {
                     const response = await _users.setApi(this.apiKey);
                     this.snackbar = true;
-                    this.snackbarText = "Test!";
+                    this.snackbarText = "Der API-Key wurde erfolgreich gesetzt/geändert.";
                     if (response === 'Success') {
                         this.buttonColor = 'success';
                         this.buttonText = 'Success!';

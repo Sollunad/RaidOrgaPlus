@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="dialog" width="500">
 		<template v-slot:activator="{ on }">
-			<v-btn v-on="on"> Accounts Verknüpfen </v-btn>
+			<v-btn v-on="on"> Extra Accounts </v-btn>
 		</template>
 
 		<v-container class="container">
