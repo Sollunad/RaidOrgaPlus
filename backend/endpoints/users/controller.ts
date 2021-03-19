@@ -36,7 +36,8 @@ const endpoints: ControllerEndpoint[] = [
     { function: hasProgressShared, path: '/shared', method: 'get', authed: true },
     { function: setProgressShared, path: '/shared', method: 'put', authed: true },
 	{ function: getExtraAccounts, path: '/extraAccount', method: 'get', authed: true },
-	{ function: addExtraAccount, path: '/extraAccount', method: 'put', authed: true }
+	{ function: addExtraAccount, path: '/extraAccount', method: 'put', authed: true },
+	{ function: deleteExtraAccount, path: '/extraAccount', method: 'delete', authed: true }
 ];
 export default endpoints;
 
@@ -45,7 +46,9 @@ async function getUser(req: Request, authentication: Authentication): Promise<Sp
     let user: Spieler = null;
     if (id) {
         const role = _roles.getRole(authentication);
-        if (role != null) user = (await _user.get(id))[0];
+        if (role != null) {
+			user = (await _user.get(id))[0];
+		}
     } else {
         user = (await _user.get(authentication.user))[0];
     }
@@ -243,4 +246,14 @@ async function getExtraAccounts(req: Request, authentication: Authentication): P
 async function addExtraAccount(req: Request, authentication: Authentication): Promise<{ id: number }> {
 	const accName: string = req.body.accName;
 	return await _user.addExtraAccount(authentication.user, accName);
+}
+
+async function deleteExtraAccount(req: Request): Promise<OkPacket> {
+	const id: number = req.body.accId;
+	if (id > 0) {
+		return await _user.deleteExtraAccount(id);
+	}
+	else {
+		return;
+	}
 }

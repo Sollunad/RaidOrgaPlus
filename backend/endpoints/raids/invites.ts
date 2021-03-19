@@ -70,7 +70,7 @@ async function deleteInvite(raid: number, spieler: number): Promise<OkPacket> {
 async function isInvited(raid: number, spieler: number): Promise<boolean> {
     const stmt = 'SELECT * FROM Einladung WHERE fk_raid = ? AND fk_spieler = ?';
     try {
-        const response = await db.queryV<Einladung[]>(stmt, [raid, spieler]);
+        const response: Einladung[] = await db.queryV(stmt, [raid, spieler]);
         return response.length > 0;
     } catch(e) {
         throw e;

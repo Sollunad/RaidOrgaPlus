@@ -52,7 +52,8 @@ async function getRaidId(terminId: number): Promise<Raid[]> {
 async function listAllIds(raidId: number): Promise<number[]> {
     const stmt = 'SELECT Termin.id FROM Termin JOIN Raid ON Termin.fk_raid = Raid.id WHERE Raid.id = ?';
     try {
-        return (await db.queryV(stmt, raidId));
+		const response: { id: number }[] = (await db.queryV(stmt, raidId));
+		return response.map(r => r.id);
     } catch(e) {
         throw e;
     }
@@ -141,7 +142,8 @@ async function deleteTermin(termin: number): Promise<OkPacket> {
 async function getText(termin: number): Promise<string[]> {
     const stmt = 'SELECT text FROM Termin WHERE id = ?';
     try {
-        return await db.queryV(stmt, termin);
+		const response: { text: string }[] = await db.queryV(stmt, termin);
+		return response.map(r => r.text);
     } catch(e) {
         throw e;
     }

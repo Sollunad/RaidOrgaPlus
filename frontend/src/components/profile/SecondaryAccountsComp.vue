@@ -6,11 +6,19 @@
 
 		<v-container class="container">
 			<p v-for="(acc, i) in accounts" :key="i">
-				<span> {{ acc.accName }} </span>
+				<v-layout>
+					<v-flex xs11 lg11>
+						<span> {{ acc.accName }} </span>
+					</v-flex>
+					<v-flex xs1 lg1>
+						<!-- <span @click="deleteAccount"><i class="fas fa-times"></i></span> -->
+						<v-btn icon @click="deleteAccount(acc)"><v-icon>mdi-delete</v-icon></v-btn>
+					</v-flex>
+				</v-layout>
 			</p>
 			<v-form ref="form" v-model="valid" lazy-validation class="form">
 				<v-layout>
-					<v-flex xs8 lg8>
+					<v-flex xs8 lg10>
 						<v-text-field
 							@keypress.enter.prevent="submit"
 							v-model="accName"
@@ -20,7 +28,7 @@
 						>
 						</v-text-field>
 					</v-flex>
-					<v-flex class="addButton" xs4 lg4>
+					<v-flex class="addButton" xs4 lg2>
 						<v-btn @click.prevent="submit">
 							+
 						</v-btn>
@@ -66,6 +74,12 @@ export default Vue.extend({
 				}
 			}
 		},
+		async deleteAccount(account: ExtraAccount): Promise<void> {
+			await _users.deleteExtraAccount(account.id);
+			
+			let index = this.accounts.indexOf(account);
+			this.accounts.splice(index, 1);
+		},
 	},
 	created: async function(): Promise<void> {
 		this.accounts = await _users.getExtraAccounts();
@@ -82,6 +96,6 @@ export default Vue.extend({
 	.addButton {
 		display: flex;
 		margin: auto;
-		justify-content: center;
+		justify-content: flex-end;
 	}
 </style>

@@ -4,7 +4,8 @@ import * as db from '../../db/connector';
 export async function isPreviewable(termin: number): Promise<boolean[]> {
     const stmt = 'SELECT preview FROM Termin WHERE id = ?';
     try {
-        return await db.queryV(stmt, termin);
+		const response: { preview: boolean }[] = await db.queryV(stmt, termin);
+		return response.map(r => r.preview);
     } catch(e) {
         throw e;
     }
