@@ -4,8 +4,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-	"build": "npx tsc -b",
-	"test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc -b",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "typescript": "^4.2.3"
