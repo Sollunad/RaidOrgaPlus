@@ -4,7 +4,8 @@ import * as db from '../../db/connector';
 export async function getLastActivity(userId: number): Promise<boolean[]> {
     const stmt = 'SELECT lastActive FROM Spieler WHERE id = ?';
     try {
-        return await db.queryV(stmt, userId);
+		const response: { lastActive: boolean }[] = await db.queryV(stmt, userId);
+		return response.map(r => r.lastActive);
     } catch(e) {
         throw e;
     }

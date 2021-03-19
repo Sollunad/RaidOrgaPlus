@@ -59,6 +59,7 @@
     import _moderation from '../../services/endpoints/moderation';
     import ModListUserHeaderComp from "./ModListUserHeaderComp.vue";
     import ModListUserBodyComp from "./ModListUserBodyComp.vue";
+	import { ExtraAccount } from 'models/ExtraAccount';
 
     export default Vue.extend({
         name: "ModUserListComp",
@@ -106,9 +107,15 @@
                 const name = user.name.toLowerCase();
                 const accname = user.accname.toLowerCase();
                 const searchText = this.filterText.toLowerCase();
+				let inExtraAccounts = false;
+
+				if (user.extraAccounts && user.extraAccounts.length > 0) {
+					inExtraAccounts = user.extraAccounts.find(
+						(e: ExtraAccount) => e.accName.toLowerCase().indexOf(searchText) > -1);
+				}
 
                 return name.indexOf(searchText) > -1 ||
-                    accname.indexOf(searchText) > -1
+                    accname.indexOf(searchText) > -1 || inExtraAccounts;
             },
             isInRoleFilter: function(user: any): boolean {
                 if (this.roleText === '') return true;

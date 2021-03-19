@@ -32,8 +32,13 @@
         }),
         created: async function(): Promise<void> {
             this.achievements = await _gamedata.getAchievements();
-            if (this.ownProfile) this.allDone = await _progress.achievements(null);
-            else this.allDone = await _progress.achievements(this.user.id);
+
+            if (this.ownProfile) {
+				this.allDone = await _progress.achievements(null);
+			}
+            else {
+				this.allDone = await _progress.achievements(this.user.id);
+			}
         }
     })
 </script>

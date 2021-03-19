@@ -3,8 +3,9 @@ import axios from "axios";
 import config from "./config.json";
 
 export default async function fetch(endpoint, method, params, auth?) {
+	let env = process.env.NODE_ENV || 'production';
     try {
-        let url = config.production + endpoint;
+        let url = config[env] + endpoint;
         if (auth) {
             params.auth = auth;
         }

@@ -60,7 +60,8 @@ async function kickPlayer(raid: number, user: number): Promise<OkPacket> {
 async function getRoleForPlayer(raid: number, user: number): Promise<number[]> {
     const stmt = 'SELECT role FROM Spieler_Raid WHERE fk_raid = ? AND fk_spieler = ?';
     try {
-        return await db.queryV(stmt, [raid, user]);
+		const response: { role: number }[] = await db.queryV(stmt, [raid, user]);
+		return response.map(r => r.role);
     } catch(e) {
         throw e;
     }

@@ -2,14 +2,12 @@
   "name": "RaidOrgaPlus",
   "version": "0.1.0",
   "scripts": {
-    "install": "cd frontend && npm install && cd ../backend && npm install && cd ../discord && npm install",
+    "install": "cd  models && npm install && npm run build && cd ../frontend && npm install && cd ../backend && npm install && cd ../discord && npm install",
     "build": "cd frontend && npm run build",
     "serve": "cd frontend && npm run serve",
     "start-backend": "cd backend && nodejs app.js",
     "start-backend-dev": "cd backend && nodejs app.js http",
     "start-discord": "cd discord && nodejs bot.js"
   },
-  "dependencies": {
-    
-  }
+  "dependencies": {}
 }

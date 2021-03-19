@@ -22,7 +22,8 @@ function registerUser(accName: string, pwdHash: string, name: string, email: str
 async function userExists(accName): Promise<number[]> {
     const stmt = 'SELECT COUNT(*) AS count FROM Spieler WHERE Spieler.accname = ?';
     try {
-        return await db.queryV(stmt, accName);
+		const response: { count: number }[] = await db.queryV(stmt, accName);
+		return response.map(r => r.count);
     } catch(e) {
         throw e;
     }

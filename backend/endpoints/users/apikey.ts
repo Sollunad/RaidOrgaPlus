@@ -9,7 +9,8 @@ export {
 async function getApiKey(userId: number): Promise<string[]> {
     const stmt = 'SELECT apikey FROM Spieler WHERE id = ?';
     try {
-        return await db.queryV(stmt, userId);
+		const response: { apikey: string }[] = await db.queryV(stmt, userId);
+		return response.map(key => key.apikey);
     } catch(e) {
         throw e;
     }

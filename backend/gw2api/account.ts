@@ -4,7 +4,7 @@ export { fetchProgress, getAccname as accName, getPermissions as permissions, ge
 
 const api = apiclient();
 
-async function getDoneAchievements(key): Promise<any[]> {
+async function getDoneAchievements(key: string): Promise<any[]> {
     const achievements: any[] = await api.authenticate(key).account().achievements().get();
     return achievements.filter(a => a.done === true).map(a => a.id);
 }

@@ -22,6 +22,8 @@
                             v-bind:user="visitedUser"
                             v-bind:ownProfile="ownProfile">
                     </BuildsComp>
+					<SecondaryAccountsComp v-if="ownProfile">
+					</SecondaryAccountsComp>
                     <div v-if="hasNoApi && ownProfile">
                         <p>Gib einen API-Key in den Einstellungen an, um hier deinen wöchentlichen Raid-Progress und Erfolge zu sehen!</p>
                     </div>
@@ -47,10 +49,11 @@
 
     import ProgressShareComp from "../components/profile/ProgressShareComp.vue";
     import ProgressOverviewComp from "../components/profile/ProgressOverviewComp.vue";
+	import SecondaryAccountsComp from "@/components/profile/SecondaryAccountsComp.vue";
 
     export default Vue.extend({
         name: "UserProfilePage",
-        components: {ProgressOverviewComp, ProgressShareComp, ProfilePictureComp, BuildsComp, ProfileNameComp},
+        components: {ProgressOverviewComp, ProgressShareComp, ProfilePictureComp, BuildsComp, ProfileNameComp, SecondaryAccountsComp},
         data: () => ({
             foreignUser: null as any,
             hasNoApi: false,

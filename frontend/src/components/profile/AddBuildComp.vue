@@ -33,8 +33,8 @@
         name: "AddBuildComp",
         data: () => ({
            build: {
-               class: null,
-               role: null
+               class: null as any,
+               role: null as any
            }
         }),
         components: {BuildChipComp, MenuRoleComp, MenuClassComp},
