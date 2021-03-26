@@ -82,8 +82,8 @@
             },
             lastActive: function(): string {
                 if (!this.user.lastActive) return 'Keine Aufzeichnung';
-                const date = new Date(this.user.lastActive);
-                const diff = new Date().getDate() - date.getDate();
+                const date = Number(new Date(this.user.lastActive));
+                const diff = Number(new Date()) - date;
                 const minutes = Math.ceil(diff / (1000 * 60));
                 if (minutes === 1) return 'gerade eben';
                 else if (minutes < 60) return `vor ${minutes} Minuten`;

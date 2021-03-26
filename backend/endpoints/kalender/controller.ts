@@ -5,10 +5,10 @@ import { Termin } from 'models/Termin';
 import * as _termine from './termine';
 
 const endpoints: ControllerEndpoint[] = [
-    {function: getKalenderEntries, path: '', method: 'get', authed: false},
+	{ function: getKalenderEntries, path: '', method: 'get', authed: false },
 ];
 export default endpoints;
 
 async function getKalenderEntries(req: Request): Promise<(Termin & Raid)[]> {
-    return _termine.showTermineForNext7Days();
+	return _termine.showTermineForNext7Days();
 }

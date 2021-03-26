@@ -36,8 +36,8 @@
                 return this.wing === this.maxWing;
             },
             isRotationWing: function(): boolean {
-                const timeReference = new Date('2019-01-21T00:00:10');
-                const difference = new Date().getDate() - timeReference.getDate();
+                const timeReference = Number(new Date('2019-01-21T00:00:10'));
+                const difference = Number(new Date()) - timeReference;
                 const rotations = Math.floor(difference / (1000*60*60*24*7*2));
                 const rotationWing = rotations % (this.maxWing - 1) + 1;
                 return this.wing === rotationWing;

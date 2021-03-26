@@ -127,14 +127,14 @@
                 return !!user.discord;
             },
             twoWeeksInactive: function(user: any): boolean {
-                const date = new Date(user.lastActive);
-                const diff = new Date().getDate() - date.getDate();
+                const date = Number(new Date(user.lastActive));
+                const diff = Number(new Date()) - date;
                 return diff > 1000 * 60 * 60 * 24 * 14;
             },
             firstRaidFourWeeks: function(user: any): boolean {
                 if (!user.firstTermin) return false;
-                const date = new Date(user.firstTermin);
-                const diff = new Date().getDate() - date.getDate();
+                const date = Number(new Date(user.firstTermin));
+                const diff = Number(new Date()) - date;
                 return diff > 1000 * 60 * 60 * 24 * 28;
             },
         },
