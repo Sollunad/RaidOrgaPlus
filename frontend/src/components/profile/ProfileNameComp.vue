@@ -13,7 +13,7 @@
                     :rules="nameRules"
                     label="Anzeigename"
                     required
-                    counter="10"
+                    counter="50"
                     solo
             ></v-text-field>
             <v-btn
@@ -38,7 +38,7 @@
             edit: false,
             nameRules: [
                 (v: string) => !!v || 'Bitte gib einen Namen an',
-                (v: string) => v.length <= 10 || 'Bitte wähle einen kürzeren Namen'
+                (v: string) => v.length <= 50 || 'Bitte wähle einen kürzeren Namen'
             ],
         }),
 		computed: {
