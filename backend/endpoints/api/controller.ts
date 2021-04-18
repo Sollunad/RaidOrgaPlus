@@ -39,13 +39,6 @@ async function setAufstellung(req: Request, authentication: Authentication): Pro
 				//Unable to insert, next boss
 				continue;
 			}
-			if (boss.isCM === true || boss.isCM === false) {
-				try {
-					await _aufstellung.setCM(aufstellung, boss.isCM);
-				} catch (e) {
-					//Ignore not possible to set CM.
-				}
-			}
 		}
 		else {
 			if (!(await _aufstellung.getForTermin(termin)).some(e => e.id === aufstellung)) {
@@ -53,6 +46,13 @@ async function setAufstellung(req: Request, authentication: Authentication): Pro
 			}
 		}
 
+		if (boss.isCM === true || boss.isCM === false) {
+			try {
+				await _aufstellung.setCM(aufstellung, boss.isCM);
+			} catch (e) {
+				//Ignore not possible to set CM.
+			}
+		}
 		if (boss.success === true || boss.success === false) {
 			try {
 				await _aufstellung.setSuccess(aufstellung, boss.success);
@@ -60,6 +60,7 @@ async function setAufstellung(req: Request, authentication: Authentication): Pro
 				//Ignore not possible to set success.
 			}
 		}
+
 		for (const player of boss.positionen) {
 			if (1 <= player.position && player.position <= 10) {
 
