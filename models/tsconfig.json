@@ -4,6 +4,8 @@
 		"declarationMap": true,
 		"composite": true,
 		"rootDir": "./",
-		"outDir": "./build"
+		"outDir": "./build",
+		"target": "esnext",
+		"module": "esnext"
 	}
 }

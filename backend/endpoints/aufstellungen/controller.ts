@@ -7,6 +7,8 @@ import { Encounter } from 'models/Encounter';
 import { Aufstellung } from 'models/Aufstellung';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
+import { toBoolean } from '../../models/Util';
+import { element } from '../../../models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getForTermin, path: '', method: 'get', authed: true },
@@ -20,7 +22,7 @@ const endpoints: ControllerEndpoint[] = [
 export default endpoints;
 
 async function getForTermin(req: Request, authentication: Authentication): Promise<(Aufstellung & Encounter)[]> {
-	const termin = parseInt(req.query.termin as string);
+	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) return await _aufstellung.getForTermin(termin);
@@ -29,8 +31,8 @@ async function getForTermin(req: Request, authentication: Authentication): Promi
 }
 
 async function putSuccess(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const aufstellung = req.body.aufstellung;
-	const success: boolean = req.body.success;
+	const aufstellung = Number(req.body.aufstellung);
+	const success = toBoolean(req.body.success);
 	if (aufstellung && success != null) {
 		const role = await _roles.forAufstellung(authentication, aufstellung);
 		if (role > 0) return await _aufstellung.setSuccess(aufstellung, success);
@@ -39,8 +41,8 @@ async function putSuccess(req: Request, authentication: Authentication): Promise
 }
 
 async function putCM(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const aufstellung = req.body.aufstellung;
-	const cm: boolean = req.body.cm;
+	const aufstellung = Number(req.body.aufstellung);
+	const cm = toBoolean(req.body.cm);
 	if (aufstellung && cm != null) {
 		const role = await _roles.forAufstellung(authentication, aufstellung);
 		if (role > 0) return await _aufstellung.setCM(aufstellung, cm);
@@ -49,8 +51,8 @@ async function putCM(req: Request, authentication: Authentication): Promise<OkPa
 }
 
 async function deleteTermin(req: Request, authentication: Authentication): Promise<(Aufstellung & Encounter)[]> {
-	const aufstellung: number = req.body.aufstellung;
-	const termin: number = req.body.termin;
+	const aufstellung = Number(req.body.aufstellung);
+	const termin = Number(req.body.termin);
 	if (aufstellung && termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
@@ -64,9 +66,9 @@ async function deleteTermin(req: Request, authentication: Authentication): Promi
 	return [];
 }
 
-async function getElement(req: Request, authentication: Authentication): Promise<any> {
-	const termin = parseInt(req.query.termin as string);
-	const aufstellung = parseInt(req.query.aufstellung as string);
+async function getElement(req: Request, authentication: Authentication): Promise<element[]> {
+	const termin = Number(req.query.termin);
+	const aufstellung = Number(req.query.aufstellung);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) return await _element.getForTermin(termin);
@@ -78,10 +80,10 @@ async function getElement(req: Request, authentication: Authentication): Promise
 }
 
 async function postElement(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const aufstellung: number = req.body.aufstellung;
-	const position: number = req.body.position;
+	const aufstellung = Number(req.body.aufstellung);
+	const position = Number(req.body.position);
+	const value = Number(req.body.value);
 	const type: string = req.body.type;
-	const value: number = req.body.value;
 	if (aufstellung && position && type && (value || value === 0)) {
 		const role = await _roles.forAufstellung(authentication, aufstellung);
 		if (role != null) {
@@ -98,8 +100,8 @@ async function postElement(req: Request, authentication: Authentication): Promis
 }
 
 async function copyElements(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const from: number = req.body.from;
-	const to: number = req.body.to;
+	const from = Number(req.body.from);
+	const to = Number(req.body.to);
 	if (from && to) {
 		const role = await _roles.forAufstellung(authentication, to);
 		if (role > 0) {

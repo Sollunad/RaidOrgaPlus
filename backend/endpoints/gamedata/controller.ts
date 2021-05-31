@@ -16,7 +16,7 @@ const endpoints: ControllerEndpoint[] = [
 export default endpoints;
 
 async function getForBase(req: Request): Promise<Klasse[]> {
-	const base = parseInt(req.query.base as string);
+	const base = Number(req.query.base);
 	if (base) {
 		return await _classes.getForBase(base);
 	} else {
@@ -25,7 +25,7 @@ async function getForBase(req: Request): Promise<Klasse[]> {
 }
 
 async function getEncounter(req: Request): Promise<Encounter[] | Encounter[][]> {
-	const wing = parseInt(req.query.wing as string);
+	const wing = Number(req.query.wing);
 	const grouped = req.query.grouped;
 	if (wing) {
 		return await _encounter.listForWing(wing);

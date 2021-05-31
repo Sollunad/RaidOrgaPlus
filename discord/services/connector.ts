@@ -1,8 +1,8 @@
 // const axios = require('axios');
-import axios from "axios";
+import axios, { Method } from "axios";
 import config from "./config.json";
 
-export default async function fetch(endpoint, method, params, auth?) {
+export default async function fetch(endpoint: string, method: Method, params: any, auth?) {
 	let env = process.env.NODE_ENV || 'development';
     try {
         let url = config[env] + endpoint;

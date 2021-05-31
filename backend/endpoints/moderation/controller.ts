@@ -86,7 +86,7 @@ async function getRaids(req: Request, authentication: Authentication): Promise<a
 }
 
 async function getPlayersForRaid(req: Request, authentication: Authentication): Promise<Spieler[]> {
-	const raid = parseInt(req.query.raid as string);
+	const raid = Number(req.query.raid);
 	const role = _roles.getRole(authentication);
 	if (role > 0 && raid) {
 		const discordUsers = await _discord.getAllUsers();
@@ -112,7 +112,7 @@ async function createRaid(req: Request, authentication: Authentication): Promise
 }
 
 async function invitablePlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {
-	const raid = parseInt(req.query.raid as string);
+	const raid = Number(req.query.raid);
 	const role = _roles.getRole(authentication);
 	if (role > 0 && raid) {
 		return await _invites.invitable(raid);
@@ -121,8 +121,8 @@ async function invitablePlayers(req: Request, authentication: Authentication): P
 }
 
 async function addPlayer(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const raid = req.body.raid;
-	const spieler = req.body.spieler;
+	const raid = Number(req.body.raid);
+	const spieler = Number(req.body.spieler);
 	const role = _roles.getRole(authentication);
 	if (role > 0 && raid && spieler) {
 		await _raids.addPlayer(raid, spieler);
@@ -131,8 +131,8 @@ async function addPlayer(req: Request, authentication: Authentication): Promise<
 }
 
 async function removePlayer(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const raid = req.body.raid;
-	const spieler = req.body.spieler;
+	const raid = Number(req.body.raid);
+	const spieler = Number(req.body.spieler);
 	const role = _roles.getRole(authentication);
 	if (role > 0 && raid && spieler) {
 		await _raids.removePlayer(raid, spieler);
@@ -141,9 +141,9 @@ async function removePlayer(req: Request, authentication: Authentication): Promi
 }
 
 async function setPlayerRole(req: Request, authentication: Authentication): Promise<void> {
-	const raid = req.body.raid;
-	const spieler = req.body.spieler;
-	const role_to_set = req.body.role;
+	const raid = Number(req.body.raid);
+	const spieler = Number(req.body.spieler);
+	const role_to_set = Number(req.body.role);
 	const role = _roles.getRole(authentication);
 	if (role > 0 && raid && spieler && (role_to_set || role_to_set === 0)) {
 		await _raids.setPlayerRole(raid, spieler, role_to_set);
@@ -151,7 +151,7 @@ async function setPlayerRole(req: Request, authentication: Authentication): Prom
 }
 
 async function setComment(req: Request, authentication: Authentication): Promise<void> {
-	const spieler = req.body.spieler;
+	const spieler = Number(req.body.spieler);
 	const comment = req.body.comment;
 	if (spieler && comment) {
 		const role = _roles.getRole(authentication);

@@ -4,7 +4,7 @@ import * as _aufstellungen from "../services/endpoints/aufstellungen";
 import * as _embeds from "../services/util/embedProvider";
 import * as _util from "../services/util/util";
 import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
-import { Message } from "../services/store/messages";
+import { Message } from "../models/Message";
 
 export { refreshMessage, startTimer };
 

@@ -22,20 +22,23 @@
             </div>
         </v-dialog>
         <div class="builds" v-if="builds && filtered.length > 0">
-            <BuildChipComp
-                    v-for="build in prefer"
-                    v-bind:key="`${build.class.id} ${build.role.id}`"
-                    v-bind:build="build"
-            >
-            </BuildChipComp>
-            <p v-if="prefer.length > 0"></p>
-            <BuildChipComp
-                    v-for="build in notPrefer"
-                    v-bind:key="`${build.class.id} ${build.role.id}`"
-                    v-bind:build="build"
-                    :small="true"
-            >
-            </BuildChipComp>
+			<span v-for="star in stars" :key="star" style="display: flex">
+				<span v-if="prefer(star).length > 0" class="starContainer">
+					<v-avatar v-if="star > 0" class="star" tile>
+						<v-icon :color="starColor(star)">star</v-icon>
+					</v-avatar>
+					<v-avatar v-else class="star" tile>
+						<v-icon color="grey">star_outline</v-icon>
+					</v-avatar>
+				</span>
+				<div class="buildContainer">
+					<BuildChipComp
+						v-for="build in prefer(star)"
+						:key="`${build.class.id} ${build.role.id}`" 
+						:build="build" />
+				</div>
+				<p v-if="prefer(star).length > 0"></p>
+			</span>
         </div>
         <div v-else-if="builds" class="builds">
             Keine Builds vorhanden
@@ -49,27 +52,23 @@
     import BuildChipComp from "../profile/BuildChipComp.vue";
     import NameComp from "../menu/NameComp.vue";
     import _icons from '../../services/icons';
+	import { Build } from 'models/Build';
 
     export default Vue.extend({
         name: "SpielerComp",
         components: {NameComp, BuildChipComp},
         props: ['user', 'filter'],
         data: () => ({
-            builds: [] as any[]
+            builds: [] as Build[],
+			stars: [3, 2, 1, 0]
         }),
         computed: {
             isRaidLead: function(): boolean {
                 return this.user.role === 2;
             },
-            filtered: function(): any[] {
+            filtered: function(): Build[] {
                 if (this.filter) return this.builds.filter(b => this.filter.indexOf(b.role.abbr) !== -1 );
                 else return this.builds;
-            },
-            prefer: function(): any {
-                return this.filtered.filter(b => b.prefer);
-            },
-            notPrefer: function(): any {
-                return this.filtered.filter(b => !b.prefer);
             },
             kickable: function(): boolean {
                 return this.$vStore.getters.raidRole > this.user.role;
@@ -81,7 +80,25 @@
             },
             kick: function(): void {
                 this.$emit('kick', this.user);
-            }
+            },
+			prefer: function(preferNr: number): Build[] {
+				return this.filtered.filter(b => b.prefer === preferNr);
+			},
+			starColor: function(starNr: number): string {
+				let starColor = '';
+				
+				if (starNr === 1) {
+					starColor = '#cd7f32';
+				}
+				else if (starNr === 2) {
+					starColor = 'grey lighten-1';
+				}
+				else {
+					starColor = 'yellow darken-3';
+				}
+
+				return starColor;
+			}
         },
         created: async function(): Promise<void> {
             this.builds = await _users.getBuilds(this.user.id);
@@ -94,7 +111,7 @@
         background-color: #222222;
         width: 100%;
         height: 100%;
-        padding: 0.5rem 0 1rem 1rem;
+        padding: 0.5rem 0 0 1rem;
         box-shadow: 1px 1px 3px black;
     }
 
@@ -122,4 +139,23 @@
         background-color: #444444;
         padding: 10px;
     }
+
+	.star {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+	.starContainer {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		margin-bottom: auto;
+	}
+
+	.buildContainer {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		margin: auto;
+	}
 </style>

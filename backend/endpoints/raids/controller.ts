@@ -27,7 +27,7 @@ async function getRaids(req: Request, authentication: Authentication): Promise<(
 }
 
 async function getRole(req: Request, authentication: Authentication): Promise<{ role: number }> {
-	const raid = parseInt(req.query.raid as string);
+	const raid = Number(req.query.raid);
 	if (raid) {
 		const role = _roles.forRaid(authentication, raid);
 		return { role: role };
@@ -36,7 +36,7 @@ async function getRole(req: Request, authentication: Authentication): Promise<{ 
 }
 
 async function listPlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {
-	const raid = parseInt(req.query.raid as string);
+	const raid = Number(req.query.raid);
 	if (raid) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role != null) return await _raids.listPlayers(raid);
@@ -45,8 +45,8 @@ async function listPlayers(req: Request, authentication: Authentication): Promis
 }
 
 async function invitePlayer(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const user = req.body.user;
-	const raid = req.body.raid;
+	const user = Number(req.body.user);
+	const raid = Number(req.body.raid);
 	if (user && raid) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role > 0) return await _invites.invitePlayer(user, raid);
@@ -55,7 +55,7 @@ async function invitePlayer(req: Request, authentication: Authentication): Promi
 }
 
 async function getInvitablePlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {
-	const raid = parseInt(req.query.raid as string);
+	const raid = Number(req.query.raid);
 	if (raid) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role > 0) return await _invites.invitable(raid);
@@ -64,7 +64,7 @@ async function getInvitablePlayers(req: Request, authentication: Authentication)
 }
 
 async function getPendingInvites(req: Request, authentication: Authentication): Promise<any[]> {
-	const raid = parseInt(req.query.raid as string);
+	const raid = Number(req.query.raid);
 	if (raid) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role > 0) return ((await _invites.pendingForRaid(raid))).map(p => p.spieler);
@@ -75,7 +75,7 @@ async function getPendingInvites(req: Request, authentication: Authentication): 
 }
 
 async function acceptInvite(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const raid = req.body.raid;
+	const raid = Number(req.body.raid);
 	if (raid) {
 		if (await _invites.isInvited(raid, authentication.user)) {
 			return await _invites.accept(raid, authentication.user);
@@ -85,8 +85,8 @@ async function acceptInvite(req: Request, authentication: Authentication): Promi
 }
 
 async function deleteInvite(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const raid = req.body.raid;
-	const user = req.body.user;
+	const raid = Number(req.body.raid);
+	const user = Number(req.body.user);
 	if (raid) {
 		if (user) {
 			const role = _roles.forRaid(authentication, raid);
@@ -103,8 +103,8 @@ async function anmeldungStatesForUser(req: Request, authentication: Authenticati
 }
 
 async function kickPlayer(req: Request, authentication: Authentication): Promise<Spieler[]> {
-	const raid = req.body.raid;
-	const user = req.body.user;
+	const raid = Number(req.body.raid);
+	const user = Number(req.body.user);
 	if (raid && user) {
 		const role = _roles.forRaid(authentication, raid);
 		const kickRole = (await _raids.getRoleForPlayer(raid, user))[0];

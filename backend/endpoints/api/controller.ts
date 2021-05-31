@@ -14,7 +14,7 @@ const endpoints: ControllerEndpoint[] = [
 export default endpoints;
 
 async function setAufstellung(req: Request, authentication: Authentication): Promise<(Aufstellung & Encounter)[]> {
-	const termin = req.body.body.terminId;
+	const termin = Number(req.body.body.terminId);
 	const data = req.body.body.aufstellungen;
 
 	if (!(await _termin.doesTerminExist(termin))) {
@@ -27,13 +27,13 @@ async function setAufstellung(req: Request, authentication: Authentication): Pro
 	}
 
 	for (const boss of data) {
-		let aufstellung = boss.aufstellungId;
+		let aufstellung: number = boss.aufstellungId;
 		if (boss.aufstellungId == null) {
 			if (boss.bossId == null) {
 				continue;
 			}
 			try {
-				const res = await _termin.addBoss(termin, boss.bossId);
+				const res = await _termin.addBoss(termin, Number(boss.bossId));
 				aufstellung = res.insertId;
 			} catch (e) {
 				//Unable to insert, next boss
@@ -48,14 +48,14 @@ async function setAufstellung(req: Request, authentication: Authentication): Pro
 
 		if (boss.isCM === true || boss.isCM === false) {
 			try {
-				await _aufstellung.setCM(aufstellung, boss.isCM);
+				await _aufstellung.setCM(aufstellung, Boolean(boss.isCM));
 			} catch (e) {
 				//Ignore not possible to set CM.
 			}
 		}
 		if (boss.success === true || boss.success === false) {
 			try {
-				await _aufstellung.setSuccess(aufstellung, boss.success);
+				await _aufstellung.setSuccess(aufstellung, Boolean(boss.success));
 			} catch (e) {
 				//Ignore not possible to set success.
 			}
@@ -65,7 +65,7 @@ async function setAufstellung(req: Request, authentication: Authentication): Pro
 			if (1 <= player.position && player.position <= 10) {
 
 				try {
-					await _element.setCompleteElement(aufstellung, player.position, player.classId, player.roleId, player.spielerId)
+					await _element.setCompleteElement(aufstellung, Number(player.position), Number(player.classId), Number(player.roleId), Number(player.spielerId))
 				} catch (e) {
 					// Ignore, next element
 				}

@@ -16,7 +16,7 @@
             v-bind:star="true"
             v-bind:ownProfile="ownProfile"
             v-on:close="close(build)"
-            v-on:togglePrefer="togglePrefer(build)">
+            v-on:togglePrefer="togglePrefer(build, $event)">
         </BuildChipComp>
         <v-dialog
             width="unset"
@@ -38,6 +38,7 @@
     import AddBuildComp from "./AddBuildComp.vue";
     import BuildChipComp from "./BuildChipComp.vue";
     import _users from '../../services/endpoints/users';
+	import { Build } from 'models/Build';
 
     export default Vue.extend({
         name: "BuildsComp",
@@ -45,11 +46,11 @@
         props: ['user', 'ownProfile'],
         data: () => ({
             addBuildDialog: false,
-            builds : [] as any[],
+            builds : [] as Build[],
             loading: true,
         }),
         methods: {
-            add: async function(build: any): Promise<void> {
+            add: async function(build: Build): Promise<void> {
                 this.addBuildDialog = false;
                 if (!this.buildExists(build)) {
                     build.prefer = 0;
@@ -58,16 +59,16 @@
                     _users.addBuild(build.class.id, build.role.id);
                 }
             },
-            close: async function(build: any): Promise<void> {
+            close: async function(build: Build): Promise<void> {
                 await _users.deleteBuild(build.class.id, build.role.id);
                 this.builds = this.builds.filter(b => b.class.id !== build.class.id || b.role.id !== build.role.id);
             },
-            togglePrefer: async function(build: any): Promise<void> {
-                build.prefer = 1 - build.prefer;
+            togglePrefer: async function(build: Build, stars: number): Promise<void> {
+				build.prefer = stars;
                 this.builds.sort(this.compareBuilds);
                 await _users.putPrefer(build.class.id, build.role.id, build.prefer);
             },
-            compareBuilds: function(buildA: any, buildB: any): number {
+            compareBuilds: function(buildA: Build, buildB: Build): number {
                 if (buildA.prefer === buildB.prefer) {
                     if (this.baseId(buildA) === this.baseId(buildB)) {
                         if (buildA.class.id === buildB.class.id) {
@@ -86,10 +87,10 @@
                     return buildA.prefer > buildB.prefer? -1 : 1;
                 }
             },
-            baseId: function(build: any): number {
+            baseId: function(build: Build): number {
                 return (build.class.id - 1) % 9 + 1;
             },
-            buildExists: function(build: any): boolean {
+            buildExists: function(build: Build): boolean {
                 let search = this.builds.filter(b => b.class.id === build.class.id && b.role.id === build.role.id);
                 return search.length > 0;
             }

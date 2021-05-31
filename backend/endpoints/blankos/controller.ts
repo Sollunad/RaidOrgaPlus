@@ -13,8 +13,8 @@ const endpoints: ControllerEndpoint[] = [
 export default endpoints;
 
 async function getElements(req: Request, authentication: Authentication): Promise<any> {
-	const raid = parseInt(req.query.raid as string);
-	const enc = parseInt(req.query.enc as string);
+	const raid = Number(req.query.raid);
+	const enc = Number(req.query.enc);
 	if (raid) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role != null) {
@@ -29,11 +29,11 @@ async function getElements(req: Request, authentication: Authentication): Promis
 }
 
 async function postElement(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const raid: number = req.body.raid;
-	const enc: number = req.body.enc;
-	const position: number = req.body.position;
+	const raid = Number(req.body.raid);
+	const enc = Number(req.body.enc);
+	const position = Number(req.body.position);
+	const value = Number(req.body.value);
 	const type: string = req.body.type;
-	const value: number = req.body.value;
 	if (raid && enc && position && type && (value || value === 0)) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role > 0) {
@@ -48,9 +48,9 @@ async function postElement(req: Request, authentication: Authentication): Promis
 }
 
 async function copyFromTo(req: Request, authentication: Authentication): Promise<any> {
-	const raid: number = req.body.raid;
-	const from: number = req.body.from;
-	const to: number = req.body.to;
+	const raid = Number(req.body.raid);
+	const from = Number(req.body.from);
+	const to = Number(req.body.to);
 	if (raid && from && to) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role > 0) {

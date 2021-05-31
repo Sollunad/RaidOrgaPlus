@@ -41,14 +41,14 @@
             accname: '',
             accNameRules: [
                 (v: string) => !!v || 'Bitte gib deinen Accountnamen an',
-                (v: string) => /^[a-zA-Z\s]+.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
+                (v: string) => /^[a-zA-Z\s]+\.\d{4}$/.test(v) || 'Bitte gib einen gültigen Accountnamen an',
             ],
             buttonText: 'E-Mail senden',
             buttonClicked: false,
         }),
         computed: {
             openComputed: {
-                get: function(): any {
+                get: function(): boolean {
                     return this.open;
                 },
                 set: function(): void {
@@ -60,7 +60,7 @@
             resetPassword: async function(): Promise<void> {
                 if (!this.buttonClicked) {
                     this.buttonClicked = true;
-                    if (/^[a-zA-Z]+.\d{4}$/.test(this.accname)) {
+                    if (/^[a-zA-Z\s]+\.\d{4}$/.test(this.accname)) {
                         await _users.createResetToken(this.accname);
                         this.$emit('close');
                         this.buttonClicked = false;

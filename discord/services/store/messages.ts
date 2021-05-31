@@ -1,20 +1,5 @@
+import { Message } from "../../models/Message";
 import * as _json from "./jsonHandler";
-
-export type Message = {
-	messageId: string,
-	channelId: string,
-	termin?: {
-		id: number,
-		date: string,
-		time: string,
-		endtime: string,
-		type: number
-	},
-	session?: string,
-	raidName?: string,
-	type: "termin" | "kalender",
-	update?: number
-};
 
 export function newMessageTermin(messageId: string, channelId: string, termin: any, session: string, raidName: string) {
 	let messages: Message[] = _json.read('messages');
