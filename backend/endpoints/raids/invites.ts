@@ -1,5 +1,6 @@
 import { Einladung } from 'models/Einladung';
 import { Spieler } from 'models/Spieler';
+import { playerInvite, raidInvite } from 'models/Types';
 import { OkPacket } from 'mysql';
 import * as db from '../../db/connector';
 
@@ -30,7 +31,7 @@ async function invitablePlayers(raid: number): Promise<Spieler[]> {
     }
 }
 
-async function pendingInvitesForPlayer(spieler: number): Promise<any[]> {
+async function pendingInvitesForPlayer(spieler: number): Promise<playerInvite[]> {
     const stmt = 'SELECT Einladung.fk_raid as id, Raid.name as name FROM Einladung JOIN Raid ON Raid.id = Einladung.fk_raid WHERE fk_spieler = ?';
     try {
         return await db.queryV(stmt, spieler);
@@ -39,7 +40,7 @@ async function pendingInvitesForPlayer(spieler: number): Promise<any[]> {
     }
 }
 
-async function pendingInvitesForRaid(raid: number): Promise<any[]> {
+async function pendingInvitesForRaid(raid: number): Promise<raidInvite[]> {
     const stmt = 'SELECT fk_spieler as spieler FROM Einladung WHERE fk_raid = ?';
     try {
         return await db.queryV(stmt, raid);

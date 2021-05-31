@@ -7,3 +7,12 @@ export type element = {
 	name: string;
 	accname: string;
 };
+
+export type playerInvite = {
+	id: number;
+	name: string;
+}
+
+export type raidInvite = {
+	spieler: number;
+}

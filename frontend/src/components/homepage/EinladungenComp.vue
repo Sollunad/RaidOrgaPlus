@@ -21,19 +21,20 @@
 	import Vue from 'vue';
     import EinladungComp from "./EinladungComp.vue";
     import _raids from '../../services/endpoints/raids';
+	import { playerInvite } from 'models/Types';
 
     export default Vue.extend({
         name: "EinladungenComp",
         components: {EinladungComp},
         data: () => ({
-            invites: [] as any[],
+            invites: [] as playerInvite[],
         }),
         methods: {
-            accept: async function(raidId: any): Promise<void> {
+            accept: async function(raidId: number): Promise<void> {
                 this.invites = this.invites.filter(r => r.id !== raidId);
                 await _raids.acceptInvite(raidId);
             },
-            decline: async function(raidId: any): Promise<void> {
+            decline: async function(raidId: number): Promise<void> {
                 this.invites = this.invites.filter(r => r.id !== raidId);
                 await _raids.deleteInviteAsSelf(raidId);
             },

@@ -42,7 +42,7 @@
         props: ['raid'],
         data: () => ({
             disabled: false,
-            invited: null,
+            invited: [] as number[],
             invitablePlayers: [] as any[],
         }),
         methods: {

@@ -1,4 +1,5 @@
 import con from '../connector';
+import { playerInvite } from 'models/Types';
 
 export default { listForPlayer, role, listPlayers, invitePlayer, invitablePlayers, kickPlayer,
     pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf, getAnmeldungState };
@@ -27,15 +28,15 @@ async function invitablePlayers(raid: any): Promise<any> {
     return await con('raids/invitable', 'get', {raid}, true);
 }
 
-async function pendingInvitesForPlayer(): Promise<any> {
+async function pendingInvitesForPlayer(): Promise<playerInvite[]> {
     return await con('raids/invites', 'get', {}, true);
 }
 
-async function pendingInvitesForRaid(raid: any): Promise<any> {
+async function pendingInvitesForRaid(raid: number): Promise<number[]> {
     return await con('raids/invites', 'get', {raid}, true);
 }
 
-async function acceptInvite(raid: any): Promise<any> {
+async function acceptInvite(raid: number): Promise<void> {
     return await con('raids/invites/accept', 'post', {raid}, true);
 }
 

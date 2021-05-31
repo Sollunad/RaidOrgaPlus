@@ -12,6 +12,7 @@ import { Authentication } from 'models/Auth';
 import { Spieler } from 'models/Spieler';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import { ExtraAccount } from '../../../models/ExtraAccount';
+import { ModRaid } from '../../../models/Raid';
 
 type Users = (Spieler & { firstTermin: Date, lastTermin: Date, guild: any, guildLog: any, extraAccounts: ExtraAccount[] })[];
 
@@ -19,6 +20,7 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: getUsers, path: '/users', method: 'get', authed: true },
 	{ function: getRaids, path: '/raids', method: 'get', authed: true },
 	{ function: createRaid, path: '/raids', method: 'post', authed: true },
+	{ function: deleteRaid, path: '/raids', method: 'delete', authed: true },
 	{ function: invitablePlayers, path: '/raids/invitable', method: 'get', authed: true },
 	{ function: addPlayer, path: '/raids/spieler', method: 'post', authed: true },
 	{ function: getPlayersForRaid, path: '/raids/spieler', method: 'get', authed: true },
@@ -62,11 +64,10 @@ async function getUsers(req: Request, authentication: Authentication): Promise<U
 	return [];
 }
 
-async function getRaids(req: Request, authentication: Authentication): Promise<any> {
+async function getRaids(req: Request, authentication: Authentication): Promise<ModRaid[]> {
 	const role = _roles.getRole(authentication);
 	if (role > 0) {
-		// TODO adjust the type
-		const raids: any = await _raids.getRaids();
+		const raids = await _raids.getRaids() as ModRaid[];
 		const discordUsers = await _discord.getAllUsers();
 		for (const raid of raids) {
 			const users = await _raids.listPlayers(raid.id);
@@ -103,12 +104,23 @@ async function getPlayersForRaid(req: Request, authentication: Authentication): 
 }
 
 async function createRaid(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const name = req.body.name;
+	const name: string = req.body.name;
 	const role = _roles.getRole(authentication);
 	if (role > 0 && name) {
+		await _discord.addRaidRole(name);
 		await _raids.createRaid(name);
 	}
 	return;
+}
+
+async function deleteRaid(req: Request, authentication: Authentication): Promise<OkPacket> {
+	const raidId = Number(req.body.id);
+	const raidName: string = req.body.name;
+	const role = _roles.getRole(authentication);
+	if (role > 0 && raidId) {
+		await _discord.removeRaidRole(raidName);
+		return await _raids.deleteRaid(raidId);
+	}
 }
 
 async function invitablePlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {

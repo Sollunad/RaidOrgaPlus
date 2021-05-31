@@ -1,17 +1,22 @@
 import con from '../connector';
+import { ModRaid } from 'models/Raid';
 
-export default { getUsers, getRaids, createRaid, invitablePlayers, addSpieler, removeSpieler, setPlayerRole, getSpielerForRaid, setComment };
+export default { getUsers, getRaids, createRaid, removeRaid, invitablePlayers, addSpieler, removeSpieler, setPlayerRole, getSpielerForRaid, setComment };
 
 async function getUsers(): Promise<any> {
     return await con('moderation/users', 'get', {}, true);
 }
 
-async function getRaids(): Promise<any> {
+async function getRaids(): Promise<ModRaid[]> {
     return await con('moderation/raids', 'get', {}, true);
 }
 
-async function createRaid(name: any): Promise<any> {
+async function createRaid(name: string): Promise<any> {
     return await con('moderation/raids', 'post', {name}, true);
+}
+
+async function removeRaid(id: number, name: string): Promise<void> {
+	return await con('moderation/raids', 'delete', {id, name}, true);
 }
 
 async function invitablePlayers(raid: any): Promise<any> {
