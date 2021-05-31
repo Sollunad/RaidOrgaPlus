@@ -1,7 +1,8 @@
 import { OkPacket } from 'mysql';
 import * as db from '../../db/connector';
+import type { element } from "models/Types";
 
-export async function getForTermin(termin: number): Promise<any> {
+export async function getForTermin(termin: number): Promise<element[]> {
     const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
         ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
         ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
@@ -15,7 +16,7 @@ export async function getForTermin(termin: number): Promise<any> {
     }
 }
 
-export async function getForAufstellung(aufstellung: number): Promise<any> {
+export async function getForAufstellung(aufstellung: number): Promise<element[]> {
     const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
         ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
         ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +

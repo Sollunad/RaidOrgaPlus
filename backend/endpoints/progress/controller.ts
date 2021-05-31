@@ -14,7 +14,7 @@ const endpoints: ControllerEndpoint[] = [
 export default endpoints;
 
 async function getProgress(req: Request, authentication: Authentication): Promise<any> {
-	const user = parseInt(req.query.user as string);
+	const user = Number(req.query.user);
 	if (user) {
 		const isShared = await getShareValue(user);
 		if (isShared) return await _progress.progress(user);
@@ -25,7 +25,7 @@ async function getProgress(req: Request, authentication: Authentication): Promis
 }
 
 async function getInsights(req: Request, authentication: Authentication): Promise<any> {
-	const user = parseInt(req.query.user as string);
+	const user = Number(req.query.user);
 	if (user) {
 		const isShared = await getShareValue(user);
 		if (isShared) return await _insights.insights(user);
@@ -36,7 +36,7 @@ async function getInsights(req: Request, authentication: Authentication): Promis
 }
 
 async function getAchievements(req: Request, authentication: Authentication): Promise<any> {
-	const user = parseInt(req.query.user as string);
+	const user = Number(req.query.user);
 	if (user) {
 		const isShared = await getShareValue(user);
 		if (isShared) return await _achievements.achievementsDone(user);

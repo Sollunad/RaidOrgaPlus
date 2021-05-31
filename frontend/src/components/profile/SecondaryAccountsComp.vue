@@ -11,7 +11,6 @@
 						<span> {{ acc.accName }} </span>
 					</v-flex>
 					<v-flex xs1 lg1>
-						<!-- <span @click="deleteAccount"><i class="fas fa-times"></i></span> -->
 						<v-btn icon @click="deleteAccount(acc)"><v-icon>mdi-delete</v-icon></v-btn>
 					</v-flex>
 				</v-layout>

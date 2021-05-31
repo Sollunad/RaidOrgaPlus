@@ -12,6 +12,7 @@ import { Aufstellung } from 'models/Aufstellung';
 import { Encounter } from 'models/Encounter';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
+import { toBoolean } from '../../models/Util';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getTermine, path: '', method: 'get', authed: true },
@@ -35,8 +36,8 @@ const endpoints: ControllerEndpoint[] = [
 export default endpoints;
 
 async function getTermine(req: Request, authentication: Authentication): Promise<Termin[] | (Termin & SpielerTermin)[] | any> {
-	const raid = parseInt(req.query.raid as string);
-	const archive = parseInt(req.query.archive as string);
+	const raid = Number(req.query.raid);
+	const archive = Number(req.query.archive);
 	if (raid) {
 		const role = _roles.forRaid(authentication, raid);
 		if (role != null) {
@@ -52,7 +53,7 @@ async function getTermine(req: Request, authentication: Authentication): Promise
 }
 
 async function isArchived(req: Request, authentication: Authentication): Promise<boolean> {
-	const termin = parseInt(req.query.termin as string);
+	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) return await _termin.isArchived(termin);
@@ -61,7 +62,7 @@ async function isArchived(req: Request, authentication: Authentication): Promise
 }
 
 async function isLocked(req: Request, authentication: Authentication): Promise<boolean> {
-	const termin = parseInt(req.query.termin as string);
+	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) return await _termin.isLocked(termin);
@@ -70,9 +71,9 @@ async function isLocked(req: Request, authentication: Authentication): Promise<b
 }
 
 async function putLocked(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
-	const locked = req.body.locked;
-	if (termin && (locked === true || locked === false)) {
+	const termin = Number(req.body.termin);
+	const locked = toBoolean(req.body.locked);
+	if (termin && locked != null) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
 			return await _termin.setLocked(termin, locked);
@@ -82,7 +83,7 @@ async function putLocked(req: Request, authentication: Authentication): Promise<
 }
 
 async function postTermin(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const raid = req.body.raid;
+	const raid = Number(req.body.raid);
 	const date = req.body.date;
 	const time = req.body.time;
 	const endtime = req.body.endtime;
@@ -100,7 +101,7 @@ async function postTermin(req: Request, authentication: Authentication): Promise
 }
 
 async function archive(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
+	const termin = Number(req.body.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) return await _termin.archive(termin);
@@ -109,9 +110,9 @@ async function archive(req: Request, authentication: Authentication): Promise<Ok
 }
 
 async function addBoss(req: Request, authentication: Authentication): Promise<(Aufstellung & Encounter)[]> {
-	const termin = req.body.termin;
-	const boss = req.body.boss;
-	const wing = req.body.wing;
+	const termin = Number(req.body.termin);
+	const boss = Number(req.body.boss);
+	const wing = Number(req.body.wing);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
@@ -136,8 +137,8 @@ async function addBoss(req: Request, authentication: Authentication): Promise<(A
 }
 
 async function putAnmeldung(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
-	const type = req.body.type;
+	const termin = Number(req.body.termin);
+	const type = Number(req.body.type);
 	if (termin && (type || type === 0)) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) return await _anmeldungen.anmelden(authentication.user, termin, type);
@@ -146,9 +147,9 @@ async function putAnmeldung(req: Request, authentication: Authentication): Promi
 }
 
 async function putAnmeldungLead(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
-	const type = req.body.type;
-	const spieler = req.body.spieler;
+	const termin = Number(req.body.termin);
+	const type = Number(req.body.type);
+	const spieler = Number(req.body.spieler);
 	if (termin && spieler && (type || type === 0)) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) return await _anmeldungen.anmelden(spieler, termin, type);
@@ -157,7 +158,7 @@ async function putAnmeldungLead(req: Request, authentication: Authentication): P
 }
 
 async function getAnmeldung(req: Request, authentication: Authentication): Promise<{ type: number }> {
-	const termin = parseInt(req.query.termin as string);
+	const termin = Number(req.query.termin);
 	if (termin) {
 		return await _anmeldungen.getAnmeldungForSpieler(authentication.user, termin)
 	}
@@ -165,7 +166,7 @@ async function getAnmeldung(req: Request, authentication: Authentication): Promi
 }
 
 async function getAnmeldungenAll(req: Request, authentication: Authentication): Promise<(Spieler & SpielerTermin)[]> {
-	const termin = parseInt(req.query.termin as string);
+	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) return await _anmeldungen.getAnmeldungenForTermin(termin);
@@ -174,7 +175,7 @@ async function getAnmeldungenAll(req: Request, authentication: Authentication): 
 }
 
 async function deleteTermin(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
+	const termin = Number(req.body.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) return await _termin.delete(termin);
@@ -183,7 +184,7 @@ async function deleteTermin(req: Request, authentication: Authentication): Promi
 }
 
 async function getText(req: Request, authentication: Authentication): Promise<string> {
-	const termin = parseInt(req.query.termin as string);
+	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) return (await _termin.getText(termin))[0];
@@ -192,7 +193,7 @@ async function getText(req: Request, authentication: Authentication): Promise<st
 }
 
 async function saveText(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
+	const termin = Number(req.body.termin);
 	const text = req.body.text;
 	if (termin && (text || text === '')) {
 		const role = await _roles.forTermin(authentication, termin);
@@ -202,7 +203,7 @@ async function saveText(req: Request, authentication: Authentication): Promise<O
 }
 
 async function getErsatz(req: Request, authentication: Authentication): Promise<any> {
-	const termin = parseInt(req.query.termin as string);
+	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) {
@@ -212,8 +213,8 @@ async function getErsatz(req: Request, authentication: Authentication): Promise<
 }
 
 async function addErsatz(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
-	const user = req.body.user;
+	const termin = Number(req.body.termin);
+	const user = Number(req.body.user);
 	if (termin && user) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
@@ -223,8 +224,8 @@ async function addErsatz(req: Request, authentication: Authentication): Promise<
 }
 
 async function deleteErsatz(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const termin = req.body.termin;
-	const user = req.body.user;
+	const termin = Number(req.body.termin);
+	const user = Number(req.body.user);
 	if (termin && user) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {

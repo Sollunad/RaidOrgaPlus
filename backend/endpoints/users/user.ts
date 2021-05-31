@@ -6,7 +6,7 @@ import { ExtraAccount } from 'models/ExtraAccount';
 
 export {
 	getForId as get, getAllForId, changeName, changeEmail, changePassword, hasProgressShared, setProgressShared, setIconLink,
-	addExtraAccount, getExtraAccounts, getAllExtraAccounts, deleteExtraAccount
+	addExtraAccount, getExtraAccounts, getAllExtraAccounts, deleteExtraAccount, getUserByName
 };
 
 async function getForId(userId: number): Promise<Spieler[]> {
@@ -119,6 +119,18 @@ async function deleteExtraAccount(id: number): Promise<OkPacket> {
 	const stmt = 'DELETE FROM ExtraAccounts WHERE id = ?';
 	try {
 		return await db.queryV(stmt, [id]);
+	}
+	catch (e) {
+		throw e;
+	}
+}
+
+async function getUserByName(accName: string): Promise<{ id: number, accname: string, name: string, accName: string }[]> {
+	const stmt = 'SELECT user.id, user.accname, user.name, extra.accName FROM Spieler user' +
+		'LEFT JOIN ExtraAccounts extra ON user.id = extra.fk_spieler' +
+		'WHERE user.accname = ? OR extra.accName = ?';
+	try {
+		return await db.queryV(stmt, [accName, accName]);
 	}
 	catch (e) {
 		throw e;

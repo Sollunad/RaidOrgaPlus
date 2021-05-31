@@ -1,5 +1,6 @@
 import con from '../connector';
 import { ExtraAccount } from 'models/ExtraAccount';
+import { Build } from 'models/Build';
 
 export default {
 	get, getWithID, hasApi, setApi, changeName, register, login,
@@ -47,23 +48,23 @@ async function invalidateSession(): Promise<any> {
 	return await con('users/sessions', 'delete', {}, true)
 }
 
-async function getBuilds(user: any): Promise<any> {
+async function getBuilds(user: number): Promise<Build[]> {
 	return await con('users/builds', 'get', { user }, true);
 }
 
-async function addBuild(clss: any, role: any): Promise<any> {
+async function addBuild(clss: number, role: number): Promise<any> {
 	return await con('users/builds', 'post', { clss, role }, true);
 }
 
-async function deleteBuild(clss: any, role: any): Promise<any> {
+async function deleteBuild(clss: number, role: number): Promise<any> {
 	return await con('users/builds', 'delete', { clss, role }, true);
 }
 
-async function putPrefer(clss: any, role: any, pref: any): Promise<any> {
+async function putPrefer(clss: number, role: number, pref: number): Promise<any> {
 	return await con('users/builds/prefer', 'put', { clss, role, pref }, true);
 }
 
-async function createResetToken(accname: any): Promise<any> {
+async function createResetToken(accname: string): Promise<any> {
 	return await con('users/pwdReset/create', 'post', { accname }, false);
 }
 

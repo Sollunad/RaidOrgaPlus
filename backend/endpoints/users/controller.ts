@@ -15,6 +15,8 @@ import { Authentication } from 'models/Auth';
 import { Spieler } from 'models/Spieler';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
+import { toBoolean } from '../../models/Util';
+import { Build } from 'models/Build';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getUser, path: '', method: 'get', authed: true },
@@ -37,12 +39,13 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: setProgressShared, path: '/shared', method: 'put', authed: true },
 	{ function: getExtraAccounts, path: '/extraAccount', method: 'get', authed: true },
 	{ function: addExtraAccount, path: '/extraAccount', method: 'put', authed: true },
-	{ function: deleteExtraAccount, path: '/extraAccount', method: 'delete', authed: true }
+	{ function: deleteExtraAccount, path: '/extraAccount', method: 'delete', authed: true },
+	{ function: getUserByName, path: '/byName', method: 'get', authed: true }
 ];
 export default endpoints;
 
 async function getUser(req: Request, authentication: Authentication): Promise<Spieler> {
-	const id = parseInt(req.query.id as string);
+	const id = Number(req.query.id);
 	let user: Spieler = null;
 	if (id) {
 		const role = _roles.getRole(authentication);
@@ -116,8 +119,8 @@ async function setName(req: Request, authentication: Authentication): Promise<Ok
 	return;
 }
 
-async function getBuilds(req: Request): Promise<any[]> {
-	const user = parseInt(req.query.user as string);
+async function getBuilds(req: Request): Promise<Build[]> {
+	const user = Number(req.query.user);
 	if (user) {
 		return await _builds.getBuilds(user);
 	}
@@ -125,8 +128,8 @@ async function getBuilds(req: Request): Promise<any[]> {
 }
 
 async function addBuild(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const clss = req.body.clss;
-	const role = req.body.role;
+	const clss = Number(req.body.clss);
+	const role = Number(req.body.role);
 	if (clss && role) {
 		return _builds.addBuild(authentication.user, clss, role);
 	} else {
@@ -135,8 +138,8 @@ async function addBuild(req: Request, authentication: Authentication): Promise<O
 }
 
 async function deleteBuild(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const clss = req.body.clss;
-	const role = req.body.role;
+	const clss = Number(req.body.clss);
+	const role = Number(req.body.role);
 	if (clss && role) {
 		return _builds.deleteBuild(authentication.user, clss, role);
 	} else {
@@ -145,9 +148,9 @@ async function deleteBuild(req: Request, authentication: Authentication): Promis
 }
 
 async function putPrefer(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const clss = req.body.clss;
-	const role = req.body.role;
-	const pref = req.body.pref;
+	const clss = Number(req.body.clss);
+	const role = Number(req.body.role);
+	const pref = Number(req.body.pref);
 	if (authentication && clss && role) {
 		return await _builds.putPrefer(authentication.user, clss, role, pref);
 	} else {
@@ -217,7 +220,7 @@ async function getDiscordKey(req: Request, authentication: Authentication): Prom
 }
 
 async function hasProgressShared(req: Request, authentication: Authentication): Promise<boolean> {
-	const user = parseInt(req.query.user as string);
+	const user = Number(req.query.user);
 	let response: boolean[] = null;
 	if (user) {
 		response = await _user.hasProgressShared(user);
@@ -232,8 +235,8 @@ async function hasProgressShared(req: Request, authentication: Authentication): 
 }
 
 async function setProgressShared(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const shared = req.body.shared;
-	if (typeof shared === 'boolean') {
+	const shared = toBoolean(req.body.shared);
+	if (shared != null) {
 		return await _user.setProgressShared(authentication.user, shared);
 	}
 	return;
@@ -249,11 +252,20 @@ async function addExtraAccount(req: Request, authentication: Authentication): Pr
 }
 
 async function deleteExtraAccount(req: Request): Promise<OkPacket> {
-	const id: number = req.body.accId;
+	const id = Number(req.body.accId);
 	if (id > 0) {
 		return await _user.deleteExtraAccount(id);
 	}
 	else {
 		return;
 	}
+}
+
+async function getUserByName(req: Request, authentication: Authentication): Promise<{ id: number, accname: string, name: string, accName: string }[]> {
+	const accName = req.query.accName as string;
+	const role = _roles.getRole(authentication);
+	if (role > 0) {
+		return await _user.getUserByName(accName);
+	}
+	return [];
 }

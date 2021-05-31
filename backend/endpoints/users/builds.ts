@@ -1,14 +1,15 @@
 import { OkPacket } from 'mysql';
+import { Build } from 'models/Build';
 import * as db from '../../db/connector';
 
-export async function getBuilds(user: number): Promise<any[]> {
+export async function getBuilds(user: number): Promise<Build[]> {
     const stmt = 'SELECT fk_class AS classId, sub.abbr AS classAbbr, base.color AS classColor, fk_role AS roleId, Rolle.abbr AS roleAbbr, prefer FROM Spieler_Build' +
         ' JOIN Klasse sub ON sub.id = Spieler_Build.fk_class' +
         ' JOIN Klasse base ON base.id = sub.fk_base' +
         ' JOIN Rolle ON Rolle.id = Spieler_Build.fk_role' +
         ' WHERE fk_spieler = ? ORDER BY prefer DESC, base.id, sub.id, Rolle.id';
     try {
-        return ((await db.queryV<unknown[]>(stmt, user))).map(classRoleMapper);
+        return ((await db.queryV<Build[]>(stmt, user))).map(classRoleMapper);
     } catch(e) {
         throw e;
     }

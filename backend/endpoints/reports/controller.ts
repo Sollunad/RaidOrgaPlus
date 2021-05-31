@@ -12,7 +12,7 @@ export default endpoints;
 
 async function upload(req: Request, authentication: Authentication): Promise<string[]> {
 	const evtc = req.files.file as UploadedFile;
-	const aufstellung = req.body.aufstellung;
+	const aufstellung = Number(req.body.aufstellung);
 
 	if (evtc && aufstellung) {
 		const role = await _roles.forAufstellung(authentication, aufstellung);
