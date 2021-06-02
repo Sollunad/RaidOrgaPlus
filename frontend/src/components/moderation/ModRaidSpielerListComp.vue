@@ -12,13 +12,18 @@
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
+	import Vue, { PropType } from 'vue';
     import ModRaidSpielerListEntryComp from "./ModRaidSpielerListEntryComp.vue";
+	import { ModRaid } from 'models/Raid';
+	import { Spieler } from 'models/Spieler';
 
     export default Vue.extend({
         name: "ModRaidSpielerListComp",
         components: {ModRaidSpielerListEntryComp},
-        props: ['spieler', 'raid'],
+		props: {
+			spieler: Array as PropType<Spieler[]>,
+			raid: Object as PropType<ModRaid>
+		},
         methods: {
             refresh: function(): void {
                 this.$emit('refresh');

@@ -1,3 +1,6 @@
+import { ExtraAccount } from "./ExtraAccount";
+import { Spieler } from "./Spieler";
+
 export type element = {
 	aufstellung: number;
 	pos: number;
@@ -16,3 +19,11 @@ export type playerInvite = {
 export type raidInvite = {
 	spieler: number;
 }
+
+export type User = Spieler & {
+	firstTermin: Date,
+	lastTermin: Date,
+	guild: any,
+	guildLog: any,
+	extraAccounts: ExtraAccount[]
+};

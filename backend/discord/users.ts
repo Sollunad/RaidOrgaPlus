@@ -1,34 +1,8 @@
-import { Client, GuildMember, RoleData } from "discord.js";
-import { Spieler } from "models/Spieler";
+import { GuildMember, Role } from "discord.js";
+import { client, AVATAR_BASE_URL } from "./discord";
 import config from "./config.json";
-
-interface DiscordRole {
-	id: string;
-	name: string;
-	color: string;
-}
-
-interface DiscordMember {
-	id: string;
-	username: string;
-	nickname: string;
-	roles: DiscordRole[];
-	joined: number;
-	avatar: string;
-	color: string;
-}
-
-class DiscordClient extends Client {
-	config: any;
-}
-
-const client = new DiscordClient();
-client.config = config;
-client.login(config.token);
-
-const RISING_LIGHT_ID = '157565117070966784';
-const EVERYONE_ROLE_ID = '157565117070966784';
-const AVATAR_BASE_URL = 'https://cdn.discordapp.com/avatars';
+import { Spieler } from "models/Spieler";
+import { DiscordMember, DiscordRole } from "models/Discord";
 
 export async function getUser(id: string): Promise<DiscordMember> {
 	return (await getAllUsers()).find(m => m.id === id);
@@ -83,7 +57,7 @@ function getAvatarURL(member: GuildMember): string {
 	}
 }
 
-export function findUser(roUser, discordUsers) {
+export function findUser(roUser: Spieler, discordUsers: DiscordMember[]): DiscordMember {
 	if (!roUser.discord) return;
 	return discordUsers.find(d => {
 		return d.id.toString() === roUser.discord.toString();
@@ -91,51 +65,58 @@ export function findUser(roUser, discordUsers) {
 }
 
 export async function addRole(accName: string, raidName: string): Promise<void> {
-	const guild = client.guilds.cache.get(config.server);
-	const members = await guild.members.fetch();
-	const user = members.find(m => m.nickname.toLocaleUpperCase().includes(accName.toLocaleUpperCase()));
-	
-	let role = guild.roles.cache.find(r => r.name === raidName);
-	if (!role) {
-		await guild.roles.fetch();
-		role = guild.roles.cache.find(r => r.name === raidName);
-	}
+	const user = await getGuildMember(accName);
+	const role = await getRole(raidName);
 
 	if (user && role) {
-		user.roles.add(role);
+		await user.roles.add(role);
 	}
 }
 
 export async function removeRole(accName: string, raidName: string): Promise<void> {
-	const guild = client.guilds.cache.get(config.server);
-	const members = await guild.members.fetch();
-	const user = members.find(m => m.nickname.toLocaleUpperCase().includes(accName.toLocaleUpperCase()));
-
-	let role = guild.roles.cache.find(r => r.name === raidName);
-	if (!role) {
-		await guild.roles.fetch();
-		role = guild.roles.cache.find(r => r.name === raidName);
-	}
+	const user = await getGuildMember(accName);
+	const role = await getRole(raidName);
 
 	if (user && role) {
-		user.roles.remove(role);
+		await user.roles.remove(role);
 	}
 }
 
-export async function addRaidRole(raidName: string): Promise<void> {
-	const guild = client.guilds.cache.get(config.server);
-	await guild.roles.fetch();
+export async function addRaidLead(accName: string): Promise<void> {
+	const user = await getGuildMember(accName);
+	const role = await getRole(config.raidLeadRole);
 
-	const roleData: RoleData = { name: raidName, position: guild.roles.cache.size + 1 };
-	await guild.roles.create({ data: roleData, reason: `Raid ${raidName} was added to RO+` });
+	if (user && role) {
+		await user.roles.add(role);
+	}
 }
 
-export async function removeRaidRole(raidName: string): Promise<void> {
-	const guild = client.guilds.cache.get(config.server);
-	await guild.roles.fetch();
+export async function removeRaidLead(accName: string): Promise<void> {
+	const user = await getGuildMember(accName);
+	const role = await getRole(config.raidLeadRole);
 
-	const role = guild.roles.cache.find(r => r.name === raidName);
-	if (role) {
-		role.delete(`Raid ${raidName} was removed from RO+`);
+	if (user && role) {
+		await user.roles.remove(role);
 	}
+}
+
+function getGuild() {
+	return client.guilds.cache.get(config.server);
+}
+
+async function getGuildMember(accName: string): Promise<GuildMember> {
+	const members = await getGuild().members.fetch();
+	return members.find(m => m.displayName.toLocaleUpperCase().includes(accName.toLocaleUpperCase()));
+}
+
+async function getRole(roleName: string): Promise<Role> {
+	const guild = getGuild();
+
+	let role = guild.roles.cache.find(r => r.name === roleName);
+	if (!role) {
+		await guild.roles.fetch();
+		role = guild.roles.cache.find(r => r.name === roleName);
+	}
+
+	return role;
 }

@@ -26,31 +26,36 @@
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
+	import Vue, { PropType } from 'vue';
     import _moderation from '../../services/endpoints/moderation';
+	import { ModRaid } from 'models/Raid';
+	import { Spieler } from 'models/Spieler';
 
     export default Vue.extend({
         name: "ModRaidSpielerEinladenComp",
-        props: ['raid'],
+        // props: ['raid'],
+		props: {
+			raid: Object as PropType<ModRaid>
+		},
         data: () => ({
             open: false,
-            invitablePlayers: [] as any[],
+            invitablePlayers: [] as Spieler[],
             filterText: '',
         }),
         computed: {
-            filteredPlayers: function(): any[] {
+            filteredPlayers: function(): Spieler[] {
                 return this.invitablePlayers.filter(u => this.isInNameFilter(u));
             },
         },
         methods: {
-            add: async function(spieler: any): Promise<void> {
-                await _moderation.addSpieler(this.raid.id, spieler.id);
+            add: async function(spieler: Spieler): Promise<void> {
+                await _moderation.addSpieler(this.raid.id, spieler.id, spieler.accname, this.raid.name);
                 this.$emit('refresh');
             },
             refreshInvitable: async function(): Promise<void> {
                 this.invitablePlayers = await _moderation.invitablePlayers(this.raid.id);
             },
-            isInNameFilter: function(user: any): boolean {
+            isInNameFilter: function(user: Spieler): boolean {
                 const name = user.name.toLowerCase();
                 const accname = user.accname.toLowerCase();
                 const searchText = this.filterText.toLowerCase();

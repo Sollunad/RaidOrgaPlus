@@ -1,3 +1,5 @@
+import { DiscordMember } from "./Discord";
+
 export interface Spieler {
 	id: number;
 	accname: string;
@@ -6,7 +8,7 @@ export interface Spieler {
 	email: string;
 	role: number;
 	apikey: string;
-	discord: string;
+	discord: string | DiscordMember;
 	share: boolean;
 	sec_rl: boolean;
 	sec_gcg: boolean;
