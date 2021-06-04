@@ -9,7 +9,7 @@
                 v-model="message"
         ></v-text-field>
         <p v-if="key">
-            Bot-Befehl in Zwischenablage kopiert! Bitte an den Bot per PN schicken.
+            Bot-Befehl in Zwischenablage kopiert! Bitte an den RaidOrga+ Bot per PN schicken.
         </p>
         <v-btn @click="generateKey">
             Einmalpasswort generieren

@@ -60,12 +60,13 @@
     import ModListUserHeaderComp from "./ModListUserHeaderComp.vue";
     import ModListUserBodyComp from "./ModListUserBodyComp.vue";
 	import { ExtraAccount } from 'models/ExtraAccount';
+	import { User } from 'models/Types';
 
     export default Vue.extend({
         name: "ModUserListComp",
         components: {ModListUserBodyComp, ModListUserHeaderComp},
         data: () => ({
-            users: [] as any[],
+            users: [] as User[],
             open: false,
             filterText: '',
             roleText: '',
@@ -78,15 +79,15 @@
             activeFilter: [0],
         }),
         computed: {
-            filteredUsers: function(): any[] {
+            filteredUsers: function(): User[] {
                 return this.users.filter(u => this.isInFilter(u));
             }
         },
         methods: {
-            isInFilter: function (user: any): boolean {
+            isInFilter: function (user: User): boolean {
                 return this.isInNameFilter(user) && this.isInChipFilter(user) && this.isInRoleFilter(user);
             },
-            isInChipFilter: function(user: any): boolean {
+            isInChipFilter: function(user: User): boolean {
                 for (const filter of this.activeFilter) {
                     const filterString = this.filterList[filter];
                     let currentTruth;
@@ -103,35 +104,35 @@
                 }
                 return true;
             },
-            isInNameFilter: function(user: any): boolean {
+            isInNameFilter: function(user: User): boolean {
                 const name = user.name.toLowerCase();
                 const accname = user.accname.toLowerCase();
                 const searchText = this.filterText.toLowerCase();
 				let inExtraAccounts = false;
 
 				if (user.extraAccounts && user.extraAccounts.length > 0) {
-					inExtraAccounts = user.extraAccounts.find(
+					inExtraAccounts = user.extraAccounts.some(
 						(e: ExtraAccount) => e.accName.toLowerCase().indexOf(searchText) > -1);
 				}
 
                 return name.indexOf(searchText) > -1 ||
                     accname.indexOf(searchText) > -1 || inExtraAccounts;
             },
-            isInRoleFilter: function(user: any): boolean {
+            isInRoleFilter: function(user: User): boolean {
                 if (this.roleText === '') return true;
                 if (!user.discord) return false;
                 const searchText = this.roleText.toLowerCase();
                 return !!user.discord.roles.find((r: any) => r.name.toLowerCase().indexOf(searchText) > -1)
             },
-            hasDiscord: function(user: any): boolean {
+            hasDiscord: function(user: User): boolean {
                 return !!user.discord;
             },
-            twoWeeksInactive: function(user: any): boolean {
+            twoWeeksInactive: function(user: User): boolean {
                 const date = Number(new Date(user.lastActive));
                 const diff = Number(new Date()) - date;
                 return diff > 1000 * 60 * 60 * 24 * 14;
             },
-            firstRaidFourWeeks: function(user: any): boolean {
+            firstRaidFourWeeks: function(user: User): boolean {
                 if (!user.firstTermin) return false;
                 const date = Number(new Date(user.firstTermin));
                 const diff = Number(new Date()) - date;

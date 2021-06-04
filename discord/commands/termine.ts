@@ -8,7 +8,7 @@ import { GuildEmoji } from "discord.js";
 
 exports.run = async (client: DiscordClient, message: DiscordMessage, args: number[]) => {
 	if (!message.raid) {
-		message.channel.send('Für diesen Channel wurde kein Raid verlinkt.');
+		message.channel.send('Verbinde zuerst einen Raid mit diesem Channel mit "!orga link".');
 		return;
 	}
 	const pickedTermin = args[0];

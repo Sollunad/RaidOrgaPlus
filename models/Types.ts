@@ -1,3 +1,4 @@
+import { DiscordMember } from "./Discord";
 import { ExtraAccount } from "./ExtraAccount";
 import { Spieler } from "./Spieler";
 
@@ -20,10 +21,15 @@ export type raidInvite = {
 	spieler: number;
 }
 
-export type User = Spieler & {
-	firstTermin: Date,
-	lastTermin: Date,
-	guild: any,
-	guildLog: any,
-	extraAccounts: ExtraAccount[]
+export type SpielerType = Omit<Spieler, 'discord'> & {
+	discord: string;
+};
+
+export type User = Omit<Spieler, 'discord'> & {
+	firstTermin: Date;
+	lastTermin: Date;
+	guild: any;
+	guildLog: any;
+	extraAccounts: ExtraAccount[];
+	discord: DiscordMember;
 };
