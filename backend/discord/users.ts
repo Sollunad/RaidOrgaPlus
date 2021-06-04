@@ -104,12 +104,12 @@ function getGuild() {
 	return client.guilds.cache.get(config.server);
 }
 
-async function getGuildMember(accName: string): Promise<GuildMember> {
+export async function getGuildMember(accName: string): Promise<GuildMember> {
 	const members = await getGuild().members.fetch();
 	return members.find(m => m.displayName.toLocaleUpperCase().includes(accName.toLocaleUpperCase()));
 }
 
-async function getRole(roleName: string): Promise<Role> {
+export async function getRole(roleName: string): Promise<Role> {
 	const guild = getGuild();
 
 	let role = guild.roles.cache.find(r => r.name === roleName);

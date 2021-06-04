@@ -11,6 +11,7 @@ import * as websocket from "./websocket/websocket";
 import { Endpoint } from "models/Endpoint";
 import { Dictionary } from "models/Dictionary";
 import { Authentication } from "models/Auth";
+import { startUserCheckTimer } from "./timer";
 
 const app = express();
 const loggerOptions = {
@@ -114,6 +115,8 @@ try {
     logger.warn('Server konnte über HTTPS nicht gestartet werden');
     serveHTTP();
 }
+
+startUserCheckTimer();
 
 function serveHTTPS(credentials) {
     const server = https.createServer(credentials, app);
