@@ -1,12 +1,15 @@
 import * as _raids from './raids';
 import * as _invites from './invites';
 import * as _roles from '../../authentication/role';
+import * as _users from '../users/user';
+import * as _discord from '../../discord/users';
 import { Request } from 'express';
 import { Authentication } from 'models/Auth';
 import { Spieler, SpielerRaid } from 'models/Spieler';
 import { Raid } from 'models/Raid';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
+import { playerInvite } from '../../../models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getRaids, path: '', method: 'get', authed: true },
@@ -63,7 +66,7 @@ async function getInvitablePlayers(req: Request, authentication: Authentication)
 	return [];
 }
 
-async function getPendingInvites(req: Request, authentication: Authentication): Promise<any[]> {
+async function getPendingInvites(req: Request, authentication: Authentication): Promise<number[] | playerInvite[]> {
 	const raid = Number(req.query.raid);
 	if (raid) {
 		const role = _roles.forRaid(authentication, raid);
@@ -75,10 +78,14 @@ async function getPendingInvites(req: Request, authentication: Authentication): 
 }
 
 async function acceptInvite(req: Request, authentication: Authentication): Promise<OkPacket> {
-	const raid = Number(req.body.raid);
-	if (raid) {
-		if (await _invites.isInvited(raid, authentication.user)) {
-			return await _invites.accept(raid, authentication.user);
+	const raidId = Number(req.body.raid);
+	if (raidId) {
+		if (await _invites.isInvited(raidId, authentication.user)) {
+			const raid = await _raids.get(raidId);
+			const spieler = await _users.get(authentication.user);
+
+			await _discord.addRole(spieler[0].accname, raid.name);
+			return await _invites.accept(raidId, authentication.user);
 		}
 	}
 	return;
@@ -103,14 +110,18 @@ async function anmeldungStatesForUser(req: Request, authentication: Authenticati
 }
 
 async function kickPlayer(req: Request, authentication: Authentication): Promise<Spieler[]> {
-	const raid = Number(req.body.raid);
+	const raidId = Number(req.body.raid);
 	const user = Number(req.body.user);
-	if (raid && user) {
-		const role = _roles.forRaid(authentication, raid);
-		const kickRole = (await _raids.getRoleForPlayer(raid, user))[0];
+	if (raidId && user) {
+		const role = _roles.forRaid(authentication, raidId);
+		const kickRole = (await _raids.getRoleForPlayer(raidId, user))[0];
 		if (role > 0 && role > kickRole) {
-			return _raids.kickPlayer(raid, user).then(async () => {
-				return await _raids.listPlayers(raid);
+			const raid = await _raids.get(raidId);
+			const spieler = await _users.get(user);
+
+			return _raids.kickPlayer(raidId, user).then(async () => {
+				await _discord.removeRole(spieler[0].accname, raid.name);
+				return await _raids.listPlayers(raidId);
 			});
 		}
 	}

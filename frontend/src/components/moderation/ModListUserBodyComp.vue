@@ -1,5 +1,7 @@
 <template>
     <div>
+		<div class="textLine"><span class="font-weight-bold">Account Name: </span>{{user.accname}}</div>
+		<div class="textLine"><span class="font-weight-bold">Anzeige Name: </span>{{user.name}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Zuletzt online:</span> {{lastActive}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Erste Raid-Anmeldung:</span> {{firstTermin}}</div>
         <div class="subheading textLine"><span class="font-weight-bold">Letzte Raid-Anmeldung:</span> {{lastTermin}}</div>
@@ -46,15 +48,19 @@
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
+	import Vue, { PropType } from 'vue';
     import ModListUserBodyRolesComp from "./ModListUserBodyRolesComp.vue";
     import ModListUserGuildLogComp from "./ModListUserGuildLogComp.vue";
     import ModListUserEditComp from "./ModListUserEditComp.vue";
+	import { User } from 'models/Types';
+	import { DiscordMember } from 'models/Discord';
 
     export default Vue.extend({
         name: "ModListUserBodyComp",
         components: {ModListUserEditComp, ModListUserGuildLogComp, ModListUserBodyRolesComp},
-        props: ['user'],
+		props: {
+			user: Object as PropType<User>
+		},
         computed: {
             hasDiscord: function(): boolean {
                 return !!this.user.discord;
@@ -64,7 +70,7 @@
             },
             discordJoinDate: function(): string {
                 if (this.hasDiscord) {
-                    const date = new Date(this.user.discord.joined);
+                    const date = new Date((this.user.discord as DiscordMember).joined);
                     const dateOptions: any = {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
                     return date.toLocaleDateString('de-DE', dateOptions);
                 } else {
@@ -128,6 +134,7 @@
 
     .textLine {
         margin: 5px 0 0 9px;
+		user-select: text;
     }
 
     .openProfileButton {

@@ -13,7 +13,11 @@ import { Dictionary } from "models/Dictionary";
 import { Authentication } from "models/Auth";
 
 const app = express();
-const logger = nodeLogger.createSimpleLogger('backend.log');
+const loggerOptions = {
+	logFilePath: 'backend.log',
+	timestampFormat: 'YYYY-MM-DD HH:mm:ss.SSS'
+}
+export const logger = nodeLogger.createSimpleLogger(loggerOptions);
 
 const endpoints: Dictionary<Dictionary<Endpoint>> = {};
 
