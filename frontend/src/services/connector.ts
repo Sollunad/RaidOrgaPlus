@@ -16,7 +16,7 @@ async function fetch<T>(endpoint: string, method: string, params: any, authed: b
 			formData.append(param, params[param]);
 		}
 		const headers = { 'Content-Type': 'multipart/form-data' };
-		return (await axios.post(url, formData, { headers })).data;
+		return (await axios.post<T>(url, formData, { headers })).data;
 	}
 	else {
 		return (await axios({ method, url, data: params })).data;

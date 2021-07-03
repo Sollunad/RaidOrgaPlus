@@ -9,10 +9,11 @@ import * as _discord from '../../discord/discord';
 import * as _guild from '../../gw2api/guilds';
 import { getAllExtraAccounts } from '../users/user';
 import { Authentication } from 'models/Auth';
-import { Spieler } from 'models/Spieler';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
+import { Spieler } from 'models/Spieler';
 import { ModRaid } from '../../../models/Raid';
 import { User } from '../../../models/Types';
+import { UserRole } from '../../../models/Enums';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getUsers, path: '/users', method: 'get', authed: true },
@@ -25,12 +26,14 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: setPlayerRole, path: '/raids/role', method: 'put', authed: true },
 	{ function: removePlayer, path: '/raids/spieler', method: 'delete', authed: true },
 	{ function: setComment, path: '/users/comment', method: 'put', authed: true },
+	{ function: updateUserRole, path: '/users/role', method: 'put', authed: true },
 ];
 export default endpoints;
+export { getUsers, getRaids, createRaid, deleteRaid, invitablePlayers, addPlayer, getPlayersForRaid, setPlayerRole, removePlayer, setComment };
 
 async function getUsers(req: Request, authentication: Authentication): Promise<User[]> {
 	const role = _roles.getRole(authentication);
-	if (role > 0) {
+	if (role > UserRole.Normal) {
 		const users = await _users.getUsers() as User[];
 		const discordUsers = await _discord.getAllUsers();
 		const guildUsers = await _guild.getUsers();
@@ -63,7 +66,7 @@ async function getUsers(req: Request, authentication: Authentication): Promise<U
 
 async function getRaids(req: Request, authentication: Authentication): Promise<ModRaid[]> {
 	const role = _roles.getRole(authentication);
-	if (role > 0) {
+	if (role > UserRole.Normal) {
 		const raids = await _raids.getRaids() as ModRaid[];
 		const discordUsers = await _discord.getAllUsers();
 		for (const raid of raids) {
@@ -86,7 +89,7 @@ async function getRaids(req: Request, authentication: Authentication): Promise<M
 async function getPlayersForRaid(req: Request, authentication: Authentication): Promise<Spieler[]> {
 	const raid = Number(req.query.raid);
 	const role = _roles.getRole(authentication);
-	if (role > 0 && raid) {
+	if (role > UserRole.Normal && raid) {
 		const discordUsers = await _discord.getAllUsers();
 		const users = await _raids.listPlayers(raid);
 		for (const user of users) {
@@ -103,7 +106,7 @@ async function getPlayersForRaid(req: Request, authentication: Authentication): 
 async function createRaid(req: Request, authentication: Authentication): Promise<OkPacket> {
 	const name: string = req.body.name;
 	const role = _roles.getRole(authentication);
-	if (role > 0 && name) {
+	if (role > UserRole.Maz && name) {
 		await _discord.addRaidRole(name);
 		await _raids.createRaid(name);
 	}
@@ -114,7 +117,7 @@ async function deleteRaid(req: Request, authentication: Authentication): Promise
 	const raidId = Number(req.body.id);
 	const raidName: string = req.body.name;
 	const role = _roles.getRole(authentication);
-	if (role > 0 && raidId) {
+	if (role > UserRole.Maz && raidId && raidName) {
 		await _discord.removeRaidRole(raidName);
 		return await _raids.deleteRaid(raidId);
 	}
@@ -123,7 +126,7 @@ async function deleteRaid(req: Request, authentication: Authentication): Promise
 async function invitablePlayers(req: Request, authentication: Authentication): Promise<Spieler[]> {
 	const raid = Number(req.query.raid);
 	const role = _roles.getRole(authentication);
-	if (role > 0 && raid) {
+	if (role > UserRole.Maz && raid) {
 		return await _invites.invitable(raid);
 	}
 	return [];
@@ -135,10 +138,11 @@ async function addPlayer(req: Request, authentication: Authentication): Promise<
 	const accName: string = req.body.accname;
 	const raidName: string = req.body.raidName;
 	const role = _roles.getRole(authentication);
-	if (role > 0 && raidId && spielerId) {
+
+	if (role > UserRole.Maz && raidId && spielerId) {
 		await _discord.addRole(accName, raidName);
 
-		await _raids.addPlayer(raidId, spielerId);
+		return await _raids.addPlayer(raidId, spielerId);
 	}
 	return;
 }
@@ -149,7 +153,8 @@ async function removePlayer(req: Request, authentication: Authentication): Promi
 	const accName: string = req.body.accname;
 	const raidName: string = req.body.raidName;
 	const role = _roles.getRole(authentication);
-	if (role > 0 && raid && spieler) {
+
+	if (role > UserRole.Maz && raid && spieler) {
 		await _discord.removeRole(accName, raidName);
 		
 		await _raids.removePlayer(raid, spieler);
@@ -163,12 +168,14 @@ async function setPlayerRole(req: Request, authentication: Authentication): Prom
 	const role_to_set = Number(req.body.role);
 	const accName: string = req.body.accname;
 	const role = _roles.getRole(authentication);
-	if (role > 0 && raidId && spielerId && (role_to_set || role_to_set === 0)) {
-		if (role_to_set > 0) {
-			await _discord.addRaidLead(accName);
+	if (role > UserRole.Maz && raidId && spielerId && (role_to_set || role_to_set === 0)) {
+		const raidCount = await _raids.getRaidsAsLead(spielerId);
+
+		if (raidCount <= 1 && role_to_set == 0) {
+			await _discord.removeRaidLead(accName);
 		}
 		else {
-			await _discord.removeRaidLead(accName);
+			await _discord.addRaidLead(accName);
 		}
 
 		await _raids.setPlayerRole(raidId, spielerId, role_to_set);
@@ -180,6 +187,15 @@ async function setComment(req: Request, authentication: Authentication): Promise
 	const comment: string = req.body.comment;
 	if (spieler && comment) {
 		const role = _roles.getRole(authentication);
-		if (role > 0) await _users.setComment(spieler, comment);
+		if (role > UserRole.Maz) await _users.setComment(spieler, comment);
+	}
+}
+
+async function updateUserRole(req: Request, authentication: Authentication): Promise<void> {
+	const spielerId = Number(req.body.spielerId);
+	const userRole = Number(req.body.role);
+	const role = _roles.getRole(authentication);
+	if (role > UserRole.Maz && spielerId != null && userRole != null) {
+		await _users.updateSpielerRole(spielerId, userRole);
 	}
 }

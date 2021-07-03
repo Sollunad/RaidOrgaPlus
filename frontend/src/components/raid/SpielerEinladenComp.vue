@@ -12,7 +12,7 @@
                         :disabled="disabled"
                         :items="invitablePlayers"
                         :filter="customFilter"
-                        color="white"
+                        color="var(--v-textColor-base)"
                         label="Eingeladene Spieler"
                         no-data-text="Keine Spieler vorhanden"
                         item-text="name"
@@ -77,7 +77,7 @@
 
 <style scoped>
     .container {
-        background-color: #444444;
+        background-color: var(--v-dialogBox-base);
         padding: 10px;
     }
 

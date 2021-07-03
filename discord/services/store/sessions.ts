@@ -1,3 +1,4 @@
+import { User } from "discord.js";
 import * as _users from "../endpoints/users";
 import * as _json from "./jsonHandler";
 
@@ -13,7 +14,7 @@ function getSessionForDiscordUser(user) {
     }
 }
 
-async function login(user, discordKey) {
+async function login(user: User, discordKey: string) {
     const session = await _users.login(discordKey, user.id);
     if (session) {
         let userId = user.id;

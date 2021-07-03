@@ -8,8 +8,8 @@
                 label="Button klicken, um Einmalpasswort zu generieren"
                 v-model="message"
         ></v-text-field>
-        <p v-if="key">
-            Bot-Befehl in Zwischenablage kopiert! Bitte an den RaidOrga+ Bot per PN schicken.
+        <p v-if="key && key.length > 0">
+            Bot-Befehl in Zwischenablage kopiert! Bitte an den RaidOrga+ Bot innerhalb von einer Stunde per PN schicken.
         </p>
         <v-btn @click="generateKey">
             Einmalpasswort generieren
@@ -24,7 +24,7 @@
     export default Vue.extend({
         name: "EinstellungenDiscordComp",
         data: () => ({
-            key: null
+            key: [] as string[]
         }),
         methods: {
             generateKey: async function(): Promise<void> {

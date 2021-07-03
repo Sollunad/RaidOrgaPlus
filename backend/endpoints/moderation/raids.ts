@@ -66,3 +66,14 @@ export async function removePlayer(raidId: number, spielerId: number): Promise<O
 		throw e;
 	}
 }
+
+export async function getRaidsAsLead(spielerId: number): Promise<number> {
+	const stmt = 'SELECT count(*) AS count FROM Spieler_Raid WHERE role = 2 AND fk_spieler = ?';
+	try {
+		const result: number[] = await db.queryV(stmt, [spielerId]);
+		return result[0];
+	}
+	catch (e) {
+		throw e;
+	}
+}

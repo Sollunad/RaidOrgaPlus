@@ -15,9 +15,9 @@
     })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .log {
-        background-color: #444444;
+        background-color: $dialogBox;
         padding: 10px;
     }
 </style>

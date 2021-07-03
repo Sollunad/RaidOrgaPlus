@@ -1,4 +1,5 @@
 import { DiscordMember } from "./Discord";
+import { Theme, UserRole } from "./Enums";
 
 export interface Spieler {
 	id: number;
@@ -6,7 +7,7 @@ export interface Spieler {
 	password: string;
 	name: string;
 	email: string;
-	role: number;
+	role: UserRole;
 	apikey: string;
 	discord: string | DiscordMember;
 	share: boolean;
@@ -14,6 +15,7 @@ export interface Spieler {
 	sec_gcg: boolean;
 	comment: string;
 	lastActive: Date;
+	theme: Theme;
 }
 
 export interface SpielerBuild {

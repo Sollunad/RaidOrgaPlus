@@ -2,8 +2,8 @@
     <div class="moderation" v-if="showContainer">
         <v-tabs
                 class="elevation-6"
-                background-color="#212121"
-                color="white"
+				background-color="var(--v-tabHeader-base)"
+                color="var(--v-textColor-base)"
                 show-arrows>
             <v-tabs-slider color="info"></v-tabs-slider>
             <v-tab
@@ -28,6 +28,7 @@
 	import Vue from 'vue';
     import ModUserListComp from "../components/moderation/ModUserListComp.vue";
     import ModRaidListComp from "../components/moderation/ModRaidListComp.vue";
+	import { UserRole } from "../../../models/Enums";
 
     export default Vue.extend({
         name: "ModerationPage",
@@ -38,7 +39,7 @@
         }),
         computed: {
             showContainer: function(): boolean {
-                return this.$vStore.getters.loggedInUser.role > 0;
+                return this.$vStore.getters.loggedInUser.role > UserRole.Normal;
             }
         }
     })
@@ -47,7 +48,6 @@
 <style scoped>
     .moderationComp {
         padding-top: 10px;
-        background-color: #313131;
         width: 100%;
     }
 </style>

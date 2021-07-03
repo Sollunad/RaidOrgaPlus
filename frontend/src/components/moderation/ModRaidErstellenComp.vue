@@ -1,7 +1,7 @@
 <template>
     <v-dialog width="unset" class="erstellenButton" v-model="open">
         <template v-slot:activator="{on}">
-            <v-btn color="success" v-on="on" class="erstellenButton">
+            <v-btn color="success" v-on="on" class="erstellenButton" :disabled="disabled">
                 Raid erstellen
             </v-btn>
         </template>
@@ -23,6 +23,7 @@
 <script lang="ts">
 	import Vue from 'vue';
     import _moderation from '../../services/endpoints/moderation';
+	import { UserRole } from '../../../../models/Enums';
 
     export default Vue.extend({
         name: "ModRaidErstellenComp",
@@ -30,6 +31,11 @@
             enteredName: '',
             open: false
         }),
+		computed: {
+			disabled: function(): boolean {
+				return this.$vStore.getters.loggedInUser.role <= UserRole.Maz;
+			}
+		},
         methods: {
             submit: async function(): Promise<void> {
                 if (this.enteredName) {

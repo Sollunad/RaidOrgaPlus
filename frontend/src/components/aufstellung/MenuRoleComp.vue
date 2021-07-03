@@ -52,7 +52,7 @@
 
 <style scoped>
     .menu {
-        background-color: #444444;
+        background-color: var(--v-menuColor-base);
     }
 
     .icon {

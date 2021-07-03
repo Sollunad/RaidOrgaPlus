@@ -1,12 +1,13 @@
 import * as _termin from '../endpoints/termine/termin';
 import * as _aufstellungen from '../endpoints/aufstellungen/aufstellung';
 import { Authentication } from 'models/Auth';
+import { UserRole } from '../../models/Enums';
 
 export {
 	getRole, getRoleForRaid as forRaid, getRoleForTermin as forTermin, getRoleForAufstellung as forAufstellung
 };
 
-function getRole(auth: Authentication): number {
+function getRole(auth: Authentication): UserRole {
     return auth.role;
 }
 

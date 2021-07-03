@@ -8,13 +8,13 @@
                 <v-list-item-title v-text="spieler.name"></v-list-item-title>
                 <v-list-item-subtitle v-text="spieler.accname"></v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-action @click="changePlayerRole">
-                <v-btn icon>
+            <v-list-item-action>
+                <v-btn icon :disabled="disabled" @click="changePlayerRole">
                     <v-icon>{{promoteDemoteIcon}}</v-icon>
                 </v-btn>
             </v-list-item-action>
-            <v-list-item-action @click="kick">
-                <v-btn icon>
+            <v-list-item-action>
+                <v-btn icon :disabled="disabled" @click="kick">
                     <v-icon color="red">clear</v-icon>
                 </v-btn>
             </v-list-item-action>
@@ -29,6 +29,7 @@
 	import { Spieler } from 'models/Spieler';
 	import { ModRaid } from 'models/Raid';
 	import { DiscordMember } from 'models/Discord';
+	import { UserRole } from '../../../../models/Enums';
 
     export default Vue.extend({
         name: "ModRaidSpielerListEntryComp",
@@ -50,7 +51,10 @@
                 } else {
                     return 'star_border';
                 }
-            }
+            },
+			disabled: function(): boolean {
+				return this.$vStore.getters.loggedInUser.role <= UserRole.Maz;
+			}
         },
         methods: {
             openProfile: function(): void {

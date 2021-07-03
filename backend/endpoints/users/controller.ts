@@ -17,6 +17,7 @@ import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import { toBoolean } from '../../models/Util';
 import { Build } from 'models/Build';
+import { UserRole } from '../../../models/Enums';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getUser, path: '', method: 'get', authed: true },
@@ -40,7 +41,8 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: getExtraAccounts, path: '/extraAccount', method: 'get', authed: true },
 	{ function: addExtraAccount, path: '/extraAccount', method: 'put', authed: true },
 	{ function: deleteExtraAccount, path: '/extraAccount', method: 'delete', authed: true },
-	{ function: getUserByName, path: '/byName', method: 'get', authed: true }
+	{ function: getUserByName, path: '/byName', method: 'get', authed: true },
+	{ function: updateTheme, path: '/theme', method: 'put', authed: true }
 ];
 export default endpoints;
 
@@ -264,8 +266,14 @@ async function deleteExtraAccount(req: Request): Promise<OkPacket> {
 async function getUserByName(req: Request, authentication: Authentication): Promise<{ id: number, accname: string, name: string, accName: string }[]> {
 	const accName = req.query.accName as string;
 	const role = _roles.getRole(authentication);
-	if (role > 0) {
+	const isRaidLead = authentication.raids.some(r => r.role > 0);
+	if (role > UserRole.Normal || isRaidLead) {
 		return await _user.getUserByName(accName);
 	}
 	return [];
+}
+
+async function updateTheme(req: Request, authentication: Authentication): Promise<OkPacket> {
+	const theme = Number(req.body.theme);
+	return await _user.updateTheme(theme, authentication.user);
 }

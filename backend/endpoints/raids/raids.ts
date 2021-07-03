@@ -20,7 +20,7 @@ async function listForPlayerId(userId: number): Promise<(Raid & SpielerRaid)[]> 
 async function getForRaidId(raidId: number): Promise<Raid> {
     const stmt = 'SELECT * FROM Raid WHERE id = ?';
     try {
-		const raid: Raid = await db.queryV(stmt, raidId)[0];
+		const raid: Raid = (await db.queryV(stmt, raidId))[0];
         return raid;
     } catch(e) {
         throw e;

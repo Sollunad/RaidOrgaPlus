@@ -108,7 +108,7 @@
 
 <style scoped>
     .spieler {
-        background-color: #222222;
+        background-color: var(--v-playerCard-base);
         width: 100%;
         height: 100%;
         padding: 0.5rem 0 0 1rem;
@@ -156,6 +156,5 @@
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction: row;
-		margin: auto;
 	}
 </style>

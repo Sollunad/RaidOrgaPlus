@@ -56,7 +56,7 @@
 
 <style scoped>
     .container {
-        background-color: #444444;
+        background-color: var(--v-dialogBox-base);
         padding: 0 0 10px 0;
     }
 

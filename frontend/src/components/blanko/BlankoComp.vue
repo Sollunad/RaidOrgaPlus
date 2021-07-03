@@ -56,7 +56,7 @@
 
 <style scoped>
     .blanko {
-        background-color: #222222;
+        background-color: var(--v-playerCard-base);
         width: 100%;
         height: 100%;
         box-shadow: 1px 1px 3px black;

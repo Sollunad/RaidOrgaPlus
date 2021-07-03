@@ -5,7 +5,7 @@
                 <img :src="icon()">
             </v-avatar>
             <span
-                v-bind:style="{color: isCM? '#E91E63': 'white'}">
+                v-bind:style="{color: isCM? '#E91E63': 'var(--v-textColor-base)'}">
                 {{aufstellung.name}}{{isCM? ' CM' : ''}}
             </span>
             <v-speed-dial

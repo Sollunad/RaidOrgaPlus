@@ -6,11 +6,11 @@ import { ExtraAccount } from 'models/ExtraAccount';
 
 export {
 	getForId as get, getAllForId, changeName, changeEmail, changePassword, hasProgressShared, setProgressShared, setIconLink,
-	addExtraAccount, getExtraAccounts, getAllExtraAccounts, deleteExtraAccount, getUserByName
+	addExtraAccount, getExtraAccounts, getAllExtraAccounts, deleteExtraAccount, getUserByName, updateTheme
 };
 
 async function getForId(userId: number): Promise<Spieler[]> {
-	const stmt = 'SELECT id, accname, name, role, discord FROM Spieler WHERE id = ?';
+	const stmt = 'SELECT id, accname, name, role, discord, theme FROM Spieler WHERE id = ?';
 	try {
 		return await db.queryV(stmt, userId);
 	} catch (e) {
@@ -133,6 +133,15 @@ async function getUserByName(accName: string): Promise<{ id: number, accname: st
 		return await db.queryV(stmt, [accName, accName]);
 	}
 	catch (e) {
+		throw e;
+	}
+}
+
+async function updateTheme(theme: number, id: number): Promise<OkPacket> {
+	const stmt = 'UPDATE Spieler SET theme = ? WHERE id = ?';
+	try {
+		return await db.queryV(stmt, [theme, id]);
+	} catch (e) {
 		throw e;
 	}
 }

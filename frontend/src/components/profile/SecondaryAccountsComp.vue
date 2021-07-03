@@ -88,7 +88,7 @@ export default Vue.extend({
 
 <style scoped>
 	.container {
-		background-color: #444444;
+		background-color: var(--v-dialogBox-base);
 		padding: 10px;
 	}
 

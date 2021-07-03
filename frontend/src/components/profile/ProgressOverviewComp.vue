@@ -1,8 +1,7 @@
 <template>
     <v-tabs
             class="elevation-6"
-            background-color="#212121"
-            color="white"
+			color="var(--var-textColor-base)"
             show-arrows>
         <v-tabs-slider color="info"></v-tabs-slider>
         <v-tab
@@ -47,7 +46,7 @@
 <style scoped>
     .progressComp {
         padding: 10px 20px;
-        background-color: #424242;
+        background-color: var(--v-color-base);
         width: 100%;
     }
 </style>

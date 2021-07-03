@@ -1,7 +1,7 @@
 <template>
     <v-dialog width="unset" v-model="open" class="addButton">
         <template v-slot:activator="{on}">
-            <v-btn color="success" v-on="on" class="addButton">
+            <v-btn color="success" v-on="on" class="addButton" :disabled="disabled">
                 Spieler hinzufügen
             </v-btn>
         </template>
@@ -30,6 +30,7 @@
     import _moderation from '../../services/endpoints/moderation';
 	import { ModRaid } from 'models/Raid';
 	import { Spieler } from 'models/Spieler';
+	import { UserRole } from '../../../../models/Enums';
 
     export default Vue.extend({
         name: "ModRaidSpielerEinladenComp",
@@ -46,6 +47,9 @@
             filteredPlayers: function(): Spieler[] {
                 return this.invitablePlayers.filter(u => this.isInNameFilter(u));
             },
+			disabled: function(): boolean {
+				return this.$vStore.getters.loggedInUser.role <= UserRole.Maz;
+			}
         },
         methods: {
             add: async function(spieler: Spieler): Promise<void> {
@@ -70,9 +74,9 @@
     })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .container {
-        background-color: #424242;
+        background-color: $addPlayer;
         height: 500px;
     }
 

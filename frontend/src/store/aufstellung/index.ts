@@ -6,6 +6,8 @@ import _preview from "../../services/endpoints/preview";
 import { ActionContext, Module } from "vuex";
 import { AufstellungActions, AufstellungActionsDefinition, AufstellungGettersDefinition, AufstellungMutations, AufstellungMutationsDefinition, AufstellungState } from "@/models/Store/AufstellungState";
 import { RootState } from "@/models/Store/RootState";
+import { Aufstellung } from "../../../../models/Aufstellung";
+import { Encounter } from "../../../../models/Encounter";
 
 const mutations: AufstellungMutationsDefinition = {
 	[AufstellungMutations.SetActive]: (state: AufstellungState, isActive: any) => {
@@ -74,7 +76,7 @@ const actions: AufstellungActionsDefinition = {
 			context.commit(AufstellungMutations.StartWSClient, termin);
 		}
 	},
-	LoadAufstellungenPreview: async (context: ActionContext<AufstellungState, RootState>, terminId: any) => {
+	LoadAufstellungenPreview: async (context: ActionContext<AufstellungState, RootState>, terminId: string | number) => {
 		context.commit(AufstellungMutations.SetAufstellungen, await _preview.getAufstellungen(terminId));
 		context.commit(AufstellungMutations.SetElements, await _preview.getElements(terminId));
 		context.commit(AufstellungMutations.SetLocked, true);
@@ -318,7 +320,7 @@ const getters: AufstellungGettersDefinition = {
 const aufstellungModule: Module<AufstellungState, RootState> = {
     state: {
         isActive: null,
-        aufstellungen: null,
+        aufstellungen: null as unknown as (Aufstellung & Encounter)[],
         elements: [],
         locked: false,
         anmeldungen: [],

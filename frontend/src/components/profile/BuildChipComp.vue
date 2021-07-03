@@ -12,7 +12,7 @@
 			<template v-slot:activator="{ on }">
 				<span v-on="on">
 					<v-avatar class="star" tile>
-						<v-icon :color="prefered(build.prefer)">{{icon(build.prefer)}}</v-icon>
+						<v-icon :color="prefered(build.prefer)" size="24">{{icon(build.prefer)}}</v-icon>
 					</v-avatar>
 				</span>
 			</template>

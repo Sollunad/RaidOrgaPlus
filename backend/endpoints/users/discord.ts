@@ -11,17 +11,17 @@ export {
 	loginDiscord as login, deleteDiscordKeyForUser as delete, createDiscordKey as create
 };
 
-async function loginDiscord(key, discordId, agent) {
+async function loginDiscord(key: string, discordId: any, agent: string): Promise<string> {
     await deleteInvalidKeys();
     const response = await getUserByDiscordKey(key);
     await deleteDiscordKey(key);
     const user = response[0];
     if (user) {
         const discordUser = await _discord.getUser(discordId);
-        const discordName = discordUser.nickname;
+        const discordName = discordUser.nickname.toUpperCase();
         const userId = user.fk_spieler;
         const userObject = (await _user.get(userId))[0];
-        if (discordName.includes(userObject.accname)) {
+        if (discordName.includes(userObject.accname.toUpperCase())) {
             const uuid = v4();
             await _session.startDiscord(userId, uuid, agent);
             await saveDiscordId(userId, discordId);

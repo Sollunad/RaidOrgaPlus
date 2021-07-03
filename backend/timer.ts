@@ -40,10 +40,6 @@ export async function checkDiscordUsers(): Promise<void> {
 					await removeRole(name, r.name);
 				}
 			});
-		} else {
-			raids.forEach(async r => {
-				await removeRole(name, r);
-			})
 		}
 	}
 }

@@ -1,0 +1,13 @@
+@import '~vuetify/src/styles/styles.sass';
+
+$material-dark: (
+	'background': var(--v-background-base, map-get($material-dark, 'background')),
+	'cards': var(--v-color-base, map-get($material-dark, 'app-bar'))
+);
+
+$textColor: var(--v-textColor-base, var(--v-primary-base));
+$playerCard: var(--v-playerCard-base, #222222);
+$dialogBox: var(--v-dialogBox-base, #444444);
+$menuColor: var(--v-menuColor-base, #444444);
+$tabHeader: var(--v-tabHeader-base, #313131);
+$addPlayer: map-get($material-dark, 'cards');

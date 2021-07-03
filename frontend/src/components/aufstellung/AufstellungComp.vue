@@ -42,9 +42,9 @@
     })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .aufstellung {
-        background-color: #222222;
+        background-color: $playerCard;
         width: 100%;
         height: 100%;
         box-shadow: 1px 1px 3px black;

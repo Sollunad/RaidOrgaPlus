@@ -3,7 +3,7 @@ import { ModRaid } from 'models/Raid';
 import { Spieler } from 'models/Spieler';
 import { User } from 'models/Types';
 
-export default { getUsers, getRaids, createRaid, removeRaid, invitablePlayers, addSpieler, removeSpieler, setPlayerRole, getSpielerForRaid, setComment };
+export default { getUsers, getRaids, createRaid, removeRaid, invitablePlayers, addSpieler, removeSpieler, setPlayerRole, getSpielerForRaid, setComment, updateSpielerRole };
 
 async function getUsers(): Promise<User[]> {
 	return await con('moderation/users', 'get', {}, true);
@@ -43,4 +43,8 @@ async function setPlayerRole(raidId: number, spielerId: number, role: number, ac
 
 async function setComment(spielerId: number, comment: string): Promise<void> {
 	return await con('moderation/users/comment', 'put', { spieler: spielerId, comment }, true);
+}
+
+async function updateSpielerRole(spielerId: number, role: number): Promise<void> {
+	return await con('moderation/users/role', 'put', { spielerId, role }, true);
 }

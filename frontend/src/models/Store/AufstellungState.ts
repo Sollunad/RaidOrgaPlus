@@ -1,9 +1,11 @@
 import { Action, CommitOptions, DispatchOptions, Mutation } from "vuex";
+import { Aufstellung } from "../../../../models/Aufstellung";
+import { Encounter } from "../../../../models/Encounter";
 import { RootState } from "./RootState";
 
 export interface AufstellungState {
 	isActive: any;
-	aufstellungen: any;
+	aufstellungen: (Aufstellung & Encounter)[];
 	elements: any[];
 	locked: boolean;
 	anmeldungen: any[];
@@ -28,7 +30,7 @@ export interface AufstellungGetters {
 	invitablePlayers: any[];
 	anmeldungen: any[];
 	anmeldung: any;
-	aufstellungen: any;
+	aufstellungen: (Aufstellung & Encounter)[];
 	uploadActive: boolean;
 	isDialogOpen: (dialog: any) => boolean;
 }

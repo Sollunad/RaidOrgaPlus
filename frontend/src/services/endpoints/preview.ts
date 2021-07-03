@@ -1,8 +1,10 @@
 import con from '../connector';
+import { Aufstellung } from 'models/Aufstellung';
+import { Encounter } from 'models/Encounter';
 
 export default { getAufstellungen, getElements, setPreviewable, getPreviewable };
 
-async function getAufstellungen(termin: any): Promise<any> {
+async function getAufstellungen(termin: string | number): Promise<(Aufstellung & Encounter)[]> {
     return await con('preview', 'get', {termin}, false);
 }
 

@@ -1,20 +1,23 @@
+import { Spieler } from "models/Spieler"
 import { Action, CommitOptions, DispatchOptions, Mutation } from "vuex"
+import { Theme } from "../../../../models/Enums"
 import { RootState } from "./RootState"
 
 export interface UserState {
-	loggedInUser: any;
+	loggedInUser: Spieler;
 	loginState: number;
 	buildCheck: any;
 	frontendBuild: string;
 }
 
 export interface UserGetters {
-	loggedInUser: any;
+	loggedInUser: Spieler;
 	loginSuccess: boolean;
 	loginFailed: boolean;
 	frontendBuild: string;
 	backendBuild: any;
 	buildCheck: boolean;
+	selectedTheme: Theme;
 }
 
 export enum UserMutations {
@@ -22,12 +25,14 @@ export enum UserMutations {
 	SetLoginState = "SetLoginState",
 	SetUserName = "SetUserName",
 	SetBuildCheck = "SetBuildCheck",
+	SetSelectedTheme = "SetSelectedTheme",
 }
 
 export enum UserActions {
 	CheckBuild = "CheckBuild",
 	GetLoggedInUser = "GetLoggedInUser",
 	ChangeUserName = "ChangeUserName",
+	SetSelectedTheme = "SetSelectedTheme",
 }
 
 export type UserGettersDefinition = {

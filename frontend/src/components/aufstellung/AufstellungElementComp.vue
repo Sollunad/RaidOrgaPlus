@@ -155,7 +155,7 @@ import { MyActions } from '@/models/Store/State';
     })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .avatar {
         margin: 0 0.3rem;
     }
@@ -173,7 +173,7 @@ import { MyActions } from '@/models/Store/State';
     }
 
     .highlighted {
-        background-color: #444;
+        background-color: $menuColor;
         border-radius: 10px;
     }
 

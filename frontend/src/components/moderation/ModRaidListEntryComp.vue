@@ -23,6 +23,7 @@
     import _moderation from '../../services/endpoints/moderation';
 	import { ModRaid } from "models/Raid";
 	import { Spieler } from "models/Spieler";
+	import { UserRole } from '../../../../models/Enums';
 
 	type VInvitable = Vue & { refreshInvitable: () => Promise<void> }
 
@@ -37,7 +38,7 @@
         }),
 		computed: {
 			disable: function(): boolean {
-				return this.spieler.length > 0;
+				return this.spieler.length > 0 || this.$vStore.getters.loggedInUser.role <= UserRole.Maz;
 			}
 		},
         methods: {

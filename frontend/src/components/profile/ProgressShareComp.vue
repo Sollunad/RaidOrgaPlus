@@ -15,7 +15,7 @@
     export default Vue.extend({
         name: "ProgressShareComp",
         data: () => ({
-            share: null
+            share: false
         }),
         computed: {
             switchValue: {

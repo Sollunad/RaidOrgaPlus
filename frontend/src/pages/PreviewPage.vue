@@ -24,6 +24,8 @@
 	import { MyActions } from '@/models/Store/State';
 	import Vue from 'vue';
     import AufstellungComp from "../components/aufstellung/AufstellungComp.vue";
+	import { Aufstellung } from 'models/Aufstellung';
+	import { Encounter } from 'models/Encounter';
 
     export default Vue.extend({
         name: "PreviewPage",
@@ -32,7 +34,7 @@
             termin: function(): string {
                 return this.$route.params.id;
             },
-            aufstellungen: function(): any {
+            aufstellungen: function(): (Aufstellung & Encounter)[] {
                 return this.$vStore.getters.aufstellungen;
             }
         },
