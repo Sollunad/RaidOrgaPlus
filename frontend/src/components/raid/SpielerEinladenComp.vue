@@ -12,6 +12,7 @@
                         :disabled="disabled"
                         :items="invitablePlayers"
                         :filter="customFilter"
+						:search-input.sync="searchInput"
                         color="var(--v-textColor-base)"
                         label="Eingeladene Spieler"
                         no-data-text="Keine Spieler vorhanden"
@@ -35,6 +36,7 @@
 	import Vue from 'vue';
     import _raids from '../../services/endpoints/raids';
     import NameComp from "../menu/NameComp.vue";
+	import { Spieler } from 'models/Spieler';
 
     export default Vue.extend({
         name: "SpielerEinladenComp",
@@ -43,10 +45,11 @@
         data: () => ({
             disabled: false,
             invited: [] as number[],
-            invitablePlayers: [] as any[],
+            invitablePlayers: [] as Spieler[],
+			searchInput: '',
         }),
         methods: {
-            customFilter: function (item: any, queryText: string): boolean {
+            customFilter: function (item: Spieler, queryText: string): boolean {
                 const name = item.name.toLowerCase();
                 const accname = item.accname.toLowerCase();
                 const searchText = queryText.toLowerCase();
@@ -56,7 +59,8 @@
             }
         },
         watch: {
-            invited: async function (newValue: any[], oldValue: any[]): Promise<any> {
+            invited: async function (newValue: number[], oldValue: number[]): Promise<void> {
+				this.searchInput = '';
                 if (oldValue === null) return;
                 const invitedPlayer = newValue.find(player => !oldValue.includes(player));
                 const deletedPlayer = oldValue.find(player => !newValue.includes(player));
@@ -70,7 +74,6 @@
         created: async function(): Promise<void> {
             this.invited = await _raids.pendingInvitesForRaid(this.raid.id);
             this.invitablePlayers = await _raids.invitablePlayers(this.raid.id);
-
         }
     })
 </script>

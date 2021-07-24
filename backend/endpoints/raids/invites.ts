@@ -22,7 +22,7 @@ async function invitablePlayers(raid: number): Promise<Spieler[]> {
     const stmt = 'SELECT Spieler.id, Spieler.name, Spieler.accname FROM Spieler ' +
         'WHERE NOT Spieler.id IN (' +
             'SELECT fk_spieler FROM Spieler_Raid WHERE fk_raid = ?' +
-        ') AND Spieler.id > 9 ' +
+        ') AND Spieler.id > 9 AND Spieler.role > 0 ' +
         'ORDER BY Spieler.name';
     try {
         return await db.queryV(stmt, [raid, raid]);

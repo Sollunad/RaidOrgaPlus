@@ -1,5 +1,6 @@
 import con from '../connector';
 import { playerInvite } from 'models/Types';
+import { Spieler } from '../../../../models/Spieler';
 
 export default { listForPlayer, role, listPlayers, invitePlayer, invitablePlayers, kickPlayer,
     pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf, getAnmeldungState };
@@ -24,7 +25,7 @@ async function invitePlayer(raid: any, user: any): Promise<any> {
     return await con('raids/invites', 'post', {raid, user}, true);
 }
 
-async function invitablePlayers(raid: any): Promise<any> {
+async function invitablePlayers(raid: any): Promise<Spieler[]> {
     return await con('raids/invitable', 'get', {raid}, true);
 }
 

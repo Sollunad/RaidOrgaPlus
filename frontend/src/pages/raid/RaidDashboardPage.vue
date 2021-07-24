@@ -34,6 +34,7 @@
                     { id: 2, title: 'Termine', route: '/raid/termine', icon: 'calendar_today'},
                     { id: 3, title: 'Archiv', route: '/raid/archiv', icon: 'book' },
                     { id: 4, title: 'Blankos', route: '/raid/blankos', icon: 'border_clear' },
+					{ id: 5, title: 'Einstellungen', route: '/raid/settings', icon: 'settings' },
                     //{ id: 5, title: 'Statistiken', route: '/raid/statistiken', icon: 'show_chart' },
                 ]
             }
