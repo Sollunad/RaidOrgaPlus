@@ -31,6 +31,7 @@
 
 <script lang="ts">
 	import { MyActions } from '@/models/Store/State';
+import { getURL } from '@/utils/misc';
 	import Vue from 'vue';
     import _preview from '../../services/endpoints/preview';
 
@@ -62,7 +63,8 @@
                 }
             },
             previewLink: function(): string {
-                return `https://orga.rising-light.de/#/preview/${this.termin.id}`;
+				return getURL() + `preview/${this.termin.id}`;
+                // return `https://orga.rising-light.de/#/preview/${this.termin.id}`;
             }
         },
         created: async function(): Promise<void> {

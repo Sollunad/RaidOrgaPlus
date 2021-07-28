@@ -119,11 +119,22 @@
             registerMode: false,
             loading: false,
             passwordDialogOpen: false,
+			passwordWrong: false,
+			usernameWrong: false,
         }),
         computed: {
             failureText: function(): string {
-                if (this.registerMode) return 'Registrieren fehlgeschlagen';
-                else return 'Anmeldedaten inkorrekt';
+				if (this.registerMode) {
+					return 'Registrieren fehlgeschlagen';
+				} else {
+					if (this.passwordWrong) {
+						return 'Das Passwort ist falsch';
+					} else if (this.usernameWrong) {
+						return 'Der Accountname ist falsch';
+					} else {
+						return 'Anmeldedaten inkorrekt';
+					}
+				}
             },
             buttonText: function(): string {
                 if (this.registerMode) return 'Registrieren';
@@ -142,20 +153,28 @@
             async submit (): Promise<void> {
                 if (this.form.validate()) {
                     this.loading = true;
+					this.usernameWrong = false;
+					this.passwordWrong = false;
                     if (this.registerMode) this.register();
                     else this.login();
                 }
             },
             async login(): Promise<void> {
-                const uuid = await _users.login(this.accName, this.password);
-                if (uuid) {
-                    this.buttonColor = 'success';
-                    _cookies.setCookie('session', uuid);
+                const response = await _users.login(this.accName, this.password);
+
+				if (response === 'wrongUsername') {
+					this.loading = false;
+					this.snackbar = true;
+					this.usernameWrong = true;
+				} else if (response === 'wrongPassword') {
+					this.loading = false;
+					this.snackbar = true;
+					this.passwordWrong = true;
+				} else {
+					this.buttonColor = 'success';
+                    _cookies.setCookie('session', response);
                     window.location.href = '/';
-                } else {
-                    this.loading = false;
-                    this.snackbar = true;
-                }
+				}
             },
             async register(): Promise<void> {
                 const success = await _users.register(this.accName, this.password, this.name, this.email);

@@ -24,9 +24,9 @@
         computed: {
             headline: function(): string {
                 if (this.termin.no) {
-                    return `#${this.termin.no} - ${this.termin.date}`;
+                    return `#${this.termin.no} - ${this.termin.dateString}`;
                 } else {
-                    return this.termin.date;
+                    return this.termin.dateString;
                 }
             },
             subline: function(): string {

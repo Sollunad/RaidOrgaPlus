@@ -123,9 +123,9 @@
         computed: {
             headline: function(): string {
               if (this.termin.endtime) {
-                  return `${this.termin.date} ${this.termin.time} - ${this.termin.endtime}`;
+                  return `${this.termin.dateString} ${this.termin.time} - ${this.termin.endtime}`;
               } else {
-                  return `${this.termin.date} ${this.termin.time}`;
+                  return `${this.termin.dateString} ${this.termin.time}`;
               }
             },
             lockIcon: function(): string {

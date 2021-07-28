@@ -1,6 +1,7 @@
 import { DiscordMember } from "./Discord";
 import { ExtraAccount } from "./ExtraAccount";
 import { Spieler } from "./Spieler";
+import { Termin } from "./Termin";
 
 export type element = {
 	aufstellung: number;
@@ -33,3 +34,5 @@ export type User = Omit<Spieler, 'discord'> & {
 	extraAccounts: ExtraAccount[];
 	discord: DiscordMember;
 };
+
+export type terminDate = Pick<Termin, "date" | "dateString" | "time" | "endtime">;

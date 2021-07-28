@@ -14,7 +14,9 @@ export async function login(username: string, pwd: string, agent: string): Promi
 			await session.start(user.id, uuid, agent);
 			return uuid;
 		}
+		return 'wrongPassword';
 	}
+	return 'wrongUsername';
 }
 
 async function getUserByName(name: string): Promise<Spieler[]> {

@@ -1,6 +1,7 @@
 import { Action, CommitOptions, DispatchOptions, Mutation } from "vuex";
 import { Aufstellung } from "../../../../models/Aufstellung";
 import { Encounter } from "../../../../models/Encounter";
+import { terminDate } from "../../../../models/Types";
 import { RootState } from "./RootState";
 
 export interface AufstellungState {
@@ -15,6 +16,8 @@ export interface AufstellungState {
 	invitablePlayers: any[];
 	uploadActive: boolean;
 	openDialog: any;
+	raidName: string;
+	terminDate: terminDate;
 }
 
 export interface AufstellungGetters {
@@ -33,6 +36,8 @@ export interface AufstellungGetters {
 	aufstellungen: (Aufstellung & Encounter)[];
 	uploadActive: boolean;
 	isDialogOpen: (dialog: any) => boolean;
+	raidName: string;
+	terminDate: terminDate;
 }
 
 export enum AufstellungMutations {
@@ -49,7 +54,9 @@ export enum AufstellungMutations {
 	StopUpload = "StopUpload",
 	SetOpenDialog = "SetOpenDialog",
 	ToggleLocked = "ToggleLocked",
-	AddElement = "AddElement"
+	AddElement = "AddElement",
+	SetRaidName = "SetRaidName",
+	SetTerminDate = "SetTerminDate",
 }
 
 export enum AufstellungActions {

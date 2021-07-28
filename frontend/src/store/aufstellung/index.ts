@@ -8,6 +8,7 @@ import { AufstellungActions, AufstellungActionsDefinition, AufstellungGettersDef
 import { RootState } from "@/models/Store/RootState";
 import { Aufstellung } from "../../../../models/Aufstellung";
 import { Encounter } from "../../../../models/Encounter";
+import { terminDate } from "../../../../models/Types";
 
 const mutations: AufstellungMutationsDefinition = {
 	[AufstellungMutations.SetActive]: (state: AufstellungState, isActive: any) => {
@@ -52,7 +53,13 @@ const mutations: AufstellungMutationsDefinition = {
 	[AufstellungMutations.AddElement]: (state: AufstellungState, element: any) => {
 		state.elements = state.elements.filter(e => e.aufstellung !== element.aufstellung || e.pos !== element.pos);
 		state.elements.push(element);
-	}
+	},
+	[AufstellungMutations.SetRaidName]: (state: AufstellungState, raidName: string) => {
+		state.raidName = raidName;
+	},
+	[AufstellungMutations.SetTerminDate]: (state: AufstellungState, terminDate: terminDate) => {
+		state.terminDate = terminDate;
+	},
 };
 
 const actions: AufstellungActionsDefinition = {
@@ -79,6 +86,8 @@ const actions: AufstellungActionsDefinition = {
 	LoadAufstellungenPreview: async (context: ActionContext<AufstellungState, RootState>, terminId: string | number) => {
 		context.commit(AufstellungMutations.SetAufstellungen, await _preview.getAufstellungen(terminId));
 		context.commit(AufstellungMutations.SetElements, await _preview.getElements(terminId));
+		context.commit(AufstellungMutations.SetRaidName, await _preview.getRaidName(terminId));
+		context.commit(AufstellungMutations.SetTerminDate, await _preview.getTerminDate(terminId));
 		context.commit(AufstellungMutations.SetLocked, true);
 		context.commit(AufstellungMutations.SetActive, true);
 	},
@@ -314,6 +323,12 @@ const getters: AufstellungGettersDefinition = {
 		return function (dialog: any) {
 			return state.openDialog === dialog;
 		}
+	},
+	raidName: function(state: AufstellungState) {
+		return state.raidName;
+	},
+	terminDate: function(state: AufstellungState) {
+		return state.terminDate;
 	}
 };
 
@@ -330,6 +345,8 @@ const aufstellungModule: Module<AufstellungState, RootState> = {
         invitablePlayers: [],
         uploadActive: false,
         openDialog: null,
+		raidName: '',
+		terminDate: {} as terminDate,
     },
     mutations: mutations,
     actions: actions,

@@ -1,4 +1,6 @@
 import { OkPacket } from 'mysql';
+import { map } from '../termine/dateMapper';
+import { terminDate } from '../../../models/Types';
 import * as db from '../../db/connector';
 
 export async function isPreviewable(termin: number): Promise<boolean[]> {
@@ -20,5 +22,16 @@ export async function setPreviewable(termin: number, able: number): Promise<OkPa
     }
 }
 
-
-
+export async function getTerminDate(termin: number): Promise<terminDate> {
+	const stmt = `
+		SELECT date, time, endtime
+		FROM Termin
+		WHERE id = ?;
+	`;
+	try {
+		const response: any[] = await db.queryV(stmt, termin);
+		return response.map(map)[0];
+	} catch (e) {
+		throw e;
+	}
+}

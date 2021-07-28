@@ -9,31 +9,39 @@ import { Authentication } from 'models/Auth';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import { toBoolean } from '../../models/Util';
+import { element, terminDate } from '../../../models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getAufstellungen, path: '', method: 'get', authed: false },
 	{ function: getElements, path: '/elements', method: 'get', authed: false },
+	{ function: getRaidName, path: '/raid', method: 'get', authed: false },
 	{ function: setPreviewable, path: '/able', method: 'post', authed: true },
 	{ function: getPreviewable, path: '/able', method: 'get', authed: true },
+	{ function: getTerminDate, path: '/date', method: 'get', authed: false },
 ];
 export default endpoints;
 
 async function getAufstellungen(req: Request): Promise<(Aufstellung & Encounter)[]> {
 	const termin = Number(req.query.termin);
-	if (termin) {
-		const isPreviewable = (await _preview.isPreviewable(termin))[0];
-		if (isPreviewable) return await _aufstellung.getForTermin(termin);
+	if (termin && isPreviewable(termin)) {
+		return await _aufstellung.getForTermin(termin);
 	}
 	return [];
 }
 
-async function getElements(req: Request): Promise<any> {
+async function getElements(req: Request): Promise<element[]> {
 	const termin = Number(req.query.termin);
-	if (termin) {
-		const isPreviewable = (await _preview.isPreviewable(termin))[0];
-		if (isPreviewable) return await _element.getForTermin(termin);
+	if (termin && isPreviewable(termin)) {
+		return await _element.getForTermin(termin);
 	}
 	return [];
+}
+
+async function getRaidName(req: Request): Promise<string> {
+	const termin = Number(req.query.termin);
+	if (termin && isPreviewable(termin)) {
+		return await _aufstellung.getRaidName(termin);
+	}
 }
 
 async function setPreviewable(req: Request, authentication: Authentication): Promise<OkPacket> {
@@ -54,9 +62,22 @@ async function getPreviewable(req: Request, authentication: Authentication): Pro
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
-			const isPreviewable = (await _preview.isPreviewable(termin))[0];
-			return (!!isPreviewable);
+			const previewable = await isPreviewable(termin);
+			return (!!previewable);
 		}
 	}
 	return;
+}
+
+async function getTerminDate(req: Request): Promise<terminDate> {
+	const termin = Number(req.query.termin);
+	if (termin && isPreviewable(termin)) {
+		return await _preview.getTerminDate(termin);
+	}
+	return;
+}
+
+async function isPreviewable(termin: number): Promise<boolean> {
+	const previewable = await _preview.isPreviewable(termin);
+	return previewable[0];
 }
