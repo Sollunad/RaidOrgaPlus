@@ -23,7 +23,7 @@
         props: ['termin'],
         computed: {
             headline: function(): string {
-                return `${this.termin.date} (${this.termin.name})`;
+                return `${this.termin.dateString} (${this.termin.name})`;
             },
             subline: function(): any {
                 if (this.termin.endtime) {

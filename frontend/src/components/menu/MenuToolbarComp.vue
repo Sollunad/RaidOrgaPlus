@@ -28,6 +28,15 @@
                     <v-card-actions v-if="!buildCheckSuccess">
                         <v-btn text @click="refreshPage">Seite neu laden</v-btn>
                     </v-card-actions>
+
+					<v-card-text class="white--text">
+						<v-dialog width="600">
+							<template v-slot:activator="{ on }">
+								<span class="version" v-on="on">Changelog</span>
+							</template>
+							<ChangelogComp></ChangelogComp>
+						</v-dialog>
+					</v-card-text>
                 </v-card>
             </div>
             <v-btn icon @click="logout">
@@ -39,12 +48,16 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+	import ChangelogComp from '@/components/menu/ChangelogComp.vue';
     import _users from '../../services/endpoints/users';
     import _cookies from '../../services/util/cookies';
 
     export default Vue.extend({
         name: "MenuToolbarComp",
         props: ['loggedIn'],
+		components: {
+			ChangelogComp
+		},
         data: () => ({
             showBuildCheck: false,
         }),
@@ -83,5 +96,9 @@
         top: 60px;
         right: 20px;
         position: absolute;
+    }
+
+	.version:hover {
+        cursor: pointer;
     }
 </style>

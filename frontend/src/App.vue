@@ -14,7 +14,6 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import MenuComp from './components/menu/MenuComp.vue';
-
 	import MainPage from "./pages/MainPage.vue";
 	import LoginRegisterPage from "./pages/LoginRegisterPage.vue";
 	import { RootActions } from './models/Store/RootState';
