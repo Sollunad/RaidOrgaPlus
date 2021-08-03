@@ -76,7 +76,7 @@
                 '14 Tage inaktiv',
                 '1. Raid vier Wochen her',
             ],
-            activeFilter: [0],
+            activeFilter: [] as number[],
         }),
         computed: {
             filteredUsers: function(): User[] {

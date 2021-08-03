@@ -13,6 +13,7 @@
 		"sourceMap": true,
 		"baseUrl": ".",
 		"noImplicitAny": true,
+		"allowJs": false,
 		"types": [
 			"webpack-env",
 			"vuetify"
@@ -37,11 +38,9 @@
 		]
 	},
 	"include": [
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		"tests/**/*.ts",
-		"tests/**/*.tsx"
+		"./src/**/*",
+		// "tests/**/*.ts",
+		// "tests/**/*.tsx"
 	],
 	"exclude": [
 		"node_modules"

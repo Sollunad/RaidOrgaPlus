@@ -26,12 +26,13 @@
 	import Vue from 'vue';
     import ListRaidComp from './ListRaidComp.vue';
     import _raids from '../../services/endpoints/raids';
+	import { userRaid } from 'models/Types';
 
     export default Vue.extend({
         name: "RaidOverviewComp",
         components: {ListRaidComp},
         data: () => ({
-            raids: [] as any[],
+            raids: [] as userRaid[],
             anmeldungen: [] as any[]
         }),
         methods: {

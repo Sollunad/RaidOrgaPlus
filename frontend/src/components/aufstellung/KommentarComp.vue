@@ -27,10 +27,9 @@
 
     export default Vue.extend({
         name: "KommentarComp",
-        // props: ['termin', 'role'],
 		props: {
 			termin: Object as PropType<any>,
-			role: Object as PropType<any>
+			role: Number
 		},
         data: () => ({
             savedText: '',

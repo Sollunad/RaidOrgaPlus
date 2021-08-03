@@ -17,11 +17,15 @@
 
 <script lang="ts">
 	import { MyActions } from '@/models/Store/State';
-	import Vue from 'vue';
+	import { userRaid } from 'models/Types';
+	import Vue, { PropType } from 'vue';
 
     export default Vue.extend({
         name: "ListRaidComp",
-        props: ['raid', 'anmeldung'],
+		props: {
+			raid: Object as PropType<userRaid>,
+			anmeldung: Object
+		},
         computed: {
             role: function(): string {
                 switch(this.raid.role) {

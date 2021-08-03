@@ -5,11 +5,10 @@ import * as _users from '../users/user';
 import * as _discord from '../../discord/users';
 import { Request } from 'express';
 import { Authentication } from 'models/Auth';
-import { Spieler, SpielerRaid } from 'models/Spieler';
-import { Raid } from 'models/Raid';
+import { Spieler } from 'models/Spieler';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
-import { playerInvite } from '../../../models/Types';
+import { playerInvite, userRaid } from 'models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getRaids, path: '', method: 'get', authed: true },
@@ -22,10 +21,11 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: acceptInvite, path: '/invites/accept', method: 'post', authed: true },
 	{ function: deleteInvite, path: '/invites', method: 'delete', authed: true },
 	{ function: anmeldungStatesForUser, path: '/anmeldungen', method: 'get', authed: true },
+	{ function: setLieutenantRole, path: '/lieutenant', method: 'post', authed: true },
 ];
 export default endpoints;
 
-async function getRaids(req: Request, authentication: Authentication): Promise<(Raid & SpielerRaid)[]> {
+async function getRaids(req: Request, authentication: Authentication): Promise<userRaid[]> {
 	return await _raids.listForPlayer(authentication.user);
 }
 
@@ -115,7 +115,7 @@ async function kickPlayer(req: Request, authentication: Authentication): Promise
 	if (raidId && user) {
 		const role = _roles.forRaid(authentication, raidId);
 		const kickRole = (await _raids.getRoleForPlayer(raidId, user))[0];
-		if (role > 0 && role > kickRole) {
+		if (role > 1 && role > kickRole) {
 			const raid = await _raids.get(raidId);
 			const spieler = await _users.get(user);
 
@@ -123,6 +123,18 @@ async function kickPlayer(req: Request, authentication: Authentication): Promise
 				await _discord.removeRole(spieler[0].accname, raid.name);
 				return await _raids.listPlayers(raidId);
 			});
+		}
+	}
+}
+
+async function setLieutenantRole(req: Request, authentication: Authentication): Promise<void> {
+	const raidId = Number(req.body.raidId);
+	const user = Number(req.body.user);
+	const role = Number(req.body.role);
+	if (raidId != null && user != null) {
+		const userRole = _roles.forRaid(authentication, raidId);
+		if (userRole > 1) {
+			await _raids.setLieutenantRole(raidId, user, role);
 		}
 	}
 }

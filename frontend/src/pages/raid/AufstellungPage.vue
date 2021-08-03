@@ -30,13 +30,15 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-    import TerminToolbarComp from "../../components/aufstellung/TerminToolbarComp.vue";
-    import AufstellungComp from '../../components/aufstellung/AufstellungComp.vue';
-    import ArchiveDialogComp from "../../components/aufstellung/ArchiveDialogComp.vue";
-    import DeleteDialogComp from "../../components/aufstellung/DeleteDialogComp.vue";
-    import ShareDialogComp from "../../components/aufstellung/ShareDialogComp.vue";
-    import ErsatzDialogComp from "../../components/aufstellung/ErsatzDialogComp.vue";
+    import TerminToolbarComp from "@/components/aufstellung/TerminToolbarComp.vue";
+    import AufstellungComp from '@/components/aufstellung/AufstellungComp.vue';
+    import ArchiveDialogComp from "@/components/aufstellung/ArchiveDialogComp.vue";
+    import DeleteDialogComp from "@/components/aufstellung/DeleteDialogComp.vue";
+    import ShareDialogComp from "@/components/aufstellung/ShareDialogComp.vue";
+    import ErsatzDialogComp from "@/components/aufstellung/ErsatzDialogComp.vue";
 	import { MyActions } from "@/models/Store/State";
+	import { Aufstellung } from '../../../../models/Aufstellung';
+	import { Encounter } from '../../../../models/Encounter';
 
     export default Vue.extend({
         name: "AufstellungPage",
@@ -55,12 +57,14 @@
             ersatzspieler: function(): any {
                 return this.$vStore.getters.ersatzSpieler;
             },
-            aufstellungen: function(): any {
+            aufstellungen: function(): (Aufstellung & Encounter)[] {
                 return this.$vStore.getters.aufstellungen;
             }
         },
         created: async function(): Promise<void> {
-            if (!this.$vStore.getters.termin) window.location.href = '/#/raids';
+            if (!this.$vStore.getters.termin) {
+				window.location.href = '/#/raids';
+			}
             else {
                 await this.$vStore.dispatch(MyActions.LoadAufstellungen);
             }

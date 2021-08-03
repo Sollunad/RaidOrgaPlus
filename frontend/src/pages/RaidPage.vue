@@ -1,10 +1,10 @@
 <template>
-    <div class="raidPage">
-        <RaidToolbarComp/>
-        <router-view
-                class="raidPageRouter">
-        </router-view>
-    </div>
+	<div class="raidPage">
+		<RaidToolbarComp/>
+		<router-view
+				class="raidPageRouter">
+		</router-view>
+	</div>
 </template>
 
 <script lang="ts">
@@ -13,9 +13,11 @@
 
     export default Vue.extend({
         name: "RaidPage",
-        components: {RaidToolbarComp},
+        components: { RaidToolbarComp },
         created: function(): void {
-            if (!this.$vStore.getters.raid) window.location.href = '/#/raids';
+            if (!this.$vStore.getters.raid) {
+				window.location.href = '/#/raids';
+			}
         }
     })
 </script>

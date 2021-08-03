@@ -134,7 +134,7 @@
             locked: function(): any {
                 return this.$vStore.getters.isLocked;
             },
-            role: function(): any {
+            role: function(): number {
                 return this.$vStore.getters.raidRole;
             },
             termin: function(): any {

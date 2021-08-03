@@ -1,10 +1,10 @@
 <template>
-    <v-toolbar>
-        <v-btn icon @click="back">
-            <v-icon>arrow_back</v-icon>
-        </v-btn>
-        <v-toolbar-title @click="toRaidDashboard" class="raidTitle">{{ raidName }}</v-toolbar-title>
-    </v-toolbar>
+	<v-toolbar>
+		<v-btn icon @click="back">
+			<v-icon>arrow_back</v-icon>
+		</v-btn>
+		<v-toolbar-title @click="toRaidDashboard" class="raidTitle">{{ raidName }}</v-toolbar-title>
+	</v-toolbar>
 </template>
 
 <script lang="ts">
@@ -23,8 +23,12 @@
         },
         computed: {
             raidName: function(): string {
-                if (this.$vStore.getters.raid) return this.$vStore.getters.raid.name;
-                else return '';
+                if (this.$vStore.getters.raid) {
+					return this.$vStore.getters.raid.name;
+				}
+                else {
+					return '';
+				}
             }
         }
     })

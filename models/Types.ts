@@ -1,6 +1,7 @@
 import { DiscordMember } from "./Discord";
 import { ExtraAccount } from "./ExtraAccount";
-import { Spieler } from "./Spieler";
+import { Raid } from "./Raid";
+import { Spieler, SpielerRaid, SpielerTermin } from "./Spieler";
 import { Termin } from "./Termin";
 
 export type element = {
@@ -36,3 +37,11 @@ export type User = Omit<Spieler, 'discord'> & {
 };
 
 export type terminDate = Pick<Termin, "date" | "dateString" | "time" | "endtime">;
+
+export type homepageTermin = Termin & Omit<Raid, 'id'> & SpielerRaid & SpielerTermin & {
+	raidID: number;
+};
+
+export type userRaid = Omit<Raid, 'active'> & {
+	role: number;
+};

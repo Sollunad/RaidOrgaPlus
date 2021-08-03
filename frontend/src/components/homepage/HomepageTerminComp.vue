@@ -15,12 +15,16 @@
 </template>
 
 <script lang="ts">
+	import Vue, { PropType } from 'vue';
 	import { MyActions } from '@/models/Store/State';
-	import Vue from 'vue';
+	import { userRaid } from 'models/Types';
+	import { homepageTermin } from 'models/Types';
 
     export default Vue.extend({
         name: "HomepageTerminComp",
-        props: ['termin'],
+		props: {
+			termin: Object as PropType<homepageTermin>
+		},
         computed: {
             headline: function(): string {
                 return `${this.termin.dateString} (${this.termin.name})`;
@@ -44,7 +48,7 @@
         },
         methods: {
             openTermin: function(): void {
-                const raid = { id: this.termin.raidID, name: this.termin.name, icon: this.termin.icon, role: this.termin.role };
+                const raid: userRaid = { id: this.termin.raidID, name: this.termin.name, icon: this.termin.icon, role: this.termin.role };
                 this.$vStore.dispatch(MyActions.OpenTerminFromHome, {termin: this.termin, raid: raid});
             }
         }

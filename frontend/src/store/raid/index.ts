@@ -1,6 +1,8 @@
 import { RaidActions, RaidActionsDefinition, RaidGettersDefinition, RaidMutations, RaidMutationsDefinition, RaidState } from '@/models/Store/RaidState';
 import { RootState } from '@/models/Store/RootState';
 import { ActionContext, Module } from 'vuex';
+import { Termin } from 'models/Termin';
+import { userRaid } from 'models/Types';
 import router from '../../router';
 
 const mutations: RaidMutationsDefinition = {
@@ -13,7 +15,7 @@ const mutations: RaidMutationsDefinition = {
 }
 
 const actions: RaidActionsDefinition = {
-	[RaidActions.OpenRaid]: (context: ActionContext<RaidState, RootState>, raid: any) => {
+	[RaidActions.OpenRaid]: (context: ActionContext<RaidState, RootState>, raid: userRaid) => {
 		context.commit(RaidMutations.SetRaid, raid);
 		router.push('raid');
 	},
@@ -21,7 +23,7 @@ const actions: RaidActionsDefinition = {
 		context.commit(RaidMutations.SetTermin, termin);
 		router.push('aufstellung');
 	},
-	[RaidActions.OpenTerminFromHome]: (context: ActionContext<RaidState, RootState>, clicked: any) => {
+	[RaidActions.OpenTerminFromHome]: (context: ActionContext<RaidState, RootState>, clicked: { termin: Termin, raid: userRaid }) => {
 		context.commit(RaidMutations.SetRaid, clicked.raid);
 		context.commit(RaidMutations.SetTermin, clicked.termin);
 		router.push('raid/aufstellung');
@@ -41,8 +43,8 @@ const getters: RaidGettersDefinition = {
 
 const RaidModule: Module<RaidState, RootState> = {
     state: {
-        raid: null,
-        termin: null,
+        raid: null as userRaid,
+        termin: null as unknown as Termin,
     },
     mutations: mutations,
     actions: actions,

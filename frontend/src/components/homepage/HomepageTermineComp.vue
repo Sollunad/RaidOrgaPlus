@@ -28,12 +28,13 @@
 	import Vue from 'vue';
     import _termine from '../../services/endpoints/termine';
     import HomepageTerminComp from "./HomepageTerminComp.vue";
+	import { homepageTermin } from '../../../../models/Types';
 
     export default Vue.extend({
         name: "HomepageTermineComp",
         components: {HomepageTerminComp},
         data: () => ({
-            termine: [] as any[],
+            termine: [] as homepageTermin[],
         }),
         computed: {
             listNotEmpty: function (): boolean {

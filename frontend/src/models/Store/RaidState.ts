@@ -1,14 +1,16 @@
 import { Action, CommitOptions, DispatchOptions, Mutation } from "vuex";
+import { Termin } from "models/Termin";
 import { RootState } from "./RootState";
+import { userRaid } from "models/Types";
 
 export interface RaidState {
-	raid: any;
-	termin: any;
+	raid: userRaid;
+	termin: Termin;
 }
 
 export interface RaidGetters {
-	termin: any;
-	raid: any;
+	termin: Termin;
+	raid: userRaid;
 	raidRole: number;
 }
 

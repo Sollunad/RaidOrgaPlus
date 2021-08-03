@@ -1,3 +1,4 @@
+import { homepageTermin } from '../../../../models/Types';
 import con from '../connector';
 
 export default {
@@ -61,8 +62,8 @@ async function addWing(termin: any, wing: any): Promise<any> {
 	return await con('termine/bosses', 'post', { termin, wing }, true);
 }
 
-async function getText(termin: any): Promise<any> {
-	return (await con<any>('termine/text', 'get', { termin }, true)).text;
+async function getText(termin: any): Promise<string> {
+	return (await con<any>('termine/text', 'get', { termin }, true));
 }
 
 async function saveText(termin: any, text: any): Promise<any> {
@@ -81,6 +82,6 @@ async function deleteErsatz(termin: any, user: any): Promise<any> {
 	return await con('termine/ersatz', 'delete', { termin, user }, true);
 }
 
-async function getHomepageTermine(): Promise<any> {
+async function getHomepageTermine(): Promise<homepageTermin[]> {
 	return await con('termine', 'get', {}, true);
 }

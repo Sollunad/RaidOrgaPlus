@@ -13,6 +13,7 @@ import { Encounter } from 'models/Encounter';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import { toBoolean } from '../../models/Util';
+import { homepageTermin } from '../../../models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getTermine, path: '', method: 'get', authed: true },
@@ -35,7 +36,7 @@ const endpoints: ControllerEndpoint[] = [
 ];
 export default endpoints;
 
-async function getTermine(req: Request, authentication: Authentication): Promise<Termin[] | (Termin & SpielerTermin)[] | any> {
+async function getTermine(req: Request, authentication: Authentication): Promise<Termin[] | (Termin & SpielerTermin)[] | homepageTermin[]> {
 	const raid = Number(req.query.raid);
 	const archive = Number(req.query.archive);
 	if (raid) {
@@ -187,7 +188,9 @@ async function getText(req: Request, authentication: Authentication): Promise<st
 	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role != null) return (await _termin.getText(termin))[0];
+		if (role != null) {
+			return (await _termin.getText(termin))[0];
+		}
 	}
 	return;
 }
