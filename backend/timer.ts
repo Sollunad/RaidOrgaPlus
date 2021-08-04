@@ -25,7 +25,7 @@ export async function checkDiscordUsers(): Promise<void> {
 		const spieler = spielerGroup.get(name);
 		const spielerRaids = spieler.map(s => s.name);
 		const discordUser = await getGuildMember(name);
-		
+
 		if (discordUser != null) {
 			const roles = discordUser.roles.cache.filter(r => raids.includes(r.name));
 
@@ -45,11 +45,14 @@ export async function checkDiscordUsers(): Promise<void> {
 }
 
 async function getSpieler(): Promise<{ accname: string, name: string }[]> {
-	const stmt =
-		'SELECT s.accname, r.name FROM Spieler s LEFT JOIN Spieler_Raid sr ON s.id = sr.fk_spieler ' +
-		'LEFT JOIN Raid r ON sr.fk_raid = r.id ' +
-		'WHERE s.id > 9';
-	
+	const stmt = `
+		SELECT s.accname, r.name
+		FROM Spieler s
+		LEFT JOIN Spieler_Raid sr ON s.id = sr.fk_spieler
+		LEFT JOIN Raid r ON sr.fk_raid = r.id
+		WHERE s.id > 9
+	`;
+
 	try {
 		return await db.query(stmt);
 	}

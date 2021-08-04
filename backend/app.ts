@@ -116,14 +116,14 @@ try {
     serveHTTP();
 }
 
-startUserCheckTimer();
-
 function serveHTTPS(credentials) {
     const server = https.createServer(credentials, app);
     server.listen(8080, function () {
         logger.info('Server über HTTPS gestartet auf Port 8080!');
     });
     websocket.start(server);
+
+	startUserCheckTimer();
 }
 
 function serveHTTP() {

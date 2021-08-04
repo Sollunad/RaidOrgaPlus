@@ -193,6 +193,6 @@
         position: absolute;
         top: 6.9rem;
         right: 3%;
-        z-index: 1000;
+        z-index: 2;
     }
 </style>

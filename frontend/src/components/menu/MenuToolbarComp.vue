@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app clipped-left style="z-index: 10000">
+    <v-app-bar app clipped-left>
         <v-btn icon
                v-if="loggedIn"
                @click.stop="$emit('toggleMenu')">

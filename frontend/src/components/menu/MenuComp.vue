@@ -4,8 +4,7 @@
                 app
                 v-model="drawer"
                 v-if="show"
-                clipped
-                style="z-index: 10001">
+                clipped>
             <MenuItemListComp/>
         </v-navigation-drawer>
         <MenuToolbarComp
