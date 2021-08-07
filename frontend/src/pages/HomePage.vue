@@ -28,6 +28,7 @@
     import HomepageTermineComp from "../components/homepage/HomepageTermineComp.vue";
     import ProgressOverviewComp from "../components/profile/ProgressOverviewComp.vue";
     import _users from '../services/endpoints/users';
+	import { Spieler } from 'models/Spieler';
 
     export default Vue.extend({
         name: "HomePage",
@@ -36,7 +37,7 @@
             hasNoApi: false
         }),
         computed: {
-            user: function(): any {
+            user: function(): Spieler {
 				return this.$vStore.getters.loggedInUser;
             }
         },

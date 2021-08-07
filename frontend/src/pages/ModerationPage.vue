@@ -39,7 +39,7 @@
         }),
         computed: {
             showContainer: function(): boolean {
-                return this.$vStore.getters.loggedInUser.role > UserRole.Normal;
+                return this.$vStore.getters.loggedInUser.role > UserRole.Raider;
             }
         }
     })

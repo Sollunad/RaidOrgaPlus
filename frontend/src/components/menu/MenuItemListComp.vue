@@ -16,7 +16,7 @@
                 v-bind:key="menuItem.id"
                 v-bind:menuItem="menuItem"
         ></MenuItemComp>
-        <v-list-item v-if="user.role > 0" to="/moderation">
+        <v-list-item v-if="user.role > 1" to="/moderation">
             <v-list-item-action>
                 <v-icon>vpn_key</v-icon>
             </v-list-item-action>

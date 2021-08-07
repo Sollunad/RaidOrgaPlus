@@ -49,7 +49,7 @@
     import MenuRoleComp from "./MenuRoleComp.vue";
     import MenuNameComp from "./MenuNameComp.vue";
     import NameComp from "../menu/NameComp.vue";
-import { MyActions } from '@/models/Store/State';
+	import { MyActions } from '@/models/Store/State';
 
     export default Vue.extend({
         name: "AufstellungElementComp",

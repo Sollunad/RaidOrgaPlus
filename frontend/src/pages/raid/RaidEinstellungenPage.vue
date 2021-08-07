@@ -1,12 +1,8 @@
 <template>
     <div>
 		<h1>Einstellungen</h1>
-		<h2 class="header">Lieutenants</h2>
-		<v-divider class="divider" />
 		<LieutenantComp :raid="raid" :disabled="!isRaidLead" />
-		<h2 class="header">Misc.</h2>
-		<v-divider class="divider" />
-		<AnmeldeEinstellungComp />
+		<!-- <AnmeldeEinstellungComp /> -->
     </div>
 </template>
 
@@ -19,7 +15,8 @@
 	export default Vue.extend({
 		name: "RaidEinstellungenPage",
 		components: {
-			AnmeldeEinstellungComp, LieutenantComp
+			LieutenantComp,
+			// AnmeldeEinstellungComp
 		},
 		computed: {
 			raid: function(): userRaid {
@@ -33,13 +30,4 @@
 </script>
 
 <style scoped>
-	.header {
-		font-style: italic;
-		margin-top: 32px;
-	}
-
-	.divider {
-		border-width: thick 0 0 0;
-		margin-bottom: 20px;
-	}
 </style>

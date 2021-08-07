@@ -3,6 +3,9 @@
         <v-avatar v-if="isRaidLead" size="25" tile class="comm">
             <img :src="icon('comm')">
         </v-avatar>
+		<v-avatar v-if="isLieutenant" size="25" tile class="comm">
+			<img :src="icon('lieutenant')">
+		</v-avatar>
         <NameComp
             v-bind:user="user"
             class="name"
@@ -48,39 +51,42 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-    import _users from '../../services/endpoints/users';
-    import BuildChipComp from "../profile/BuildChipComp.vue";
-    import NameComp from "../menu/NameComp.vue";
-    import _icons from '../../services/icons';
+	import _users from '../../services/endpoints/users';
+	import BuildChipComp from "../profile/BuildChipComp.vue";
+	import NameComp from "../menu/NameComp.vue";
+	import _icons from '../../services/icons';
 	import { Build } from 'models/Build';
 
-    export default Vue.extend({
-        name: "SpielerComp",
-        components: {NameComp, BuildChipComp},
-        props: ['user', 'filter'],
-        data: () => ({
-            builds: [] as Build[],
+	export default Vue.extend({
+		name: "SpielerComp",
+		components: {NameComp, BuildChipComp},
+		props: ['user', 'filter'],
+		data: () => ({
+			builds: [] as Build[],
 			stars: [3, 2, 1, 0]
-        }),
-        computed: {
-            isRaidLead: function(): boolean {
-                return this.user.role === 2;
-            },
-            filtered: function(): Build[] {
-                if (this.filter) return this.builds.filter(b => this.filter.indexOf(b.role.abbr) !== -1 );
-                else return this.builds;
-            },
-            kickable: function(): boolean {
-                return this.$vStore.getters.raidRole > this.user.role;
-            }
-        },
-        methods: {
-            icon: function(name: any): string {
-                return _icons.miscIcon(name);
-            },
-            kick: function(): void {
-                this.$emit('kick', this.user);
-            },
+		}),
+		computed: {
+			isRaidLead: function(): boolean {
+				return this.user.role === 2;
+			},
+			isLieutenant: function(): boolean {
+				return this.user.role === 1;
+			},
+			filtered: function(): Build[] {
+				if (this.filter) return this.builds.filter(b => this.filter.indexOf(b.role.abbr) !== -1 );
+				else return this.builds;
+			},
+			kickable: function(): boolean {
+				return this.$vStore.getters.raidRole > this.user.role;
+			}
+		},
+		methods: {
+			icon: function(name: any): string {
+				return _icons.miscIcon(name);
+			},
+			kick: function(): void {
+				this.$emit('kick', this.user);
+			},
 			prefer: function(preferNr: number): Build[] {
 				return this.filtered.filter(b => b.prefer === preferNr);
 			},
@@ -99,11 +105,11 @@
 
 				return starColor;
 			}
-        },
-        created: async function(): Promise<void> {
-            this.builds = await _users.getBuilds(this.user.id);
-        }
-    })
+		},
+		created: async function(): Promise<void> {
+			this.builds = await _users.getBuilds(this.user.id);
+		}
+	})
 </script>
 
 <style scoped>

@@ -64,7 +64,6 @@ import { getURL } from '@/utils/misc';
             },
             previewLink: function(): string {
 				return getURL() + `preview/${this.termin.id}`;
-                // return `https://orga.rising-light.de/#/preview/${this.termin.id}`;
             }
         },
         created: async function(): Promise<void> {

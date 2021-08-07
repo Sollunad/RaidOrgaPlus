@@ -47,7 +47,7 @@
 				return this.$vStore.getters.raid;
 			},
 			showSpielerEinladen: function(): boolean {
-				return this.$vStore.getters.raidRole > 0;
+				return this.$vStore.getters.raidRole > 1;
 			}
 		},
 		methods: {
