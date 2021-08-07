@@ -30,7 +30,7 @@
                     </v-card-actions>
 
 					<v-card-text class="white--text">
-						<v-dialog width="600">
+						<v-dialog width="900" max-width="85%">
 							<template v-slot:activator="{ on }">
 								<span class="version" v-on="on">Changelog</span>
 							</template>
@@ -101,4 +101,9 @@
 	.version:hover {
         cursor: pointer;
     }
+
+	.changelogDialog {
+		width: 900px;
+		max-width: 85%;
+	}
 </style>

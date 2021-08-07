@@ -2,20 +2,31 @@ import { Changelog } from "@/models/Changelog";
 
 export const changelogs: Changelog[] = [
 	{
+		version: 'v2.2.0',
+		release: '07.08.2021',
+		features: [
+			'Changelog eingebaut.',
+			'Lieutenants als Rolle für Raid Gruppen hinzugefügt.',
+			'Datum und Uhrzeit für die Termin Preview hinzugefügt.'
+		],
+		subversions: [
+			{
+				version: 'Lieutenants',
+				release: '',
+				features: [
+					'Lieutenants können über die neu angelegte Seite "Einstellungen" für die jeweilige Raid Gruppe eingesehen und ernannt werden.',
+					'Es können maximal 2 Lieutenants pro Raid ernannt werden.',
+					'Lieutenants können keine Spieler einladen, kicken oder weitere Lieutenants ernennen, haben aber ansonsten die gleichen Rechte wie Raid Leader.'
+				]
+			}
+		]
+	},
+	{
 		version: 'v2.1.0',
 		release: '03.07.2021',
 		features: [
 			'Theme wechsel eingaubt.',
 			'Auswahl möglichkeiten zwischen dem Light-Theme, dem neuem Dark Theme (Standard) und dem altem, leicht angepassten Dark Theme.'
-		],
-		subversions: [
-			{
-				version: 'v.2.1.1',
-				release: 'WIP',
-				features: [
-					'WIP'
-				]
-			}
 		]
 	},
 	{

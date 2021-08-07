@@ -6,7 +6,7 @@ const endpoints: ControllerEndpoint[] = [
 ];
 export default endpoints;
 
-const EXPECTED_BUILD = 'v2.1.1';
+const EXPECTED_BUILD = 'v2.2.0';
 
 async function checkBuildVersion(req: Request): Promise<string> {
 	const fe_build = req.query.build;
