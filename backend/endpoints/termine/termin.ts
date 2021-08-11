@@ -86,7 +86,7 @@ async function listArchived(raidId: number): Promise<Termin[]> {
 	}
 }
 
-async function newTermin(raid: number, date: any, time: any): Promise<OkPacket> {
+async function newTermin(raid: number, date: Date, time: string): Promise<OkPacket> {
 	const stmt = 'INSERT INTO Termin (fk_raid, date, time) VALUES (?,?,?)';
 	try {
 		return await db.queryV(stmt, [raid, date, time]);
@@ -95,7 +95,7 @@ async function newTermin(raid: number, date: any, time: any): Promise<OkPacket> 
 	}
 }
 
-async function newTerminWithEndTime(raid: number, date: any, time: any, endtime: any): Promise<OkPacket> {
+async function newTerminWithEndTime(raid: number, date: Date, time: string, endtime: string): Promise<OkPacket> {
 	const stmt = 'INSERT INTO Termin (fk_raid, date, time, endtime) VALUES (?,?,?,?)';
 	try {
 		return await db.queryV(stmt, [raid, date, time, endtime]);

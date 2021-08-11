@@ -118,12 +118,12 @@ async function addBoss(req: Request, authentication: Authentication): Promise<(A
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
 			if (boss) {
-				return _termin.addBoss(termin, boss).then(async (res: any) => {
+				return _termin.addBoss(termin, boss).then(async (res: OkPacket) => {
 					await _aufstellung.loadBlanko(res.insertId);
 					return await _aufstellung.getForTermin(termin);
 				})
 			} else if (wing) {
-				return _termin.addWing(termin, wing).then(async (res: any) => {
+				return _termin.addWing(termin, wing).then(async (res: OkPacket) => {
 					const minId = res.insertId;
 					const maxId = minId + res.affectedRows - 1;
 					for (let i = minId; i <= maxId; i++) {
@@ -205,7 +205,7 @@ async function saveText(req: Request, authentication: Authentication): Promise<O
 	return;
 }
 
-async function getErsatz(req: Request, authentication: Authentication): Promise<any> {
+async function getErsatz(req: Request, authentication: Authentication): Promise<Spieler[]> {
 	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);

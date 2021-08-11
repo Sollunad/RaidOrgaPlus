@@ -1,13 +1,13 @@
 import { Action, CommitOptions, DispatchOptions, Mutation } from "vuex";
 import { Aufstellung } from "../../../../models/Aufstellung";
 import { Encounter } from "../../../../models/Encounter";
-import { terminDate } from "../../../../models/Types";
+import { element, terminDate } from "../../../../models/Types";
 import { RootState } from "./RootState";
 
 export interface AufstellungState {
 	isActive: any;
 	aufstellungen: (Aufstellung & Encounter)[];
-	elements: any[];
+	elements: element[];
 	locked: boolean;
 	anmeldungen: any[];
 	anmeldung: any;

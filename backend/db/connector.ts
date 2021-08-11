@@ -6,6 +6,10 @@ const dbConfig: ConnectionConfig = {
 		if (field.type === 'TINY' && field.length === 1) {
 			return (field.string() === '1');
 		}
+		else if (field.type === 'DATE') {
+			const dateString = field.string();
+			return dateString != null ? new Date(dateString) : null;
+		}
 		else {
 			return next();
 		}

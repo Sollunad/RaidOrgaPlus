@@ -37,7 +37,7 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
 					aufstellungString += `${clss ? clss : empty} ${role ? role : empty} - ${element.name}\n`
 				}
 				let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Aufstellung`)
-					.addField('Datum', termin.date)
+					.addField('Datum', termin.dateString)
 					.addField('Uhrzeit', termin.time)
 					.addField('Boss', `(${pickedAufstellung}) ${aufstellung.name}`)
 					.addField('Aufstellung', aufstellungString)
@@ -83,9 +83,9 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
 			for (let i = 0; i < termine.length; i++) {
 				const termin = termine[i];
 				if (termin.endtime) {
-					embed = embed.addField(`(${i + 1}) ${termin.date}`, `${termin.time} - ${termin.endtime}`);
+					embed = embed.addField(`(${i + 1}) ${termin.dateString}`, `${termin.time} - ${termin.endtime}`);
 				} else {
-					embed = embed.addField(`(${i + 1}) ${termin.date}`, termin.time);
+					embed = embed.addField(`(${i + 1}) ${termin.dateString}`, termin.time);
 				}
 			}
 			await message.channel.send(embed);

@@ -14,9 +14,21 @@ export type element = {
 	accname: string;
 };
 
+export type blankoElement = {
+	pos: number;
+	class: string;
+	role: string;
+	enc: number;
+};
+
 export type playerInvite = {
 	id: number;
 	name: string;
+}
+
+export type terminState = {
+	raid: number;
+	type: number;
 }
 
 export type raidInvite = {

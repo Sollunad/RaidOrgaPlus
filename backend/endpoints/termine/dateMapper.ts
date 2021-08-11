@@ -1,4 +1,3 @@
-import { Termin } from "../../../models/Termin";
 import { terminDate } from "../../../models/Types";
 
 export { mapTerminDate as map };

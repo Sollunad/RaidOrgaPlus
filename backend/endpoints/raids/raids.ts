@@ -1,7 +1,7 @@
 import { Raid } from 'models/Raid';
 import { Spieler } from 'models/Spieler';
 import { OkPacket } from 'mysql';
-import { userRaid } from 'models/Types';
+import { terminState, userRaid } from 'models/Types';
 import * as db from '../../db/connector';
 
 export {
@@ -49,7 +49,7 @@ async function listPlayers(raidId: number): Promise<Spieler[]> {
 	}
 }
 
-async function anmeldungStatesForUser(userId: number): Promise<any> {
+async function anmeldungStatesForUser(userId: number): Promise<terminState[]> {
 	const stmt = `
 		SELECT Termin.fk_raid AS raid, MIN(CASE WHEN ISNULL(Spieler_Termin.type) THEN -1 ELSE Spieler_Termin.type END) AS type
 		FROM Termin

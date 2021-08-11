@@ -4,6 +4,7 @@ import { Request } from 'express';
 import { Authentication } from 'models/Auth';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
+import { blankoElement } from 'models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getElements, path: '', method: 'get', authed: true },
@@ -12,7 +13,7 @@ const endpoints: ControllerEndpoint[] = [
 ];
 export default endpoints;
 
-async function getElements(req: Request, authentication: Authentication): Promise<any> {
+async function getElements(req: Request, authentication: Authentication): Promise<blankoElement[]> {
 	const raid = Number(req.query.raid);
 	const enc = Number(req.query.enc);
 	if (raid) {
@@ -47,7 +48,7 @@ async function postElement(req: Request, authentication: Authentication): Promis
 	return;
 }
 
-async function copyFromTo(req: Request, authentication: Authentication): Promise<any> {
+async function copyFromTo(req: Request, authentication: Authentication): Promise<blankoElement[]> {
 	const raid = Number(req.body.raid);
 	const from = Number(req.body.from);
 	const to = Number(req.body.to);

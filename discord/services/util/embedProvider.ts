@@ -22,7 +22,7 @@ export function terminEmbed(client: DiscordClient, raidName: string, termin: (Te
 	if (anmeldungenString === '') anmeldungenString = 'Keine';
 	let gesamtString = gesamtAnmeldungen(anmeldungen, emojis);
 	return defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
-		.addField('Datum', termin.date)
+		.addField('Datum', termin.dateString)
 		.addField('Uhrzeit', `${termin.time} - ${termin.endtime}`)
 		.addField('Geplante Bosse', allBosses)
 		.addField('Anmeldungen', anmeldungenString)

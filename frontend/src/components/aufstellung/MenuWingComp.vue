@@ -2,7 +2,7 @@
     <v-list>
         <v-list-item
                 v-for="(wing, index) in wings"
-                :key="wing.id"
+                :key="index"
                 @click="null">
             <v-menu>
                 <template v-slot:activator="{on}">
@@ -22,16 +22,19 @@
 	import Vue from 'vue';
     import MenuBossComp from "./MenuBossComp.vue";
     import _gamedata from '../../services/endpoints/gamedata';
+	import { Encounter } from 'models/Encounter';
 
     export default Vue.extend({
         name: "MenuWingComp",
-        props: ['showFC'],
+		props: {
+			showFC: Boolean
+		},
         components: {MenuBossComp},
         data: () => ({
-            wings: [] as any[],
+            wings: {} as Encounter[][],
         }),
         methods: {
-            pick: function(info: any): void {
+            pick: function(info: number[]): void {
                 this.$emit('pick', info);
             }
         },

@@ -8,7 +8,7 @@ import { Authentication } from 'models/Auth';
 import { Spieler } from 'models/Spieler';
 import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
-import { playerInvite, userRaid } from 'models/Types';
+import { playerInvite, terminState, userRaid } from 'models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getRaids, path: '', method: 'get', authed: true },
@@ -105,7 +105,7 @@ async function deleteInvite(req: Request, authentication: Authentication): Promi
 	return;
 }
 
-async function anmeldungStatesForUser(req: Request, authentication: Authentication): Promise<any> {
+async function anmeldungStatesForUser(req: Request, authentication: Authentication): Promise<terminState[]> {
 	return (await _raids.anmeldungStatesForUser(authentication.user));
 }
 

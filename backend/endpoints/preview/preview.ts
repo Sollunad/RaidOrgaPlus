@@ -29,7 +29,7 @@ export async function getTerminDate(termin: number): Promise<terminDate> {
 		WHERE id = ?;
 	`;
 	try {
-		const response: any[] = await db.queryV(stmt, termin);
+		const response = await db.queryV<terminDate[]>(stmt, termin);
 		return response.map(map)[0];
 	} catch (e) {
 		throw e;

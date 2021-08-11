@@ -8,16 +8,17 @@ import { AufstellungActions, AufstellungActionsDefinition, AufstellungGettersDef
 import { RootState } from "@/models/Store/RootState";
 import { Aufstellung } from "../../../../models/Aufstellung";
 import { Encounter } from "../../../../models/Encounter";
-import { terminDate } from "../../../../models/Types";
+import { element, terminDate } from "../../../../models/Types";
+import { Termin } from "../../../../models/Termin";
 
 const mutations: AufstellungMutationsDefinition = {
 	[AufstellungMutations.SetActive]: (state: AufstellungState, isActive: any) => {
 		state.isActive = isActive;
 	},
-	[AufstellungMutations.SetAufstellungen]: (state: AufstellungState, aufstellungen: any) => {
+	[AufstellungMutations.SetAufstellungen]: (state: AufstellungState, aufstellungen: (Aufstellung & Encounter)[]) => {
 		state.aufstellungen = aufstellungen;
 	},
-	[AufstellungMutations.SetElements]: (state: AufstellungState, elements: any) => {
+	[AufstellungMutations.SetElements]: (state: AufstellungState, elements: element[]) => {
 		state.elements = elements;
 	},
 	[AufstellungMutations.SetLocked]: (state: AufstellungState, locked: any) => {
@@ -145,7 +146,7 @@ const actions: AufstellungActionsDefinition = {
 	ToggleUpload: (context: ActionContext<AufstellungState, RootState>) => {
 		context.commit(AufstellungMutations.ToggleUpload);
 	},
-	AddBoss: async (context: ActionContext<AufstellungState, RootState>, info: any) => {
+	AddBoss: async (context: ActionContext<AufstellungState, RootState>, info: number[]) => {
 		const [boss, wing] = info;
 		const termin = context.getters.termin;
 		if (boss === 0) {
@@ -168,7 +169,7 @@ const actions: AufstellungActionsDefinition = {
 	CloseDialog: (context: ActionContext<AufstellungState, RootState>) => {
 		context.commit(AufstellungMutations.SetOpenDialog, null);
 	},
-	Archive: async (context: ActionContext<AufstellungState, RootState>, newTermin: any) => {
+	Archive: async (context: ActionContext<AufstellungState, RootState>, newTermin: boolean) => {
 		context.dispatch(AufstellungActions.CloseDialog);
 		if (newTermin) {
 			context.dispatch(AufstellungActions.CreateNewTermin);
@@ -176,7 +177,7 @@ const actions: AufstellungActionsDefinition = {
 		await _termine.archive(context.getters.termin.id);
 		window.history.back();
 	},
-	Delete: async (context: ActionContext<AufstellungState, RootState>, newTermin: any) => {
+	Delete: async (context: ActionContext<AufstellungState, RootState>, newTermin: boolean) => {
 		context.dispatch(AufstellungActions.CloseDialog);
 		if (newTermin) {
 			context.dispatch(AufstellungActions.CreateNewTermin);
@@ -187,7 +188,7 @@ const actions: AufstellungActionsDefinition = {
 	CreateNewTermin: async (context: ActionContext<AufstellungState, RootState>) => {
 		const termin = context.getters.termin;
 		const raid = context.getters.raid;
-		const oldDate = termin.date.slice(4);
+		const oldDate = termin.dateString.slice(4);
 		const dmy = oldDate.split('.');
 		const date = new Date(dmy[2], dmy[1] - 1, dmy[0]);
 		// I have to add 8 days here to get 7 but I don't know why.

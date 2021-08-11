@@ -14,7 +14,7 @@ async function raidProgress(userId: number): Promise<any> {
 		if (!key) {
 			return [];
 		}
-		
+
 		return await api.fetchProgress(key);
 	} catch (e) {
 		console.error(e);

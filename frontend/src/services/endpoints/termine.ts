@@ -1,5 +1,7 @@
-import { homepageTermin } from '../../../../models/Types';
 import con from '../connector';
+import { homepageTermin } from 'models/Types';
+import { Aufstellung } from 'models/Aufstellung';
+import { Encounter } from 'models/Encounter';
 
 export default {
 	isArchived, isLocked, putLocked, listActive, listArchived, newTermin, archive, anmelden, anmeldenLead, getErsatz, addErsatz, deleteErsatz,
@@ -54,11 +56,11 @@ async function getAnmeldungenForTermin(termin: any): Promise<any> {
 	return (await con('termine/anmeldungenAll', 'get', { termin }, true));
 }
 
-async function addBoss(termin: any, boss: any): Promise<any> {
+async function addBoss(termin: number, boss: number): Promise<(Aufstellung & Encounter)[]> {
 	return await con('termine/bosses', 'post', { termin, boss }, true);
 }
 
-async function addWing(termin: any, wing: any): Promise<any> {
+async function addWing(termin: number, wing: number): Promise<(Aufstellung & Encounter)[]> {
 	return await con('termine/bosses', 'post', { termin, wing }, true);
 }
 
