@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npx tsnd ./app.ts",
     "build": "npx tsc",
-    "test": "jest"
+    "test": "jest",
+	"test:ci": "jest --ci --reporters='default' --reporters='../github-actions-reporter'"
   },
   "author": "",
   "license": "ISC",
