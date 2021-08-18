@@ -11,12 +11,13 @@ jobs:
       - name: Add missing Config-Files.
         run: |
           cd ./backend/db/
-          echo "{" > config.json
-          echo " \"host\":\"\"," >> config.json
-          echo " \"user\":\"\"," >> config.json
-          echo " \"password\":\"\"," >> config.json
-          echo " \"database\":\"\"" >> config.json
-          echo "}" >> config.json
+          echo "{ \"host\":\"\", \"user\":\"\", \"password\":\"\", \"database\":\"\" }" > config.json
+          cd ../discord/
+          echo "{ \"token\": \"\", \"prefix\": \"\", \"server\": \"\", \"raidLeadRole\": \"\" }" > config.json
+          cd ../gw2api/
+          echo "{ \"keyRL\": \"\" }" > config.json
+          cd ../mailer
+          echo "{ \"host\": \"\", \"auth\": { \"user\": \"\", \"pass\": \"\" } }" > config.json
 
       - name: Use Node.js 14.x
         uses: actions/setup-node@v2
