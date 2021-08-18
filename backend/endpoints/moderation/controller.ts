@@ -168,7 +168,7 @@ async function setPlayerRole(req: Request, authentication: Authentication): Prom
 	const role_to_set = Number(req.body.role);
 	const accName: string = req.body.accname;
 	const role = _roles.getRole(authentication);
-	if (role > UserRole.Maz && raidId && spielerId && (role_to_set || role_to_set === 0)) {
+	if (role >= UserRole.Maz && raidId && spielerId && (role_to_set || role_to_set === 0)) {
 		const raidCount = await _raids.getRaidsAsLead(spielerId);
 
 		if (raidCount <= 1 && role_to_set == 0) {

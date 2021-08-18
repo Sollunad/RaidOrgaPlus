@@ -3,7 +3,7 @@ export type Message = {
 	channelId: string,
 	termin?: {
 		id: number,
-		date: string,
+		date: Date,
 		time: string,
 		endtime: string,
 		type: number

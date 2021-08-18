@@ -14,7 +14,7 @@ const stmt = `
 	SELECT Spieler.id, Spieler.accname, Spieler.name, Spieler.lastActive, Spieler.comment, Spieler.discord, Spieler.role, NULL, NULL
 	FROM Spieler
 	WHERE Spieler.id > 9
-	AND Spieler.id NOT IN (SELECT DISTINCT fk_spieler FROM Spieler_Termin)
+	AND Spieler.id NOT IN (SELECT DISTINCT fk_spieler FROM Spieler_Termin WHERE type = 0 OR type = 1)
 	ORDER BY accname
 `;
 

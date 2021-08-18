@@ -45,6 +45,11 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: updateTheme, path: '/theme', method: 'put', authed: true }
 ];
 export default endpoints;
+export {
+	getUser, invalidateSession, registerUser, loginUser, setApi, hasApi, setName, getBuilds, addBuild, deleteBuild, putPrefer,
+	setEmail, setPassword, createResetToken, resetPassword, getDiscordKey, hasProgressShared, setProgressShared, getExtraAccounts,
+	addExtraAccount, deleteExtraAccount, getUserByName, updateTheme
+}
 
 async function getUser(req: Request, authentication: Authentication): Promise<Spieler> {
 	const id = Number(req.query.id);
@@ -267,7 +272,7 @@ async function getUserByName(req: Request, authentication: Authentication): Prom
 	const accName = req.query.accName as string;
 	const role = _roles.getRole(authentication);
 	const isRaidLead = authentication.raids.some(r => r.role > 0);
-	if (role > UserRole.Normal || isRaidLead) {
+	if (role > UserRole.Raider || isRaidLead) {
 		return await _user.getUserByName(accName);
 	}
 	return [];

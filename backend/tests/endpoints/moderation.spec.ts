@@ -5,6 +5,9 @@ import * as discord from '../../discord/discord';
 import * as modRaids from '../../endpoints/moderation/raids';
 import * as modUsers from '../../endpoints/moderation/users';
 import * as invitable from '../../endpoints/raids/invites';
+import { UserRole } from '../../../models/Enums';
+import { OkPacket } from 'mysql';
+import { Spieler } from '../../../models/Spieler';
 
 jest.mock('../../discord/discord');
 jest.mock('../../authentication/role');
@@ -30,7 +33,7 @@ describe('moderation-controller', () => {
 	});
 
 	roleMock.getRole.mockImplementation(() => {
-		return 2;
+		return UserRole.Moderator;
 	});
 
 	describe('createRaid', () => {
@@ -44,7 +47,7 @@ describe('moderation-controller', () => {
 
 		it('should create a new raid', async () => {
 			await createRaid(req, null);
-			
+
 			expect(roleMock.getRole).toBeCalled();
 			expect(discordMock.addRaidRole).toBeCalledWith(raidName);
 			expect(modRaidsMock.createRaid).toBeCalledWith(raidName);
@@ -52,11 +55,11 @@ describe('moderation-controller', () => {
 
 		it('should not create a new raid (insufficient rights)', async () => {
 			roleMock.getRole.mockImplementationOnce(() => {
-				return 0;
+				return UserRole.Raider;
 			});
 
 			await createRaid(req, null);
-			
+
 			expect(roleMock.getRole).toBeCalled();
 			expect(discordMock.addRaidRole).not.toBeCalled()
 			expect(modRaidsMock.createRaid).not.toBeCalled();
@@ -66,7 +69,7 @@ describe('moderation-controller', () => {
 			delete req.body.name;
 
 			await createRaid(req, null);
-			
+
 			expect(roleMock.getRole).toBeCalled();
 			expect(discordMock.addRaidRole).not.toBeCalled()
 			expect(modRaidsMock.createRaid).not.toBeCalled();
@@ -85,7 +88,7 @@ describe('moderation-controller', () => {
 
 		it('should delete a raid', async () => {
 			await deleteRaid(req, null);
-	
+
 			expect(roleMock.getRole).toBeCalled();
 			expect(discordMock.removeRaidRole).toBeCalledWith(raidName);
 			expect(modRaidsMock.deleteRaid).toBeCalledWith(raidId);
@@ -93,11 +96,11 @@ describe('moderation-controller', () => {
 
 		it('should not delete a raid (insufficient rights)', async () => {
 			roleMock.getRole.mockImplementationOnce(() => {
-				return 0;
+				return UserRole.Raider;
 			});
 
 			await deleteRaid(req, null);
-	
+
 			expect(roleMock.getRole).toBeCalled();
 			expect(discordMock.removeRaidRole).not.toBeCalled();
 			expect(modRaidsMock.deleteRaid).not.toBeCalled();
@@ -107,7 +110,7 @@ describe('moderation-controller', () => {
 			delete req.body.name;
 
 			await deleteRaid(req, null);
-	
+
 			expect(roleMock.getRole).toBeCalled();
 			expect(discordMock.removeRaidRole).not.toBeCalled();
 			expect(modRaidsMock.deleteRaid).not.toBeCalled();
@@ -121,18 +124,18 @@ describe('moderation-controller', () => {
 		})
 
 		it('should return an empty array (not allowed)', async () => {
-			roleMock.getRole.mockImplementationOnce((auth) => {
-				return 0;
+			roleMock.getRole.mockImplementationOnce(() => {
+				return UserRole.Raider;
 			});
-	
+
 			const result = await invitablePlayers(req, null);
-	
+
 			expect(result).toBeEmpty();
 			expect(invitableMock.invitable).not.toBeCalled();
 		});
 
 		it('should return an empty array (no invitable players)', async () => {
-			invitableMock.invitable.mockImplementationOnce((raid) => {
+			invitableMock.invitable.mockImplementationOnce(() => {
 				return Promise.resolve([]);
 			});
 
@@ -143,8 +146,8 @@ describe('moderation-controller', () => {
 		});
 
 		it('should return invitable players', async () => {
-			invitableMock.invitable.mockImplementationOnce((raid) => {
-				const players: any[] = [{}, {}, {}];
+			invitableMock.invitable.mockImplementationOnce(() => {
+				const players = [{}, {}, {}] as Spieler[];
 				return Promise.resolve(players);
 			});
 
@@ -177,11 +180,11 @@ describe('moderation-controller', () => {
 		})
 
 		modRaidsMock.addPlayer.mockImplementation(() => {
-			return Promise.resolve({} as any);
+			return Promise.resolve({} as OkPacket);
 		});
 
 		modRaidsMock.removePlayer.mockImplementation(() => {
-			return Promise.resolve({} as any);
+			return Promise.resolve({} as OkPacket);
 		});
 
 		it('should add a player to the raid', async () => {
@@ -193,7 +196,7 @@ describe('moderation-controller', () => {
 
 		it('should not add a player (no rights)', async () => {
 			roleMock.getRole.mockImplementationOnce(() => {
-				return 0;
+				return UserRole.Raider;
 			});
 
 			await addPlayer(req, null);
@@ -207,7 +210,7 @@ describe('moderation-controller', () => {
 			delete req.body.spieler;
 
 			await addPlayer(req, null);
-			
+
 			expect(discordMock.addRaidLead).not.toBeCalled();
 			expect(modRaidsMock.addPlayer).not.toBeCalled();
 		});
@@ -221,7 +224,7 @@ describe('moderation-controller', () => {
 
 		it('should not remove a player (no rights)', async () => {
 			roleMock.getRole.mockImplementationOnce(() => {
-				return 0;
+				return UserRole.Raider;
 			});
 
 			await removePlayer(req, null);
@@ -235,7 +238,7 @@ describe('moderation-controller', () => {
 			delete req.body.spieler;
 
 			await removePlayer(req, null);
-			
+
 			expect(discordMock.removeRole).not.toBeCalled();
 			expect(modRaidsMock.removePlayer).not.toBeCalled();
 		});
@@ -249,7 +252,7 @@ describe('moderation-controller', () => {
 		});
 
 		modRaidsMock.setPlayerRole.mockImplementation(() => {
-			return Promise.resolve({} as any);
+			return Promise.resolve({} as OkPacket);
 		});
 
 		discordMock.addRaidLead.mockImplementation(() => {
@@ -309,7 +312,7 @@ describe('moderation-controller', () => {
 
 		it('should not set the player role (no rights)', async () => {
 			roleMock.getRole.mockImplementationOnce(() => {
-				return 0;
+				return UserRole.Raider;
 			});
 
 			await setPlayerRole(req, null);
@@ -335,7 +338,7 @@ describe('moderation-controller', () => {
 		let comment: string;
 
 		modUsersMock.setComment.mockImplementation(() => {
-			return Promise.resolve({} as any);
+			return Promise.resolve({} as OkPacket);
 		});
 
 		beforeEach(() => {
@@ -358,7 +361,7 @@ describe('moderation-controller', () => {
 
 		it('should not set a comment (insufficient rights)', async () => {
 			roleMock.getRole.mockImplementationOnce(() => {
-				return 0;
+				return UserRole.Raider;
 			});
 
 			await setComment(req, null);

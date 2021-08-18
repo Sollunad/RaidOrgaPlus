@@ -1,4 +1,4 @@
-import { UserRole } from "../../models/Spieler";
+import { UserRole } from "../../models/Enums";
 
 export interface Authentication {
 	user: number,
