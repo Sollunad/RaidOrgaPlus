@@ -9,13 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add missing Config-Files.
-        run: cd ./backend/db/
-        run: echo "{" > config.json
-        run: echo " \"host\":\"\"," >> config.json
-        run: echo " \"user\":\"\"," >> config.json
-        run: echo " \"password\":\"\"," >> config.json
-        run: echo " \"database\":\"\"" >> config.json
-        run: echo "}" >> config.json
+        run: |
+          cd ./backend/db/
+          echo "{" > config.json
+          echo " \"host\":\"\"," >> config.json
+          echo " \"user\":\"\"," >> config.json
+          echo " \"password\":\"\"," >> config.json
+          echo " \"database\":\"\"" >> config.json
+          echo "}" >> config.json
       # - name: Use Node.js 14.x
       #   uses: actions/setup-node@v2
       #   with:
