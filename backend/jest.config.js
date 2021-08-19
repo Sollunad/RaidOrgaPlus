@@ -7,6 +7,7 @@ module.exports = {
 	preset: 'ts-jest',
 	testEnvironment: 'node',
 	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+	setupFiles: ["./config/setup.ts"],
 	setupFilesAfterEnv: ["jest-extended"],
 	clearMocks: true
 };
