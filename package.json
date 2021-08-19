@@ -4,6 +4,8 @@
   "scripts": {
     "install": "cd models && npm install && cd ../frontend && npm install && cd ../backend && npm install && cd ../discord && npm install",
     "build": "cd models && npm run build && cd ../frontend && npm run build",
+	"build:models": "cd models && npm run build",
+	"test:ci": "cd backend && npm run test:ci",
     "serve": "cd frontend && npm run serve",
     "start-backend": "cd backend && nodejs app.js",
     "start-backend-dev": "cd backend && nodejs app.js http",

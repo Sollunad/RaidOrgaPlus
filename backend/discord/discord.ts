@@ -6,13 +6,17 @@ export class DiscordClient extends Client {
 	config: any;
 }
 
-const client = new DiscordClient();
-client.config = config;
-client.login(config.token);
+let client = null;
 
-client.on('ready', () => {
-	checkDiscordUsers();
-});
+if (process.env.DISCORD) {
+	client = new DiscordClient();
+	client.config = config;
+	client.login(config.token);
+
+	client.on('ready', () => {
+		checkDiscordUsers();
+	});
+}
 
 export { client };
 
