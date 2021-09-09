@@ -36,7 +36,7 @@ export async function addReport(aufstellung: number, file: UploadedFile): Promis
     return [fileName];
 }
 
-async function writeReport(aufstellung: number, fileName: string): Promise<OkPacket> {
+export async function writeReport(aufstellung: number, fileName: string): Promise<OkPacket> {
     const stmt = 'UPDATE Aufstellung SET report = ? WHERE id = ?';
     try {
         return await db.queryV(stmt, [fileName, aufstellung]);

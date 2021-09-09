@@ -81,11 +81,7 @@
             </v-btn>
         </div>
         <div>
-            <FileUploadComp
-                    v-bind:aufstellung="aufstellung"
-                    v-if="uploadActive"
-                    v-on:uploadComplete="uploadComplete"
-            ></FileUploadComp>
+            <FileUploadComp v-bind:aufstellung="aufstellung" v-if="uploadActive" v-on:uploadComplete="uploadComplete" />
         </div>
     </div>
 </template>
@@ -96,12 +92,14 @@
     import _aufstellungen from '../../services/endpoints/aufstellungen';
     import FileUploadComp from "../reports/FileUploadComp.vue";
 	import { MyActions } from '@/models/Store/State';
+	import { Aufstellung } from 'models/Aufstellung';
+	import { Encounter } from 'models/Encounter';
 
     export default Vue.extend({
         name: "AufstellungHeaderComp",
         components: {FileUploadComp},
 		props: {
-			aufstellung: Object as PropType<any>,
+			aufstellung: Object as PropType<Aufstellung & Encounter>,
 			copyActive: Boolean
 		},
         data: () => ({
@@ -130,12 +128,17 @@
                 else return 'check_circle_outline';
             },
             reportLink: function(): string | boolean {
-                const baseLink = 'https://sv.rising-light.de:8080/reports/';
-                if (this.reportId) {
-                    return `${baseLink}${this.reportId}.html`;
-                } else {
-                    return false;
-                }
+				const baseLink = 'https://sv.rising-light.de:8080/reports/';
+				if (this.reportId != null) {
+					if (this.isURL(this.reportId)) {
+						return this.reportId;
+					}
+					else {
+						return `${baseLink}${this.reportId}.html`;
+					}
+				}
+
+				return false;
             }
         },
         methods: {
@@ -162,7 +165,17 @@
                 this.isCM = !this.isCM;
                 await _aufstellungen.setCM(this.aufstellung.id, this.isCM);
                 await this.$vStore.dispatch(MyActions.WsSendRefresh);
-            }
+            },
+			isURL: function(report: string): boolean {
+				const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+					'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+					'((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+					'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+					'(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+					'(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+				return pattern.test(report);
+			}
         },
         created: function(): void {
             this.reportId = this.aufstellung.report;

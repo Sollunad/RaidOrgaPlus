@@ -4,11 +4,12 @@ import * as _roles from '../../authentication/role';
 import * as _users from '../users/user';
 import * as _discord from '../../discord/users';
 import { Request } from 'express';
+import { OkPacket } from 'mysql';
+import axios from "axios";
 import { Authentication } from 'models/Auth';
 import { Spieler } from 'models/Spieler';
-import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
-import { playerInvite, terminState, userRaid } from 'models/Types';
+import { playerInvite, Response, terminState, userRaid } from 'models/Types';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getRaids, path: '', method: 'get', authed: true },
@@ -22,6 +23,9 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: deleteInvite, path: '/invites', method: 'delete', authed: true },
 	{ function: anmeldungStatesForUser, path: '/anmeldungen', method: 'get', authed: true },
 	{ function: setLieutenantRole, path: '/lieutenant', method: 'post', authed: true },
+	{ function: generateUserToken, path: '/generateUserToken', method: 'post', authed: true },
+	{ function: setUserToken, path: '/setUserToken', method: 'post', authed: true },
+	{ function: getUserToken, path: '/getUserToken', method: 'get', authed: true },
 ];
 export default endpoints;
 
@@ -135,6 +139,49 @@ async function setLieutenantRole(req: Request, authentication: Authentication): 
 		const userRole = _roles.forRaid(authentication, raidId);
 		if (userRole > 1) {
 			await _raids.setLieutenantRole(raidId, user, role);
+		}
+	}
+}
+
+async function generateUserToken(req: Request, authentication: Authentication): Promise<{ token: string; success: boolean }> {
+	const raidId = Number(req.body.raidId);
+	if (raidId != null) {
+		const userRole = _roles.forRaid(authentication, raidId);
+		if (userRole > 1) {
+			let token = "";
+			const response = await axios.get<{ userToken: string }>("https://dps.report/getUserToken", { withCredentials: false });
+			if (response.status < 400) {
+				token = response.data.userToken;
+				await _raids.setUserToken(raidId, token);
+				return { token, success: true };
+			} else {
+				return { token: response.statusText, success: false };
+			}
+		}
+	}
+}
+
+async function setUserToken(req: Request, authentication: Authentication): Promise<Response> {
+	const raidId = Number(req.body.raidId);
+	const token = req.body.token;
+	if (raidId != null) {
+		const userRole = _roles.forRaid(authentication, raidId);
+		if (userRole > 1) {
+			await _raids.setUserToken(raidId, token);
+			return { success: true };
+		}
+	}
+
+	return { success: false };
+}
+
+async function getUserToken(req: Request, authentication: Authentication): Promise<Response<string>> {
+	const raidId = Number(req.query.raidId);
+	if (raidId != null) {
+		const userRole = _roles.forRaid(authentication, raidId);
+		if (userRole > 1) {
+			const token = await _raids.getUserToken(raidId);
+			return { success: true, data: token };
 		}
 	}
 }

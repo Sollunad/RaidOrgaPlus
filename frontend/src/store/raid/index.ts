@@ -43,7 +43,7 @@ const getters: RaidGettersDefinition = {
 
 const RaidModule: Module<RaidState, RootState> = {
     state: {
-        raid: null as userRaid,
+        raid: null as unknown as userRaid,
         termin: null as unknown as Termin,
     },
     mutations: mutations,

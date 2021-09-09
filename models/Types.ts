@@ -57,3 +57,9 @@ export type homepageTermin = Termin & Omit<Raid, 'id'> & SpielerRaid & SpielerTe
 export type userRaid = Omit<Raid, 'active'> & {
 	role: number;
 };
+
+export type Response<T = any> = {
+	success: boolean;
+	data?: T;
+	error?: string;
+}

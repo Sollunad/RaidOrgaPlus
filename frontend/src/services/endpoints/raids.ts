@@ -1,10 +1,11 @@
 import con from '../connector';
-import { playerInvite, userRaid } from 'models/Types';
+import { playerInvite, Response, userRaid } from 'models/Types';
 import { Spieler } from 'models/Spieler';
 
 export default {
 	listForPlayer, role, listPlayers, invitePlayer, invitablePlayers, kickPlayer,
-	pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf, getAnmeldungState, setLieutenantRole
+	pendingInvitesForPlayer, pendingInvitesForRaid, acceptInvite, deleteInviteAsLead, deleteInviteAsSelf,
+	getAnmeldungState, setLieutenantRole, generateUserToken, setUserToken, getUserToken
 };
 
 async function listForPlayer(): Promise<userRaid[]> {
@@ -57,4 +58,16 @@ async function getAnmeldungState(): Promise<any> {
 
 async function setLieutenantRole(raidId: number, user: number, role: number): Promise<void> {
 	return await con('raids/lieutenant', 'post', { raidId, user, role }, true);
+}
+
+async function generateUserToken(raidId: number): Promise<{ token: string, success: boolean }> {
+	return await con('raids/generateUserToken', 'post', { raidId }, true);
+}
+
+async function setUserToken(raidId: number, token: string): Promise<Response> {
+	return await con('raids/setUserToken', 'post', { raidId, token }, true);
+}
+
+async function getUserToken(raidId: number): Promise<Response<string>> {
+	return await con('raids/getUserToken', 'get', { raidId }, true);
 }

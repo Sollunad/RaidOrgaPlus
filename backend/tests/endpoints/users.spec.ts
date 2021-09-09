@@ -1,4 +1,5 @@
 import { Request } from "express";
+import hash from "password-hash";
 import { Spieler } from "../../../models/Spieler";
 import { getUser, invalidateSession, loginUser, registerUser } from "../../endpoints/users/controller";
 
@@ -13,6 +14,7 @@ import * as discord from '../../endpoints/users/discord';
 import { UserRole } from "../../../models/Enums";
 import { Authentication } from "models/Auth";
 
+jest.mock("password-hash");
 jest.mock('../../authentication/role');
 jest.mock('../../authentication/auth');
 jest.mock('../../discord/users');
@@ -23,6 +25,7 @@ jest.mock('../../endpoints/users/login');
 jest.mock('../../endpoints/users/discord');
 
 describe('users controller', () => {
+	const hashMock = hash as jest.Mocked<typeof hash>;
 	const roleMock = role as jest.Mocked<typeof role>;
 	const authMock = auth as jest.Mocked<typeof auth>;
 	const discordUsersMock = discordUser as jest.Mocked<typeof discordUser>;
@@ -160,6 +163,8 @@ describe('users controller', () => {
 		const discordId = 'discordId';
 		const agent = 'unitTestAgent';
 		const uuid = 'someIdentifier';
+		const wrongPassword = "wrongPassword";
+		const wrongUsername = "wrongUsername";
 
 		beforeEach(() => {
 			req = {
@@ -173,15 +178,9 @@ describe('users controller', () => {
 			} as Request;
 		});
 
-		loginMock.login.mockImplementation(() => {
-			return Promise.resolve(uuid);
-		});
-
-		discordMock.login.mockImplementation(() => {
-			return Promise.resolve(uuid);
-		});
-
 		it('should login the user', async () => {
+			loginMock.login.mockResolvedValueOnce(uuid);
+
 			delete req.body.key;
 			delete req.body.id;
 
@@ -191,6 +190,48 @@ describe('users controller', () => {
 			expect(resp).not.toBeNull();
 			expect(resp).not.toBeUndefined();
 			expect(resp).toBe(uuid);
+		});
+
+		it('should login the user via discord', async () => {
+			discordMock.login.mockResolvedValueOnce(uuid);
+
+			delete req.body.accName;
+			delete req.body.pwd;
+
+			const resp = await loginUser(req);
+
+			expect(discordMock.login).toBeCalled();
+			expect(resp).not.toBeNull();
+			expect(resp).not.toBeUndefined();
+			expect(resp).toBe(uuid);
+		});
+
+		it('should not login the user (wrong username)', async () => {
+			loginMock.login.mockResolvedValueOnce(wrongUsername);
+
+			delete req.body.key;
+			delete req.body.id;
+
+			const resp = await loginUser(req);
+
+			expect(loginMock.login).toBeCalled();
+			expect(resp).not.toBeNull();
+			expect(resp).not.toBeUndefined();
+			expect(resp).toBe(wrongUsername);
+		});
+
+		it('should not login the user (wrong password)', async () => {
+			loginMock.login.mockResolvedValueOnce(wrongPassword);
+
+			delete req.body.key;
+			delete req.body.id;
+
+			const resp = await loginUser(req);
+
+			expect(loginMock.login).toBeCalled();
+			expect(resp).not.toBeNull();
+			expect(resp).not.toBeUndefined();
+			expect(resp).toBe(wrongPassword);
 		});
 	});
 });

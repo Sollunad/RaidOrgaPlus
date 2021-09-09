@@ -6,12 +6,12 @@ import * as db from '../../db/connector';
 
 export {
 	listForPlayerId as listForPlayer, getForRaidId as get, listPlayers, anmeldungStatesForUser, kickPlayer,
-	getRoleForPlayer, setLieutenantRole
+	getRoleForPlayer, setLieutenantRole, setUserToken, getUserToken,
 };
 
 async function listForPlayerId(userId: number): Promise<userRaid[]> {
 	const stmt = `
-		SELECT Raid.id, Raid.name, Raid.icon, Spieler_Raid.role
+		SELECT Raid.id, Raid.name, Raid.icon, Raid.dpsReportToken, Spieler_Raid.role
 		FROM Spieler
 		JOIN Spieler_Raid ON Spieler.id = Spieler_Raid.fk_spieler
 		JOIN Raid ON Raid.id = Spieler_Raid.fk_raid
@@ -87,6 +87,25 @@ async function setLieutenantRole(raidId: number, user: number, role: number): Pr
 	const stmt = `UPDATE Spieler_Raid SET role = ? WHERE fk_raid = ? AND fk_spieler = ?`;
 	try {
 		return await db.queryV(stmt, [role, raidId, user]);
+	} catch (e) {
+		throw e;
+	}
+}
+
+async function setUserToken(raidId: number, token: string): Promise<OkPacket> {
+	const stmt = `UPDATE Raid SET dpsReportToken = ? WHERE id = ?`;
+	try {
+		return await db.queryV(stmt, [token, raidId]);
+	} catch (e) {
+		throw e;
+	}
+}
+
+async function getUserToken(raidId: number): Promise<string> {
+	const stmt = `SELECT dpsReportToken FROM Raid WHERE id = ?`;
+	try {
+		const response: { dpsReportToken: string }[] = await db.queryV(stmt, [raidId]);
+		return response[0].dpsReportToken;
 	} catch (e) {
 		throw e;
 	}

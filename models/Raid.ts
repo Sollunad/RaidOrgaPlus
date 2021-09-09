@@ -5,6 +5,7 @@ export interface Raid {
 	name: string;
 	icon: string;
 	active: boolean;
+	dpsReportToken?: string;
 }
 
 export interface ModRaid extends Raid {

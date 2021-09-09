@@ -3,6 +3,7 @@
 		<h1>Einstellungen</h1>
 		<LieutenantComp :raid="raid" :disabled="!isRaidLead" />
 		<!-- <AnmeldeEinstellungComp /> -->
+		<LogUploadComp :raid="raid" class="marginTop" />
     </div>
 </template>
 
@@ -10,6 +11,7 @@
 	import Vue from 'vue';
 	import AnmeldeEinstellungComp from '@/components/raid/AnmeldeEinstellungComp.vue';
 	import LieutenantComp from '@/components/raid/LieutenantComp.vue';
+	import LogUploadComp from "@/components/raid/LogUploadComp.vue";
 	import { userRaid } from 'models/Types';
 
 	export default Vue.extend({
@@ -17,6 +19,7 @@
 		components: {
 			LieutenantComp,
 			// AnmeldeEinstellungComp
+			LogUploadComp
 		},
 		computed: {
 			raid: function(): userRaid {
@@ -30,4 +33,7 @@
 </script>
 
 <style scoped>
+	.marginTop {
+		margin-top: 15px;
+	}
 </style>

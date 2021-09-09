@@ -195,7 +195,7 @@ async function updateUserRole(req: Request, authentication: Authentication): Pro
 	const spielerId = Number(req.body.spielerId);
 	const userRole = Number(req.body.role);
 	const role = _roles.getRole(authentication);
-	if (role > UserRole.Maz && spielerId != null && userRole != null) {
+	if (role > UserRole.Raider && spielerId != null && userRole != null) {
 		await _users.updateSpielerRole(spielerId, userRole);
 	}
 }
