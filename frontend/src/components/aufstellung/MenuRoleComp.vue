@@ -23,7 +23,7 @@
         name: "MenuRoleComp",
         props: ['showStar'],
         methods: {
-            roleIcon: function(name: any): string {
+            roleIcon: function(name: string): string {
                 return _icons.roleIcon(name);
             },
             pick: function(role: any) {
@@ -33,16 +33,16 @@
         computed: {
             roles: function() {
                 const roles = [
-                    { id: 1, abbr: 'P' },
-                    { id: 2, abbr: 'C' },
-                    { id: 4, abbr: 'H' },
-                    { id: 3, abbr: 'T' },
-                    { id: 5, abbr: 'U' },
-                    { id: 6, abbr: 'B' },
-                    { id: 8, abbr: 'K' },
+                    { id: 1, abbr: 'P' }, // Power
+                    { id: 2, abbr: 'C' }, // Condi
+                    { id: 4, abbr: 'H' }, // Healer
+                    { id: 3, abbr: 'T' }, // Tank
+                    { id: 5, abbr: 'U' }, // Utility
+                    { id: 6, abbr: 'B' }, // Banner Slave
+                    { id: 8, abbr: 'K' }, // Kiter
                 ];
                 if (this.showStar) {
-                    roles.push({ id: 7, abbr: 'S' });
+                    roles.push({ id: 7, abbr: 'S' }); // Special
                 }
                 return roles;
             }

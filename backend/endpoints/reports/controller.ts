@@ -20,17 +20,6 @@ type dpsReportType = {
 };
 
 async function upload(req: Request, authentication: Authentication): Promise<Response<string>> {
-	// const evtc = req.files.file as UploadedFile;
-	// const aufstellung = Number(req.body.aufstellung);
-
-	// if (evtc && aufstellung) {
-	// 	const role = await _roles.forAufstellung(authentication, aufstellung);
-	// 	if (role > 0) {
-	// 		return await _reports.addReport(aufstellung, evtc);
-	// 	}
-	// }
-	// return [];
-
 	const logFile = req.files.file as UploadedFile;
 	const aufstellung = Number(req.body.aufstellung);
 	const token = req.body.token;

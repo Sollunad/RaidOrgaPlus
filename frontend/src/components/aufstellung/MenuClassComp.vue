@@ -48,7 +48,7 @@
             isTouch: false
         }),
         methods: {
-            classIcon: function(name: any): string {
+            classIcon: function(name: string): string {
                 return _icons.classIcon(name);
             },
             pick: function(clss: any): void {

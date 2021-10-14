@@ -22,8 +22,7 @@
                             v-bind:user="visitedUser"
                             v-bind:ownProfile="ownProfile">
                     </BuildsComp>
-					<SecondaryAccountsComp v-if="ownProfile">
-					</SecondaryAccountsComp>
+					<SecondaryAccountsComp v-if="ownProfile" />
                     <div v-if="hasNoApi && ownProfile">
                         <p>Gib einen API-Key in den Einstellungen an, um hier deinen wöchentlichen Raid-Progress und Erfolge zu sehen!</p>
                     </div>

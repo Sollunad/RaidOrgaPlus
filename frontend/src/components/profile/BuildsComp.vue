@@ -16,8 +16,7 @@
             v-bind:star="true"
             v-bind:ownProfile="ownProfile"
             v-on:close="close(build)"
-            v-on:togglePrefer="togglePrefer(build, $event)">
-        </BuildChipComp>
+            v-on:togglePrefer="togglePrefer(build, $event)" />
         <v-dialog
             width="unset"
             v-model="addBuildDialog"
@@ -27,8 +26,7 @@
                     <v-icon>add</v-icon>
                 </v-chip>
             </template>
-            <AddBuildComp
-                    v-on:add="add"></AddBuildComp>
+            <AddBuildComp v-on:add="add" />
         </v-dialog>
     </div>
 </template>
