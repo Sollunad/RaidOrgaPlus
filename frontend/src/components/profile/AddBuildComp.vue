@@ -1,26 +1,26 @@
 <template>
-    <div class="container">
-        <v-container>
-            <v-layout>
-                <v-flex xs6>
-                    <MenuClassComp
-                        v-on:pick="pickClass"></MenuClassComp>
-                </v-flex>
-                <v-flex xs6>
-                    <MenuRoleComp
-                        v-on:pick="pickRole"></MenuRoleComp>
-                </v-flex>
-            </v-layout>
-        </v-container>
-        <div class="chip">
-            <BuildChipComp
-                v-bind:build="build">
-            </BuildChipComp>
-            <v-btn color="green" fab small @click="addBuild">
-                <v-icon>add</v-icon>
-            </v-btn>
-        </div>
-    </div>
+	<div class="container">
+		<v-container>
+			<v-layout>
+				<v-flex xs6>
+					<MenuClassComp
+						v-on:pick="pickClass"></MenuClassComp>
+				</v-flex>
+				<v-flex xs6>
+					<MenuRoleComp
+						v-on:pick="pickRole"></MenuRoleComp>
+				</v-flex>
+			</v-layout>
+		</v-container>
+		<div class="chip">
+			<BuildChipComp
+				v-bind:build="build">
+			</BuildChipComp>
+			<v-btn color="green" fab small @click="addBuild">
+				<v-icon>add</v-icon>
+			</v-btn>
+		</div>
+	</div>
 </template>
 
 <script lang="ts">

@@ -1,6 +1,7 @@
 import { DiscordMember } from "./Discord";
 import { ExtraAccount } from "./ExtraAccount";
 import { Raid } from "./Raid";
+import { Rolle } from "./Rolle";
 import { Spieler, SpielerRaid, SpielerTermin } from "./Spieler";
 import { Termin } from "./Termin";
 
@@ -8,7 +9,8 @@ export type element = {
 	aufstellung: number;
 	pos: number;
 	class: string;
-	role: string;
+	roleIds: string;
+	roles: Rolle[];
 	id: number;
 	name: string;
 	accname: string;

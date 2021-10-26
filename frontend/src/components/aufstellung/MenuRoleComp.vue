@@ -33,13 +33,13 @@
         computed: {
             roles: function() {
                 const roles = [
-                    { id: 1, abbr: 'P' }, // Power
-                    { id: 2, abbr: 'C' }, // Condi
-                    { id: 4, abbr: 'H' }, // Healer
-                    { id: 3, abbr: 'T' }, // Tank
-                    { id: 5, abbr: 'U' }, // Utility
-                    { id: 6, abbr: 'B' }, // Banner Slave
-                    { id: 8, abbr: 'K' }, // Kiter
+					{ id: 1, abbr: 'P' }, // Power
+					{ id: 2, abbr: 'C' }, // Condi
+					{ id: 4, abbr: 'H' }, // Healer
+					{ id: 3, abbr: 'T' }, // Tank
+					{ id: 5, abbr: 'U' }, // Utility
+					{ id: 6, abbr: 'B' }, // Banner Slave
+					{ id: 8, abbr: 'K' }, // Kiter
                 ];
                 if (this.showStar) {
                     roles.push({ id: 7, abbr: 'S' }); // Special

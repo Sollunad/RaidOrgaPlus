@@ -10,6 +10,8 @@ import { Aufstellung } from "../../../../models/Aufstellung";
 import { Encounter } from "../../../../models/Encounter";
 import { element, terminDate } from "../../../../models/Types";
 import { Termin } from "../../../../models/Termin";
+import { aufstellungPick } from "@/models/Types";
+import { Rolle } from "../../../../models/Rolle";
 
 const mutations: AufstellungMutationsDefinition = {
 	[AufstellungMutations.SetActive]: (state: AufstellungState, isActive: any) => {
@@ -51,7 +53,7 @@ const mutations: AufstellungMutationsDefinition = {
 	[AufstellungMutations.ToggleLocked]: (state: AufstellungState) => {
 		state.locked = !state.locked;
 	},
-	[AufstellungMutations.AddElement]: (state: AufstellungState, element: any) => {
+	[AufstellungMutations.AddElement]: (state: AufstellungState, element: element) => {
 		state.elements = state.elements.filter(e => e.aufstellung !== element.aufstellung || e.pos !== element.pos);
 		state.elements.push(element);
 	},
@@ -123,7 +125,7 @@ const actions: AufstellungActionsDefinition = {
 		const termin = context.getters.termin;
 		const changedAnmeldung = context.getters.anmeldungen.find((a: any) => a.id === user.id);
 		if (changedAnmeldung) changedAnmeldung.type = type;
-		else context.getters.anmeldungen.push({id: user.id, name: user.name, type: type});
+		else context.getters.anmeldungen.push({ id: user.id, name: user.name, type: type });
 		await _termine.anmelden(termin.id, type);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
@@ -202,8 +204,8 @@ const actions: AufstellungActionsDefinition = {
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
 	/* eslint-disable-next line  @typescript-eslint/no-implicit-any */
-	PickClass: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, clss }: any) => {
-		let element = context.getters.elementForPosition(aufstellung, position);
+	PickClass: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, clss }: aufstellungPick) => {
+		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
@@ -212,7 +214,7 @@ const actions: AufstellungActionsDefinition = {
 		await _aufstellungen.setClass(aufstellung, position, clss.id);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	ClearClass: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: any) => {
+	ClearClass: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
 		let element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
@@ -222,27 +224,51 @@ const actions: AufstellungActionsDefinition = {
 		await _aufstellungen.setClass(aufstellung, position, 0);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	PickRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, role }: any) => {
-		let element = context.getters.elementForPosition(aufstellung, position);
+	AddRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
+		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
-		element.role = role.abbr;
+		element.roles.push({ id: 0 } as Rolle);
+		const roles = element.roles.map(r => r.id).join(', ');
 		context.commit(AufstellungMutations.AddElement, element);
-		await _aufstellungen.setRole(aufstellung, position, role.id);
+		await _aufstellungen.setRole(aufstellung, position, roles);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	ClearRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: any) => {
-		let element = context.getters.elementForPosition(aufstellung, position);
+	RemoveRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
+		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
-		element.role = '';
+		element.roles.pop();
+		const roles = element.roles.map(r => r.id).join(', ');
 		context.commit(AufstellungMutations.AddElement, element);
-		await _aufstellungen.setRole(aufstellung, position, 0);
+		await _aufstellungen.setRole(aufstellung, position, roles);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	PickName: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, user }: any) => {
+	PickRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, role, idx }: aufstellungPick) => {
+		let element: element = context.getters.elementForPosition(aufstellung, position);
+		if (!element) {
+			element = context.getters.dummyElement(aufstellung, position);
+		}
+		element.roles[idx] = role;
+		const roles = element.roles.map(r => r.id).join(', ');
+		context.commit(AufstellungMutations.AddElement, element);
+		await _aufstellungen.setRole(aufstellung, position, roles);
+		context.dispatch(AufstellungActions.WsSendRefresh);
+	},
+	ClearRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, idx }: aufstellungPick) => {
+		let element: element = context.getters.elementForPosition(aufstellung, position);
+		if (!element) {
+			element = context.getters.dummyElement(aufstellung, position);
+		}
+		element.roles[idx] = { id: 0 } as Rolle;
+		const roles = element.roles.map(r => r.id).join(', ');
+		context.commit(AufstellungMutations.AddElement, element);
+		await _aufstellungen.setRole(aufstellung, position, roles);
+		context.dispatch(AufstellungActions.WsSendRefresh);
+	},
+	PickName: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, user }: aufstellungPick) => {
 		let element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
@@ -254,7 +280,7 @@ const actions: AufstellungActionsDefinition = {
 		await _aufstellungen.setName(aufstellung, position, user.id);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	ClearName: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: any) => {
+	ClearName: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
 		let element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
@@ -285,13 +311,13 @@ const getters: AufstellungGettersDefinition = {
 		return null;
 	},
 	elementForPosition: function (state: AufstellungState) {
-		return function (aufstellung: any, position: any) {
+		return function (aufstellung: number, position: number) {
 			return state.elements.find(e => e.aufstellung === aufstellung && e.pos === position);
 		}
 	},
 	dummyElement: function () {
-		return function (aufstellung: any, position: any) {
-			return {aufstellung, pos: position, class: '', role: '', name: '???', accname: '???', id: 0};
+		return function (aufstellung: number, position: number) {
+			return { aufstellung, pos: position, class: '', role: '', name: '???', accname: '???', id: 0, roles: [] } as unknown as element;
 		}
 	},
 	isNameDoubled: function (state: AufstellungState) {
@@ -325,33 +351,33 @@ const getters: AufstellungGettersDefinition = {
 			return state.openDialog === dialog;
 		}
 	},
-	raidName: function(state: AufstellungState) {
+	raidName: function (state: AufstellungState) {
 		return state.raidName;
 	},
-	terminDate: function(state: AufstellungState) {
+	terminDate: function (state: AufstellungState) {
 		return state.terminDate;
 	}
 };
 
 const aufstellungModule: Module<AufstellungState, RootState> = {
-    state: {
-        isActive: null,
-        aufstellungen: null as unknown as (Aufstellung & Encounter)[],
-        elements: [],
-        locked: false,
-        anmeldungen: [],
-        anmeldung: {},
-        wsClient: null,
-        ersatzspieler: [],
-        invitablePlayers: [],
-        uploadActive: false,
-        openDialog: null,
+	state: {
+		isActive: null,
+		aufstellungen: null as unknown as (Aufstellung & Encounter)[],
+		elements: [],
+		locked: false,
+		anmeldungen: [],
+		anmeldung: {},
+		wsClient: null,
+		ersatzspieler: [],
+		invitablePlayers: [],
+		uploadActive: false,
+		openDialog: null,
 		raidName: '',
 		terminDate: {} as terminDate,
-    },
-    mutations: mutations,
-    actions: actions,
-    getters: getters,
+	},
+	mutations: mutations,
+	actions: actions,
+	getters: getters,
 }
 
 export default aufstellungModule;

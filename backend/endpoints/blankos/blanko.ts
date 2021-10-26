@@ -4,9 +4,8 @@ import * as db from '../../db/connector';
 
 export async function getElementsByEncounter(raid: number, enc: number): Promise<blankoElement[]> {
 	const stmt = `
-		SELECT BlankoElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role FROM BlankoElement
+		SELECT BlankoElement.position AS pos, Klasse.abbr AS class, BlankoElement.roles AS roles FROM BlankoElement
 		JOIN Klasse ON Klasse.id = BlankoElement.fk_class
-		JOIN Rolle ON Rolle.id = BlankoElement.fk_role
 		WHERE fk_raid = ? AND fk_boss = ?
 	`;
 	try {
@@ -18,9 +17,8 @@ export async function getElementsByEncounter(raid: number, enc: number): Promise
 
 export async function getAllElements(raid: number): Promise<blankoElement[]> {
 	const stmt = `
-		SELECT BlankoElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, BlankoElement.fk_boss AS enc FROM BlankoElement
+		SELECT BlankoElement.position AS pos, Klasse.abbr AS class, BlankoElement.roles AS roles, BlankoElement.fk_boss AS enc FROM BlankoElement
 		JOIN Klasse ON Klasse.id = BlankoElement.fk_class
-		JOIN Rolle ON Rolle.id = BlankoElement.fk_role
 		WHERE fk_raid = ?
 	`;
 	try {
@@ -40,7 +38,7 @@ export async function setClass(raid: number, enc: number, position: number, clss
 }
 
 export async function setRole(raid: number, enc: number, position: number, role: number): Promise<OkPacket> {
-	const stmt = 'INSERT INTO BlankoElement (fk_raid, fk_boss, position, fk_role) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE fk_role = ?';
+	const stmt = 'INSERT INTO BlankoElement (fk_raid, fk_boss, position, roles) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE roles = ?';
 	try {
 		return await db.queryV(stmt, [raid, enc, position, role, role]);
 	} catch (e) {
@@ -50,11 +48,11 @@ export async function setRole(raid: number, enc: number, position: number, role:
 
 export async function copyFromTo(raid: number, from: number, to: number): Promise<OkPacket> {
 	const stmt = `
-		INSERT INTO BlankoElement (fk_raid, fk_boss, position, fk_class, fk_role)
-		SELECT ?, ?, position, fk_class, fk_role
+		INSERT INTO BlankoElement (fk_raid, fk_boss, position, fk_class, roles)
+		SELECT ?, ?, position, fk_class, roles
 		FROM BlankoElement fr
 		WHERE fk_raid = ? AND fk_boss = ?
-		ON DUPLICATE KEY UPDATE fk_class = fr.fk_class, fk_role = fr.fk_role
+		ON DUPLICATE KEY UPDATE fk_class = fr.fk_class, roles = fr.roles
 	`;
 	try {
 		return await db.queryV(stmt, [raid, to, raid, from]);
