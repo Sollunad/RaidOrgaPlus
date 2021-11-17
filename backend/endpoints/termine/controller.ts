@@ -1,42 +1,45 @@
-import * as _termin from './termin';
-import * as _ersatz from '../termine/ersatz';
-import * as _aufstellung from '../aufstellungen/aufstellung';
-import * as _roles from '../../authentication/role';
-import * as _anmeldungen from './anmeldungen';
-import * as _homepage from './homepage';
-import { Request } from 'express';
-import { Authentication } from 'models/Auth';
-import { Spieler, SpielerTermin } from 'models/Spieler';
-import { Termin } from 'models/Termin';
-import { Aufstellung } from 'models/Aufstellung';
-import { Encounter } from 'models/Encounter';
-import { OkPacket } from 'mysql';
-import { ControllerEndpoint } from 'models/ControllerEndpoint';
-import { toBoolean } from '../../models/Util';
-import { homepageTermin } from '../../../models/Types';
+import * as _termin from "./termin";
+import * as _ersatz from "../termine/ersatz";
+import * as _aufstellung from "../aufstellungen/aufstellung";
+import * as _roles from "../../authentication/role";
+import * as _anmeldungen from "./anmeldungen";
+import * as _homepage from "./homepage";
+import { Request } from "express";
+import { Authentication } from "models/Auth";
+import { Spieler, SpielerTermin } from "models/Spieler";
+import { Termin } from "models/Termin";
+import { Aufstellung } from "models/Aufstellung";
+import { Encounter } from "models/Encounter";
+import { OkPacket } from "mysql";
+import { ControllerEndpoint } from "models/ControllerEndpoint";
+import { toBoolean } from "../../models/Util";
+import { homepageTermin } from "../../../models/Types";
 
 const endpoints: ControllerEndpoint[] = [
-	{ function: getTermine, path: '', method: 'get', authed: true },
-	{ function: postTermin, path: '', method: 'post', authed: true },
-	{ function: deleteTermin, path: '', method: 'delete', authed: true },
-	{ function: isArchived, path: '/isArchived', method: 'get', authed: true },
-	{ function: isLocked, path: '/isLocked', method: 'get', authed: true },
-	{ function: putLocked, path: '/isLocked', method: 'put', authed: true },
-	{ function: archive, path: '/archive', method: 'put', authed: true },
-	{ function: addBoss, path: '/bosses', method: 'post', authed: true },
-	{ function: putAnmeldung, path: '/anmeldungen', method: 'put', authed: true },
-	{ function: putAnmeldungLead, path: '/anmeldungenLead', method: 'put', authed: true },
-	{ function: getAnmeldung, path: '/anmeldungen', method: 'get', authed: true },
-	{ function: getAnmeldungenAll, path: '/anmeldungenAll', method: 'get', authed: true },
-	{ function: getText, path: '/text', method: 'get', authed: true },
-	{ function: saveText, path: '/text', method: 'put', authed: true },
-	{ function: getErsatz, path: '/ersatz', method: 'get', authed: true },
-	{ function: addErsatz, path: '/ersatz', method: 'post', authed: true },
-	{ function: deleteErsatz, path: '/ersatz', method: 'delete', authed: true },
+	{ function: getTermine, path: "", method: "get", authed: true },
+	{ function: postTermin, path: "", method: "post", authed: true },
+	{ function: deleteTermin, path: "", method: "delete", authed: true },
+	{ function: isArchived, path: "/isArchived", method: "get", authed: true },
+	{ function: isLocked, path: "/isLocked", method: "get", authed: true },
+	{ function: putLocked, path: "/isLocked", method: "put", authed: true },
+	{ function: archive, path: "/archive", method: "put", authed: true },
+	{ function: addBoss, path: "/bosses", method: "post", authed: true },
+	{ function: putAnmeldung, path: "/anmeldungen", method: "put", authed: true },
+	{ function: putAnmeldungLead, path: "/anmeldungenLead", method: "put", authed: true },
+	{ function: getAnmeldung, path: "/anmeldungen", method: "get", authed: true },
+	{ function: getAnmeldungenAll, path: "/anmeldungenAll", method: "get", authed: true },
+	{ function: getText, path: "/text", method: "get", authed: true },
+	{ function: saveText, path: "/text", method: "put", authed: true },
+	{ function: getErsatz, path: "/ersatz", method: "get", authed: true },
+	{ function: addErsatz, path: "/ersatz", method: "post", authed: true },
+	{ function: deleteErsatz, path: "/ersatz", method: "delete", authed: true },
 ];
 export default endpoints;
 
-async function getTermine(req: Request, authentication: Authentication): Promise<Termin[] | (Termin & SpielerTermin)[] | homepageTermin[]> {
+async function getTermine(
+	req: Request,
+	authentication: Authentication
+): Promise<Termin[] | (Termin & SpielerTermin)[] | homepageTermin[]> {
 	const raid = Number(req.query.raid);
 	const archive = Number(req.query.archive);
 	if (raid) {
@@ -121,7 +124,7 @@ async function addBoss(req: Request, authentication: Authentication): Promise<(A
 				return _termin.addBoss(termin, boss).then(async (res: OkPacket) => {
 					await _aufstellung.loadBlanko(res.insertId);
 					return await _aufstellung.getForTermin(termin);
-				})
+				});
 			} else if (wing) {
 				return _termin.addWing(termin, wing).then(async (res: OkPacket) => {
 					const minId = res.insertId;
@@ -130,7 +133,7 @@ async function addBoss(req: Request, authentication: Authentication): Promise<(A
 						await _aufstellung.loadBlanko(i);
 					}
 					return await _aufstellung.getForTermin(termin);
-				})
+				});
 			}
 		}
 	}
@@ -161,7 +164,7 @@ async function putAnmeldungLead(req: Request, authentication: Authentication): P
 async function getAnmeldung(req: Request, authentication: Authentication): Promise<{ type: number }> {
 	const termin = Number(req.query.termin);
 	if (termin) {
-		return await _anmeldungen.getAnmeldungForSpieler(authentication.user, termin)
+		return await _anmeldungen.getAnmeldungForSpieler(authentication.user, termin);
 	}
 	return;
 }
@@ -198,7 +201,7 @@ async function getText(req: Request, authentication: Authentication): Promise<st
 async function saveText(req: Request, authentication: Authentication): Promise<OkPacket> {
 	const termin = Number(req.body.termin);
 	const text = req.body.text;
-	if (termin && (text || text === '')) {
+	if (termin && (text || text === "")) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) return await _termin.saveText(termin, text);
 	}

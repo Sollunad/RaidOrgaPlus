@@ -1,24 +1,24 @@
-import * as _aufstellung from './aufstellung';
-import * as _element from './element';
-import * as _roles from '../../authentication/role';
-import { Request } from 'express';
-import { Authentication } from 'models/Auth';
-import { Encounter } from 'models/Encounter';
-import { Aufstellung } from 'models/Aufstellung';
-import { OkPacket } from 'mysql';
-import { ControllerEndpoint } from 'models/ControllerEndpoint';
-import { toBoolean } from '../../models/Util';
-import { element } from '../../../models/Types';
-import { ROLES } from '../../../models/Rolle';
+import * as _aufstellung from "./aufstellung";
+import * as _element from "./element";
+import * as _roles from "../../authentication/role";
+import { Request } from "express";
+import { Authentication } from "models/Auth";
+import { Encounter } from "models/Encounter";
+import { Aufstellung } from "models/Aufstellung";
+import { OkPacket } from "mysql";
+import { ControllerEndpoint } from "models/ControllerEndpoint";
+import { toBoolean } from "../../models/Util";
+import { element } from "../../../models/Types";
+import { Role, ROLES } from "../../../models/Rolle";
 
 const endpoints: ControllerEndpoint[] = [
-	{ function: getForTermin, path: '', method: 'get', authed: true },
-	{ function: putSuccess, path: '/success', method: 'put', authed: true },
-	{ function: putCM, path: '/cm', method: 'put', authed: true },
-	{ function: deleteTermin, path: '', method: 'delete', authed: true },
-	{ function: getElement, path: '/elements', method: 'get', authed: true },
-	{ function: postElement, path: '/elements', method: 'post', authed: true },
-	{ function: copyElements, path: '/copyElements', method: 'post', authed: true },
+	{ function: getForTermin, path: "", method: "get", authed: true },
+	{ function: putSuccess, path: "/success", method: "put", authed: true },
+	{ function: putCM, path: "/cm", method: "put", authed: true },
+	{ function: deleteTermin, path: "", method: "delete", authed: true },
+	{ function: getElement, path: "/elements", method: "get", authed: true },
+	{ function: postElement, path: "/elements", method: "post", authed: true },
+	{ function: copyElements, path: "/copyElements", method: "post", authed: true },
 ];
 export default endpoints;
 
@@ -85,10 +85,19 @@ async function getElement(req: Request, authentication: Authentication): Promise
 	}
 
 	if (elements != null) {
-		elements.forEach(e => {
+		elements.forEach((e) => {
 			if (e.roleIds) {
-				const roleIds = e.roleIds.split(',');
-				e.roles = roleIds.map(r => ROLES[Number(r) - 1]);
+				const roleIds = e.roleIds.split(",");
+				e.roles = roleIds.map((r) => {
+					let role: Role = { id: 0, name: "", abbr: "" };
+					const id = Number(r) - 1;
+
+					if (id > -1) {
+						role = ROLES[id];
+					}
+
+					return role;
+				});
 			} else {
 				e.roles = [];
 			}

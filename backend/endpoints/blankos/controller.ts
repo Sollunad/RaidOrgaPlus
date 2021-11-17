@@ -1,16 +1,16 @@
-import * as _blanko from './blanko';
-import * as _roles from '../../authentication/role';
-import { Request } from 'express';
-import { Authentication } from 'models/Auth';
-import { OkPacket } from 'mysql';
-import { ControllerEndpoint } from 'models/ControllerEndpoint';
-import { blankoElement } from 'models/Types';
-import { ROLES, Role } from '../../../models/Rolle';
+import * as _blanko from "./blanko";
+import * as _roles from "../../authentication/role";
+import { Request } from "express";
+import { Authentication } from "models/Auth";
+import { OkPacket } from "mysql";
+import { ControllerEndpoint } from "models/ControllerEndpoint";
+import { blankoElement } from "models/Types";
+import { ROLES, Role } from "../../../models/Rolle";
 
 const endpoints: ControllerEndpoint[] = [
-	{ function: getElements, path: '', method: 'get', authed: true },
-	{ function: postElement, path: '', method: 'post', authed: true },
-	{ function: copyFromTo, path: '/copy', method: 'post', authed: true },
+	{ function: getElements, path: "", method: "get", authed: true },
+	{ function: postElement, path: "", method: "post", authed: true },
+	{ function: copyFromTo, path: "/copy", method: "post", authed: true },
 ];
 export default endpoints;
 
@@ -49,7 +49,7 @@ async function postElement(req: Request, authentication: Authentication): Promis
 				return _blanko.setClass(raid, enc, position, value);
 			} else if (type === "role") {
 				value = value.toString();
-				const ok = value.split(', ').every(r => !Number.isNaN(Number(r)));
+				const ok = value.split(", ").every((r) => !Number.isNaN(Number(r)));
 				if (ok) {
 					return _blanko.setRole(raid, enc, position, value);
 				}
@@ -77,15 +77,13 @@ async function copyFromTo(req: Request, authentication: Authentication): Promise
 
 function setRoles(value: blankoElement) {
 	if (value.roleIds) {
-		const roleIds = value.roleIds.split(',');
-		value.roles = roleIds.map(r => {
-			let role: Role = null;
+		const roleIds = value.roleIds.split(",");
+		value.roles = roleIds.map((r) => {
+			let role: Role = { id: 0, name: "", abbr: "" };
 			const id = Number(r) - 1;
 
 			if (id > -1) {
 				role = ROLES[id];
-			} else {
-				role = { id: 0, name: '', abbr: '' };
 			}
 
 			return role;

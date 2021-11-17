@@ -60,7 +60,11 @@ export async function setName(aufstellung: number, position: number, name: numbe
 }
 
 export async function setCompleteElement(aufstellung: number, position: number, classId: number, roleId: number, playerId: number): Promise<OkPacket> {
-    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class, roles, fk_spieler) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?, roles = ?, fk_spieler = ?';
+    const stmt = `
+		INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class, roles, fk_spieler)
+		VALUES (?,?,?,?,?)
+		ON DUPLICATE KEY UPDATE fk_class = ?, roles = ?, fk_spieler = ?
+	`;
     try {
         return await db.queryV(stmt, [aufstellung, position, classId, roleId, playerId, classId, roleId, playerId]);
     }

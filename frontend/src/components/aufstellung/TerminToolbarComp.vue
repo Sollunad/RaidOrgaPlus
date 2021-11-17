@@ -26,7 +26,7 @@
 									<v-icon>add</v-icon>
 								</v-btn>
 							</template>
-							<MenuWingComp v-bind:showFC="true" v-on:pick="addBoss"> </MenuWingComp>
+							<MenuWingComp v-bind:showFC="true" v-on:pick="addBoss" />
 						</v-menu>
 					</template>
 					<span>Bosse hinzufügen</span>
