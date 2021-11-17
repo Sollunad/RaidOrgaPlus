@@ -1,6 +1,6 @@
 <template>
     <div class="form">
-        <LoginRegisterComp></LoginRegisterComp>
+        <LoginRegisterComp />
     </div>
 </template>
 

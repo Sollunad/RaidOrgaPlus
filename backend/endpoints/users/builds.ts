@@ -1,15 +1,16 @@
 import { OkPacket } from 'mysql';
 import { Build } from 'models/Build';
 import * as db from '../../db/connector';
+import { Class } from '../../../models/Klasse';
+import { ROLES } from '../../../models/Rolle';
 
 export async function getBuilds(user: number): Promise<Build[]> {
 	const stmt = `
-		SELECT fk_class AS classId, sub.abbr AS classAbbr, base.color AS classColor, fk_role AS roleId, Rolle.abbr AS roleAbbr, prefer
+		SELECT fk_class AS classId, sub.abbr AS classAbbr, sub.name as className, base.color AS classColor, roles, prefer
 		FROM Spieler_Build
 		JOIN Klasse sub ON sub.id = Spieler_Build.fk_class
 		JOIN Klasse base ON base.id = sub.fk_base
-		JOIN Rolle ON Rolle.id = Spieler_Build.fk_role
-		WHERE fk_spieler = ? ORDER BY prefer DESC, base.id, sub.id, Rolle.id
+		WHERE fk_spieler = ? ORDER BY prefer DESC, base.id, sub.id;
 	`;
 	try {
 		return ((await db.queryV<Build[]>(stmt, user))).map(classRoleMapper);
@@ -18,8 +19,8 @@ export async function getBuilds(user: number): Promise<Build[]> {
 	}
 }
 
-export async function addBuild(user: number, clss: number, role: number): Promise<OkPacket> {
-	const stmt = 'INSERT INTO Spieler_Build (fk_spieler, fk_class, fk_role) VALUES (?,?,?) ';
+export async function addBuild(user: number, clss: number, role: string): Promise<OkPacket> {
+	const stmt = 'INSERT INTO Spieler_Build (fk_spieler, fk_class, roles) VALUES (?,?,?) ';
 	try {
 		return await db.queryV(stmt, [user, clss, role]);
 	} catch (e) {
@@ -27,8 +28,8 @@ export async function addBuild(user: number, clss: number, role: number): Promis
 	}
 }
 
-export async function deleteBuild(user: number, clss: number, role: number): Promise<OkPacket> {
-	const stmt = 'DELETE FROM Spieler_Build WHERE fk_spieler = ? AND fk_class = ? AND fk_role = ?';
+export async function deleteBuild(user: number, clss: number, role: string): Promise<OkPacket> {
+	const stmt = 'DELETE FROM Spieler_Build WHERE fk_spieler = ? AND fk_class = ? AND roles = ?';
 	try {
 		return await db.queryV(stmt, [user, clss, role]);
 	} catch (e) {
@@ -36,8 +37,8 @@ export async function deleteBuild(user: number, clss: number, role: number): Pro
 	}
 }
 
-export async function putPrefer(user: number, clss: number, role: number, pref: number): Promise<OkPacket> {
-	const stmt = 'UPDATE Spieler_Build SET prefer = ? WHERE fk_spieler = ? AND fk_class = ? AND fk_role = ?';
+export async function putPrefer(user: number, clss: number, role: string, pref: number): Promise<OkPacket> {
+	const stmt = 'UPDATE Spieler_Build SET prefer = ? WHERE fk_spieler = ? AND fk_class = ? AND roles = ?';
 	try {
 		return await db.queryV(stmt, [pref, user, clss, role]);
 	} catch (e) {
@@ -48,11 +49,9 @@ export async function putPrefer(user: number, clss: number, role: number, pref: 
 function classRoleMapper(element): Build {
 	return {
 		class: {
-			abbr: element.classAbbr, id: element.classId, color: element.classColor
+			abbr: element.classAbbr, id: element.classId, color: element.classColor, name: element.className
 		},
-		role: {
-			abbr: element.roleAbbr, id: element.roleId
-		},
+		role: (element.roles as string).split(',').map(r => ROLES[Number(r) - 1]),
 		prefer: element.prefer
-	};
+	} as Build;
 }

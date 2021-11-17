@@ -67,8 +67,8 @@ async function setSuccess(aufstellung: number, success: boolean): Promise<OkPack
 
 async function loadBlanko(aufstellung: number): Promise<OkPacket> {
 	const stmt = `
-		INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, fk_role)
-		SELECT ?, position, 0, fk_class, fk_role
+		INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, roles)
+		SELECT ?, position, 0, fk_class, roles
 		FROM BlankoElement
 		WHERE fk_raid =
 			(SELECT Raid.id FROM Raid JOIN Termin ON Termin.fk_raid = Raid.id JOIN Aufstellung ON Aufstellung.fk_termin = Termin.id WHERE Aufstellung.id = ?)
@@ -83,11 +83,11 @@ async function loadBlanko(aufstellung: number): Promise<OkPacket> {
 
 async function copyElements(from: number, to: number): Promise<OkPacket> {
 	const stmt = `
-		INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, fk_role)
-		SELECT ?, position, f.fk_spieler, f.fk_class, f.fk_role
+		INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler, fk_class, roles)
+		SELECT ?, position, f.fk_spieler, f.fk_class, f.roles
 		FROM AufstellungElement f
 		WHERE fk_aufstellung = ?
-		ON DUPLICATE KEY UPDATE fk_spieler = f.fk_spieler, fk_class = f.fk_class, fk_role = f.fk_role
+		ON DUPLICATE KEY UPDATE fk_spieler = f.fk_spieler, fk_class = f.fk_class, roles = f.roles
 	`;
 	try {
 		return await db.queryV(stmt, [to, from]);

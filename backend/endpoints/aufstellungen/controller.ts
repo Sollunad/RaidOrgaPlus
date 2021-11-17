@@ -9,6 +9,7 @@ import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import { toBoolean } from '../../models/Util';
 import { element } from '../../../models/Types';
+import { ROLES } from '../../../models/Rolle';
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getForTermin, path: '', method: 'get', authed: true },
@@ -69,30 +70,49 @@ async function deleteTermin(req: Request, authentication: Authentication): Promi
 async function getElement(req: Request, authentication: Authentication): Promise<element[]> {
 	const termin = Number(req.query.termin);
 	const aufstellung = Number(req.query.aufstellung);
+	let elements: element[] = null;
+
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role != null) return await _element.getForTermin(termin);
+		if (role != null) {
+			elements = await _element.getForTermin(termin);
+		}
 	} else if (aufstellung) {
 		const role = await _roles.forAufstellung(authentication, aufstellung);
-		if (role != null) return await _element.getForAufstellung(aufstellung);
+		if (role != null) {
+			elements = await _element.getForAufstellung(aufstellung);
+		}
 	}
+
+	if (elements != null) {
+		elements.forEach(e => {
+			if (e.roleIds) {
+				const roleIds = e.roleIds.split(',');
+				e.roles = roleIds.map(r => ROLES[Number(r) - 1]);
+			} else {
+				e.roles = [];
+			}
+		});
+		return elements;
+	}
+
 	return;
 }
 
 async function postElement(req: Request, authentication: Authentication): Promise<OkPacket> {
 	const aufstellung = Number(req.body.aufstellung);
 	const position = Number(req.body.position);
-	const value = Number(req.body.value);
+	const value: string | number = req.body.value;
 	const type: string = req.body.type;
 	if (aufstellung && position && type && (value || value === 0)) {
 		const role = await _roles.forAufstellung(authentication, aufstellung);
 		if (role != null) {
 			if (type === "class") {
-				return _element.setClass(aufstellung, position, value);
+				return _element.setClass(aufstellung, position, Number(value));
 			} else if (type === "role") {
-				return _element.setRole(aufstellung, position, value);
+				return _element.setRole(aufstellung, position, value.toString());
 			} else if (type === "name") {
-				return _element.setName(aufstellung, position, value);
+				return _element.setName(aufstellung, position, Number(value));
 			}
 		}
 	}

@@ -33,7 +33,7 @@ export { getUsers, getRaids, createRaid, deleteRaid, invitablePlayers, addPlayer
 
 async function getUsers(req: Request, authentication: Authentication): Promise<User[]> {
 	const role = _roles.getRole(authentication);
-	if (role > UserRole.Normal) {
+	if (role > UserRole.Raider) {
 		const users = await _users.getUsers() as User[];
 		const discordUsers = await _discord.getAllUsers();
 		const guildUsers = await _guild.getUsers();
@@ -66,7 +66,7 @@ async function getUsers(req: Request, authentication: Authentication): Promise<U
 
 async function getRaids(req: Request, authentication: Authentication): Promise<ModRaid[]> {
 	const role = _roles.getRole(authentication);
-	if (role > UserRole.Normal) {
+	if (role > UserRole.Raider) {
 		const raids = await _raids.getRaids() as ModRaid[];
 		const discordUsers = await _discord.getAllUsers();
 		for (const raid of raids) {
@@ -195,7 +195,8 @@ async function updateUserRole(req: Request, authentication: Authentication): Pro
 	const spielerId = Number(req.body.spielerId);
 	const userRole = Number(req.body.role);
 	const role = _roles.getRole(authentication);
-	if (role > UserRole.Raider && spielerId != null && userRole != null) {
+
+	if (userRole != null && spielerId != null && (role >= UserRole.Moderator || role > userRole))  {
 		await _users.updateSpielerRole(spielerId, userRole);
 	}
 }

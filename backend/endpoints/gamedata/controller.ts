@@ -2,7 +2,7 @@ import * as _classes from './classes';
 import * as _encounter from './encounter';
 import * as _achievements from './achievements';
 import { Request } from 'express';
-import { Klasse } from 'models/Klasse';
+import { Class } from 'models/Klasse';
 import { Encounter } from 'models/Encounter';
 import { Wing } from 'models/Wing';
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
@@ -15,7 +15,7 @@ const endpoints: ControllerEndpoint[] = [
 ];
 export default endpoints;
 
-async function getForBase(req: Request): Promise<Klasse[]> {
+async function getForBase(req: Request): Promise<Class[]> {
 	const base = Number(req.query.base);
 	if (base) {
 		return await _classes.getForBase(base);

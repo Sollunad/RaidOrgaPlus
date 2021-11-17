@@ -1,16 +1,8 @@
+import { Class } from "./Klasse";
+import { Role } from "./Rolle";
+
 export interface Build {
 	class: Class;
-	role: Role;
+	role: Role[];
 	prefer: number;
-}
-
-interface Class {
-	abbr: string;
-	id: number;
-	color: string;
-}
-
-interface Role {
-	abbr: string;
-	id: number;
 }

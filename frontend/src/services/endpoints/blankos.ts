@@ -1,12 +1,13 @@
+import { blankoElement } from '../../../../models/Types';
 import con from '../connector';
 
 export default { getElementsByBoss, getAllElements, setClass, setRole, copyFromTo };
 
-async function getElementsByBoss(raid: any, enc: any): Promise<any> {
+async function getElementsByBoss(raid: number, enc: number): Promise<blankoElement[]> {
     return await con('blankos', 'get', {raid, enc}, true);
 }
 
-async function getAllElements(raid: any): Promise<any> {
+async function getAllElements(raid: number): Promise<blankoElement[]> {
     return await con('blankos', 'get', {raid}, true);
 }
 

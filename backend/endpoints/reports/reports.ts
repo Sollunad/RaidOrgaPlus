@@ -7,7 +7,7 @@ import { UploadedFile } from 'express-fileupload';
 import { Aufstellung } from 'models/Aufstellung';
 import { OkPacket } from 'mysql';
 
-export async function addReport(aufstellung: number, file: UploadedFile): Promise<string[]> {
+async function addReport(aufstellung: number, file: UploadedFile): Promise<string[]> {
     const extension = file.name.split('.').slice(-1)[0];
     if (!(extension === 'evtc' || extension === 'zevtc')) return;
     const filepath = `reports/working/${aufstellung}.${extension}`;

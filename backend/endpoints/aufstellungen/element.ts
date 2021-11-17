@@ -3,12 +3,13 @@ import * as db from '../../db/connector';
 import type { element } from "models/Types";
 
 export async function getForTermin(termin: number): Promise<element[]> {
-    const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
-        ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
-        ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
-        ' JOIN Rolle ON Rolle.id = AufstellungElement.fk_role' +
-        ' JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler' +
-        ' WHERE Aufstellung.fk_termin = ? FOR UPDATE';
+	const stmt = `
+		SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, AufstellungElement.roles AS roleIds, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung
+		JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id
+		JOIN Klasse ON Klasse.id = AufstellungElement.fk_class
+		JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler
+		WHERE Aufstellung.fk_termin = ? FOR UPDATE
+	`;
     try {
         return await db.queryV(stmt, termin);
     } catch(e) {
@@ -17,12 +18,13 @@ export async function getForTermin(termin: number): Promise<element[]> {
 }
 
 export async function getForAufstellung(aufstellung: number): Promise<element[]> {
-    const stmt = 'SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, Rolle.abbr AS role, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung ' +
-        ' JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id' +
-        ' JOIN Klasse ON Klasse.id = AufstellungElement.fk_class' +
-        ' JOIN Rolle ON Rolle.id = AufstellungElement.fk_role' +
-        ' JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler' +
-        ' WHERE Aufstellung.id = ? FOR UPDATE';
+	const stmt = `
+		SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, AufstellungElement.roles AS roleIds, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung
+		JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id
+		JOIN Klasse ON Klasse.id = AufstellungElement.fk_class
+		JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler
+		WHERE Aufstellung.id = ? FOR UPDATE
+	`;
     try {
         return await db.queryV(stmt, aufstellung);
     } catch(e) {
@@ -39,8 +41,8 @@ export async function setClass(aufstellung: number, position: number, clss: numb
     }
 }
 
-export async function setRole(aufstellung: number, position: number, role: number): Promise<OkPacket> {
-    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_role) VALUES (?,?,?) ON DUPLICATE KEY UPDATE fk_role = ?';
+export async function setRole(aufstellung: number, position: number, role: string): Promise<OkPacket> {
+    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, roles) VALUES (?,?,?) ON DUPLICATE KEY UPDATE roles = ?';
     try {
         return await db.queryV(stmt, [aufstellung, position, role, role]);
     } catch(e) {
@@ -58,7 +60,7 @@ export async function setName(aufstellung: number, position: number, name: numbe
 }
 
 export async function setCompleteElement(aufstellung: number, position: number, classId: number, roleId: number, playerId: number): Promise<OkPacket> {
-    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class, fk_role, fk_spieler) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?, fk_role = ?, fk_spieler = ?';
+    const stmt = 'INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class, roles, fk_spieler) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?, roles = ?, fk_spieler = ?';
     try {
         return await db.queryV(stmt, [aufstellung, position, classId, roleId, playerId, classId, roleId, playerId]);
     }

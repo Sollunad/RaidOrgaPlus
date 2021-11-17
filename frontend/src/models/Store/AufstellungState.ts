@@ -25,8 +25,8 @@ export interface AufstellungGetters {
 	isLocked: boolean;
 	wsClient: any;
 	wsOutput: any;
-	elementForPosition: any;
-	dummyElement: any;
+	elementForPosition: (aufstellung: number, position: number) => element | undefined;
+	dummyElement: (aufstellung: number, position: number) => element;
 	isNameDoubled: (aufstellung: any, name: any) => boolean;
 	ersatzSpieler: any[];
 	ersatzIds: any[];
@@ -79,6 +79,8 @@ export enum AufstellungActions {
 	ToggleLocked = "ToggleLocked",
 	PickClass = "PickClass",
 	ClearClass = "ClearClass",
+	AddRole = "AddRole",
+	RemoveRole = "RemoveRole",
 	PickRole = "PickRole",
 	ClearRole = "ClearRole",
 	PickName = "PickName",
