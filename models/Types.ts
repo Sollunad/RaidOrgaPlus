@@ -1,7 +1,7 @@
 import { DiscordMember } from "./Discord";
 import { ExtraAccount } from "./ExtraAccount";
 import { Raid } from "./Raid";
-import { Rolle } from "./Rolle";
+import { Role } from "./Rolle";
 import { Spieler, SpielerRaid, SpielerTermin } from "./Spieler";
 import { Termin } from "./Termin";
 
@@ -10,7 +10,7 @@ export type element = {
 	pos: number;
 	class: string;
 	roleIds: string;
-	roles: Rolle[];
+	roles: Role[];
 	id: number;
 	name: string;
 	accname: string;
@@ -19,7 +19,8 @@ export type element = {
 export type blankoElement = {
 	pos: number;
 	class: string;
-	role: string;
+	roleIds: string;
+	roles: Role[];
 	enc: number;
 };
 

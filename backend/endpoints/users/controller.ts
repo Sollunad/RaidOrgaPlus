@@ -136,7 +136,7 @@ async function getBuilds(req: Request): Promise<Build[]> {
 
 async function addBuild(req: Request, authentication: Authentication): Promise<OkPacket> {
 	const clss = Number(req.body.clss);
-	const role = Number(req.body.role);
+	const role = req.body.role as string;
 	if (clss && role) {
 		return _builds.addBuild(authentication.user, clss, role);
 	} else {
@@ -146,7 +146,7 @@ async function addBuild(req: Request, authentication: Authentication): Promise<O
 
 async function deleteBuild(req: Request, authentication: Authentication): Promise<OkPacket> {
 	const clss = Number(req.body.clss);
-	const role = Number(req.body.role);
+	const role = req.body.role as string;
 	if (clss && role) {
 		return _builds.deleteBuild(authentication.user, clss, role);
 	} else {
@@ -156,7 +156,7 @@ async function deleteBuild(req: Request, authentication: Authentication): Promis
 
 async function putPrefer(req: Request, authentication: Authentication): Promise<OkPacket> {
 	const clss = Number(req.body.clss);
-	const role = Number(req.body.role);
+	const role = req.body.role as string;
 	const pref = Number(req.body.pref);
 	if (authentication && clss && role) {
 		return await _builds.putPrefer(authentication.user, clss, role, pref);
@@ -258,10 +258,10 @@ async function addExtraAccount(req: Request, authentication: Authentication): Pr
 	return await _user.addExtraAccount(authentication.user, accName);
 }
 
-async function deleteExtraAccount(req: Request): Promise<OkPacket> {
+async function deleteExtraAccount(req: Request, authentication: Authentication): Promise<OkPacket> {
 	const id = Number(req.body.accId);
 	if (id > 0) {
-		return await _user.deleteExtraAccount(id);
+		return await _user.deleteExtraAccount(id, authentication.user);
 	}
 	else {
 		return;

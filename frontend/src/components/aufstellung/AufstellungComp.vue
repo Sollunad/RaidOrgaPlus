@@ -1,12 +1,8 @@
 <template>
 	<div class="aufstellung">
-		<AufstellungHeaderComp
-			v-bind:aufstellung="aufstellung"
-			v-bind:copyActive="copyActive"
-			v-on:toggleCopy="toggleCopy"
-		/>
-		<AufstellungBodyComp v-if="!copyActive" v-bind:aufstellung="aufstellung" />
-		<MenuAufstellungenComp v-else v-bind:aufstellung="aufstellung" v-on:stopCopy="stopCopy" class="menu" />
+		<AufstellungHeaderComp :aufstellung="aufstellung" :copyActive="copyActive" v-on:toggleCopy="toggleCopy" />
+		<AufstellungBodyComp v-if="!copyActive" :aufstellung="aufstellung" :showExtraRoles="showExtraRoles" />
+		<MenuAufstellungenComp v-else :aufstellung="aufstellung" v-on:stopCopy="stopCopy" class="menu" />
 	</div>
 </template>
 
@@ -22,10 +18,11 @@
 		name: "AufstellungComp",
 		components: { MenuAufstellungenComp, AufstellungBodyComp, AufstellungHeaderComp },
 		props: {
-			aufstellung: Object as PropType<Aufstellung & Encounter>
+			aufstellung: Object as PropType<Aufstellung & Encounter>,
+			showExtraRoles: Boolean,
 		},
 		data: () => ({
-			copyActive: false
+			copyActive: false,
 		}),
 		methods: {
 			stopCopy: function(): void {
@@ -33,8 +30,8 @@
 			},
 			toggleCopy: function(): void {
 				this.copyActive = !this.copyActive;
-			}
-		}
+			},
+		},
 	});
 </script>
 

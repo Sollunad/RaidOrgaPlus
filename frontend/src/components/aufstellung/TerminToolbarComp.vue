@@ -83,6 +83,20 @@
 				</v-tooltip>
 			</template>
 		</template>
+		<v-tooltip bottom>
+			<template v-slot:activator="{ on }">
+				<span v-on="on">
+					<v-switch
+						inset
+						v-model="showExtraRoles"
+						class="switch"
+						label="Rollen Buttons"
+						@change="extraRolesChanged"
+					/>
+				</span>
+			</template>
+			<span>Buttons zum Hinzufügen bzw. Entfernen von extra Rollen Ein-/Auschalten</span>
+		</v-tooltip>
 		<template v-if="role > 0 && active === false">
 			<v-tooltip bottom>
 				<template v-slot:activator="{ on }">
@@ -108,6 +122,9 @@
 	export default Vue.extend({
 		name: "TerminToolbarComp",
 		components: { KommentarComp, ListAnmeldungComp, AnmeldungComp, MenuWingComp },
+		data: () => ({
+			showExtraRoles: false,
+		}),
 		computed: {
 			headline: function(): string {
 				if (this.termin.endtime) {
@@ -130,7 +147,7 @@
 			},
 			active: function(): any {
 				return this.$vStore.getters.isActive;
-			}
+			},
 		},
 		methods: {
 			addBoss: function(info: number[]): void {
@@ -156,8 +173,11 @@
 			},
 			uploadLog: function(): void {
 				this.$vStore.dispatch(MyActions.ToggleUpload);
-			}
-		}
+			},
+			extraRolesChanged: function(): void {
+				this.$emit("extraRolesChanged", this.showExtraRoles);
+			},
+		},
 	});
 </script>
 
@@ -182,5 +202,14 @@
 		top: 6.9rem;
 		right: 3%;
 		z-index: 2;
+	}
+
+	.switch {
+		margin-right: auto;
+		margin-top: auto;
+		display: inline-block;
+		width: min-content;
+		margin-left: 8px;
+		padding: 0px;
 	}
 </style>

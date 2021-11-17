@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Rolle } from '../../../models/Rolle';
+import { Role } from '../../../models/Rolle';
 
 export type VForm = Vue & { 
 	validate: () => boolean,
@@ -14,7 +14,7 @@ export type aufstellungPick = {
 		name: string;
 		accname: string;
 	};
-	role: Rolle
+	role: Role
 	clss: {
 		id: number;
 		abbr: string;

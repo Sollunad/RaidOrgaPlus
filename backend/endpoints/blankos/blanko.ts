@@ -17,7 +17,7 @@ export async function getElementsByEncounter(raid: number, enc: number): Promise
 
 export async function getAllElements(raid: number): Promise<blankoElement[]> {
 	const stmt = `
-		SELECT BlankoElement.position AS pos, Klasse.abbr AS class, BlankoElement.roles AS roles, BlankoElement.fk_boss AS enc FROM BlankoElement
+		SELECT BlankoElement.position AS pos, Klasse.abbr AS class, BlankoElement.roles AS roleIds, BlankoElement.fk_boss AS enc FROM BlankoElement
 		JOIN Klasse ON Klasse.id = BlankoElement.fk_class
 		WHERE fk_raid = ?
 	`;
@@ -37,7 +37,7 @@ export async function setClass(raid: number, enc: number, position: number, clss
 	}
 }
 
-export async function setRole(raid: number, enc: number, position: number, role: number): Promise<OkPacket> {
+export async function setRole(raid: number, enc: number, position: number, role: string): Promise<OkPacket> {
 	const stmt = 'INSERT INTO BlankoElement (fk_raid, fk_boss, position, roles) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE roles = ?';
 	try {
 		return await db.queryV(stmt, [raid, enc, position, role, role]);

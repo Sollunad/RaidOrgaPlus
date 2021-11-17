@@ -3,7 +3,7 @@ import { Encounter } from 'models/Encounter';
 
 export default { listEncounter, listEncounterGrouped, listEncounterForWing, getClassesForBase, getWings, getAchievements };
 
-async function listEncounter(): Promise<any> {
+async function listEncounter(): Promise<Encounter[]> {
 	return await con('gamedata/encounter', 'get', {}, false);
 }
 
@@ -11,7 +11,7 @@ async function listEncounterGrouped(): Promise<Encounter[][]> {
 	return await con('gamedata/encounter', 'get', { grouped: 1 }, false);
 }
 
-async function listEncounterForWing(wing: any): Promise<any> {
+async function listEncounterForWing(wing: number): Promise<Encounter[]> {
 	return await con('gamedata/encounter', 'get', { wing }, false);
 }
 

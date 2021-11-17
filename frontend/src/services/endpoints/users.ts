@@ -55,15 +55,15 @@ async function getBuilds(user: number): Promise<Build[]> {
 	return await con('users/builds', 'get', { user }, true);
 }
 
-async function addBuild(clss: number, role: number): Promise<void> {
+async function addBuild(clss: number, role: string): Promise<void> {
 	return await con('users/builds', 'post', { clss, role }, true);
 }
 
-async function deleteBuild(clss: number, role: number): Promise<void> {
+async function deleteBuild(clss: number, role: string): Promise<void> {
 	return await con('users/builds', 'delete', { clss, role }, true);
 }
 
-async function putPrefer(clss: number, role: number, pref: number): Promise<void> {
+async function putPrefer(clss: number, role: string, pref: number): Promise<void> {
 	return await con('users/builds/prefer', 'put', { clss, role, pref }, true);
 }
 

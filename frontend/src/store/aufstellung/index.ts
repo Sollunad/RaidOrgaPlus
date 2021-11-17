@@ -11,7 +11,7 @@ import { Encounter } from "../../../../models/Encounter";
 import { element, terminDate } from "../../../../models/Types";
 import { Termin } from "../../../../models/Termin";
 import { aufstellungPick } from "@/models/Types";
-import { Rolle } from "../../../../models/Rolle";
+import { Role } from "../../../../models/Rolle";
 
 const mutations: AufstellungMutationsDefinition = {
 	[AufstellungMutations.SetActive]: (state: AufstellungState, isActive: any) => {
@@ -229,7 +229,7 @@ const actions: AufstellungActionsDefinition = {
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
-		element.roles.push({ id: 0 } as Rolle);
+		element.roles.push({ id: 0 } as Role);
 		const roles = element.roles.map(r => r.id).join(', ');
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setRole(aufstellung, position, roles);
@@ -262,7 +262,7 @@ const actions: AufstellungActionsDefinition = {
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
-		element.roles[idx] = { id: 0 } as Rolle;
+		element.roles[idx] = { id: 0 } as Role;
 		const roles = element.roles.map(r => r.id).join(', ');
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setRole(aufstellung, position, roles);

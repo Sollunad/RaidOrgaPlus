@@ -115,10 +115,10 @@ async function getAllExtraAccounts(): Promise<ExtraAccount[]> {
 	}
 }
 
-async function deleteExtraAccount(id: number): Promise<OkPacket> {
-	const stmt = 'DELETE FROM ExtraAccounts WHERE id = ?';
+async function deleteExtraAccount(id: number, userId: number): Promise<OkPacket> {
+	const stmt = 'DELETE FROM ExtraAccounts WHERE id = ? AND fk_spieler = ?';
 	try {
-		return await db.queryV(stmt, [id]);
+		return await db.queryV(stmt, [id, userId]);
 	}
 	catch (e) {
 		throw e;

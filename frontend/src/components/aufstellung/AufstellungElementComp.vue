@@ -36,12 +36,14 @@
 						:showStar="true">
 					</MenuRoleComp>
 				</v-menu>
-				<v-btn color="green" fab width="24px" height="24px" @click="addRole" v-if="this.roles.length < 4">
-					<v-icon>add</v-icon>
-				</v-btn>
-				<v-btn color="red" fab width="24px" height="24px" style="margin-left: 4px" @click="removeRole" v-if="this.roles.length > 1">
-					<v-icon>remove</v-icon>
-				</v-btn>
+				<template v-if="showExtraRoles">
+					<v-btn color="green" fab width="24px" height="24px" @click="addRole" v-if="this.roles.length < 4">
+						<v-icon>add</v-icon>
+					</v-btn>
+					<v-btn color="red" fab width="24px" height="24px" style="margin-left: 4px" @click="removeRole" v-if="this.roles.length > 1">
+						<v-icon>remove</v-icon>
+					</v-btn>
+				</template>
 			</span>
 			<v-avatar v-for="(role, idx) in this.roles" :key="idx" :size="20" :tile="true" class="avatar" v-else>
 				<img :src="emptyIcon" v-if="role.id === 0">
@@ -61,14 +63,15 @@
 	import NameComp from "../menu/NameComp.vue";
 	import { MyActions } from '@/models/Store/State';
 	import { element } from 'models/Types';
-	import { Rolle } from 'models/Rolle';
+	import { Role } from 'models/Rolle';
 
 	export default Vue.extend({
 		name: "AufstellungElementComp",
 		components: {NameComp, MenuNameComp, MenuRoleComp, MenuClassComp},
 		props: {
 			aufstellung: Object as PropType<any>,
-			position: Number
+			position: Number,
+			showExtraRoles: Boolean,
 		},
 		data: () => ({
 			classMenuOpen: false,
@@ -104,11 +107,11 @@
 				const selfAccName = this.$vStore.getters.loggedInUser.accname;
 				return this.element.accname === selfAccName;
 			},
-			roles: function(): Rolle[] {
+			roles: function(): Role[] {
 				if (this.element && this.element.roles && this.element.roles.length > 0) {
 					return this.element.roles;
 				}
-				return [{ id: 0 }] as Rolle[];
+				return [{ id: 0 }] as Role[];
 			}
 		},
 		methods: {
@@ -138,7 +141,7 @@
 					position: this.position,
 				});
 			},
-			pickRole: async function(idx: number, role: Rolle) {
+			pickRole: async function(idx: number, role: Role) {
 				await this.$vStore.dispatch(MyActions.PickRole, {
 					aufstellung: this.aufstellung.id,
 					position: this.position,

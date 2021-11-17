@@ -1,10 +1,10 @@
-export interface Rolle {
+export interface Role {
 	id: number;
 	name: string;
 	abbr: string;
 }
 
-export const ROLES: Rolle[] = [
+export const ROLES: Role[] = [
 	{ id: 1, name: 'Power', abbr: 'P' },
 	{ id: 2, name: 'Condi', abbr: 'C' },
 	{ id: 3, name: 'Tank', abbr: 'T' },
