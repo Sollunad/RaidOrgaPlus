@@ -17,7 +17,7 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
 	message.channel.startTyping();
 	const termine = await _termine.getTermine(message.auth, message.raid.id);
 	if (termine.length === 0) {
-		message.channel.send('Es gibt keine kommenden Termine oder dir fehlt die Berechtigung, diese anzuzeigen.');
+		message.channel.send("Es gibt keine kommenden Termine oder dir fehlt die Berechtigung, diese anzuzeigen.");
 	} else {
 		if (pickedTermin && pickedTermin <= termine.length) {
 			const termin = termine[pickedTermin - 1];
@@ -28,19 +28,27 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
 				 */
 				const aufstellung = aufstellungen[pickedAufstellung - 1];
 				const elements = await _aufstellungen.getElements(message.auth, aufstellung.id);
-				let aufstellungString = '';
-				const empty = client.emojis.cache.find(emoji => emoji.name === 'empty');
+				let aufstellungString = "";
+				const empty = client.emojis.cache.find((emoji) => emoji.name === "empty");
 				for (let i = 0; i < elements.length; i++) {
 					const element = elements[i];
-					const clss = client.emojis.cache.find(emoji => emoji.name === element.class.toLowerCase());
-					const role = client.emojis.cache.find(emoji => emoji.name === element.role.toLowerCase() + '_');
-					aufstellungString += `${clss ? clss : empty} ${role ? role : empty} - ${element.name}\n`
+					const clss = client.emojis.cache.find((emoji) => emoji.name === element.class.toLowerCase());
+					aufstellungString += `${clss ? clss : empty} `;
+					element.roles.forEach((r) => {
+						const role = client.emojis.cache.find((emoji) => emoji.name === r.abbr.toLowerCase() + "_");
+						if (role != null) {
+							aufstellungString += `${role} `;
+						}
+					});
+					aufstellungString += `- ${element.name}\n`;
 				}
-				let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Aufstellung`)
-					.addField('Datum', termin.dateString)
-					.addField('Uhrzeit', termin.time)
-					.addField('Boss', `(${pickedAufstellung}) ${aufstellung.name}`)
-					.addField('Aufstellung', aufstellungString)
+				let embed = _embeds
+					.defaultEmbed()
+					.setTitle(`${message.raid.name} - Aufstellung`)
+					.addField("Datum", termin.dateString)
+					.addField("Uhrzeit", termin.time)
+					.addField("Boss", `(${pickedAufstellung}) ${aufstellung.name}`)
+					.addField("Aufstellung", aufstellungString)
 					.setThumbnail(_icons.encIcon(aufstellung.abbr));
 				await message.channel.send(embed);
 			} else {
@@ -48,32 +56,37 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
 					Embed: 1 Termin
 				 */
 				const anmeldungen = await _termine.getAnmeldungen(message.auth, termin.id);
-				let emojiYes: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'yes');
-				let emojiMaybe: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'maybe');
-				let emojiNo: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'no');
+				let emojiYes: string | GuildEmoji = client.emojis.cache.find((emoji) => emoji.name === "yes");
+				let emojiMaybe: string | GuildEmoji = client.emojis.cache.find((emoji) => emoji.name === "maybe");
+				let emojiNo: string | GuildEmoji = client.emojis.cache.find((emoji) => emoji.name === "no");
 
 				if (emojiYes == null) {
-					emojiYes = "🟢"
+					emojiYes = "🟢";
 				}
 
 				if (emojiMaybe == null) {
-					emojiMaybe = "🟡"
+					emojiMaybe = "🟡";
 				}
 
 				if (emojiNo == null) {
-					emojiNo = "🔴"
+					emojiNo = "🔴";
 				}
 
 				const embed = _embeds.terminEmbed(client, message.raid.name, termin, aufstellungen, anmeldungen);
-				message.channel.send(embed)
-					.then(msg => msg.react(emojiYes))
-					.then(r => r.message.react(emojiMaybe))
-					.then(r => r.message.react(emojiNo))
-					.then(r => {
-						_messages.newMessageTermin(r.message.id, r.message.channel.id, termin, message.auth, message.raid.name);
+				message.channel
+					.send(embed)
+					.then((msg) => msg.react(emojiYes))
+					.then((r) => r.message.react(emojiMaybe))
+					.then((r) => r.message.react(emojiNo))
+					.then((r) => {
+						_messages.newMessageTermin(
+							r.message.id,
+							r.message.channel.id,
+							termin,
+							message.auth,
+							message.raid.name
+						);
 					});
-
-
 			}
 		} else {
 			/*
@@ -95,6 +108,6 @@ exports.run = async (client: DiscordClient, message: DiscordMessage, args: numbe
 };
 
 exports.help = {
-	usage: '!orga termine <termin> <aufstellung>',
-	desc: 'Zeigt Termine und Aufstellungen an.'
+	usage: "!orga termine <termin> <aufstellung>",
+	desc: "Zeigt Termine und Aufstellungen an.",
 };
