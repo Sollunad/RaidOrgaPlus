@@ -3,9 +3,12 @@
 		<h2 class="header">Log Upload</h2>
 		<v-divider class="divider" />
 		<p>
-			Für die Seite dps.report gibt es die Möglichkeit, beim hochladen von Logs einen User Token mit anzugeben. Mit diesem User Token, können frühere Logs die auf der Seite mit dem Token hochgeladen wurden, abgefragt werden.
-			RO+ bietet die Möglichkeit an, einen solchen User Token für einen Raid zu hinterlegen oder auch einen automatisch generieren zu lassen, welcher dann auch für die Uploads der Logs entsprechend verwendet wird.
-			Das hinterlegen eines User Tokens in RO+ ist freiwilig, wird aber empfohlen um z.B. später auch direkt über dps.report auf die Logs zugreifen zu können.
+			Für die Seite dps.report gibt es die Möglichkeit, beim hochladen von Logs einen User Token mit anzugeben.
+			Mit diesem User Token, können frühere Logs die auf der Seite mit dem Token hochgeladen wurden, abgefragt
+			werden. RO+ bietet die Möglichkeit an, einen solchen User Token für einen Raid zu hinterlegen oder auch
+			einen automatisch generieren zu lassen, welcher dann auch für die Uploads der Logs entsprechend verwendet
+			wird. Das hinterlegen eines User Tokens in RO+ ist freiwilig, wird aber empfohlen um z.B. später auch direkt
+			über dps.report auf die Logs zugreifen zu können.
 		</p>
 		<v-dialog width="unset" v-model="dialog">
 			<template v-slot:activator="{ on }">
@@ -47,12 +50,12 @@
 		name: "LogUploadComp",
 		props: {
 			raid: Object as PropType<userRaid>,
-			disabled: Boolean
+			disabled: Boolean,
 		},
 		data: () => ({
 			dialog: false,
 			token: "",
-			tokenSaved: false
+			tokenSaved: false,
 		}),
 		methods: {
 			generateToken: async function(): Promise<void> {
@@ -73,7 +76,7 @@
 				if (this.tokenSaved) {
 					this.tokenSaved = false;
 				}
-			}
+			},
 		},
 		created: async function(): Promise<void> {
 			if (this.raid && this.raid.dpsReportToken) {
@@ -81,9 +84,13 @@
 				this.token = this.raid.dpsReportToken;
 				this.tokenSaved = true;
 			}
-		}
+		},
 	});
 </script>
 
 <style scoped>
+	.divider {
+		border-width: thick 0 0 0;
+		margin-bottom: 20px;
+	}
 </style>
