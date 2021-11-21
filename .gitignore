@@ -6,3 +6,4 @@
 TODOS.md
 vetur.config.js
 backend.log
+backend/config/.env.dev
