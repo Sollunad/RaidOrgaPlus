@@ -23,7 +23,7 @@
 			<v-avatar class="classIcon" tile v-else>
 				<img :src="classIcon" v-if="classIcon" />
 			</v-avatar>
-			
+
 			<template v-for="(role, idx) in this.roles">
 				<v-tooltip bottom :key="idx" v-if="role.id > 0">
 					<template v-slot:activator="{ on }">
