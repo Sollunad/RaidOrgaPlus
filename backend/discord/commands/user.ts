@@ -1,0 +1,13 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { CacheType, CommandInteraction } from "discord.js";
+
+const command = new SlashCommandBuilder().setName("user").setDescription("Replies with user info!");
+
+export default {
+	data: command,
+	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => user(interaction),
+};
+
+async function user(interaction: CommandInteraction<CacheType>) {
+	await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
+}
