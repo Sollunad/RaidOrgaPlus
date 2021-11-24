@@ -66,7 +66,7 @@ const UserModule: Module<UserState, RootState> = {
         loggedInUser: {} as Spieler,
         loginState: 0,
         buildCheck: null,
-        frontendBuild: 'v2.3.0',
+        frontendBuild: 'v2.3.1',
     },
     mutations: mutations,
 	actions: actions,

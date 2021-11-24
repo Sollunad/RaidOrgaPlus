@@ -19,6 +19,7 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: getElement, path: "/elements", method: "get", authed: true },
 	{ function: postElement, path: "/elements", method: "post", authed: true },
 	{ function: copyElements, path: "/copyElements", method: "post", authed: true },
+	{ function: reloadBlanko, path: "/reloadBlanko", method: "post", authed: true },
 ];
 export default endpoints;
 
@@ -135,6 +136,16 @@ async function copyElements(req: Request, authentication: Authentication): Promi
 		const role = await _roles.forAufstellung(authentication, to);
 		if (role > 0) {
 			return _aufstellung.copyElements(from, to);
+		}
+	}
+}
+
+async function reloadBlanko(req: Request, authentication: Authentication): Promise<OkPacket> {
+	const aufstellung = Number(req.body.aufstellung);
+	if (aufstellung) {
+		const role = await _roles.forAufstellung(authentication, aufstellung);
+		if (role > 0) {
+			return await _aufstellung.reloadBlanko(aufstellung);
 		}
 	}
 }

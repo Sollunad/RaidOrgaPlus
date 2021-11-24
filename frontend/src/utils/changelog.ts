@@ -12,6 +12,14 @@ export const changelogs: Changelog[] = [
 		],
 		subversions: [
 			{
+				version: "v.2.3.1",
+				release: "24.11.2021",
+				features: [
+					"Button zum Laden des jeweiligen Blankos für die Bosse bei der Aufstellung hinzugefügt",
+					"Diverse Bugfixes"
+				],
+			},
+			{
 				version: "Multi-Rollen System",
 				release: "",
 				features: [
