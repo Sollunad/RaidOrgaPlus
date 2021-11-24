@@ -118,12 +118,12 @@ async function setCM(aufstellung: number, cm: boolean): Promise<OkPacket> {
 
 async function reloadBlanko(aufstellung: number): Promise<OkPacket> {
 	const stmt = `
-		INSERT INTO aufstellungelement (fk_aufstellung, position, fk_class, roles)
+		INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class, roles)
 		SELECT ?, position, fk_class, roles
 		FROM BlankoElement
 		WHERE fk_raid =
-			(SELECT Raid.id FROM raid JOIN termin ON termin.fk_raid = raid.id JOIN aufstellung ON aufstellung.fk_termin = termin.id WHERE aufstellung.id = ?)
-		AND fk_boss = (SELECT fk_boss FROM aufstellung WHERE aufstellung.id = ?)
+			(SELECT Raid.id FROM Raid JOIN Termin ON Termin.fk_raid = Raid.id JOIN Aufstellung ON Aufstellung.fk_termin = Termin.id WHERE Aufstellung.id = ?)
+		AND fk_boss = (SELECT fk_boss FROM Aufstellung WHERE Aufstellung.id = ?)
 		ON DUPLICATE KEY UPDATE fk_class = BlankoElement.fk_class, roles = BlankoElement.roles;
 	`;
 
