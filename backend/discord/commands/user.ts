@@ -9,5 +9,6 @@ export default {
 };
 
 async function user(interaction: CommandInteraction<CacheType>) {
-	await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
+	const member = await interaction.guild.members.fetch(interaction.user);
+	await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}\nYour nickname: ${member.nickname}`);
 }

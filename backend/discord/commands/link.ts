@@ -37,6 +37,8 @@ async function executeCommand(interaction: CommandInteraction<CacheType>): Promi
 }
 
 async function setRaid(interaction: CommandInteraction<CacheType>): Promise<void> {
+	await interaction.deferReply();
+
 	await interaction.reply("setRaid");
 }
 
