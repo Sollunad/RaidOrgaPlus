@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import { DiscordEvent } from "models/DiscordEvent";
-import { decrypt } from "../../util/encyrption";
+import { DiscordEvent } from "../models/DiscordEvent";
+import { decrypt } from "../utils/encyrption";
 
 export default {
 	name: "messageCreate",

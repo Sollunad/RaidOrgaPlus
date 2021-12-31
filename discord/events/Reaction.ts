@@ -1,6 +1,6 @@
 import { MessageEmbed, MessageReaction, PartialMessageReaction } from "discord.js";
-import { DiscordEvent } from "models/DiscordEvent";
-import { encrypt } from "../../util/encyrption";
+import { DiscordEvent } from "../models/DiscordEvent";
+import { encrypt } from "../utils/encyrption";
 
 export default {
 	name: "messageReactionAdd",

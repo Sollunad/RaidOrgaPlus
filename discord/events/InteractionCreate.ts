@@ -1,6 +1,6 @@
 import { CacheType, Interaction } from "discord.js";
-import { DiscordClient } from "models/DiscordClient";
-import { DiscordEvent } from "models/DiscordEvent";
+import { DiscordClient } from "../models/DiscordClient";
+import { DiscordEvent } from "../models/DiscordEvent";
 
 export default {
 	name: "interactionCreate",

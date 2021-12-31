@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction } from "discord.js";
 
-import { decrypt } from "../../util/encyrption";
+import { decrypt } from "../utils/encyrption";
 
 const command = new SlashCommandBuilder()
 	.setName("test")
@@ -16,7 +16,14 @@ const command = new SlashCommandBuilder()
 				option.setName("cypher").setDescription("The cypher/text to decrypt.").setRequired(true)
 			)
 	)
-	.addSubcommand((sub) => sub.setName("reaction").setDescription("Test reaction event handling"));
+	.addSubcommand((sub) => sub.setName("reaction").setDescription("Test reaction event handling"))
+	.addSubcommand((sub) =>
+		sub
+			.setName("echo")
+			.setDescription("Echoes the input")
+			.addNumberOption((option) => option.setName("number").setDescription("useless option").setRequired(true))
+			.addStringOption((option) => option.setName("input").setDescription("The input to echo"))
+	);
 
 export default {
 	data: command,
@@ -35,6 +42,9 @@ async function executeCommand(interaction: CommandInteraction<CacheType>): Promi
 			break;
 		case "reaction":
 			await reaction(interaction);
+			break;
+		case "echo":
+			await echoMessage(interaction);
 			break;
 	}
 }
@@ -60,5 +70,15 @@ async function reaction(interaction: CommandInteraction<CacheType>): Promise<voi
 
 	if ("react" in message) {
 		await message.react("🎫");
+	}
+}
+
+async function echoMessage(interaction: CommandInteraction<CacheType>): Promise<void> {
+	const input = interaction.options.getString("input");
+
+	if (input) {
+		await interaction.reply("Echo: " + input);
+	} else {
+		await interaction.reply("Nothing to echo.");
 	}
 }

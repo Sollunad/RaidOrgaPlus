@@ -28,6 +28,7 @@
 				"src/*"
 			],
 			"models/*": [
+				"src/models/*",
 				"../models/build/*"
 			]
 		},

@@ -1,7 +1,10 @@
-import * as _refresher from "../refresher/main";
-import { DiscordClient } from "../models/DiscordClient";
+import { Client } from "discord.js";
+import { DiscordEvent } from "../models/DiscordEvent";
 
-module.exports = (client: DiscordClient) => {
-  console.log("RO+ Bot gestartet");
-  _refresher.startTimer(client);
-};
+export default {
+	name: "ready",
+	once: true,
+	execute: async (client: Client<true>): Promise<void> => {
+		console.log("Ready!");
+	}
+} as DiscordEvent

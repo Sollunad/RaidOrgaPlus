@@ -8,3 +8,5 @@ vetur.config.js
 backend.log
 backend/config/.env.dev
 discord.log
+node_modules/*
+core/*

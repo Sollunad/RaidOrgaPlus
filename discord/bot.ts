@@ -1,34 +1,44 @@
+import fs from "fs";
+import consoleStamp from "console-stamp";
+import { Intents, Collection } from "discord.js";
 import { DiscordClient } from "./models/DiscordClient";
-import config from "./config.json";
+import { Command } from "./models/Commands";
+import { defaultExport } from "models/Types";
 
-import Enmap = require("enmap");
-import * as fs from "fs";
+import { DiscordEvent } from "models/DiscordEvent";
 
-const client = new DiscordClient();
-// We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
-client.config = config;
-
-fs.readdir("./events/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach(file => {
-    const event = require(`./events/${file}`);
-    let eventName = file.split(".")[0];
-    client.on(eventName, event.bind(null, client));
-  });
+consoleStamp(console, {
+	format: ":date(dd.mm.yyyy HH:MM:ss.l) :label",
 });
 
-client.commands = new Enmap();
-client.userdata = new Enmap();
-
-fs.readdir("./commands/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach(file => {
-    if (!file.endsWith(".js") && !file.endsWith(".ts")) return;
-    let props = require(`./commands/${file}`);
-    let commandName = file.split(".")[0];
-    console.log(`Attempting to load command ${commandName}`);
-    client.commands.set(commandName, props);
-  });
+const intents = [
+	Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+	Intents.FLAGS.GUILD_MESSAGES,
+	Intents.FLAGS.GUILD_MEMBERS,
+	Intents.FLAGS.GUILDS,
+	Intents.FLAGS.DIRECT_MESSAGES,
+];
+const client = new DiscordClient({
+	intents: intents,
+	partials: [ "MESSAGE", "REACTION" ]
 });
 
-client.login(config.token);
+client.commands = new Collection();
+const commandFiles = fs.readdirSync("./discord/commands").filter((file) => file.endsWith(".ts"));
+
+commandFiles.forEach(async (file) => {
+	const command: defaultExport<Command> = await import(`./discord/commands/${file}`);
+	client.commands.set(command.default.data.name, command.default);
+});
+
+const eventFiles = fs.readdirSync("./discord/events").filter((file) => file.endsWith(".ts"));
+eventFiles.forEach(async (file) => {
+	const event: defaultExport<DiscordEvent> = await import(`./discord/events/${file}`);
+	if (event.default.once) {
+		client.once(event.default.name, event.default.execute);
+	} else {
+		client.on(event.default.name, event.default.execute);
+	}
+});
+
+client.login(process.env.DISCORD_TOKEN);
