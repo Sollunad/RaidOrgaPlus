@@ -66,7 +66,7 @@ export async function setCompleteElement(
 	aufstellung: number,
 	position: number,
 	classId: number,
-	roleId: number,
+	roles: string,
 	playerId: number
 ): Promise<OkPacket> {
 	const stmt = `
@@ -75,7 +75,7 @@ export async function setCompleteElement(
 		ON DUPLICATE KEY UPDATE fk_class = ?, roles = ?, fk_spieler = ?
 	`;
 	try {
-		return await db.queryV(stmt, [aufstellung, position, classId, roleId, playerId, classId, roleId, playerId]);
+		return await db.queryV(stmt, [aufstellung, position, classId, roles, playerId, classId, roles, playerId]);
 	} catch (e) {
 		throw e;
 	}
