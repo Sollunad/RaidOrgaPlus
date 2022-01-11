@@ -5,7 +5,7 @@ import { DiscordClient } from "./models/DiscordClient";
 import { Command } from "./models/Commands";
 import { defaultExport } from "models/Types";
 
-import { DiscordEvent } from "models/DiscordEvent";
+import { DiscordEvent } from "./models/DiscordEvent";
 
 consoleStamp(console, {
 	format: ":date(dd.mm.yyyy HH:MM:ss.l) :label",
@@ -24,16 +24,16 @@ const client = new DiscordClient({
 });
 
 client.commands = new Collection();
-const commandFiles = fs.readdirSync("./discord/commands").filter((file) => file.endsWith(".ts"));
+const commandFiles = fs.readdirSync("./commands").filter((file) => file.endsWith(".ts"));
 
 commandFiles.forEach(async (file) => {
-	const command: defaultExport<Command> = await import(`./discord/commands/${file}`);
+	const command: defaultExport<Command> = await import(`./commands/${file}`);
 	client.commands.set(command.default.data.name, command.default);
 });
 
-const eventFiles = fs.readdirSync("./discord/events").filter((file) => file.endsWith(".ts"));
+const eventFiles = fs.readdirSync("./events").filter((file) => file.endsWith(".ts"));
 eventFiles.forEach(async (file) => {
-	const event: defaultExport<DiscordEvent> = await import(`./discord/events/${file}`);
+	const event: defaultExport<DiscordEvent> = await import(`./events/${file}`);
 	if (event.default.once) {
 		client.once(event.default.name, event.default.execute);
 	} else {

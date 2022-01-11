@@ -1,5 +1,5 @@
 import { homepageTermin } from '../../../models/Types';
-import * as db from '../../db/connector';
+import { queryV } from "database/src/connector";
 import * as dateMapper from './dateMapper';
 
 export async function getHomepageTermine(user: number): Promise<homepageTermin[]> {
@@ -13,7 +13,7 @@ export async function getHomepageTermine(user: number): Promise<homepageTermin[]
 		ORDER BY Termin.date, Termin.time
 	`;
     try {
-		const response = await db.queryV<homepageTermin[]>(stmt, [user, user]);
+		const response = await queryV<homepageTermin[]>(stmt, [user, user]);
         return response.map(dateMapper.map);
     } catch(e) {
         throw e;

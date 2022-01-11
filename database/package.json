@@ -1,0 +1,13 @@
+{
+	"name": "database",
+	"version": "1.0.0",
+	"main": "index.js",
+	"private": true,
+	"scripts": {
+		"build": "tsc -b"
+	},
+	"dependencies": {
+		"@types/mysql": "^2.15.17",
+		"mysql": "^2.18.1"
+	}
+}

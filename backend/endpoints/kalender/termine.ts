@@ -1,6 +1,6 @@
 import { Raid } from 'models/Raid';
 import { Termin } from 'models/Termin';
-import * as db from '../../db/connector';
+import { query } from "database/src/connector";
 
 export async function showTermineForNext7Days(): Promise<(Termin & Raid)[]> {
 	const stmt = `
@@ -11,7 +11,7 @@ export async function showTermineForNext7Days(): Promise<(Termin & Raid)[]> {
 		ORDER BY Termin.date, Termin.time
 	`;
 	try {
-		return await db.query(stmt);
+		return await query(stmt);
 	} catch (e) {
 		throw e;
 	}

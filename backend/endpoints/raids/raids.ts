@@ -1,8 +1,7 @@
 import { Raid } from 'models/Raid';
 import { Spieler } from 'models/Spieler';
-import { OkPacket } from 'mysql';
 import { terminState, userRaid } from 'models/Types';
-import * as db from '../../db/connector';
+import { queryV, OkPacket } from "database/src/connector";
 
 export {
 	listForPlayerId as listForPlayer, getForRaidId as get, listPlayers, anmeldungStatesForUser, kickPlayer,
@@ -19,7 +18,7 @@ async function listForPlayerId(userId: number): Promise<userRaid[]> {
 		ORDER BY active DESC, id ASC
 	`;
 	try {
-		return await db.queryV(stmt, userId);
+		return await queryV(stmt, userId);
 	} catch (e) {
 		throw e;
 	}
@@ -28,7 +27,7 @@ async function listForPlayerId(userId: number): Promise<userRaid[]> {
 async function getForRaidId(raidId: number): Promise<Raid> {
 	const stmt = 'SELECT * FROM Raid WHERE id = ?';
 	try {
-		const raid: Raid = (await db.queryV(stmt, raidId))[0];
+		const raid: Raid = (await queryV(stmt, raidId))[0];
 		return raid;
 	} catch (e) {
 		throw e;
@@ -43,7 +42,7 @@ async function listPlayers(raidId: number): Promise<Spieler[]> {
 		WHERE fk_raid = ? ORDER BY role DESC, name
 	`;
 	try {
-		return await db.queryV(stmt, raidId);
+		return await queryV(stmt, raidId);
 	} catch (e) {
 		throw e;
 	}
@@ -58,7 +57,7 @@ async function anmeldungStatesForUser(userId: number): Promise<terminState[]> {
 		GROUP BY raid
 	`;
 	try {
-		return await db.queryV(stmt, [userId, userId]);
+		return await queryV(stmt, [userId, userId]);
 	} catch (e) {
 		throw e;
 	}
@@ -67,7 +66,7 @@ async function anmeldungStatesForUser(userId: number): Promise<terminState[]> {
 async function kickPlayer(raid: number, user: number): Promise<OkPacket> {
 	const stmt = 'DELETE FROM Spieler_Raid WHERE fk_raid = ? AND fk_spieler = ?';
 	try {
-		return await db.queryV(stmt, [raid, user]);
+		return await queryV(stmt, [raid, user]);
 	} catch (e) {
 		throw e;
 	}
@@ -76,7 +75,7 @@ async function kickPlayer(raid: number, user: number): Promise<OkPacket> {
 async function getRoleForPlayer(raid: number, user: number): Promise<number[]> {
 	const stmt = 'SELECT role FROM Spieler_Raid WHERE fk_raid = ? AND fk_spieler = ?';
 	try {
-		const response: { role: number }[] = await db.queryV(stmt, [raid, user]);
+		const response: { role: number }[] = await queryV(stmt, [raid, user]);
 		return response.map(r => r.role);
 	} catch (e) {
 		throw e;
@@ -86,7 +85,7 @@ async function getRoleForPlayer(raid: number, user: number): Promise<number[]> {
 async function setLieutenantRole(raidId: number, user: number, role: number): Promise<OkPacket> {
 	const stmt = `UPDATE Spieler_Raid SET role = ? WHERE fk_raid = ? AND fk_spieler = ?`;
 	try {
-		return await db.queryV(stmt, [role, raidId, user]);
+		return await queryV(stmt, [role, raidId, user]);
 	} catch (e) {
 		throw e;
 	}
@@ -95,7 +94,7 @@ async function setLieutenantRole(raidId: number, user: number, role: number): Pr
 async function setUserToken(raidId: number, token: string): Promise<OkPacket> {
 	const stmt = `UPDATE Raid SET dpsReportToken = ? WHERE id = ?`;
 	try {
-		return await db.queryV(stmt, [token, raidId]);
+		return await queryV(stmt, [token, raidId]);
 	} catch (e) {
 		throw e;
 	}
@@ -104,7 +103,7 @@ async function setUserToken(raidId: number, token: string): Promise<OkPacket> {
 async function getUserToken(raidId: number): Promise<string> {
 	const stmt = `SELECT dpsReportToken FROM Raid WHERE id = ?`;
 	try {
-		const response: { dpsReportToken: string }[] = await db.queryV(stmt, [raidId]);
+		const response: { dpsReportToken: string }[] = await queryV(stmt, [raidId]);
 		return response[0].dpsReportToken;
 	} catch (e) {
 		throw e;

@@ -15,12 +15,16 @@
 		"models/*": [
 			"models/*",
 			"../models/build/*"
+		],
+		"database/*": [
+			"../database/build/*"
 		]
 	}
   },
   "include": ["./**/*"],
   "exclude": ["node_modules", "./dist/**/*"],
   "references": [
-	  { "path": "../core" }
+	  { "path": "../models" },
+	  { "path": "../database" }
   ]
 }

@@ -1,4 +1,4 @@
-import * as db from "./db/connector";
+import { query } from "database/src/connector";
 import { getGuildMember, addRole, removeRole } from "./discord/users";
 
 export function startUserCheckTimer(): void {
@@ -54,7 +54,7 @@ async function getSpieler(): Promise<{ accname: string, name: string }[]> {
 	`;
 
 	try {
-		return await db.query(stmt);
+		return await query(stmt);
 	}
 	catch (e) {
 		throw e;
@@ -64,7 +64,7 @@ async function getSpieler(): Promise<{ accname: string, name: string }[]> {
 async function getRaids(): Promise<{ name: string }[]> {
 	const stmt = 'SELECT name FROM Raid';
 	try {
-		return await db.query(stmt);
+		return await query(stmt);
 	} catch (e) {
 		throw e;
 	}

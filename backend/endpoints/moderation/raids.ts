@@ -1,12 +1,11 @@
 import { Raid } from 'models/Raid';
 import { Spieler } from 'models/Spieler';
-import { OkPacket } from 'mysql';
-import * as db from '../../db/connector';
+import { query, queryV, OkPacket } from "database/src/connector";
 
 export async function getRaids(): Promise<Raid[]> {
 	const stmt = 'SELECT id, name, active FROM Raid ORDER BY active DESC, name';
 	try {
-		return await db.query(stmt);
+		return await query(stmt);
 	} catch (e) {
 		throw e;
 	}
@@ -15,7 +14,7 @@ export async function getRaids(): Promise<Raid[]> {
 export async function listPlayers(raidId: number): Promise<Spieler[]> {
 	const stmt = 'SELECT Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname, Spieler_Raid.role AS role, Spieler.discord FROM Spieler_Raid JOIN Spieler ON Spieler.id = Spieler_Raid.fk_spieler WHERE fk_raid = ? ORDER BY role DESC, name';
 	try {
-		return await db.queryV(stmt, raidId);
+		return await queryV(stmt, raidId);
 	} catch (e) {
 		throw e;
 	}
@@ -24,7 +23,7 @@ export async function listPlayers(raidId: number): Promise<Spieler[]> {
 export async function createRaid(name: string): Promise<OkPacket> {
 	const stmt = 'INSERT INTO Raid (name) VALUES (?)';
 	try {
-		return await db.queryV(stmt, name);
+		return await queryV(stmt, name);
 	} catch (e) {
 		throw e;
 	}
@@ -33,7 +32,7 @@ export async function createRaid(name: string): Promise<OkPacket> {
 export async function deleteRaid(id: number): Promise<OkPacket> {
 	const stmt = 'DELETE FROM Raid WHERE id = ?';
 	try {
-		return await db.queryV(stmt, id);
+		return await queryV(stmt, id);
 	}
 	catch (e) {
 		throw e;
@@ -43,7 +42,7 @@ export async function deleteRaid(id: number): Promise<OkPacket> {
 export async function addPlayer(raidId: number, spielerId: number): Promise<OkPacket> {
 	const stmt = 'INSERT INTO Spieler_Raid (fk_raid, fk_spieler) VALUES (?,?)';
 	try {
-		return await db.queryV(stmt, [raidId, spielerId]);
+		return await queryV(stmt, [raidId, spielerId]);
 	} catch (e) {
 		throw e;
 	}
@@ -52,7 +51,7 @@ export async function addPlayer(raidId: number, spielerId: number): Promise<OkPa
 export async function setPlayerRole(raidId: number, spielerId: number, role: number): Promise<OkPacket> {
 	const stmt = 'UPDATE Spieler_Raid SET role = ? WHERE fk_raid = ? AND fk_spieler = ?';
 	try {
-		return await db.queryV(stmt, [role, raidId, spielerId]);
+		return await queryV(stmt, [role, raidId, spielerId]);
 	} catch (e) {
 		throw e;
 	}
@@ -61,7 +60,7 @@ export async function setPlayerRole(raidId: number, spielerId: number, role: num
 export async function removePlayer(raidId: number, spielerId: number): Promise<OkPacket> {
 	const stmt = 'DELETE FROM Spieler_Raid WHERE fk_raid = ? AND fk_spieler = ?';
 	try {
-		return await db.queryV(stmt, [raidId, spielerId]);
+		return await queryV(stmt, [raidId, spielerId]);
 	} catch (e) {
 		throw e;
 	}
@@ -70,7 +69,7 @@ export async function removePlayer(raidId: number, spielerId: number): Promise<O
 export async function getRaidsAsLead(spielerId: number): Promise<number> {
 	const stmt = 'SELECT count(*) AS count FROM Spieler_Raid WHERE role = 2 AND fk_spieler = ?';
 	try {
-		const result: number[] = await db.queryV(stmt, [spielerId]);
+		const result: number[] = await queryV(stmt, [spielerId]);
 		return result[0];
 	}
 	catch (e) {

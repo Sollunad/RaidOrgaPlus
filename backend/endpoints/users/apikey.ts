@@ -1,4 +1,4 @@
-import * as db from '../../db/connector';
+import { queryV } from "database/src/connector";
 import * as api from '../../gw2api/account';
 import * as users from './user';
 
@@ -9,7 +9,7 @@ export {
 async function getApiKey(userId: number): Promise<string[]> {
     const stmt = 'SELECT apikey FROM Spieler WHERE id = ?';
     try {
-		const response: { apikey: string }[] = await db.queryV(stmt, userId);
+		const response: { apikey: string }[] = await queryV(stmt, userId);
 		return response.map(key => key.apikey);
     } catch(e) {
         throw e;
@@ -28,7 +28,7 @@ async function setApiKey(userId: number, apiKey: string): Promise<string> {
         if (keyName === user.accname) {
             if (await enoughPermissions(apiKey)) {
                 const stmt = 'UPDATE Spieler SET apikey = ? WHERE id = ?';
-                db.queryV(stmt, [apiKey, userId]);
+                queryV(stmt, [apiKey, userId]);
                 return 'Success';
             } else {
                 return 'Permissions';

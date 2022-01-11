@@ -1,6 +1,5 @@
 import { Spieler } from 'models/Spieler';
-import { OkPacket } from 'mysql';
-import * as db from '../../db/connector';
+import { query, queryV, OkPacket } from "database/src/connector";
 
 const stmt = `
 	SELECT Spieler.id, Spieler.accname, Spieler.name, Spieler.lastActive, Spieler.comment, Spieler.discord, Spieler.role, MIN(Termin.date) AS firstTermin, MAX(Termin.date) AS lastTermin
@@ -20,7 +19,7 @@ const stmt = `
 
 export async function getUsers(): Promise<(Spieler & { firstTermin: Date, lastTermin: Date })[]> {
 	try {
-		return await db.query(stmt);
+		return await query(stmt);
 	} catch (e) {
 		throw e;
 	}
@@ -29,7 +28,7 @@ export async function getUsers(): Promise<(Spieler & { firstTermin: Date, lastTe
 export async function setComment(spieler: number, comment: string): Promise<OkPacket> {
 	const stmt = 'UPDATE Spieler SET comment = ? WHERE id = ?';
 	try {
-		return await db.queryV(stmt, [comment, spieler]);
+		return await queryV(stmt, [comment, spieler]);
 	} catch (e) {
 		throw e;
 	}
@@ -38,7 +37,7 @@ export async function setComment(spieler: number, comment: string): Promise<OkPa
 export async function updateSpielerRole(spielerId: number, userRole: number): Promise<OkPacket> {
 	const stmt = 'UPDATE Spieler SET role = ? WHERE id = ?';
 	try {
-		return await db.queryV(stmt, [userRole, spielerId]);
+		return await queryV(stmt, [userRole, spielerId]);
 	} catch (e) {
 		throw e;
 	}

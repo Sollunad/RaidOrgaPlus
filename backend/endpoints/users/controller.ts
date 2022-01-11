@@ -13,7 +13,7 @@ import hash from 'password-hash';
 import { Request } from 'express';
 import { Authentication } from 'models/Auth';
 import { Spieler } from 'models/Spieler';
-import { OkPacket } from 'mysql';
+import { OkPacket } from "database/src/connector";
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import { toBoolean } from '../../models/Util';
 import { Build } from 'models/Build';

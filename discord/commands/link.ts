@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction, MessageEmbed } from "discord.js";
 
-import { RaidRole } from "models/Enums";
+import { RaidRole } from "../../models/Enums";
 import { Raid } from "models/Raid";
 import { listRaidsForUser, removeChannelFromRaid, setChannelForRaid } from "../utils/misc";
 

@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import hash from 'password-hash';
-import * as db from '../../db/connector';
 import * as session from './session';
+import { queryV } from "database/src/connector";
 import { Spieler } from 'models/Spieler';
 
 export async function login(username: string, pwd: string, agent: string): Promise<string> {
@@ -22,7 +22,7 @@ export async function login(username: string, pwd: string, agent: string): Promi
 async function getUserByName(name: string): Promise<Spieler[]> {
 	const stmt = 'SELECT * FROM Spieler WHERE Spieler.accname = ?';
 	try {
-		return await db.queryV(stmt, name);
+		return await queryV(stmt, name);
 	} catch (e) {
 		throw e;
 	}

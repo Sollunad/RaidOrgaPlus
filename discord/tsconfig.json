@@ -16,7 +16,6 @@
 		"baseUrl": ".",
 		"paths": {
 			"models/*": [
-				"models/*",
 				"../models/build/*"
 			]
 		}
@@ -24,6 +23,6 @@
 	"include": ["./**/*"],
 	"exclude": ["node_modules", "./dist/**/*"],
 	"references": [
-		{ "path": "../core" }
+		{ "path": "../models" }
 	]
 }

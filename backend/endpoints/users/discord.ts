@@ -1,11 +1,10 @@
-import * as db from '../../db/connector';
 import * as _session from './session';
 import * as _user from './user';
 import * as _discord from '../../discord/users';
 import pw from 'generate-password';
 import { v4 } from 'uuid';
+import { query, queryV, OkPacket } from "database/src/connector";
 import { DiscordKey } from 'models/DiscordKey';
-import { OkPacket } from 'mysql';
 
 export {
 	loginDiscord as login, deleteDiscordKeyForUser as delete, createDiscordKey as create
@@ -34,7 +33,7 @@ async function createDiscordKey(user: number): Promise<string[]> {
     const randomKey = pw.generate({length: 10, numbers: true});
     const stmt = 'INSERT INTO DiscordKey (discord_key, fk_spieler) VALUES (?, ?)';
     try {
-        await db.queryV(stmt, [randomKey, user]);
+        await queryV(stmt, [randomKey, user]);
         return [randomKey];
     } catch(e) {
         throw e;
@@ -44,7 +43,7 @@ async function createDiscordKey(user: number): Promise<string[]> {
 async function getUserByDiscordKey(key: string): Promise<DiscordKey[]> {
     const stmt = 'SELECT * FROM DiscordKey WHERE discord_key = ? AND created > NOW() - INTERVAL 1 HOUR';
     try {
-        return await db.queryV(stmt, key);
+        return await queryV(stmt, key);
     } catch(e) {
         throw e;
     }
@@ -53,7 +52,7 @@ async function getUserByDiscordKey(key: string): Promise<DiscordKey[]> {
 async function deleteDiscordKey(key: string): Promise<OkPacket> {
     const stmt = 'DELETE FROM DiscordKey WHERE discord_key = ?';
     try {
-        return await db.queryV(stmt, key);
+        return await queryV(stmt, key);
     } catch(e) {
         throw e;
     }
@@ -62,7 +61,7 @@ async function deleteDiscordKey(key: string): Promise<OkPacket> {
 async function deleteDiscordKeyForUser(user: number): Promise<OkPacket> {
     const stmt = 'DELETE FROM DiscordKey WHERE fk_spieler = ?';
     try {
-        return await db.queryV(stmt, user);
+        return await queryV(stmt, user);
     } catch(e) {
         throw e;
     }
@@ -71,7 +70,7 @@ async function deleteDiscordKeyForUser(user: number): Promise<OkPacket> {
 async function deleteInvalidKeys(): Promise<OkPacket> {
     const stmt = 'DELETE FROM DiscordKey WHERE created < NOW() - INTERVAL 1 HOUR';
     try {
-        return await db.query(stmt);
+        return await query(stmt);
     } catch(e) {
         throw e;
     }
@@ -80,7 +79,7 @@ async function deleteInvalidKeys(): Promise<OkPacket> {
 async function saveDiscordId(user: number, id: number): Promise<OkPacket> {
     const stmt = 'UPDATE Spieler SET discord = ? WHERE id = ?';
     try {
-        return await db.queryV(stmt, [id, user]);
+        return await queryV(stmt, [id, user]);
     } catch(e) {
         throw e;
     }

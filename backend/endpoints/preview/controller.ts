@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { Aufstellung } from 'models/Aufstellung';
 import { Encounter } from 'models/Encounter';
 import { Authentication } from 'models/Auth';
-import { OkPacket } from 'mysql';
+import { OkPacket } from "database/src/connector";
 import { ControllerEndpoint } from 'models/ControllerEndpoint';
 import { toBoolean } from '../../models/Util';
 import { element, terminDate } from '../../../models/Types';

@@ -1,11 +1,10 @@
-import * as db from '../../db/connector';
 import * as parser from '../../reports/parser';
 import glob from 'glob';
 import fs from 'fs';
 import { v4 } from 'uuid';
 import { UploadedFile } from 'express-fileupload';
 import { Aufstellung } from 'models/Aufstellung';
-import { OkPacket } from 'mysql';
+import { queryV, OkPacket } from "database/src/connector";
 
 async function addReport(aufstellung: number, file: UploadedFile): Promise<string[]> {
     const extension = file.name.split('.').slice(-1)[0];
@@ -39,7 +38,7 @@ async function addReport(aufstellung: number, file: UploadedFile): Promise<strin
 export async function writeReport(aufstellung: number, fileName: string): Promise<OkPacket> {
     const stmt = 'UPDATE Aufstellung SET report = ? WHERE id = ?';
     try {
-        return await db.queryV(stmt, [fileName, aufstellung]);
+        return await queryV(stmt, [fileName, aufstellung]);
     } catch(e) {
         throw e;
     }
@@ -48,7 +47,7 @@ export async function writeReport(aufstellung: number, fileName: string): Promis
 async function getReport(aufstellung: number): Promise<string> {
     const stmt = 'SELECT report FROM Aufstellung WHERE id = ?';
     try {
-        const response: Aufstellung = await db.queryV(stmt, aufstellung)[0];
+        const response: Aufstellung = await queryV(stmt, aufstellung)[0];
         if (response) {
             return response.report;
         } else {

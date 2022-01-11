@@ -1,0 +1,49 @@
+--------------------------------------
+--- Recent Schema Changes
+--------------------------------------
+
+ALTER TABLE raid
+ADD COLUMN discordChannel varchar(25);
+
+--------------------------------------
+--- Last Changes
+--------------------------------------
+
+ALTER TABLE Spieler_Build
+DROP INDEX fk_role;
+
+ALTER TABLE Spieler_Build
+DROP INDEX Spieler_Build_ibfk_3;
+
+ALTER TABLE Spieler_Build
+CHANGE fk_role roles varchar(25);
+
+--------------------------------------
+
+ALTER TABLE BlankoElement
+DROP INDEX fk_role;
+
+ALTER TABLE BlankoElement
+DROP INDEX BlankoElement_ibfk_3;
+
+ALTER TABLE BlankoElement
+CHANGE fk_role roles varchar(25);
+
+--------------------------------------
+
+ALTER TABLE AufstellungElement
+DROP INDEX fk_role;
+
+ALTER TABLE AufstellungElement
+DROP INDEX AufstellungElement_ibfk_4;
+
+ALTER TABLE AufstellungElement
+CHANGE fk_role roles varchar(25);
+
+--------------------------------------
+
+ALTER TABLE raid
+ADD COLUMN dpsReportToken varchar(100);
+
+--------------------------------------
+
