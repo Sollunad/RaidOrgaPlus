@@ -1,4 +1,4 @@
-import { query } from "database/src/connector";
+import { query } from "../database/connector";
 import { getGuildMember, addRole, removeRole } from "./discord/users";
 
 export function startUserCheckTimer(): void {

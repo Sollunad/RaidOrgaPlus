@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import hash from 'password-hash';
 import * as session from './session';
-import { queryV } from "database/src/connector";
+import { queryV } from "../../../database/connector";
 import { Spieler } from 'models/Spieler';
 
 export async function login(username: string, pwd: string, agent: string): Promise<string> {

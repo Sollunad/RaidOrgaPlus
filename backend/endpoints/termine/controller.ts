@@ -10,7 +10,7 @@ import { Spieler, SpielerTermin } from "models/Spieler";
 import { Termin } from "models/Termin";
 import { Aufstellung } from "models/Aufstellung";
 import { Encounter } from "models/Encounter";
-import { OkPacket } from "database/src/connector";
+import { OkPacket } from 'mysql';
 import { ControllerEndpoint } from "models/ControllerEndpoint";
 import { toBoolean } from "../../models/Util";
 import { homepageTermin } from "../../../models/Types";

@@ -1,4 +1,5 @@
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import type { element } from "models/Types";
 
 export async function getForTermin(termin: number): Promise<element[]> {

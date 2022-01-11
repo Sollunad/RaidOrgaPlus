@@ -1,6 +1,7 @@
 import { Raid } from 'models/Raid';
 import { Spieler } from 'models/Spieler';
-import { query, queryV, OkPacket } from "database/src/connector";
+import { query, queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export async function getRaids(): Promise<Raid[]> {
 	const stmt = 'SELECT id, name, active FROM Raid ORDER BY active DESC, name';

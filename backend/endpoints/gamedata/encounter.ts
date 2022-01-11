@@ -1,6 +1,6 @@
 import { Encounter } from 'models/Encounter';
 import { Wing } from 'models/Wing';
-import { query, queryV } from "database/src/connector";
+import { query, queryV } from "../../../database/connector";
 
 export async function listByWing(): Promise<Encounter[][]> {
 	const stmt = 'SELECT * FROM Encounter';

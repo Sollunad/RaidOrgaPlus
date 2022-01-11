@@ -1,7 +1,8 @@
 import { Raid } from 'models/Raid';
 import { Spieler } from 'models/Spieler';
 import { terminState, userRaid } from 'models/Types';
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export {
 	listForPlayerId as listForPlayer, getForRaidId as get, listPlayers, anmeldungStatesForUser, kickPlayer,

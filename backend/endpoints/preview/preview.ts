@@ -1,6 +1,7 @@
 import { map } from "../termine/dateMapper";
 import { terminDate } from "../../../models/Types";
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export async function isPreviewable(termin: number): Promise<boolean[]> {
 	const stmt = "SELECT preview FROM Termin WHERE id = ?";

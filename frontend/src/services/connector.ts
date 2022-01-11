@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios, { Method } from 'axios';
 import _cookies from './util/cookies';
 import config from './config.json';
 import { getCurrentEnvironment } from '@/utils/misc';
 
 export default fetch;
 
-async function fetch<T>(endpoint: string, method: string, params: any, authed: boolean): Promise<T> {
+async function fetch<T>(endpoint: string, method: Method | "form", params: any, authed: boolean): Promise<T> {
 	const url = config[getCurrentEnvironment()] + endpoint;
 	if (authed) params.auth = _cookies.getCookie('session');
 	if (method === 'get') {

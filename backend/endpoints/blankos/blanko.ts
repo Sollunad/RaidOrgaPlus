@@ -1,4 +1,5 @@
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import { blankoElement } from '../../../models/Types';
 
 export async function getElementsByEncounter(raid: number, enc: number): Promise<blankoElement[]> {

@@ -5,7 +5,7 @@ import { Request } from "express";
 import { Authentication } from "models/Auth";
 import { Encounter } from "models/Encounter";
 import { Aufstellung } from "models/Aufstellung";
-import { OkPacket } from "database/src/connector";
+import { OkPacket } from "mysql";
 import { ControllerEndpoint } from "models/ControllerEndpoint";
 import { toBoolean } from "../../models/Util";
 import { element } from "../../../models/Types";

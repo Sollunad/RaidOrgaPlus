@@ -1,7 +1,8 @@
 import { Einladung } from 'models/Einladung';
 import { Spieler } from 'models/Spieler';
 import { playerInvite, raidInvite } from 'models/Types';
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export {
 	invitePlayer, invitablePlayers as invitable, pendingInvitesForPlayer as pendingForPlayer, pendingInvitesForRaid as pendingForRaid,

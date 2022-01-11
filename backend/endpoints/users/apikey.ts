@@ -1,4 +1,4 @@
-import { queryV } from "database/src/connector";
+import { queryV } from "../../../database/connector";
 import * as api from '../../gw2api/account';
 import * as users from './user';
 

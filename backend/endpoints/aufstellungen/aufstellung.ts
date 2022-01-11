@@ -1,7 +1,8 @@
 import { Aufstellung } from "models/Aufstellung";
 import { Encounter } from "models/Encounter";
 import { Raid } from "models/Raid";
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export { getForTermin, getRaidId, getRaidName, deleteBoss as delete, setSuccess, loadBlanko, copyElements, setCM };
 

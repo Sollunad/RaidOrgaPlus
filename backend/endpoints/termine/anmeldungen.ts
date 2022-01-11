@@ -1,5 +1,6 @@
 import { Spieler, SpielerTermin } from 'models/Spieler';
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export async function anmelden(spieler: number, termin: number, type: number): Promise<OkPacket> {
 	const stmt = 'INSERT INTO Spieler_Termin (fk_spieler, fk_termin, type) VALUES (?,?,?) ON DUPLICATE KEY UPDATE type=?';

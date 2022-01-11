@@ -1,5 +1,6 @@
 import hash from 'password-hash';
-import { query, queryV, OkPacket } from "database/src/connector";
+import { query, queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import { Spieler } from 'models/Spieler';
 import { ExtraAccount } from 'models/ExtraAccount';
 

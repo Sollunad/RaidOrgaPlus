@@ -2,7 +2,8 @@ import { v4 } from 'uuid';
 import hash from 'password-hash';
 
 import * as mailer from '../../mailer/mailer';
-import { query, queryV, OkPacket } from "database/src/connector";
+import { query, queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import { Spieler } from 'models/Spieler';
 import { PasswordReset } from 'models/PasswordReset';
 

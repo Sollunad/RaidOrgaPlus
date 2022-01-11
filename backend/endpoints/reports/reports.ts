@@ -4,7 +4,8 @@ import fs from 'fs';
 import { v4 } from 'uuid';
 import { UploadedFile } from 'express-fileupload';
 import { Aufstellung } from 'models/Aufstellung';
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 async function addReport(aufstellung: number, file: UploadedFile): Promise<string[]> {
     const extension = file.name.split('.').slice(-1)[0];

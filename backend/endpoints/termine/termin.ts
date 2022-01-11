@@ -1,7 +1,8 @@
 import { Raid } from 'models/Raid';
 import { SpielerTermin } from 'models/Spieler';
 import { Termin } from 'models/Termin';
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import * as dateMapper from './dateMapper';
 
 export {

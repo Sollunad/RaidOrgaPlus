@@ -4,7 +4,7 @@ import * as _roles from '../../authentication/role';
 import * as _users from '../users/user';
 import * as _discord from '../../discord/users';
 import { Request } from 'express';
-import { OkPacket } from "database/src/connector";
+import { OkPacket } from 'mysql';
 import axios from "axios";
 import { Authentication } from 'models/Auth';
 import { Spieler } from 'models/Spieler';

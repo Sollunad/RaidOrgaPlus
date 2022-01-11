@@ -1,6 +1,6 @@
 import { Raid } from 'models/Raid';
 import { Termin } from 'models/Termin';
-import { query } from "database/src/connector";
+import { query } from "../../../database/connector";
 
 export async function showTermineForNext7Days(): Promise<(Termin & Raid)[]> {
 	const stmt = `

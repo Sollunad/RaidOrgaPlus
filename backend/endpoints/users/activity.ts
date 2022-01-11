@@ -1,4 +1,5 @@
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export async function getLastActivity(userId: number): Promise<boolean[]> {
     const stmt = 'SELECT lastActive FROM Spieler WHERE id = ?';

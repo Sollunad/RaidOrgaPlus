@@ -1,5 +1,5 @@
 import hash from 'password-hash';
-import { queryV } from "database/src/connector";
+import { queryV } from "../../../database/connector";
 
 export async function register(accName: string, pwd: string, name: string, email: string): Promise<boolean> {
 	const response = await userExists(accName);

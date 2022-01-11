@@ -1,7 +1,5 @@
 import config from "./config.json";
-import sql, { ConnectionConfig, OkPacket } from "mysql";
-
-export { OkPacket };
+import sql, { ConnectionConfig } from "mysql";
 
 const dbConfig: ConnectionConfig = {
 	typeCast: function (field, next) {

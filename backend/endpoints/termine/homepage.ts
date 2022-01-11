@@ -1,5 +1,5 @@
 import { homepageTermin } from '../../../models/Types';
-import { queryV } from "database/src/connector";
+import { queryV } from "../../../database/connector";
 import * as dateMapper from './dateMapper';
 
 export async function getHomepageTermine(user: number): Promise<homepageTermin[]> {

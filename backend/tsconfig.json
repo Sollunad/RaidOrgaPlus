@@ -1,30 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./",
-    "strict": false,
-	"moduleResolution": "node",
-    "baseUrl": ".",
-	"esModuleInterop": true,
-	"skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-	"resolveJsonModule": true,
-	"paths": {
-		"models/*": [
-			"models/*",
-			"../models/build/*"
-		],
-		"database/*": [
-			"../database/build/*"
-		]
-	}
-  },
-  "include": ["./**/*"],
-  "exclude": ["node_modules", "./dist/**/*"],
-  "references": [
-	  { "path": "../models" },
-	  { "path": "../database" }
-  ]
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "commonjs",
+		"outDir": "./dist",
+		"rootDir": "./",
+		"strict": false,
+		"moduleResolution": "node",
+		"baseUrl": ".",
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"paths": {
+			"models/*": ["models/*", "../models/build/*"],
+			"database/*": ["../database/build/*"]
+		}
+	},
+	"include": ["./**/*"],
+	"exclude": ["node_modules", "./dist/**/*"],
+	"references": [{ "path": "../models" }, { "path": "../database" }]
 }

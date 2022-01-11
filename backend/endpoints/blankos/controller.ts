@@ -2,7 +2,7 @@ import * as _blanko from "./blanko";
 import * as _roles from "../../authentication/role";
 import { Request } from "express";
 import { Authentication } from "models/Auth";
-import { OkPacket } from "database/src/connector";
+import { OkPacket } from "mysql";
 import { ControllerEndpoint } from "models/ControllerEndpoint";
 import { blankoElement } from "models/Types";
 import { ROLES, Role } from "../../../models/Rolle";

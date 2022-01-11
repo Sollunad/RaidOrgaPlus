@@ -1,4 +1,5 @@
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import { Build } from 'models/Build';
 import { ROLES } from '../../../models/Rolle';
 

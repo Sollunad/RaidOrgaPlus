@@ -1,6 +1,7 @@
 import { Session } from 'models/Session';
 import { Spieler } from 'models/Spieler';
-import { query, queryV, OkPacket } from "database/src/connector";
+import { query, queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 export {
 	startSession as start, startDiscordSession as startDiscord, getUser, invalidateUuid as invalidate, invalidateExpired

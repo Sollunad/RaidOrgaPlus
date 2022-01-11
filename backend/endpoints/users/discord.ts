@@ -3,7 +3,8 @@ import * as _user from './user';
 import * as _discord from '../../discord/users';
 import pw from 'generate-password';
 import { v4 } from 'uuid';
-import { query, queryV, OkPacket } from "database/src/connector";
+import { query, queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import { DiscordKey } from 'models/DiscordKey';
 
 export {

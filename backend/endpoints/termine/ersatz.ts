@@ -1,4 +1,5 @@
-import { queryV, OkPacket } from "database/src/connector";
+import { queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 import { Spieler } from '../../../models/Spieler';
 
 export async function addErsatz(user: number, termin: number): Promise<OkPacket> {

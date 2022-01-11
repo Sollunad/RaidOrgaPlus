@@ -1,5 +1,6 @@
 import { Spieler } from 'models/Spieler';
-import { query, queryV, OkPacket } from "database/src/connector";
+import { query, queryV } from "../../../database/connector";
+import { OkPacket } from 'mysql';
 
 const stmt = `
 	SELECT Spieler.id, Spieler.accname, Spieler.name, Spieler.lastActive, Spieler.comment, Spieler.discord, Spieler.role, MIN(Termin.date) AS firstTermin, MAX(Termin.date) AS lastTermin
