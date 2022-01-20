@@ -3,7 +3,7 @@ import path from "path";
 import { REST } from "@discordjs/rest";
 import { RESTPostAPIApplicationCommandsJSONBody, Routes } from "discord-api-types/v9";
 import { Command } from "models/Commands";
-import { defaultExport } from "../../models/Types";
+import { defaultExport } from "../models/Types";
 
 async function getCommands(): Promise<RESTPostAPIApplicationCommandsJSONBody[]> {
 	const commands: RESTPostAPIApplicationCommandsJSONBody[] = [];

@@ -17,6 +17,10 @@ export default {
 			const users = await reaction.users.fetch();
 			const user = users.find((u) => !u.bot);
 
+			if (user == null) {
+				return;
+			}
+
 			// remove the reaction of the user.
 			await reaction.users.remove(user);
 
@@ -41,7 +45,7 @@ export default {
 				.setDescription("I could have a description?")
 				.addField("Message", reply.content)
 				.setTimestamp()
-				.setFooter(userId);
+				.setFooter({ text: userId });
 
 			const guild = reaction.message.guild;
 			const channel = guild.channels.cache.find((channel) => channel.name === "shoutbox");

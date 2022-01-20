@@ -20,7 +20,7 @@ const intents = [
 ];
 const client = new DiscordClient({
 	intents: intents,
-	partials: [ "MESSAGE", "REACTION" ]
+	partials: [ "MESSAGE", "REACTION", "CHANNEL", "USER" ]
 });
 
 client.commands = new Collection();

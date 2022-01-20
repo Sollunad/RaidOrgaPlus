@@ -16,13 +16,15 @@
 		"baseUrl": ".",
 		"paths": {
 			"models/*": [
-				"../models/build/*"
+				"../models/build/*",
+				"models/*"
 			]
 		}
 	},
 	"include": ["./**/*"],
 	"exclude": ["node_modules", "./dist/**/*"],
 	"references": [
-		{ "path": "../models" }
+		{ "path": "../models" },
+		{ "path": "../database" }
 	]
 }

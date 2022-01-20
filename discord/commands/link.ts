@@ -131,9 +131,10 @@ async function getRaid(interaction: CommandInteraction<CacheType>): Promise<void
 	const raids = await listRaidsForUser(guildUser.nickname);
 	const raidName = interaction.options.getString("raid");
 
-	if (raids == null || raids.length == 0) {
-		await interaction.editReply("Es konnte kein Raid gefunden werden, zu dem du dazu gehörst.");
-	}
+	// if (raids == null || raids.length == 0) {
+	// 	await interaction.editReply("Es konnte kein Raid gefunden werden, zu dem du dazu gehörst.");
+	// 	return;
+	// }
 
 	let raid: Raid = null;
 
@@ -145,6 +146,7 @@ async function getRaid(interaction: CommandInteraction<CacheType>): Promise<void
 
 	if (raid == null) {
 		await interaction.editReply("Es konnte kein Raid gefunden werden.");
+		return;
 	}
 
 	let channelName: string;

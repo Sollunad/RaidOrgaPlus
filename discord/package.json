@@ -5,8 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "npx tsnd -r dotenv/config ./bot.ts dotenv_config_path=config/.env.dev",
-		"commands": "npx tsnd -r dotenv/config ./discord/deploy-commands.ts dotenv_config_path=config/.env.dev",
-		"commands:permission": "npx tsnd -r dotenv/config ./discord/setCommandPermission.ts dotenv_config_path=config/.env.dev",
+		"commands": "npx tsnd -r dotenv/config ./deploy-commands.ts dotenv_config_path=config/.env.dev",
+		"commands:permission": "npx tsnd -r dotenv/config ./setCommandPermission.ts dotenv_config_path=config/.env.dev",
+		"commands:prod": "npx tsnd -r dotenv/config ./deploy-commands.ts dotenv_config_path=config/.env",
+		"commands:prod:permission": "npx tsnd -r dotenv/config ./setCommandPermission.ts dotenv_config_path=config/.env",
 		"build": "npx tsc",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

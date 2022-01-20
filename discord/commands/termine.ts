@@ -1,19 +1,128 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CacheType, CommandInteraction } from "discord.js";
+import { CacheType, CommandInteraction, GuildEmoji, MessageEmbed } from "discord.js";
+import { getAnmeldungenForTermin, getAufstellungen, getTermine, listRaidsForUser } from "../utils/misc";
+import { Raid } from "../../models/Raid";
+import { SpielerRaid, SpielerTermin } from "../../models/Spieler";
+import { defaultEmbed, terminEmbed } from "../services/util/embedProvider";
+import { DiscordClient } from "models/DiscordClient";
+import { Termin } from "../../models/Termin";
 
 const command = new SlashCommandBuilder()
 	.setName("termine")
-	.setDescription("Zeigt die Termine und Aufstellungen des Raides an.");
+	.setDescription("Zeigt die Termine und Aufstellungen des Raides an.")
+	.addSubcommand((sub) =>
+		sub
+			.setName("show")
+			.setDescription("Zeigt einen oder alle Termine an.")
+			.addNumberOption((option) =>
+				option
+					.setName("termin")
+					.setDescription("Der Index des Termins der angezeigt werden soll.")
+					.setRequired(false)
+			)
+			.addStringOption((option) =>
+				option
+					.setName("raid")
+					.setDescription("Der Name des Raides für den der Termin angezeigt werden soll.")
+					.setRequired(false)
+			)
+	);
 
 export default {
 	data: command,
-	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => pong(interaction),
+	execute: executeCommand,
 };
 
-async function pong(interaction: CommandInteraction<CacheType>) {
-	await interaction.reply("Pong!");
+async function executeCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
+	const subCommand = interaction.options.getSubcommand();
+
+	switch (subCommand) {
+		case "show":
+			await showTerminCommand(interaction);
+			break;
+	}
 }
 
+async function showTerminCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
+	await interaction.deferReply();
+
+	const terminIdx = interaction.options.getNumber("termin");
+	const raidName = interaction.options.getString("raid");
+
+	const guildUser = await interaction.guild.members.fetch(interaction.user);
+	const raids = await listRaidsForUser(guildUser.nickname);
+
+	let raid: Raid & SpielerRaid = null;
+
+	if (raidName == null || raidName.trim() == "") {
+		raid = raids.find((r) => r.discordChannel === interaction.channelId);
+	} else {
+		raid = raids.find((r) => r.name === raidName);
+	}
+
+	if (raid == null) {
+		await interaction.editReply("Es konnte kein Raid gefunden werden.");
+		return;
+	}
+
+	const termine = await getTermine(raid.fk_spieler, raid.id);
+
+	if (terminIdx == null || terminIdx <= 0 || terminIdx > termine.length) {
+		await listTermine(interaction, termine, raid);
+		return;
+	} else {
+		await showTermin(interaction, termine[terminIdx - 1], raid.name);
+		return;
+	}
+}
+
+async function listTermine(interaction: CommandInteraction<CacheType>, termine: (Termin & SpielerTermin)[], raid: Raid & SpielerRaid): Promise<void> {
+	let embed: MessageEmbed = defaultEmbed();
+	embed = embed.setTitle(`${raid.name} - Alle Termine`);
+
+	termine.forEach((termin, idx) => {
+		let value = `${termin.time}`;
+
+		if (termin.endtime != null) {
+			value += ` - ${termin.endtime}`;
+		}
+
+		embed = embed.addField(`(${idx + 1}) ${termin.dateString}`, value);
+	});
+
+	await interaction.editReply({ embeds: [embed] });
+}
+
+async function showTermin(interaction: CommandInteraction<CacheType>, termin: Termin & SpielerTermin, raidName: string): Promise<void> {
+	const anmeldungen = await getAnmeldungenForTermin(termin.id);
+	const aufstellungen = await getAufstellungen(termin.id);
+
+	const embed = terminEmbed(interaction.client as DiscordClient, raidName, termin, aufstellungen, anmeldungen);
+
+	let emojiYes: string | GuildEmoji = interaction.client.emojis.cache.find(emoji => emoji.name === 'yes');
+	let emojiMaybe: string | GuildEmoji = interaction.client.emojis.cache.find(emoji => emoji.name === 'maybe');
+	let emojiNo: string | GuildEmoji = interaction.client.emojis.cache.find(emoji => emoji.name === 'no');
+
+	if (emojiYes == null) {
+		emojiYes = "🟢"
+	}
+
+	if (emojiMaybe == null) {
+		emojiMaybe = "🟡"
+	}
+
+	if (emojiNo == null) {
+		emojiNo = "🔴"
+	}
+
+	await interaction.editReply({ embeds: [embed] });
+	const message = await interaction.fetchReply();
+	if ("react" in message) {
+		await message.react(emojiYes);
+		await message.react(emojiMaybe);
+		await message.react(emojiNo);
+	}
+}
 
 // import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
 // import * as _termine from "../services/endpoints/termine";
@@ -89,7 +198,6 @@ async function pong(interaction: CommandInteraction<CacheType>) {
 // 					.then(r => {
 // 						_messages.newMessageTermin(r.message.id, r.message.channel.id, termin, message.auth, message.raid.name);
 // 					});
-
 
 // 			}
 // 		} else {

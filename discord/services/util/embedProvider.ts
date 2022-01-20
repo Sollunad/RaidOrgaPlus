@@ -7,20 +7,27 @@ import { Termin } from "models/Termin";
 import { Aufstellung } from "models/Aufstellung";
 import { Encounter } from "models/Encounter";
 
-export function defaultEmbed() {
+export function defaultEmbed(): MessageEmbed {
 	return new MessageEmbed()
 		.setColor('#F55535')
 		.setTimestamp()
-		.setFooter('RaidOrga+', _icons.miscIcon('raid'));
+		.setFooter({ text: 'RaidOrga+', iconURL: _icons.miscIcon('raid') });
 }
 
-export function terminEmbed(client: DiscordClient, raidName: string, termin: (Termin & SpielerTermin), aufstellungen: (Aufstellung & Encounter)[], anmeldungen: (Spieler & SpielerTermin)[]) {
+export function terminEmbed(client: DiscordClient, raidName: string, termin: (Termin & SpielerTermin), aufstellungen: (Aufstellung & Encounter)[], anmeldungen: (Spieler & SpielerTermin)[]): MessageEmbed {
 	const emojis = getAnmeldeEmojis(client);
 	let allBosses = aufstellungen.map((a, index) => `(${index + 1}) ${a.name}${a.is_cm ? ' CM' : ''}`).join('\n');
-	if (allBosses === '') allBosses = 'Keine';
+	if (allBosses === '') {
+		allBosses = 'Keine';
+	}
+
 	let anmeldungenString = anmeldungen.filter(a => a.type < 3).map(a => `${emojis[a.type]} ${a.name}`).join('\n');
-	if (anmeldungenString === '') anmeldungenString = 'Keine';
-	let gesamtString = gesamtAnmeldungen(anmeldungen, emojis);
+	if (anmeldungenString === '') {
+		anmeldungenString = 'Keine';
+	}
+
+	const gesamtString = gesamtAnmeldungen(anmeldungen, emojis);
+	
 	return defaultEmbed().setTitle(`${raidName} - Kommender Termin`)
 		.addField('Datum', termin.dateString)
 		.addField('Uhrzeit', `${termin.time} - ${termin.endtime}`)
@@ -38,7 +45,7 @@ function getAnmeldeEmojis(client: DiscordClient) {
 
 export async function kalenderEmbed() {
 	const week = await getTermine();
-	let embed = defaultEmbed().setTitle(`Rising Light Kalender`)
+	const embed = defaultEmbed().setTitle(`Rising Light Kalender`)
 		.setThumbnail(_icons.miscIcon('raid'));
 	for (const day of week) {
 		let dayString = '';
@@ -74,7 +81,7 @@ async function getTermine() {
 function formatDate(date: any) {
 	let day = date.getDate();
 	day = day < 10 ? `0${day}` : day;
-	let month = date.getMonth();
+	const month = date.getMonth();
 	const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 	const weekday = date.getDay();
 	const weekdays = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
@@ -103,9 +110,9 @@ function terminToString(termin: any) {
 function gesamtAnmeldungen(anmeldungen: (Spieler & SpielerTermin)[], emojis: GuildEmoji[]): string {
 	let gesamtAnmeldungen = '';
 	
-	let yesCount = anmeldungen.filter(a => a.type === 0).length;
-	let maybeCount = anmeldungen.filter(a => a.type === 1).length;
-	let noCount = anmeldungen.filter(a => a.type === 2).length;
+	const yesCount = anmeldungen.filter(a => a.type === 0).length;
+	const maybeCount = anmeldungen.filter(a => a.type === 1).length;
+	const noCount = anmeldungen.filter(a => a.type === 2).length;
 
 	if (yesCount === 0 && maybeCount === 0 && noCount === 0) {
 		gesamtAnmeldungen = 'Keine';
