@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction, GuildEmoji, MessageEmbed } from "discord.js";
-import { getAnmeldungenForTermin, getAufstellungen, getTermine, listRaidsForUser } from "../utils/misc";
+import { getAnmeldungenForTermin, getAufstellungen, getTermine, listRaidsForUser, saveTermin } from "../utils/misc";
 import { Raid } from "../../models/Raid";
 import { SpielerRaid, SpielerTermin } from "../../models/Spieler";
 import { defaultEmbed, terminEmbed } from "../services/util/embedProvider";
@@ -122,6 +122,8 @@ async function showTermin(interaction: CommandInteraction<CacheType>, termin: Te
 		await message.react(emojiMaybe);
 		await message.react(emojiNo);
 	}
+
+	await saveTermin(message.id, interaction.channelId, termin.id);
 }
 
 // import { DiscordClient, DiscordMessage } from "../models/DiscordClient";

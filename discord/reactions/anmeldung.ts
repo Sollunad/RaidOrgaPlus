@@ -30,7 +30,7 @@ async function anmeldungHandler(client: DiscordClient, messageInfo: Message, rea
 
 function startDeleteReplyTimer(reply: DiscordMessage) {
 	const waitTime = 1000 * 10;
-	reply.delete({ timeout: waitTime });
+	// reply.delete({ timeout: waitTime });
 }
 
 function getAnmeldungType(emoji: string) {

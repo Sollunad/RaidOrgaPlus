@@ -10,3 +10,9 @@ export interface Termin {
 	text: string;
 	dateString: string;
 }
+
+export interface DiscordTermin {
+	messageId: string;
+	channelId: string;
+	fk_termin: number;
+}

@@ -1,11 +1,12 @@
 import { RaidRole } from "../../models/Enums";
 import { Raid } from "../../models/Raid";
 import { Spieler, SpielerRaid, SpielerTermin } from "../../models/Spieler";
-import { queryV } from "../../database/connector";
+import { query, queryV } from "../../database/connector";
 import { mapTerminDate } from "../../models/dateMapper";
-import { Termin } from "../../models/Termin";
+import { DiscordTermin, Termin } from "../../models/Termin";
 import { Aufstellung } from "../../models/Aufstellung";
 import { Encounter } from "../../models/Encounter";
+import { OkPacket } from "mysql";
 
 export async function listRaidsForUser(nickname: string, leader?: RaidRole): Promise<(Raid & SpielerRaid)[]> {
 	const stmt = `
@@ -18,7 +19,7 @@ export async function listRaidsForUser(nickname: string, leader?: RaidRole): Pro
 		let result = await queryV<(Raid & SpielerRaid)[]>(stmt, [nickname]);
 
 		if (leader != null) {
-			result = result.filter(r => r.role >= leader);
+			result = result.filter((r) => r.role >= leader);
 		}
 
 		return result;
@@ -45,6 +46,16 @@ export async function removeChannelFromRaid(raidName: string): Promise<void> {
 	}
 }
 
+export async function getRaidFromId(raidId: number): Promise<Raid> {
+	const stmt = "SELECT * FROM Raid WHERE id = ?";
+	try {
+		const result: Raid[] = await queryV(stmt, [raidId]);
+		return result[0]
+	} catch (e) {
+		throw e;
+	}
+}
+
 export async function getTermine(userId: number, raidId: number): Promise<(Termin & SpielerTermin)[]> {
 	const stmt = `
 		SELECT Termin.id, Termin.date, Termin.time, Termin.endtime, Spieler_Termin.type
@@ -57,6 +68,16 @@ export async function getTermine(userId: number, raidId: number): Promise<(Termi
 	try {
 		const result: (Termin & SpielerTermin)[] = await queryV(stmt, [userId, raidId]);
 		return result.map(mapTerminDate);
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function getTerminFromId(terminId: number): Promise<Termin> {
+	const stmt = "SELECT * FROM Termin WHERE id = ?";
+	try {
+		const result: Termin[] = await queryV(stmt, [terminId]);
+		return result.map(mapTerminDate)[0];
 	} catch (e) {
 		throw e;
 	}
@@ -92,10 +113,55 @@ export async function getAufstellungen(termin: number): Promise<(Aufstellung & E
 	}
 }
 
-async function getPlayer(nickname: string): Promise<{ id: number; accname: string }> {
+export async function getCalenderTermine(): Promise<(Termin & Raid)[]> {
+	const stmt = `
+		SELECT Termin.id, Termin.date, Termin.time, Termin.endtime, Raid.name
+		FROM Termin
+		JOIN Raid ON Termin.fk_raid = Raid.id
+		WHERE Termin.isArchived = 0 AND Termin.date >= CURDATE() AND Termin.date < DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+		ORDER BY Termin.date, Termin.time
+	`;
+	try {
+		return await query(stmt);
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function updateAnmeldung(spieler: number, termin: number, type: number): Promise<OkPacket> {
+	const stmt =
+		"INSERT INTO Spieler_Termin (fk_spieler, fk_termin, type) VALUES (?,?,?) ON DUPLICATE KEY UPDATE type=?";
+	try {
+		return await queryV(stmt, [spieler, termin, type, type]);
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function getTerminFromMessage(messageId: string): Promise<DiscordTermin> {
+	const stmt = "SELECT * FROM DiscordTermin WHERE messageId = ?";
+	try {
+		const response: DiscordTermin[] = await queryV(stmt, [messageId]);
+		return response[0];
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function saveTermin(messageId: string, channelId: string, terminId: number): Promise<OkPacket> {
+	const stmt = "INSERT INTO DiscordTermin VALUES (?,?,?)";
+	try {
+		return await queryV(stmt, [messageId, channelId, terminId]);
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function getPlayer(nickname: string): Promise<{ id: number; accname: string }> {
 	const stmt = "SELECT id, accname FROM Spieler WHERE INSTR(?, accname)";
 	try {
-		return await queryV(stmt, [nickname]);
+		const response = await queryV(stmt, [nickname]);
+		return response[0];
 	} catch (e) {
 		throw e;
 	}
