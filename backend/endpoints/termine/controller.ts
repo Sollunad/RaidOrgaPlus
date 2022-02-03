@@ -10,7 +10,7 @@ import { Spieler, SpielerTermin } from "models/Spieler";
 import { Termin } from "models/Termin";
 import { Aufstellung } from "models/Aufstellung";
 import { Encounter } from "models/Encounter";
-import { OkPacket } from 'mysql';
+import { OkPacket } from "mysql";
 import { ControllerEndpoint } from "models/ControllerEndpoint";
 import { toBoolean } from "../../models/Util";
 import { homepageTermin } from "../../../models/Types";
@@ -60,7 +60,9 @@ async function isArchived(req: Request, authentication: Authentication): Promise
 	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role != null) return await _termin.isArchived(termin);
+		if (role != null) {
+			return await _termin.isArchived(termin);
+		}
 	}
 	return;
 }
@@ -69,7 +71,9 @@ async function isLocked(req: Request, authentication: Authentication): Promise<b
 	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role != null) return await _termin.isLocked(termin);
+		if (role != null) {
+			return await _termin.isLocked(termin);
+		}
 	}
 	return;
 }
@@ -108,7 +112,9 @@ async function archive(req: Request, authentication: Authentication): Promise<Ok
 	const termin = Number(req.body.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role > 0) return await _termin.archive(termin);
+		if (role > 0) {
+			return await _termin.archive(termin);
+		}
 	}
 	return;
 }
@@ -145,7 +151,9 @@ async function putAnmeldung(req: Request, authentication: Authentication): Promi
 	const type = Number(req.body.type);
 	if (termin && (type || type === 0)) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role != null) return await _anmeldungen.anmelden(authentication.user, termin, type);
+		if (role != null) {
+			return await _anmeldungen.anmelden(authentication.user, termin, type);
+		}
 	}
 	return;
 }
@@ -156,7 +164,9 @@ async function putAnmeldungLead(req: Request, authentication: Authentication): P
 	const spieler = Number(req.body.spieler);
 	if (termin && spieler && (type || type === 0)) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role > 0) return await _anmeldungen.anmelden(spieler, termin, type);
+		if (role > 0) {
+			return await _anmeldungen.anmelden(spieler, termin, type);
+		}
 	}
 	return;
 }
@@ -173,7 +183,9 @@ async function getAnmeldungenAll(req: Request, authentication: Authentication): 
 	const termin = Number(req.query.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role != null) return await _anmeldungen.getAnmeldungenForTermin(termin);
+		if (role != null) {
+			return await _anmeldungen.getAnmeldungenForTermin(termin);
+		}
 	}
 	return [];
 }
@@ -182,7 +194,9 @@ async function deleteTermin(req: Request, authentication: Authentication): Promi
 	const termin = Number(req.body.termin);
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role > 0) return await _termin.delete(termin);
+		if (role > 0) {
+			return await _termin.delete(termin);
+		}
 	}
 	return;
 }
@@ -203,7 +217,9 @@ async function saveText(req: Request, authentication: Authentication): Promise<O
 	const text = req.body.text;
 	if (termin && (text || text === "")) {
 		const role = await _roles.forTermin(authentication, termin);
-		if (role > 0) return await _termin.saveText(termin, text);
+		if (role > 0) {
+			return await _termin.saveText(termin, text);
+		}
 	}
 	return;
 }

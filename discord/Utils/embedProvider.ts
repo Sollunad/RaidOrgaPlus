@@ -1,12 +1,12 @@
 import { GuildEmoji, MessageEmbed } from "discord.js";
-import * as _icons from "../icons";
-import { DiscordClient } from "../../models/DiscordClient";
+import * as _icons from "../services/icons";
+import { DiscordClient } from "../models/DiscordClient";
 import { Spieler, SpielerTermin } from "models/Spieler";
 import { Termin } from "models/Termin";
 import { Aufstellung } from "models/Aufstellung";
 import { Encounter } from "models/Encounter";
-import { getCalenderTermine } from "../../utils/misc";
-import { Raid } from "../../../models/Raid";
+import { getCalenderTermine } from "./queries";
+import { Raid } from "../../models/Raid";
 
 export function defaultEmbed(): MessageEmbed {
 	return new MessageEmbed()

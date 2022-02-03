@@ -42,3 +42,5 @@ eventFiles.forEach(async (file) => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
+export { client };

@@ -19,7 +19,8 @@
 				"../models/build/*",
 				"models/*"
 			]
-		}
+		},
+		"composite": true
 	},
 	"include": ["./**/*"],
 	"exclude": ["node_modules", "./dist/**/*"],

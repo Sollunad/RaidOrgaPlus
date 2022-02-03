@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction, GuildEmoji, MessageEmbed } from "discord.js";
-import { getAnmeldungenForTermin, getAufstellungen, getTermine, listRaidsForUser, saveTermin } from "../utils/misc";
+import { getAnmeldungenForTermin, getAufstellungen, getTermine, listRaidsForUser, saveTermin } from "../utils/queries";
 import { Raid } from "../../models/Raid";
 import { SpielerRaid, SpielerTermin } from "../../models/Spieler";
-import { defaultEmbed, terminEmbed } from "../services/util/embedProvider";
+import { defaultEmbed, terminEmbed } from "../utils/embedProvider";
 import { DiscordClient } from "models/DiscordClient";
 import { Termin } from "../../models/Termin";
 
