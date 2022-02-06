@@ -14,7 +14,7 @@ function sendEmail(user: Spieler, subject: string, text: string): void {
     const mail = {
         from: {
             name: 'RaidOrga+',
-            address: 'orga@sollunad.de',
+            address: 'raidorgakontakt@gmail.com',
         },
         to, subject, text
     };
@@ -34,6 +34,6 @@ function sendPasswortResetMail(user: Spieler, token: string): void {
         `\nDer Link ist gültig für 24 Stunden. Falls du keinen Password-Reset angefordert hast, ignoriere diese Mail einfach.` +
         `\n` +
         `\nViele Grüße` +
-        `\nDaniel / Sollunad.9780`;
+        `\nDas Leitungsteam von Rising-Light.`;
     sendEmail(user, subject, text);
 }

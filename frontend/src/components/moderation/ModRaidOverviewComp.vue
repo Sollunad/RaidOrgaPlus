@@ -50,10 +50,10 @@
 	export default Vue.extend({
 		name: "ModRaidOverviewComp",
 		data: () => ({
-			open: false
+			open: false,
 		}),
 		props: {
-			raids: Array as PropType<ModRaid[]>
+			raids: Array as PropType<ModRaid[]>,
 		},
 		computed: {},
 		methods: {
@@ -65,8 +65,8 @@
 			},
 			hasLieutenants: function(raid: ModRaid): boolean {
 				return raid.spieler.filter(s => s.role === 1).length > 0;
-			}
-		}
+			},
+		},
 	});
 </script>
 
