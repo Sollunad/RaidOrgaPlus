@@ -4,7 +4,7 @@ import { ControllerEndpoint } from "models/ControllerEndpoint";
 const endpoints: ControllerEndpoint[] = [{ function: checkBuildVersion, path: "", method: "get", authed: false }];
 export default endpoints;
 
-const EXPECTED_BUILD = "v2.3.1";
+const EXPECTED_BUILD = "v2.3.2";
 
 async function checkBuildVersion(req: Request): Promise<string> {
 	const fe_build = req.query.build;

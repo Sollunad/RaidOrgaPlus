@@ -12,7 +12,7 @@ export const changelogs: Changelog[] = [
 		],
 		subversions: [
 			{
-				version: "v.2.3.1",
+				version: "v2.3.1",
 				release: "24.11.2021",
 				features: [
 					"Button zum Laden des jeweiligen Blankos für die Bosse bei der Aufstellung hinzugefügt",
@@ -26,6 +26,13 @@ export const changelogs: Changelog[] = [
 					"Es können bis zu 4 Rollen für ein Build hinzugefügt und ausgewählt werden",
 					"Ermöglicht dadurch, Hybrid Builds (Power + Condi Builds) einzutragen",
 					"Für die Aufstellungen können die Buttons zum Hinzufügen und Entfernen der extra Rollen visuell Ein- bzw. Ausgeschaltet werden."
+				]
+			},
+			{
+				version: "v2.3.2",
+				release: "06.02.2022",
+				features: [
+					"Bugfixes."
 				]
 			}
 		]
