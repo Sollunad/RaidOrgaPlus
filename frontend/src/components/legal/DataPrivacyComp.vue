@@ -198,8 +198,8 @@
 			Für die Registrierung auf unserer Website benötigen wir einige personenbezogene Daten, die über eine
 			Eingabemaske an uns übermittelt werden.
 		</p>
-		<p>Zum Zeitpunkt der Registrierung werden zusätzlich folgende Daten erhoben:</p>
-		<p />
+		<!-- <p>Zum Zeitpunkt der Registrierung werden zusätzlich folgende Daten erhoben:</p>
+		<p /> -->
 		<p>
 			Ihre Registrierung ist für das Bereithalten bestimmter Inhalte und Leistungen auf unserer Website
 			erforderlich.
