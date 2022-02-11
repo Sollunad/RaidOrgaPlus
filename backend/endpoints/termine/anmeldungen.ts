@@ -1,6 +1,7 @@
 import { Spieler, SpielerTermin } from 'models/Spieler';
 import { queryV } from "../../../database/connector";
 import { OkPacket } from 'mysql';
+import { DiscordTermin } from '../../../models/Termin';
 
 export async function anmelden(spieler: number, termin: number, type: number): Promise<OkPacket> {
 	const stmt = 'INSERT INTO Spieler_Termin (fk_spieler, fk_termin, type) VALUES (?,?,?) ON DUPLICATE KEY UPDATE type=?';
@@ -35,6 +36,16 @@ export async function getAnmeldungenForTermin(termin: number): Promise<(Spieler 
 	`;
 	try {
 		return await queryV(stmt, [termin, termin, termin]);
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function getDiscordTermin(termin: number): Promise<DiscordTermin> {
+	const stmt = "SELECT * FROM DiscordTermin WHERE fk_termin = ?";
+	try {
+		const response: DiscordTermin[] = await queryV(stmt, [termin]);
+		return response[0];
 	} catch (e) {
 		throw e;
 	}

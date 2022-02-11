@@ -1,10 +1,22 @@
 import { Message, MessageEmbed, MessageReaction, PartialMessageReaction, User } from "discord.js";
-import { getAnmeldungenForTermin, getAufstellungen, getPlayer, getRaidFromId, getTerminFromId, getTerminFromMessage, updateAnmeldung } from "../utils/queries";
+import {
+	getAnmeldungenForTermin,
+	getAufstellungen,
+	getPlayer,
+	getRaidFromId,
+	getTerminFromId,
+	getTerminFromMessage,
+	updateAnmeldung,
+} from "../utils/queries";
 import { DiscordEvent } from "../models/DiscordEvent";
 import { encrypt } from "../utils/encyrption";
 import { terminEmbed } from "../utils/embedProvider";
-import { DiscordClient } from "models/DiscordClient";
-import { client } from "bot";
+import { DiscordClient } from "../models/DiscordClient";
+import { Termin } from "../../models/Termin";
+import { Spieler, SpielerTermin } from "../../models/Spieler";
+import { Aufstellung } from "../../models/Aufstellung";
+import { Encounter } from "../../models/Encounter";
+import { Raid } from "../../models/Raid";
 
 export default {
 	name: "messageReactionAdd",
@@ -36,8 +48,22 @@ export default {
 	},
 } as DiscordEvent;
 
+export async function getTerminData(terminId: number): Promise<{
+	termin: Termin;
+	anmeldungen: (Spieler & SpielerTermin)[];
+	aufstellungen: (Aufstellung & Encounter)[];
+	raid: Raid;
+}> {
+	const termin = await getTerminFromId(terminId);
+	const anmeldungen = await getAnmeldungenForTermin(termin.id);
+	const aufstellungen = await getAufstellungen(termin.id);
+	const raid = await getRaidFromId(termin.fk_raid);
+
+	return { termin, anmeldungen, aufstellungen, raid };
+}
+
 async function sendTicket(reaction: MessageReaction | PartialMessageReaction, user: User) {
-	const message = "Hello!\nWhat message do you want to send to the moderators?";
+	const message = "Hallo!\nWas möchtest du dem Leitungsteam mitteilen?";
 
 	// create a DM Channel with the user and send the message
 	const dmChannel = await user.createDM();
@@ -48,14 +74,16 @@ async function sendTicket(reaction: MessageReaction | PartialMessageReaction, us
 	do {
 		// incase the user sends a sticker, reply with an error message and tell them to retry again without using stickers.
 		if (reply != null) {
-			await dmChannel.send("Sticker werden für das erstellen eines Tickets nicht untersützt. Bitte schicke eine Nachricht *ohne* sticker.");
+			await dmChannel.send(
+				"Sticker werden für das erstellen eines Tickets nicht untersützt. Bitte schicke eine Nachricht *ohne* sticker."
+			);
 		}
 
 		reply = null;
 
 		// await a reply from the user and encrypt the user id.
 		const replyCollection = await dmChannel.awaitMessages({
-			filter: m => !m.author.bot,
+			filter: (m) => !m.author.bot,
 			max: 1,
 			time: 900_000, // 900.000 ms = 15 Minutes.
 		});
@@ -64,7 +92,7 @@ async function sendTicket(reaction: MessageReaction | PartialMessageReaction, us
 	} while (reply != null && reply.stickers.size > 0);
 
 	if (reply == null) {
-		await dmChannel.send("Timeout! The Bot is no longer awaiting an answer.");
+		await dmChannel.send("Der Bot erwatet keine Nachricht mehr, da die Zeit ausgelaufen ist.");
 		return;
 	}
 
@@ -73,17 +101,21 @@ async function sendTicket(reaction: MessageReaction | PartialMessageReaction, us
 	// send an embed with the message of the user to the channel named "shoutbox", with the encrypted user id in the footer.
 	const embed = new MessageEmbed()
 		.setColor("#0099ff")
-		.setTitle("New Ticket (or something like this)")
-		.setDescription("I could have a description?")
-		.addField("Message", reply.content)
-		.setTimestamp()
-		.setFooter({ text: userId });
+		.setTitle("Ticket")
+		.setDescription(reply.content)
+		// .addField("Message", reply.content)
+		.setFooter({ text: userId })
+		.setTimestamp();
 
 	const guild = reaction.message.guild;
 	const channel = guild.channels.cache.find((channel) => channel.name === "shoutbox");
 	if (channel && channel.isText()) {
 		await channel.send({ embeds: [embed] });
-		await dmChannel.send("The ticket was successfully created and send to the moderators!");
+		await dmChannel.send("Das Ticket wurde dem Leitungsteam erfolgreich zugeschickt!");
+	} else {
+		await dmChannel.send(
+			"Es gab ein Problem bei der Zustellung des Tickets. Bitte probiere es später noch einmal."
+		);
 	}
 }
 
@@ -111,30 +143,14 @@ async function handleAnmeldung(reaction: MessageReaction | PartialMessageReactio
 	const discordTermin = await getTerminFromMessage(reaction.message.id);
 
 	await updateAnmeldung(player.id, discordTermin.fk_termin, type);
-
-	const termin = await getTerminFromId(discordTermin.fk_termin);
-	const anmeldungen = await getAnmeldungenForTermin(termin.id);
-	const aufstellungen = await getAufstellungen(termin.id);
-	const raid = await getRaidFromId(termin.fk_raid);
+	const { termin, anmeldungen, aufstellungen, raid } = await getTerminData(discordTermin.fk_termin);
 
 	const embed = terminEmbed(reaction.client as DiscordClient, raid.name, termin, aufstellungen, anmeldungen);
 	await reaction.message.edit({ embeds: [embed] });
 
-	const typeText = ['angemeldet', 'vielleicht da', 'abgemeldet'];
+	const typeText = ["angemeldet", "vielleicht da", "abgemeldet"];
 	const reply = await reaction.message.channel.send(`${user} Du bist nun ${typeText[type]} ${reaction.emoji}`);
 	setTimeout(async () => await reply.delete(), 10000);
-}
-
-async function updateTerminEmbed(messageId: string): Promise<void> {
-	const discordTermin = await getTerminFromMessage(messageId);
-
-	const termin = await getTerminFromId(discordTermin.fk_termin);
-	const anmeldungen = await getAnmeldungenForTermin(termin.id);
-	const aufstellungen = await getAufstellungen(termin.id);
-	const raid = await getRaidFromId(termin.fk_raid);
-
-	// const embed = terminEmbed(reaction.client as DiscordClient, raid.name, termin, aufstellungen, anmeldungen);
-	// await reaction.message.edit({ embeds: [embed] });
 }
 
 function getAnmeldungType(emoji: string) {

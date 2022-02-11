@@ -14,6 +14,8 @@ import { OkPacket } from "mysql";
 import { ControllerEndpoint } from "models/ControllerEndpoint";
 import { toBoolean } from "../../models/Util";
 import { homepageTermin } from "../../../models/Types";
+import { NrDictionary } from "../../../models/Dictionary";
+import { updateTerminEmbed } from "../../discord/misc";
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getTermine, path: "", method: "get", authed: true },
@@ -35,6 +37,9 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: deleteErsatz, path: "/ersatz", method: "delete", authed: true },
 ];
 export default endpoints;
+
+const terminTimeouts: NrDictionary<NodeJS.Timeout> = {};
+const baseTimeoutTime = 1000 * 60 * 2;
 
 async function getTermine(
 	req: Request,
@@ -152,7 +157,31 @@ async function putAnmeldung(req: Request, authentication: Authentication): Promi
 	if (termin && (type || type === 0)) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) {
-			return await _anmeldungen.anmelden(authentication.user, termin, type);
+			let timeoutTime = baseTimeoutTime;
+			const response = await _anmeldungen.anmelden(authentication.user, termin, type);
+
+			if (terminTimeouts[termin] != null) {
+				clearTimeout(terminTimeouts[termin]);
+				terminTimeouts[termin] = null;
+				delete terminTimeouts[termin];
+			}
+
+			// increasing the wait time for updates if there are more than one, to spread out the calls to the Discord API and the database.
+			const length = Object.keys(terminTimeouts).length;
+			if (length > 0) {
+				timeoutTime = timeoutTime + 5000 * length;
+			}
+
+			const timeout = setTimeout(async () => {
+				const discordTermin = await _anmeldungen.getDiscordTermin(termin);
+				await updateTerminEmbed(discordTermin);
+				terminTimeouts[termin] = null;
+				delete terminTimeouts[termin];
+			}, timeoutTime);
+
+			terminTimeouts[termin] = timeout;
+
+			return response;
 		}
 	}
 	return;

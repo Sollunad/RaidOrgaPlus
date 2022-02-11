@@ -4,7 +4,14 @@ import WSClient from "../../services/websocket";
 import _raids from "../../services/endpoints/raids";
 import _preview from "../../services/endpoints/preview";
 import { ActionContext, Module } from "vuex";
-import { AufstellungActions, AufstellungActionsDefinition, AufstellungGettersDefinition, AufstellungMutations, AufstellungMutationsDefinition, AufstellungState } from "@/models/Store/AufstellungState";
+import {
+	AufstellungActions,
+	AufstellungActionsDefinition,
+	AufstellungGettersDefinition,
+	AufstellungMutations,
+	AufstellungMutationsDefinition,
+	AufstellungState,
+} from "@/models/Store/AufstellungState";
 import { RootState } from "@/models/Store/RootState";
 import { Aufstellung } from "../../../../models/Aufstellung";
 import { Encounter } from "../../../../models/Encounter";
@@ -74,7 +81,7 @@ const actions: AufstellungActionsDefinition = {
 		context.commit(AufstellungMutations.StopUpload);
 		context.commit(AufstellungMutations.SetActive, null);
 		context.dispatch(AufstellungActions.CloseDialog);
-		context.commit(AufstellungMutations.SetActive, !await _termine.isArchived(termin.id));
+		context.commit(AufstellungMutations.SetActive, !(await _termine.isArchived(termin.id)));
 		context.commit(AufstellungMutations.SetAufstellungen, await _aufstellungen.getForTermin(termin.id));
 		context.commit(AufstellungMutations.SetElements, await _aufstellungen.getElements(termin.id));
 		if (context.getters.isActive) {
@@ -86,7 +93,10 @@ const actions: AufstellungActionsDefinition = {
 			context.commit(AufstellungMutations.StartWSClient, termin);
 		}
 	},
-	LoadAufstellungenPreview: async (context: ActionContext<AufstellungState, RootState>, terminId: string | number) => {
+	LoadAufstellungenPreview: async (
+		context: ActionContext<AufstellungState, RootState>,
+		terminId: string | number
+	) => {
 		context.commit(AufstellungMutations.SetAufstellungen, await _preview.getAufstellungen(terminId));
 		context.commit(AufstellungMutations.SetElements, await _preview.getElements(terminId));
 		context.commit(AufstellungMutations.SetRaidName, await _preview.getRaidName(terminId));
@@ -124,8 +134,11 @@ const actions: AufstellungActionsDefinition = {
 		const user = context.getters.loggedInUser;
 		const termin = context.getters.termin;
 		const changedAnmeldung = context.getters.anmeldungen.find((a: any) => a.id === user.id);
-		if (changedAnmeldung) changedAnmeldung.type = type;
-		else context.getters.anmeldungen.push({ id: user.id, name: user.name, type: type });
+		if (changedAnmeldung) {
+			changedAnmeldung.type = type;
+		} else {
+			context.getters.anmeldungen.push({ id: user.id, name: user.name, type: type });
+		}
 		await _termine.anmelden(termin.id, type);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
@@ -158,11 +171,14 @@ const actions: AufstellungActionsDefinition = {
 			context.commit(AufstellungMutations.SetAufstellungen, await _termine.addBoss(termin.id, boss));
 			context.commit(AufstellungMutations.SetElements, await _aufstellungen.getElements(termin.id));
 		}
-		context.dispatch(AufstellungActions.WsSendRefresh)
+		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
 	DeleteBoss: async (context: ActionContext<AufstellungState, RootState>, aufstellung: any) => {
 		const termin = context.getters.termin;
-		context.commit(AufstellungMutations.SetAufstellungen, await _aufstellungen.deleteBoss(aufstellung.id, termin.id));
+		context.commit(
+			AufstellungMutations.SetAufstellungen,
+			await _aufstellungen.deleteBoss(aufstellung.id, termin.id)
+		);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
 	OpenDialog: (context: ActionContext<AufstellungState, RootState>, dialog: any) => {
@@ -191,7 +207,7 @@ const actions: AufstellungActionsDefinition = {
 		const termin = context.getters.termin;
 		const raid = context.getters.raid;
 		const oldDate = termin.dateString.slice(4);
-		const dmy = oldDate.split('.');
+		const dmy = oldDate.split(".");
 		const date = new Date(dmy[2], dmy[1] - 1, dmy[0]);
 		// I have to add 8 days here to get 7 but I don't know why.
 		date.setDate(date.getDate() + 8);
@@ -204,7 +220,10 @@ const actions: AufstellungActionsDefinition = {
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
 	/* eslint-disable-next line  @typescript-eslint/no-implicit-any */
-	PickClass: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, clss }: aufstellungPick) => {
+	PickClass: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position, clss }: aufstellungPick
+	) => {
 		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
@@ -214,61 +233,79 @@ const actions: AufstellungActionsDefinition = {
 		await _aufstellungen.setClass(aufstellung, position, clss.id);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	ClearClass: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
+	ClearClass: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position }: aufstellungPick
+	) => {
 		let element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
-		element.class = '';
+		element.class = "";
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setClass(aufstellung, position, 0);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	AddRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
+	AddRole: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position }: aufstellungPick
+	) => {
 		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
 		element.roles.push({ id: 0 } as Role);
-		const roles = element.roles.map(r => r.id).join(', ');
+		const roles = element.roles.map(r => r.id).join(", ");
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setRole(aufstellung, position, roles);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	RemoveRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
+	RemoveRole: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position }: aufstellungPick
+	) => {
 		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
 		element.roles.pop();
-		const roles = element.roles.map(r => r.id).join(', ');
+		const roles = element.roles.map(r => r.id).join(", ");
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setRole(aufstellung, position, roles);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	PickRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, role, idx }: aufstellungPick) => {
+	PickRole: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position, role, idx }: aufstellungPick
+	) => {
 		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
 		element.roles[idx] = role;
-		const roles = element.roles.map(r => r.id).join(', ');
+		const roles = element.roles.map(r => r.id).join(", ");
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setRole(aufstellung, position, roles);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	ClearRole: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, idx }: aufstellungPick) => {
+	ClearRole: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position, idx }: aufstellungPick
+	) => {
 		let element: element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
 		element.roles[idx] = { id: 0 } as Role;
-		const roles = element.roles.map(r => r.id).join(', ');
+		const roles = element.roles.map(r => r.id).join(", ");
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setRole(aufstellung, position, roles);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	PickName: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position, user }: aufstellungPick) => {
+	PickName: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position, user }: aufstellungPick
+	) => {
 		let element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
@@ -280,89 +317,101 @@ const actions: AufstellungActionsDefinition = {
 		await _aufstellungen.setName(aufstellung, position, user.id);
 		context.dispatch(AufstellungActions.WsSendRefresh);
 	},
-	ClearName: async (context: ActionContext<AufstellungState, RootState>, { aufstellung, position }: aufstellungPick) => {
+	ClearName: async (
+		context: ActionContext<AufstellungState, RootState>,
+		{ aufstellung, position }: aufstellungPick
+	) => {
 		let element = context.getters.elementForPosition(aufstellung, position);
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
 		element.id = 0;
-		element.name = '???';
-		element.accname = '???';
+		element.name = "???";
+		element.accname = "???";
 		context.commit(AufstellungMutations.AddElement, element);
 		await _aufstellungen.setName(aufstellung, position, 0);
 		context.dispatch(AufstellungActions.WsSendRefresh);
-	}
+	},
 };
 
 const getters: AufstellungGettersDefinition = {
-	isActive: function (state: AufstellungState) {
+	isActive: function(state: AufstellungState) {
 		return state.isActive;
 	},
-	isLocked: function (state: AufstellungState) {
+	isLocked: function(state: AufstellungState) {
 		return state.locked;
 	},
-	wsClient: function (state: AufstellungState) {
+	wsClient: function(state: AufstellungState) {
 		return state.wsClient;
 	},
-	wsOutput: function (state: AufstellungState) {
+	wsOutput: function(state: AufstellungState) {
 		if (state.wsClient) {
 			return state.wsClient.output;
 		}
 		return null;
 	},
-	elementForPosition: function (state: AufstellungState) {
-		return function (aufstellung: number, position: number) {
+	elementForPosition: function(state: AufstellungState) {
+		return function(aufstellung: number, position: number) {
 			return state.elements.find(e => e.aufstellung === aufstellung && e.pos === position);
-		}
+		};
 	},
-	dummyElement: function () {
-		return function (aufstellung: number, position: number) {
-			return { aufstellung, pos: position, class: '', role: '', name: '???', accname: '???', id: 0, roles: [] } as unknown as element;
-		}
+	dummyElement: function() {
+		return function(aufstellung: number, position: number) {
+			return ({
+				aufstellung,
+				pos: position,
+				class: "",
+				role: "",
+				name: "???",
+				accname: "???",
+				id: 0,
+				roles: [],
+			} as unknown) as element;
+		};
 	},
-	isNameDoubled: function (state: AufstellungState) {
-		return function (aufstellung: any, name: any) {
+	isNameDoubled: function(state: AufstellungState) {
+		return function(aufstellung: any, name: any) {
 			return state.elements.filter(e => e.aufstellung === aufstellung.id && e.name === name).length > 1;
-		}
+		};
 	},
-	ersatzSpieler: function (state: AufstellungState) {
+	ersatzSpieler: function(state: AufstellungState) {
 		return state.ersatzspieler;
 	},
-	ersatzIds: function (state: AufstellungState) {
+	ersatzIds: function(state: AufstellungState) {
 		return state.ersatzspieler.map(p => p.id);
 	},
-	invitablePlayers: function (state: AufstellungState) {
+	invitablePlayers: function(state: AufstellungState) {
 		return state.invitablePlayers;
 	},
-	anmeldungen: function (state: AufstellungState) {
+	anmeldungen: function(state: AufstellungState) {
 		return state.anmeldungen;
 	},
-	anmeldung: function (state: AufstellungState) {
+	anmeldung: function(state: AufstellungState) {
 		return state.anmeldung;
 	},
-	aufstellungen: function (state: AufstellungState) {
+	aufstellungen: function(state: AufstellungState) {
 		return state.aufstellungen;
 	},
-	uploadActive: function (state: AufstellungState) {
+	uploadActive: function(state: AufstellungState) {
 		return state.uploadActive;
 	},
-	isDialogOpen: function (state: AufstellungState) {
-		return function (dialog: any) {
+	isDialogOpen: function(state: AufstellungState) {
+		return function(dialog: any) {
 			return state.openDialog === dialog;
-		}
+		};
 	},
-	raidName: function (state: AufstellungState) {
+	raidName: function(state: AufstellungState) {
 		return state.raidName;
 	},
-	terminDate: function (state: AufstellungState) {
+	terminDate: function(state: AufstellungState) {
 		return state.terminDate;
-	}
+	},
 };
 
 const aufstellungModule: Module<AufstellungState, RootState> = {
 	state: {
 		isActive: null,
-		aufstellungen: null as unknown as (Aufstellung & Encounter)[],
+		aufstellungen: (null as unknown) as (Aufstellung & Encounter)[],
 		elements: [],
 		locked: false,
 		anmeldungen: [],
@@ -372,12 +421,12 @@ const aufstellungModule: Module<AufstellungState, RootState> = {
 		invitablePlayers: [],
 		uploadActive: false,
 		openDialog: null,
-		raidName: '',
+		raidName: "",
 		terminDate: {} as terminDate,
 	},
 	mutations: mutations,
 	actions: actions,
 	getters: getters,
-}
+};
 
 export default aufstellungModule;

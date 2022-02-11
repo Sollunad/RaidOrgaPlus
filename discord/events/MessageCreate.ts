@@ -38,11 +38,11 @@ async function sendMessage(message: Message<boolean>): Promise<void> {
 
 	const embed = new MessageEmbed()
 		.setColor("#0099ff")
-		.setTitle("Ticket Reply")
+		.setTitle("RE: Ticket")
 		.setDescription(message.content)
-		.addField("Antworten", "Antworte auf diese Nachricht um eine weitere Nachricht ans Leitungsteam zu schicken.")
-		.setTimestamp()
-		.setFooter({ text: ref.id });
+		.addField("Antworten", "Antworte auf diese Nachricht mit Rechtsklick -> Antworten um eine weitere Nachricht ans Leitungsteam zu schicken.")
+		.setFooter({ text: ref.id })
+		.setTimestamp();
 
 	await dmChannel.send({ embeds: [embed] });
 }
@@ -50,6 +50,10 @@ async function sendMessage(message: Message<boolean>): Promise<void> {
 async function sendReply(message: Message<boolean>): Promise<void> {
 	if (message.partial) {
 		await message.fetch();
+	}
+
+	if (message.author.bot) {
+		return;
 	}
 
 	const ref = await message.fetchReference();
@@ -72,11 +76,11 @@ async function sendReply(message: Message<boolean>): Promise<void> {
 		// send an embed with the message of the user to the channel named "shoutbox", with the encrypted user id in the footer.
 		const embed = new MessageEmbed()
 			.setColor("#0099ff")
-			.setTitle("Ticket Reply (or something like this)")
-			.setDescription("I could have a description?")
-			.addField("Message", message.content)
-			.setTimestamp()
-			.setFooter({ text: userId });
+			.setTitle("RE: Ticket")
+			.setDescription(message.content)
+			// .addField("Message", message.content)
+			.setFooter({ text: userId })
+			.setTimestamp();
 
 		await orgMessage.reply({ embeds: [embed] });
 	}
