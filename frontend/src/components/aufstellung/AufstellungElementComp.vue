@@ -15,9 +15,7 @@
 						<img :src="classIcon" v-else>
 					</v-avatar>
 				</template>
-				<MenuClassComp
-					v-on:pick="pickClass">
-				</MenuClassComp>
+				<MenuClassComp v-on:pick="pickClass" />
 			</v-menu>
 			<v-avatar :size="20" :tile="true" class="avatar" v-else>
 				<img :src="emptyIcon" v-if="classIcon === ''">
@@ -31,10 +29,7 @@
 							<img :src="roleIcon(role.abbr)" v-else>
 						</v-avatar>
 					</template>
-					<MenuRoleComp
-						v-on:pick="pickRole(idx, $event)"
-						:showStar="true">
-					</MenuRoleComp>
+					<MenuRoleComp v-on:pick="pickRole(idx, $event)" :showStar="true" />
 				</v-menu>
 				<template v-if="showExtraRoles">
 					<v-btn color="green" fab width="24px" height="24px" @click="addRole" v-if="this.roles.length < 4">

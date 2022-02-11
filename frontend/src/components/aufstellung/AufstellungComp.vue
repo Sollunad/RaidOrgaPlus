@@ -1,8 +1,8 @@
 <template>
 	<div class="aufstellung">
-		<AufstellungHeaderComp :aufstellung="aufstellung" :copyActive="copyActive" v-on:toggleCopy="toggleCopy" />
+		<AufstellungHeaderComp :aufstellung="aufstellung" :copyActive="copyActive" @toggleCopy="toggleCopy" />
 		<AufstellungBodyComp v-if="!copyActive" :aufstellung="aufstellung" :showExtraRoles="showExtraRoles" />
-		<MenuAufstellungenComp v-else :aufstellung="aufstellung" v-on:stopCopy="stopCopy" class="menu" />
+		<MenuAufstellungenComp v-else :aufstellung="aufstellung" @stopCopy="stopCopy" class="menu" />
 	</div>
 </template>
 

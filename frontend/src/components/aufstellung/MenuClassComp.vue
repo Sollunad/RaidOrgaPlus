@@ -15,7 +15,7 @@
 								<img :src="classIcon(clss.abbr)" />
 							</v-avatar>
 						</template>
-						<MenuSubclassComp v-bind:base="clss.id" v-on:pick="pick"> </MenuSubclassComp>
+						<MenuSubclassComp v-bind:base="clss.id" v-on:pick="pick" />
 					</v-menu>
 				</v-flex>
 			</v-layout>

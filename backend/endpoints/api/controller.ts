@@ -65,7 +65,7 @@ async function setAufstellung(req: Request, authentication: Authentication): Pro
 			if (1 <= player.position && player.position <= 10) {
 
 				try {
-					await _element.setCompleteElement(aufstellung, Number(player.position), Number(player.classId), Number(player.roleId), Number(player.spielerId))
+					await _element.setCompleteElement(aufstellung, Number(player.position), Number(player.classId), player.roleId.toString(), Number(player.spielerId))
 				} catch (e) {
 					// Ignore, next element
 				}

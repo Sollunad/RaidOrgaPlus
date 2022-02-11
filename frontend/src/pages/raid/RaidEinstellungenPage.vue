@@ -3,7 +3,7 @@
 		<h1>Einstellungen</h1>
 		<LieutenantComp :raid="raid" :disabled="!isRaidLead" />
 		<!-- <AnmeldeEinstellungComp /> -->
-		<LogUploadComp :raid="raid" class="marginTop" />
+		<LogUploadComp v-if="isRaidLead" :raid="raid" class="marginTop" />
     </div>
 </template>
 

@@ -9,7 +9,14 @@
 						mdi-help-circle
 					</v-icon>
 				</template>
-				<span>Hier könnte eine nützliche hilfe stehen. Oder auch einfach nur mist.</span>
+				<span
+					>Wähle eine Klasse aus, in dem du über das Icon der Grundklasse mit der Maus hoverst (bzw drauf
+					klickst auf dem Handy). Anschließend, kannst du eine Rolle auswählen. Mittels des Plus-Button kannst
+					du weitere Rollen hinzfügen und auswählen.<br />
+					Es ist auch möglich, bei mehreren Rollen, eine vorherige Rolle zu wechseln. Einfach unten bei den
+					ausgewählten Rollen, die Rolle anklicken die du wechseln möchtets und dann die gewünchste Rolle oben
+					aus der Auswahl anklicken.
+				</span>
 			</v-tooltip>
 		</v-card-title>
 
@@ -19,15 +26,15 @@
 			<v-container style="background-color: unset">
 				<v-row no-gutters>
 					<v-col cols="6">
-						<MenuClassComp v-on:pick="pickClass"></MenuClassComp>
+						<MenuClassComp v-on:pick="pickClass" />
 					</v-col>
 					<v-col cols="6">
-						<MenuRoleComp v-on:pick="pickRole"></MenuRoleComp>
+						<MenuRoleComp v-on:pick="pickRole" />
 					</v-col>
 				</v-row>
 			</v-container>
 			<div class="chip">
-				<BuildChipComp :build="build" :edit="true" @roleChange="roleChange" @selected="selectedChange"></BuildChipComp>
+				<BuildChipComp :build="build" :edit="true" @roleChange="roleChange" @selected="selectedChange" />
 			</div>
 		</v-card-text>
 
@@ -70,10 +77,9 @@
 			pickRole: function(role: Role): void {
 				if (this.selected != null) {
 					this.build.role.splice(this.selected, 1, role);
-				}
-				else {
+				} else {
 					let index = this.build.role.findIndex(r => r.id === 0);
-					
+
 					if (index === -1) {
 						index = this.build.role.length - 1;
 					}
@@ -84,7 +90,7 @@
 			addBuild: function(): void {
 				this.$emit("add", { class: this.build.class, role: this.build.role });
 				this.build.class = null;
-				this.build.role = null;
+				this.build.role = [{ id: 0 }] as Role[];
 			},
 			closeDialog: function(): void {
 				this.$emit("add", null);
@@ -98,7 +104,7 @@
 			},
 			selectedChange: function(selected: number) {
 				this.selected = selected;
-			}
+			},
 		},
 	});
 </script>
