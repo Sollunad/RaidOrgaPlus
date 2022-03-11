@@ -8,6 +8,7 @@ const command = new SlashCommandBuilder()
 export default {
 	data: command,
 	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => pong(interaction),
+	production: false
 };
 
 async function pong(interaction: CommandInteraction<CacheType>) {

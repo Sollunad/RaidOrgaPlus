@@ -45,7 +45,16 @@ export async function getDiscordTermin(termin: number): Promise<DiscordTermin> {
 	const stmt = "SELECT * FROM DiscordTermin WHERE fk_termin = ?";
 	try {
 		const response: DiscordTermin[] = await queryV(stmt, [termin]);
-		return response[0];
+		return response[response.length - 1];
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function deleteDiscordTermin(termin: number): Promise<OkPacket> {
+	const stmt = "DELETE FROM DiscordTermin WHERE fk_termin = ?";
+	try {
+		return await queryV(stmt, [termin]);
 	} catch (e) {
 		throw e;
 	}

@@ -8,10 +8,11 @@ const command = new SlashCommandBuilder()
 
 export default {
 	data: command,
-	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => pong(interaction),
+	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => calender(interaction),
+	production: true
 };
 
-async function pong(interaction: CommandInteraction<CacheType>) {
+async function calender(interaction: CommandInteraction<CacheType>) {
 	const embed = await kalenderEmbed();
 	await interaction.channel.send({ embeds: [embed] });
 	

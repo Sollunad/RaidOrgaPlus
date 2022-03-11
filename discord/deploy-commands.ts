@@ -11,6 +11,17 @@ async function getCommands(): Promise<RESTPostAPIApplicationCommandsJSONBody[]> 
 
 	for (const file of commandFiles) {
 		const command: defaultExport<Command> = await import(`./commands/${file}`);
+		
+		// check if the command and it's default export are set
+		if (command == null || command.default == null) {
+			return;
+		}
+
+		// don't want dev-only commands for the production aka actual bot.
+		if (!command.default.production && process.env.NODE_ENV === "production") {
+			return;
+		}
+
 		commands.push(command.default.data.toJSON());
 	}
 
@@ -18,6 +29,7 @@ async function getCommands(): Promise<RESTPostAPIApplicationCommandsJSONBody[]> 
 }
 
 (async (): Promise<void> => {
+	console.log("getting commands");
 	const commands = await getCommands();
 
 	const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
@@ -28,6 +40,7 @@ async function getCommands(): Promise<RESTPostAPIApplicationCommandsJSONBody[]> 
 	const applicationCommands = Routes.applicationGuildCommands(clientId, guildId);
 
 	try {
+		console.log("Trying to register application commands");
 		await rest.put(applicationCommands, { body: commands });
 		console.log("Successfully registered application commands.")
 	} catch (e) {

@@ -15,7 +15,7 @@ import { ControllerEndpoint } from "models/ControllerEndpoint";
 import { toBoolean } from "../../models/Util";
 import { homepageTermin } from "../../../models/Types";
 import { NrDictionary } from "../../../models/Dictionary";
-import { updateTerminEmbed } from "../../discord/misc";
+import { deleteEmbed, updateTerminEmbed } from "../../discord/termin";
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getTermine, path: "", method: "get", authed: true },
@@ -37,9 +37,6 @@ const endpoints: ControllerEndpoint[] = [
 	{ function: deleteErsatz, path: "/ersatz", method: "delete", authed: true },
 ];
 export default endpoints;
-
-const terminTimeouts: NrDictionary<NodeJS.Timeout> = {};
-const baseTimeoutTime = 1000 * 60 * 2;
 
 async function getTermine(
 	req: Request,
@@ -118,7 +115,9 @@ async function archive(req: Request, authentication: Authentication): Promise<Ok
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
-			return await _termin.archive(termin);
+			const response = await _termin.archive(termin);
+			await deleteEmbed(termin);
+			return response;
 		}
 	}
 	return;
@@ -157,30 +156,8 @@ async function putAnmeldung(req: Request, authentication: Authentication): Promi
 	if (termin && (type || type === 0)) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role != null) {
-			let timeoutTime = baseTimeoutTime;
 			const response = await _anmeldungen.anmelden(authentication.user, termin, type);
-
-			if (terminTimeouts[termin] != null) {
-				clearTimeout(terminTimeouts[termin]);
-				terminTimeouts[termin] = null;
-				delete terminTimeouts[termin];
-			}
-
-			// increasing the wait time for updates if there are more than one, to spread out the calls to the Discord API and the database.
-			const length = Object.keys(terminTimeouts).length;
-			if (length > 0) {
-				timeoutTime = timeoutTime + 5000 * length;
-			}
-
-			const timeout = setTimeout(async () => {
-				const discordTermin = await _anmeldungen.getDiscordTermin(termin);
-				await updateTerminEmbed(discordTermin);
-				terminTimeouts[termin] = null;
-				delete terminTimeouts[termin];
-			}, timeoutTime);
-
-			terminTimeouts[termin] = timeout;
-
+			updateTerminEmbed(termin);
 			return response;
 		}
 	}
@@ -194,7 +171,9 @@ async function putAnmeldungLead(req: Request, authentication: Authentication): P
 	if (termin && spieler && (type || type === 0)) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
-			return await _anmeldungen.anmelden(spieler, termin, type);
+			const response = await _anmeldungen.anmelden(spieler, termin, type);
+			updateTerminEmbed(termin);
+			return response;
 		}
 	}
 	return;
@@ -224,7 +203,9 @@ async function deleteTermin(req: Request, authentication: Authentication): Promi
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
-			return await _termin.delete(termin);
+			const response = await _termin.delete(termin);
+			await deleteEmbed(termin);
+			return response;
 		}
 	}
 	return;

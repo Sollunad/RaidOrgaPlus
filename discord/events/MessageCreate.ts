@@ -78,7 +78,6 @@ async function sendReply(message: Message<boolean>): Promise<void> {
 			.setColor("#0099ff")
 			.setTitle("RE: Ticket")
 			.setDescription(message.content)
-			// .addField("Message", message.content)
 			.setFooter({ text: userId })
 			.setTimestamp();
 

@@ -37,6 +37,7 @@ const command = new SlashCommandBuilder()
 export default {
 	data: command,
 	execute: executeCommand,
+	production: true,
 };
 
 async function executeCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
@@ -62,7 +63,7 @@ async function listRaids(interaction: CommandInteraction<CacheType>): Promise<vo
 	await interaction.deferReply();
 	const guildUser = await interaction.guild.members.fetch(interaction.user);
 
-	const raids = await listRaidsForUser(guildUser.nickname);
+	const raids = await listRaidsForUser(guildUser.nickname, RaidRole.Lieutenant);
 	if (raids != null && raids.length > 0) {
 		const embed = new MessageEmbed()
 			.setColor("#0099ff")
@@ -83,16 +84,23 @@ async function setRaid(interaction: CommandInteraction<CacheType>): Promise<void
 	const raidName = interaction.options.getString("raid");
 
 	const raids = await listRaidsForUser(guildUser.nickname, RaidRole.Lieutenant);
-	const raid = raids.find((r) => r.name === raidName);
 
-	if (raid != null) {
-		await setChannelForRaid(raid.id, interaction.channelId);
-		await interaction.editReply("Der Channel wurde erfolgreich mit dem Raid verknüpft.");
-	} else {
+	if (raids == null || raids.length <= 0) {
 		await interaction.editReply(
 			"Du brauchst mindestens Lieutenant Rechte um einen Raid mit einem Channel zu verknüpfen."
 		);
+		return;
 	}
+
+	const raid = raids.find((r) => r.name === raidName);
+
+	if (raid == null) {
+		await interaction.editReply(`Der Raid mit dem Namen \`${raidName}\` konnte nicht gefunden werden.`);
+		return;
+	}
+
+	await setChannelForRaid(raid.id, interaction.channelId);
+	await interaction.editReply("Der Channel wurde erfolgreich mit dem Raid verknüpft.");
 }
 
 async function removeRaid(interaction: CommandInteraction<CacheType>): Promise<void> {
@@ -106,6 +114,7 @@ async function removeRaid(interaction: CommandInteraction<CacheType>): Promise<v
 		await interaction.editReply(
 			"Du brauchst mindestens Lieutenent Rechte um die Verknüpfung von einem Raid und einem Channel aufzuheben."
 		);
+		return;
 	}
 
 	let raid: Raid = null;
@@ -118,6 +127,7 @@ async function removeRaid(interaction: CommandInteraction<CacheType>): Promise<v
 
 	if (raid == null) {
 		await interaction.editReply("Es wurde kein Raid gefunden, der mit diesem Channel verknüpft ist.");
+		return;
 	}
 
 	await removeChannelFromRaid(raidName);
@@ -130,11 +140,6 @@ async function getRaid(interaction: CommandInteraction<CacheType>): Promise<void
 	const guildUser = await interaction.guild.members.fetch(interaction.user);
 	const raids = await listRaidsForUser(guildUser.nickname);
 	const raidName = interaction.options.getString("raid");
-
-	// if (raids == null || raids.length == 0) {
-	// 	await interaction.editReply("Es konnte kein Raid gefunden werden, zu dem du dazu gehörst.");
-	// 	return;
-	// }
 
 	let raid: Raid = null;
 
@@ -156,7 +161,6 @@ async function getRaid(interaction: CommandInteraction<CacheType>): Promise<void
 
 	await interaction.editReply(`Raid: ${raid.name}\tChannel: ${channelName}`);
 }
-
 
 // import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
 

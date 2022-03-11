@@ -10,6 +10,7 @@ const command = new SlashCommandBuilder()
 export default {
 	data: command,
 	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => message(interaction),
+	production: false
 };
 
 async function message(interaction: CommandInteraction<CacheType>): Promise<void> {

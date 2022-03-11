@@ -6,6 +6,7 @@ import { Command } from "./models/Commands";
 import { defaultExport } from "models/Types";
 
 import { DiscordEvent } from "./models/DiscordEvent";
+import { startCalenderTimer } from "./timer";
 
 consoleStamp(console, {
 	format: ":date(dd.mm.yyyy HH:MM:ss.l) :label",
@@ -19,14 +20,14 @@ const intents = [
 	Intents.FLAGS.DIRECT_MESSAGES,
 ];
 
-const partials: PartialTypes[] = []
+const partials: PartialTypes[] = [];
 if (!process.env.BACKEND) {
 	partials.push("MESSAGE", "REACTION", "CHANNEL", "USER");
 }
 
 const client = new DiscordClient({
 	intents: intents,
-	partials: partials
+	partials: partials,
 });
 
 if (!process.env.BACKEND) {
@@ -35,6 +36,14 @@ if (!process.env.BACKEND) {
 
 	commandFiles.forEach(async (file) => {
 		const command: defaultExport<Command> = await import(`./commands/${file}`);
+		if (command == null || command.default == null) {
+			return;
+		}
+
+		if (!command.default.production && process.env.NODE_ENV === "production") {
+			return;
+		}
+
 		client.commands.set(command.default.data.name, command.default);
 	});
 
@@ -47,6 +56,8 @@ if (!process.env.BACKEND) {
 			client.on(event.default.name, event.default.execute);
 		}
 	});
+
+	startCalenderTimer();
 }
 
 client.login(process.env.DISCORD_TOKEN);

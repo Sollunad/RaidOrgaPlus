@@ -6,5 +6,5 @@ export default {
 	once: true,
 	execute: async (client: Client<true>): Promise<void> => {
 		console.log("Ready!");
-	}
-} as DiscordEvent
+	},
+} as DiscordEvent;

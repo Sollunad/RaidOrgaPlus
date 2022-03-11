@@ -6,6 +6,7 @@ const command = new SlashCommandBuilder().setName("user").setDescription("Replie
 export default {
 	data: command,
 	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => user(interaction),
+	production: false
 };
 
 async function user(interaction: CommandInteraction<CacheType>) {

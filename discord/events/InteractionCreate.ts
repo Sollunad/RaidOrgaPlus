@@ -9,19 +9,21 @@ export default {
 		if (!interaction.isCommand() || interaction.member.user.bot) {
 			return;
 		}
-		
+
 		const client = interaction.client as DiscordClient;
 		const command = client.commands.get(interaction.commandName);
-	
+
 		if (!command) {
 			return;
 		}
-	
+
+		console.log(`Executing Command: ${interaction.commandName}`);
+
 		try {
 			await command.execute(interaction);
 		} catch (e) {
-			console.error(e);
+			console.error(`Command: ${interaction.commandName}\nError: ${e}`);
 			await interaction.reply({ content: "There was an error while executing this command!" });
 		}
-	}
-} as DiscordEvent
+	},
+} as DiscordEvent;
