@@ -6,5 +6,6 @@ export default {
 	once: true,
 	execute: async (client: Client<true>): Promise<void> => {
 		console.log("Ready!");
+		client.user.setActivity("/help für alle Befehle | RO+ v. 2.3.2");
 	},
 } as DiscordEvent;
