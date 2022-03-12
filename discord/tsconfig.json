@@ -23,6 +23,7 @@
 		"composite": true
 	},
 	"include": ["./**/*"],
+	"files": [ "./services/config.json" ],
 	"exclude": ["node_modules", "./dist/**/*"],
 	"references": [
 		{ "path": "../models" },

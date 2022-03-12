@@ -74,9 +74,7 @@ async function sendTicket(reaction: MessageReaction | PartialMessageReaction, us
 	do {
 		// incase the user sends a sticker, reply with an error message and tell them to retry again without using stickers.
 		if (reply != null) {
-			await dmChannel.send(
-				"Sticker werden für das erstellen eines Tickets nicht untersützt. Bitte schicke eine Nachricht *ohne* sticker."
-			);
+			await dmChannel.send("Sticker werden nicht untersützt. Bitte schicke eine Nachricht *ohne* sticker.");
 		}
 
 		reply = null;
@@ -111,10 +109,10 @@ async function sendTicket(reaction: MessageReaction | PartialMessageReaction, us
 	const channel = guild.channels.cache.find((channel) => channel.name === "shoutbox");
 	if (channel && channel.isText()) {
 		await channel.send({ embeds: [embed] });
-		await dmChannel.send("Das Ticket wurde dem Leitungsteam erfolgreich zugeschickt!");
+		await dmChannel.send("Die Nachricht wurde dem Leitungsteam erfolgreich zugeschickt!");
 	} else {
 		await dmChannel.send(
-			"Es gab ein Problem bei der Zustellung des Tickets. Bitte probiere es später noch einmal."
+			"Es gab ein Problem bei der Zustellung der Nachricht. Bitte probiere es später noch einmal."
 		);
 	}
 }

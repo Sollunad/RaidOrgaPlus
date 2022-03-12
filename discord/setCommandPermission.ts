@@ -5,21 +5,24 @@ const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
 
 const clientId = process.env.CLIENT_ID;
 const guildId = process.env.GUILD_ID;
+const permissionId = process.env.PERMISSION_ID;
+const typeId = process.env.TYPE_ID;
 
 const applicationCommands = Routes.applicationGuildCommands(clientId, guildId);
 
 (async (): Promise<void> => {
 	try {
+		const commandGroups = ["test", "moderation"];
 		const commands = (await rest.get(applicationCommands)) as APIApplicationCommand[];
-		const commandIds = commands.filter((c) => c.name === "test").map((c) => c.id);
+		const commandIds = commands.filter((c) => commandGroups.includes(c.name)).map((c) => c.id);
 
 		commandIds.forEach(async (id) => {
 			const permissionRoute = Routes.applicationCommandPermissions(clientId, guildId, id);
 			const json = {
 				permissions: [
 					{
-						id: "112284025783156736",
-						type: 2,
+						id: permissionId,
+						type: typeId,
 						permission: true,
 					},
 				],

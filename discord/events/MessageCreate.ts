@@ -38,7 +38,7 @@ async function sendMessage(message: Message<boolean>): Promise<void> {
 
 	const embed = new MessageEmbed()
 		.setColor("#0099ff")
-		.setTitle("RE: Ticket")
+		.setTitle("RE: Nachricht")
 		.setDescription(message.content)
 		.addField("Antworten", "Antworte auf diese Nachricht mit Rechtsklick -> Antworten um eine weitere Nachricht ans Leitungsteam zu schicken.")
 		.setFooter({ text: ref.id })
@@ -76,7 +76,7 @@ async function sendReply(message: Message<boolean>): Promise<void> {
 		// send an embed with the message of the user to the channel named "shoutbox", with the encrypted user id in the footer.
 		const embed = new MessageEmbed()
 			.setColor("#0099ff")
-			.setTitle("RE: Ticket")
+			.setTitle("RE: Nachricht")
 			.setDescription(message.content)
 			.setFooter({ text: userId })
 			.setTimestamp();

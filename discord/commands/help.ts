@@ -31,7 +31,7 @@ async function help(interaction: CommandInteraction<CacheType>): Promise<void> {
 		embed = await commandHelp(interaction, command);
 	} else {
 		embed = defaultEmbed().setTitle("Help - Alle Befehle");
-		guildCommands.forEach((command) => {
+		guildCommands.filter(g => g.defaultPermission).forEach((command) => {
 			embed.addField(command.name, command.description);
 		});
 	}
