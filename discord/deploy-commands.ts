@@ -19,7 +19,7 @@ async function getCommands(): Promise<RESTPostAPIApplicationCommandsJSONBody[]> 
 
 		// don't want dev-only commands for the production aka actual bot.
 		if (!command.default.production && process.env.NODE_ENV === "production") {
-			return;
+			continue;
 		}
 
 		commands.push(command.default.data.toJSON());

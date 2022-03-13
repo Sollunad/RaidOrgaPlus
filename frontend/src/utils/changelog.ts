@@ -34,6 +34,14 @@ export const changelogs: Changelog[] = [
 				features: [
 					"Bugfixes."
 				]
+			},
+			{
+				version: "v.2.3.3",
+				release: "13.03.2022",
+				features: [
+					"Rewrite des Discord-Bots.",
+					"Bugfixes."
+				]
 			}
 		]
 	},
