@@ -1,14 +1,11 @@
-import { RoleData } from "discord.js";
-
-import { client } from "./discord";
+import { client } from "../../discord/bot";
 import config from "./config.json";
 
 export async function addRaidRole(raidName: string): Promise<void> {
 	const guild = client.guilds.cache.get(config.server);
 	await guild.roles.fetch();
 
-	const roleData: RoleData = { name: raidName, position: guild.roles.cache.size + 1 };
-	await guild.roles.create({ data: roleData, reason: `Raid ${raidName} was added to RO+` });
+	await guild.roles.create({ name: raidName, position: guild.roles.cache.size + 1, reason: `Raid ${raidName} was added to RO+` });
 }
 
 export async function removeRaidRole(raidName: string): Promise<void> {

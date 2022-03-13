@@ -1,5 +1,6 @@
 import { GuildMember, Role } from "discord.js";
-import { client, AVATAR_BASE_URL } from "./discord";
+import { AVATAR_BASE_URL } from "./discord";
+import { client } from "../../discord/bot";
 import config from "./config.json";
 import { Spieler } from "models/Spieler";
 import { DiscordMember, DiscordRole } from "models/Discord";
