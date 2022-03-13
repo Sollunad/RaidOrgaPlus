@@ -1,5 +1,5 @@
 import { client } from "../../discord/bot";
-import { terminEmbed } from "../../discord/utils/embedProvider";
+import { terminEmbed } from "../../discord/Utils/embedProvider";
 import { getTerminData } from "../../discord/events/Reaction";
 import { DiscordClient } from "../../discord/models/DiscordClient";
 

@@ -1,4 +1,4 @@
-import { kalenderEmbed } from "Utils/embedProvider";
+import { kalenderEmbed } from "./Utils/embedProvider";
 import { client } from "./bot";
 
 export function startCalenderTimer(): void {

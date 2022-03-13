@@ -100,21 +100,9 @@ async function showTermin(interaction: CommandInteraction<CacheType>, termin: Te
 
 	const embed = terminEmbed(interaction.client as DiscordClient, raidName, termin, aufstellungen, anmeldungen);
 
-	let emojiYes: string | GuildEmoji = interaction.client.emojis.cache.find(emoji => emoji.name === 'yes');
-	let emojiMaybe: string | GuildEmoji = interaction.client.emojis.cache.find(emoji => emoji.name === 'maybe');
-	let emojiNo: string | GuildEmoji = interaction.client.emojis.cache.find(emoji => emoji.name === 'no');
-
-	if (emojiYes == null) {
-		emojiYes = "🟢"
-	}
-
-	if (emojiMaybe == null) {
-		emojiMaybe = "🟡"
-	}
-
-	if (emojiNo == null) {
-		emojiNo = "🔴"
-	}
+	const emojiYes = interaction.client.emojis.cache.find(emoji => emoji.name === 'yes');
+	const emojiMaybe = interaction.client.emojis.cache.find(emoji => emoji.name === 'maybe');
+	const emojiNo = interaction.client.emojis.cache.find(emoji => emoji.name === 'no');
 
 	await interaction.editReply({ embeds: [embed] });
 	const message = await interaction.fetchReply();

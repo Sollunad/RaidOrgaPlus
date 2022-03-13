@@ -25,7 +25,7 @@ async function setApiKey(userId: number, apiKey: string): Promise<string> {
     try {
         const user = (await users.get(userId))[0];
         const keyName = await api.accName(apiKey);
-        if (keyName === user.accname) {
+        if (keyName.toLocaleUpperCase() === user.accname.toLocaleUpperCase()) {
             if (await enoughPermissions(apiKey)) {
                 const stmt = 'UPDATE Spieler SET apikey = ? WHERE id = ?';
                 queryV(stmt, [apiKey, userId]);
