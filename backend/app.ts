@@ -5,6 +5,7 @@ import fs from "fs";
 import http from "http";
 import https from "https";
 import nodeLogger from 'simple-node-logger';
+import consoleStamp from "console-stamp";
 
 import { auth } from "./authentication/auth";
 import * as websocket from "./websocket/websocket";
@@ -19,6 +20,10 @@ const loggerOptions = {
 	timestampFormat: 'YYYY-MM-DD HH:mm:ss.SSS'
 }
 export const logger = nodeLogger.createSimpleLogger(loggerOptions);
+
+consoleStamp(console, {
+	format: ":date(dd.mm.yyyy HH:MM:ss.l) :label",
+});
 
 const endpoints: Dictionary<Dictionary<Endpoint>> = {};
 

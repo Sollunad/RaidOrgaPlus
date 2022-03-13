@@ -1,6 +1,6 @@
+import { queryV } from "../../../database/connector";
 import { OkPacket } from 'mysql';
 import { blankoElement } from '../../../models/Types';
-import * as db from '../../db/connector';
 
 export async function getElementsByEncounter(raid: number, enc: number): Promise<blankoElement[]> {
 	const stmt = `
@@ -9,7 +9,7 @@ export async function getElementsByEncounter(raid: number, enc: number): Promise
 		WHERE fk_raid = ? AND fk_boss = ?
 	`;
 	try {
-		return await db.queryV(stmt, [raid, enc]);
+		return await queryV(stmt, [raid, enc]);
 	} catch (e) {
 		throw e;
 	}
@@ -22,7 +22,7 @@ export async function getAllElements(raid: number): Promise<blankoElement[]> {
 		WHERE fk_raid = ?
 	`;
 	try {
-		return await db.queryV(stmt, raid);
+		return await queryV(stmt, raid);
 	} catch (e) {
 		throw e;
 	}
@@ -31,7 +31,7 @@ export async function getAllElements(raid: number): Promise<blankoElement[]> {
 export async function setClass(raid: number, enc: number, position: number, clss: number): Promise<OkPacket> {
 	const stmt = 'INSERT INTO BlankoElement (fk_raid, fk_boss, position, fk_class) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?';
 	try {
-		return await db.queryV(stmt, [raid, enc, position, clss, clss]);
+		return await queryV(stmt, [raid, enc, position, clss, clss]);
 	} catch (e) {
 		throw e;
 	}
@@ -40,7 +40,7 @@ export async function setClass(raid: number, enc: number, position: number, clss
 export async function setRole(raid: number, enc: number, position: number, role: string): Promise<OkPacket> {
 	const stmt = 'INSERT INTO BlankoElement (fk_raid, fk_boss, position, roles) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE roles = ?';
 	try {
-		return await db.queryV(stmt, [raid, enc, position, role, role]);
+		return await queryV(stmt, [raid, enc, position, role, role]);
 	} catch (e) {
 		throw e;
 	}
@@ -55,7 +55,7 @@ export async function copyFromTo(raid: number, from: number, to: number): Promis
 		ON DUPLICATE KEY UPDATE fk_class = fr.fk_class, roles = fr.roles
 	`;
 	try {
-		return await db.queryV(stmt, [raid, to, raid, from]);
+		return await queryV(stmt, [raid, to, raid, from]);
 	} catch (e) {
 		throw e;
 	}

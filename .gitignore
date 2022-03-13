@@ -5,7 +5,8 @@
 .vs/VSWorkspaceState.json
 TODOS.md
 vetur.config.js
-backend.log
+node_modules/*
+core/*
 *.log
 **/node_modules/
 **/*.env.dev

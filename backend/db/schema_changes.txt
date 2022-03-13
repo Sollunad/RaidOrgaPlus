@@ -2,6 +2,15 @@
 -- Recent Schema Changes
 --------------------------------------
 
+ALTER TABLE raid
+ADD COLUMN discordChannel varchar(25);
+
+--------------------------------------
+--- Last Changes
+--------------------------------------
+
+ALTER TABLE Spieler_Build
+DROP INDEX fk_role;
 --------------------------------------
 -- Changes from: 20.11.2021
 --------------------------------------

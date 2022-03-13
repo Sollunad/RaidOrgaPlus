@@ -1,9 +1,5 @@
 <template>
 	<div class="profile">
-		<EinstellungenDiscordComp />
-		<p></p>
-		<v-divider></v-divider>
-		<p></p>
 		<EinstellungenAPIKeyComp />
 		<p></p>
 		<v-divider></v-divider>
@@ -25,13 +21,11 @@
 	import EinstellungenAPIKeyComp from "../components/einstellungen/EinstellungenAPIKeyComp.vue";
 	import EinstellungenEmailComp from "../components/einstellungen/EinstellungenEmailComp.vue";
 	import EinstellungenPasswordComp from "../components/einstellungen/EinstellungenPasswordComp.vue";
-	import EinstellungenDiscordComp from "../components/einstellungen/EinstellungenDiscordComp.vue";
 	import EinstellungenThemeComp from "../components/einstellungen/EinstellungenThemeComp.vue";
 
 	export default Vue.extend({
 		name: "EinstellungenPage",
 		components: {
-			EinstellungenDiscordComp,
 			EinstellungenPasswordComp,
 			EinstellungenEmailComp,
 			EinstellungenAPIKeyComp,

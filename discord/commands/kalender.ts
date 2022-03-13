@@ -1,17 +1,20 @@
-import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { CacheType, CommandInteraction } from "discord.js";
+import { kalenderEmbed } from "../utils/embedProvider";
 
-const _embeds = require('../services/util/embedProvider');
-const _messages = require('../services/store/messages');
+const command = new SlashCommandBuilder()
+	.setName("kalender")
+	.setDescription("Zeigt die Termine der nächsten 7 Tage an.");
 
-exports.run = async (client: DiscordClient, message: DiscordMessage, args: string[]) => {
-    message.channel.startTyping();
-    message.channel.send(await _embeds.kalenderEmbed())
-        .then(m => _messages.newMessageKalender(m.id, m.channel.id));
-    message.channel.stopTyping();
-
+export default {
+	data: command,
+	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => calender(interaction),
+	production: true
 };
 
-exports.help = {
-    usage: '!orga kalender',
-    desc: 'Zeigt die Termine der kommenden sieben Tage an. Updated automatisch alle zehn Minuten.'
-};
+async function calender(interaction: CommandInteraction<CacheType>) {
+	const embed = await kalenderEmbed();
+	await interaction.channel.send({ embeds: [embed] });
+	
+	await interaction.reply({ content: "Pong!", ephemeral: true });
+}

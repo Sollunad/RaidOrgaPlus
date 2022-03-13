@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { OkPacket } from 'mysql';
+import { OkPacket } from "mysql";
 
 import * as _roles from '../../authentication/role';
 import * as _users from './users';

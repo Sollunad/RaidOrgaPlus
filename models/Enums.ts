@@ -11,3 +11,9 @@ export enum Theme {
 	Dark = 1,
 	OldDark = 2,
 }
+
+export enum RaidRole {
+	Normal = 0,
+	Lieutenant = 1,
+	Leader = 2
+}

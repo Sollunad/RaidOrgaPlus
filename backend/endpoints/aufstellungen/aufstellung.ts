@@ -1,8 +1,8 @@
 import { Aufstellung } from "models/Aufstellung";
 import { Encounter } from "models/Encounter";
 import { Raid } from "models/Raid";
+import { queryV } from "../../../database/connector";
 import { OkPacket } from "mysql";
-import * as db from "../../db/connector";
 
 export {
 	getForTermin,
@@ -23,7 +23,7 @@ async function getForTermin(termin: number): Promise<(Aufstellung & Encounter)[]
 		WHERE fk_termin = ? FOR UPDATE
 	`;
 	try {
-		return await db.queryV(stmt, termin);
+		return await queryV(stmt, termin);
 	} catch (e) {
 		throw e;
 	}
@@ -36,7 +36,7 @@ async function getRaidId(aufstellung: number): Promise<Raid[]> {
 		WHERE Aufstellung.id = ?
 	`;
 	try {
-		return await db.queryV(stmt, aufstellung);
+		return await queryV(stmt, aufstellung);
 	} catch (e) {
 		throw e;
 	}
@@ -49,7 +49,7 @@ async function getRaidName(termin: number): Promise<string> {
 		WHERE Termin.id = ?
 	`;
 	try {
-		const response: { name: string }[] = await db.queryV(stmt, termin);
+		const response: { name: string }[] = await queryV(stmt, termin);
 		return response.map((r) => r.name)[0];
 	} catch (e) {
 		throw e;
@@ -59,7 +59,7 @@ async function getRaidName(termin: number): Promise<string> {
 async function deleteBoss(aufstellung: number): Promise<OkPacket> {
 	const stmt = "DELETE FROM Aufstellung WHERE id = ?";
 	try {
-		return await db.queryV(stmt, aufstellung);
+		return await queryV(stmt, aufstellung);
 	} catch (e) {
 		throw e;
 	}
@@ -69,7 +69,7 @@ async function setSuccess(aufstellung: number, success: boolean): Promise<OkPack
 	const stmt = "UPDATE Aufstellung SET success = ? WHERE id = ?";
 	try {
 		const successValue = success ? 1 : 0;
-		return await db.queryV(stmt, [successValue, aufstellung]);
+		return await queryV(stmt, [successValue, aufstellung]);
 	} catch (e) {
 		throw e;
 	}
@@ -85,7 +85,7 @@ async function loadBlanko(aufstellung: number): Promise<OkPacket> {
 		AND fk_boss = (SELECT fk_boss FROM Aufstellung WHERE Aufstellung.id = ?)
 	`;
 	try {
-		return await db.queryV(stmt, [aufstellung, aufstellung, aufstellung]);
+		return await queryV(stmt, [aufstellung, aufstellung, aufstellung]);
 	} catch (e) {
 		throw e;
 	}
@@ -100,7 +100,7 @@ async function copyElements(from: number, to: number): Promise<OkPacket> {
 		ON DUPLICATE KEY UPDATE fk_spieler = f.fk_spieler, fk_class = f.fk_class, roles = f.roles
 	`;
 	try {
-		return await db.queryV(stmt, [to, from]);
+		return await queryV(stmt, [to, from]);
 	} catch (e) {
 		throw e;
 	}
@@ -110,7 +110,7 @@ async function setCM(aufstellung: number, cm: boolean): Promise<OkPacket> {
 	const stmt = "UPDATE Aufstellung SET is_cm = ? WHERE id = ?";
 	try {
 		const value = cm ? 1 : 0;
-		return await db.queryV(stmt, [value, aufstellung]);
+		return await queryV(stmt, [value, aufstellung]);
 	} catch (e) {
 		throw e;
 	}
@@ -128,7 +128,7 @@ async function reloadBlanko(aufstellung: number): Promise<OkPacket> {
 	`;
 
 	try {
-		return await db.queryV(stmt, [aufstellung, aufstellung, aufstellung]);
+		return await queryV(stmt, [aufstellung, aufstellung, aufstellung]);
 	} catch (e) {
 		throw e;
 	}

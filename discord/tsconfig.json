@@ -6,7 +6,7 @@
 		"lib": [
 			"es6"
 		],
-		"sourceMap": false,
+		"sourceMap": true,
 		"allowJs": true,
 		"outDir": "./dist",
 		"esModuleInterop": true,
@@ -16,13 +16,17 @@
 		"baseUrl": ".",
 		"paths": {
 			"models/*": [
-				"../models/*"
+				"../models/build/*",
+				"models/*"
 			]
-		}
+		},
+		"composite": true
 	},
 	"include": ["./**/*"],
+	"files": [ "./services/config.json" ],
 	"exclude": ["node_modules", "./dist/**/*"],
 	"references": [
-		{ "path": "../models" }
+		{ "path": "../models" },
+		{ "path": "../database" }
 	]
 }

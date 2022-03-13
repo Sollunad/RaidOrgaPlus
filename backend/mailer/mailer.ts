@@ -1,6 +1,3 @@
-// const nodemailer = require('nodemailer');
-// const config = require("./config.json");
-
 import { Spieler } from "models/Spieler";
 import nodemailer from "nodemailer";
 import config from "./config.json";

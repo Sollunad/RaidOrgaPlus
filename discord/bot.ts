@@ -1,40 +1,65 @@
+import fs from "fs";
+import consoleStamp from "console-stamp";
+import { Intents, Collection, PartialTypes } from "discord.js";
 import { DiscordClient } from "./models/DiscordClient";
-import config from "./config.json";
+import { Command } from "./models/Commands";
+import { defaultExport } from "models/Types";
 
-import Enmap = require("enmap");
-import * as fs from "fs";
+import { DiscordEvent } from "./models/DiscordEvent";
+import { startCalenderTimer } from "./timer";
 
-const client = new DiscordClient();
-// We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
-client.config = config;
-
-fs.readdir("./events/", (err, files) => {
-	if (err) return console.error(err);
-	files.forEach((file) => {
-		const event = require(`./events/${file}`);
-		let eventName = file.split(".")[0];
-		client.on(eventName, event.bind(null, client));
-	});
+consoleStamp(console, {
+	format: ":date(dd.mm.yyyy HH:MM:ss.l) :label",
 });
 
-client.commands = new Enmap();
-client.userdata = new Enmap();
+const intents = [
+	Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+	Intents.FLAGS.GUILD_MESSAGES,
+	Intents.FLAGS.GUILD_MEMBERS,
+	Intents.FLAGS.GUILDS,
+	Intents.FLAGS.DIRECT_MESSAGES,
+];
 
-fs.readdir("./commands/", (err, files) => {
-	if (err) {
-		return console.error(err);
-	}
+const partials: PartialTypes[] = [];
+if (!process.env.BACKEND) {
+	partials.push("MESSAGE", "REACTION", "CHANNEL", "USER");
+}
 
-	files.forEach((file) => {
-		if (!file.endsWith(".js") && !file.endsWith(".ts")) {
+const client = new DiscordClient({
+	intents: intents,
+	partials: partials,
+});
+
+if (!process.env.BACKEND) {
+	client.commands = new Collection();
+	const commandFiles = fs.readdirSync("./commands").filter((file) => file.endsWith(".ts"));
+
+	commandFiles.forEach(async (file) => {
+		const command: defaultExport<Command> = await import(`./commands/${file}`);
+		if (command == null || command.default == null) {
 			return;
 		}
 
-		let props = require(`./commands/${file}`);
-		let commandName = file.split(".")[0];
-		console.log(`Attempting to load command ${commandName}`);
-		client.commands.set(commandName, props);
-	});
-});
+		if (!command.default.production && process.env.NODE_ENV === "production") {
+			return;
+		}
 
-client.login(config.token);
+		client.commands.set(command.default.data.name, command.default);
+	});
+
+	const eventFiles = fs.readdirSync("./events").filter((file) => file.endsWith(".ts"));
+	eventFiles.forEach(async (file) => {
+		const event: defaultExport<DiscordEvent> = await import(`./events/${file}`);
+		if (event.default.once) {
+			client.once(event.default.name, event.default.execute);
+		} else {
+			client.on(event.default.name, event.default.execute);
+		}
+	});
+
+	startCalenderTimer();
+}
+
+client.login(process.env.DISCORD_TOKEN);
+
+export { client };

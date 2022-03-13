@@ -1,26 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./",
-    "strict": false,
-	"moduleResolution": "node",
-    "baseUrl": ".",
-	"esModuleInterop": true,
-	"skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-	"resolveJsonModule": true,
-	"paths": {
-		"models/*": [
-			"models/*",
-			"../models/build/*"
-		]
-	}
-  },
-  "include": ["./**/*"],
-  "exclude": ["node_modules", "./dist/**/*"],
-  "references": [
-	  { "path": "../models" }
-  ]
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "commonjs",
+		"outDir": "./dist",
+		"rootDir": "./",
+		"strict": false,
+		"moduleResolution": "node",
+		"baseUrl": ".",
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"paths": {
+			"models/*": ["models/*", "../models/build/*"],
+			"database/*": ["../database/build/*"]
+		}
+	},
+	"include": ["./**/*"],
+	"exclude": ["node_modules", "./dist/**/*"],
+	"references": [{ "path": "../models" }, { "path": "../database" }, { "path": "../discord" }]
 }

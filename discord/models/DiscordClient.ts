@@ -1,14 +1,6 @@
-import { Client, Message } from 'discord.js';
-
-import Enmap = require("enmap");
+import { Client, Collection } from "discord.js";
+import { Command } from "./Commands";
 
 export class DiscordClient extends Client {
-	config: any;
-	commands: Enmap;
-	userdata: Enmap;
-};
-
-export class DiscordMessage extends Message {
-	auth: any;
-	raid: any;
+	commands: Collection<string, Command>;
 }

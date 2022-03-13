@@ -1,11 +1,12 @@
 import { Spieler, SpielerTermin } from 'models/Spieler';
+import { queryV } from "../../../database/connector";
 import { OkPacket } from 'mysql';
-import * as db from '../../db/connector';
+import { DiscordTermin } from '../../../models/Termin';
 
 export async function anmelden(spieler: number, termin: number, type: number): Promise<OkPacket> {
 	const stmt = 'INSERT INTO Spieler_Termin (fk_spieler, fk_termin, type) VALUES (?,?,?) ON DUPLICATE KEY UPDATE type=?';
 	try {
-		return await db.queryV(stmt, [spieler, termin, type, type]);
+		return await queryV(stmt, [spieler, termin, type, type]);
 	} catch (e) {
 		throw e;
 	}
@@ -14,7 +15,7 @@ export async function anmelden(spieler: number, termin: number, type: number): P
 export async function getAnmeldungForSpieler(spieler: number, termin: number): Promise<{ type: number }> {
 	const stmt = 'SELECT type FROM Spieler_Termin WHERE fk_spieler = ? AND fk_termin = ?';
 	try {
-		const response: SpielerTermin[] = await db.queryV(stmt, [spieler, termin]);
+		const response: SpielerTermin[] = await queryV(stmt, [spieler, termin]);
 		if (response.length === 0) return { type: null };
 		else return { type: response[0].type };
 	} catch (e) {
@@ -34,7 +35,26 @@ export async function getAnmeldungenForTermin(termin: number): Promise<(Spieler 
 		ORDER BY name
 	`;
 	try {
-		return await db.queryV(stmt, [termin, termin, termin]);
+		return await queryV(stmt, [termin, termin, termin]);
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function getDiscordTermin(termin: number): Promise<DiscordTermin> {
+	const stmt = "SELECT * FROM DiscordTermin WHERE fk_termin = ?";
+	try {
+		const response: DiscordTermin[] = await queryV(stmt, [termin]);
+		return response[response.length - 1];
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function deleteDiscordTermin(termin: number): Promise<OkPacket> {
+	const stmt = "DELETE FROM DiscordTermin WHERE fk_termin = ?";
+	try {
+		return await queryV(stmt, [termin]);
 	} catch (e) {
 		throw e;
 	}

@@ -1,5 +1,5 @@
+import { queryV } from "../../../database/connector";
 import { OkPacket } from "mysql";
-import * as db from "../../db/connector";
 import type { element } from "models/Types";
 
 export async function getForTermin(termin: number): Promise<element[]> {
@@ -11,7 +11,7 @@ export async function getForTermin(termin: number): Promise<element[]> {
 		WHERE Aufstellung.fk_termin = ? FOR UPDATE
 	`;
 	try {
-		return await db.queryV(stmt, termin);
+		return await queryV(stmt, termin);
 	} catch (e) {
 		throw e;
 	}
@@ -26,7 +26,7 @@ export async function getForAufstellung(aufstellung: number): Promise<element[]>
 		WHERE Aufstellung.id = ? FOR UPDATE
 	`;
 	try {
-		return await db.queryV(stmt, aufstellung);
+		return await queryV(stmt, aufstellung);
 	} catch (e) {
 		throw e;
 	}
@@ -36,7 +36,7 @@ export async function setClass(aufstellung: number, position: number, clss: numb
 	const stmt =
 		"INSERT INTO AufstellungElement (fk_aufstellung, position, fk_class) VALUES (?,?,?) ON DUPLICATE KEY UPDATE fk_class = ?";
 	try {
-		return await db.queryV(stmt, [aufstellung, position, clss, clss]);
+		return await queryV(stmt, [aufstellung, position, clss, clss]);
 	} catch (e) {
 		throw e;
 	}
@@ -46,7 +46,7 @@ export async function setRole(aufstellung: number, position: number, role: strin
 	const stmt =
 		"INSERT INTO AufstellungElement (fk_aufstellung, position, roles) VALUES (?,?,?) ON DUPLICATE KEY UPDATE roles = ?";
 	try {
-		return await db.queryV(stmt, [aufstellung, position, role, role]);
+		return await queryV(stmt, [aufstellung, position, role, role]);
 	} catch (e) {
 		throw e;
 	}
@@ -56,7 +56,7 @@ export async function setName(aufstellung: number, position: number, name: numbe
 	const stmt =
 		"INSERT INTO AufstellungElement (fk_aufstellung, position, fk_spieler) VALUES (?,?,?) ON DUPLICATE KEY UPDATE fk_spieler = ?";
 	try {
-		return await db.queryV(stmt, [aufstellung, position, name, name]);
+		return await queryV(stmt, [aufstellung, position, name, name]);
 	} catch (e) {
 		throw e;
 	}
@@ -75,7 +75,7 @@ export async function setCompleteElement(
 		ON DUPLICATE KEY UPDATE fk_class = ?, roles = ?, fk_spieler = ?
 	`;
 	try {
-		return await db.queryV(stmt, [aufstellung, position, classId, roles, playerId, classId, roles, playerId]);
+		return await queryV(stmt, [aufstellung, position, classId, roles, playerId, classId, roles, playerId]);
 	} catch (e) {
 		throw e;
 	}

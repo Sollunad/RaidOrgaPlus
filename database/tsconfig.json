@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"declarationMap": true,
+		"composite": true,
+		"rootDir": "./",
+		"baseUrl": ".",
+		"outDir": "./build",
+		"target": "esnext",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+	},
+	"include": ["./**/*"],
+	// "exclude": ["node_modules", "build/**/*"],
+	"files": ["./config.json"]
+}

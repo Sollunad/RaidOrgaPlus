@@ -66,3 +66,7 @@ export type Response<T = any> = {
 	data?: T;
 	error?: string;
 }
+
+export type defaultExport<T> = {
+	default: T;
+}
