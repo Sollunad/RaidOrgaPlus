@@ -3,7 +3,7 @@ import { CacheType, CommandInteraction, MessageEmbed } from "discord.js";
 
 import { RaidRole } from "../../models/Enums";
 import { Raid } from "models/Raid";
-import { listRaidsForUser, removeChannelFromRaid, setChannelForRaid } from "../utils/queries";
+import { listRaidsForUser, removeChannelFromRaid, setChannelForRaid } from "../Utils/queries";
 
 const command = new SlashCommandBuilder()
 	.setName("link")

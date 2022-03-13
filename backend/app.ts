@@ -10,9 +10,10 @@ import consoleStamp from "console-stamp";
 import { auth } from "./authentication/auth";
 import * as websocket from "./websocket/websocket";
 import { Endpoint } from "models/Endpoint";
-import { Dictionary } from "models/Dictionary";
 import { Authentication } from "models/Auth";
 import { startUserCheckTimer } from "./timer";
+
+import { Dictionary } from "../models/Dictionary";
 
 const app = express();
 const loggerOptions = {

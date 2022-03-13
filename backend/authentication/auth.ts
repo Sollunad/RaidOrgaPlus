@@ -2,7 +2,8 @@ import * as _session from '../endpoints/users/session';
 import * as _raids from '../endpoints/raids/raids';
 import * as _activity from '../endpoints/users/activity';
 import { Authentication } from 'models/Auth';
-import { Dictionary } from 'models/Dictionary';
+
+import { Dictionary } from '../../models/Dictionary';
 
 export {
 	authenticate as auth, deleteFromCache as deleteCache

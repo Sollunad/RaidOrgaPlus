@@ -1,7 +1,7 @@
 import * as _messages from "../services/store/messages";
 import * as _termine from "../services/endpoints/termine";
 import * as _aufstellungen from "../services/endpoints/aufstellungen";
-import * as _embeds from "../utils/embedProvider";
+import * as _embeds from "../Utils/embedProvider";
 import * as _util from "../services/util/util";
 import { DiscordClient } from "../models/DiscordClient";
 import { Message } from "../models/Message";

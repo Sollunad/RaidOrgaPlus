@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplicationCommand, CacheType, CommandInteraction, Message, MessageEmbed } from "discord.js";
-import { defaultEmbed } from "../utils/embedProvider";
+import { defaultEmbed } from "../Utils/embedProvider";
 
 const command = new SlashCommandBuilder()
 	.setName("help")

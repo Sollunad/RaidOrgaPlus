@@ -7,10 +7,10 @@ import {
 	getTerminFromId,
 	getTerminFromMessage,
 	updateAnmeldung,
-} from "../utils/queries";
+} from "../Utils/queries";
 import { DiscordEvent } from "../models/DiscordEvent";
-import { encrypt } from "../utils/encyrption";
-import { terminEmbed } from "../utils/embedProvider";
+import { encrypt } from "../Utils/encyrption";
+import { terminEmbed } from "../Utils/embedProvider";
 import { DiscordClient } from "../models/DiscordClient";
 import { Termin } from "../../models/Termin";
 import { Spieler, SpielerTermin } from "../../models/Spieler";

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction, MessageEmbed } from "discord.js";
 
-import { encrypt } from "../utils/encyrption";
+import { encrypt } from "../Utils/encyrption";
 
 const command = new SlashCommandBuilder()
 	.setName("message")

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction } from "discord.js";
 
-import { decrypt } from "../utils/encyrption";
+import { decrypt } from "../Utils/encyrption";
 
 const command = new SlashCommandBuilder()
 	.setName("test")

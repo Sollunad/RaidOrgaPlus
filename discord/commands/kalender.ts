@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction } from "discord.js";
-import { kalenderEmbed } from "../utils/embedProvider";
+import { kalenderEmbed } from "../Utils/embedProvider";
 
 const command = new SlashCommandBuilder()
 	.setName("kalender")

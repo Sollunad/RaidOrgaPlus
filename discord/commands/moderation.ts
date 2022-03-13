@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction } from "discord.js";
-import { defaultEmbed } from "../utils/embedProvider";
+import { defaultEmbed } from "../Utils/embedProvider";
 
 const command = new SlashCommandBuilder()
 	.setName("moderation")
