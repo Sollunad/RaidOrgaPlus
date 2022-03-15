@@ -34,16 +34,17 @@ export default {
 			return;
 		}
 
-		await reaction.users.remove(user);
-
 		if (reaction.emoji.name === "🎫") {
+			await reaction.users.remove(user);
 			await sendTicket(reaction, user);
 			return;
 		}
 
 		const anmeldungEmojis = ["yes", "maybe", "no"];
 		if (anmeldungEmojis.includes(reaction.emoji.name)) {
+			await reaction.users.remove(user);
 			await handleAnmeldung(reaction, user);
+			return;
 		}
 	},
 } as DiscordEvent;
