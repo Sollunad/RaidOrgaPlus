@@ -158,7 +158,7 @@ export async function saveTermin(messageId: string, channelId: string, terminId:
 }
 
 export async function getPlayer(nickname: string): Promise<{ id: number; accname: string }> {
-	const stmt = "SELECT id, accname FROM Spieler WHERE INSTR(?, accname)";
+	const stmt = "SELECT id, accname FROM Spieler WHERE id > 9 AND INSTR(?, accname)";
 	try {
 		const response = await queryV(stmt, [nickname]);
 		return response[0];
