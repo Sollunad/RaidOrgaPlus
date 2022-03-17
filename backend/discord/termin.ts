@@ -45,9 +45,11 @@ export function updateTerminEmbed(termin: number): void {
  */
 export async function deleteEmbed(termin: number): Promise<void> {
 	const discordTermin = await getDiscordTermin(termin);
-	const message = await getMessage(discordTermin.channelId, discordTermin.messageId);
-	if (message != null) {
-		await message.delete();
+	if (discordTermin != null) {
+		const message = await getMessage(discordTermin.channelId, discordTermin.messageId);
+		if (message != null) {
+			await message.delete();
+		}
 	}
 
 	await deleteDiscordTermin(termin);
