@@ -14,7 +14,6 @@ import { OkPacket } from "mysql";
 import { ControllerEndpoint } from "models/ControllerEndpoint";
 import { toBoolean } from "../../models/Util";
 import { homepageTermin } from "../../../models/Types";
-import { NrDictionary } from "../../../models/Dictionary";
 import { deleteEmbed, updateTerminEmbed } from "../../discord/termin";
 
 const endpoints: ControllerEndpoint[] = [
@@ -115,8 +114,8 @@ async function archive(req: Request, authentication: Authentication): Promise<Ok
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
-			const response = await _termin.archive(termin);
 			await deleteEmbed(termin);
+			const response = await _termin.archive(termin);
 			return response;
 		}
 	}
@@ -203,8 +202,8 @@ async function deleteTermin(req: Request, authentication: Authentication): Promi
 	if (termin) {
 		const role = await _roles.forTermin(authentication, termin);
 		if (role > 0) {
-			const response = await _termin.delete(termin);
 			await deleteEmbed(termin);
+			const response = await _termin.delete(termin);
 			return response;
 		}
 	}
