@@ -24,7 +24,7 @@ export function query<T>(command: string): Promise<T> {
 				return reject(err);
 			}
 			const duration = Date.now() - start;
-			console.log(`${duration}: ${command}`);
+			console.log(`${duration}: ${command.trim()}`);
 			resolve(rows);
 		});
 		con.end();
@@ -40,7 +40,7 @@ export function queryV<T>(command: string, values: any): Promise<T> {
 				return reject(err);
 			}
 			const duration = Date.now() - start;
-			console.log(`${duration}: ${command.replace(/\t/g, "")} | ${values}`);
+			console.log(`${duration}: ${command.trim().replace(/\t/g, "")} | ${values}`);
 			resolve(rows as T);
 		});
 		con.end();

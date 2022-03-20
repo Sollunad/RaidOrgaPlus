@@ -9,7 +9,8 @@ const command = new SlashCommandBuilder()
 export default {
 	data: command,
 	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => calender(interaction),
-	production: true
+	production: true,
+	global: false
 };
 
 async function calender(interaction: CommandInteraction<CacheType>) {

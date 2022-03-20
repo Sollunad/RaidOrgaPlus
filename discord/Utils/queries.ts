@@ -28,6 +28,15 @@ export async function listRaidsForUser(nickname: string, leader?: RaidRole): Pro
 	}
 }
 
+export async function listRaidsForMod(): Promise<Raid[]> {
+	const stmt = "SELECT id, name, discordChannel FROM Raid";
+	try {
+		return await query(stmt);
+	} catch (e) {
+		throw e;
+	}
+}
+
 export async function setChannelForRaid(raidId: number, channelId: string): Promise<void> {
 	const stmt = "UPDATE Raid SET discordChannel = ? WHERE id = ?";
 	try {
@@ -50,7 +59,7 @@ export async function getRaidFromId(raidId: number): Promise<Raid> {
 	const stmt = "SELECT * FROM Raid WHERE id = ?";
 	try {
 		const result: Raid[] = await queryV(stmt, [raidId]);
-		return result[0]
+		return result[0];
 	} catch (e) {
 		throw e;
 	}

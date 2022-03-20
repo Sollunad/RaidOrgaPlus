@@ -28,7 +28,7 @@ const command = new SlashCommandBuilder()
 	.addSubcommand((sub) =>
 		sub
 			.setName("get")
-			.setDescription("Gibt den namen des Verknüpften Raides zurück.")
+			.setDescription("Gibt den namen des Verknüpften Raids zurück.")
 			.addStringOption((option) =>
 				option.setName("raid").setDescription("Der Name des Raides").setRequired(false)
 			)
@@ -38,6 +38,7 @@ export default {
 	data: command,
 	execute: executeCommand,
 	production: true,
+	global: false
 };
 
 async function executeCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
@@ -130,7 +131,7 @@ async function removeRaid(interaction: CommandInteraction<CacheType>): Promise<v
 		return;
 	}
 
-	await removeChannelFromRaid(raidName);
+	await removeChannelFromRaid(raid.name);
 	await interaction.editReply("Der Verknüpfung mit dem Channel wurde aufgehoben.");
 }
 
@@ -154,12 +155,21 @@ async function getRaid(interaction: CommandInteraction<CacheType>): Promise<void
 		return;
 	}
 
-	let channelName: string;
-	if (interaction.channel.type == "GUILD_TEXT") {
-		channelName = interaction.channel.name;
+	if (raid.discordChannel == null) {
+		await interaction.editReply("Der Raid wurde noch mit keinem Channel verknüpft.");
+		return;
 	}
 
-	await interaction.editReply(`Raid: ${raid.name}\tChannel: ${channelName}`);
+	const channel = await interaction.guild.channels.fetch(raid.discordChannel);
+
+	if (channel == null) {
+		await interaction.editReply(
+			"Der Channel mit dem der Raid verknüpft wurde, konnte nicht gefunden werden. Bitte probiere es später noch einmal."
+		);
+		return;
+	}
+
+	await interaction.editReply(`Raid: ${raid.name}\tChannel: ${channel.name}`);
 }
 
 // import { DiscordClient, DiscordMessage } from "../models/DiscordClient";

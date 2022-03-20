@@ -22,8 +22,8 @@ async function getCommands(): Promise<RESTPostAPIApplicationCommandsJSONBody[]> 
 			continue;
 		}
 
-		// don't want global commands as guild commands.
-		if (command.default.global) {
+		// don't want guild commands as global commands.
+		if (!command.default.global) {
 			continue;
 		}
 
@@ -40,14 +40,13 @@ async function getCommands(): Promise<RESTPostAPIApplicationCommandsJSONBody[]> 
 	const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
 
 	const clientId = process.env.CLIENT_ID;
-	const guildId = process.env.GUILD_ID;
 
-	const applicationCommands = Routes.applicationGuildCommands(clientId, guildId);
+	const applicationCommands = Routes.applicationCommands(clientId);
 
 	try {
-		console.log("Trying to register guild application commands");
+		console.log("Trying to register global application commands");
 		await rest.put(applicationCommands, { body: commands });
-		console.log("Successfully registered guild application commands.")
+		console.log("Successfully registered global application commands.")
 	} catch (e) {
 		console.error(e);
 	}

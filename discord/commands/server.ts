@@ -6,7 +6,8 @@ const command = new SlashCommandBuilder().setName("server").setDescription("Repl
 export default {
 	data: command,
 	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => server(interaction),
-	production: false
+	production: false,
+	global: false
 };
 
 async function server(interaction: CommandInteraction<CacheType>) {

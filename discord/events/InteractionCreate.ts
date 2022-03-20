@@ -6,7 +6,7 @@ export default {
 	name: "interactionCreate",
 	once: false,
 	execute: async (interaction: Interaction<CacheType>): Promise<void> => {
-		if (!interaction.isCommand() || interaction.member.user.bot) {
+		if (!interaction.isCommand() || interaction.user.bot) {
 			return;
 		}
 

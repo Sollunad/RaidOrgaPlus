@@ -11,6 +11,7 @@ export default {
 	data: command,
 	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => help(interaction),
 	production: true,
+	global: true,
 };
 
 async function help(interaction: CommandInteraction<CacheType>): Promise<void> {
@@ -28,21 +29,20 @@ async function help(interaction: CommandInteraction<CacheType>): Promise<void> {
 			return;
 		}
 
-		embed = await commandHelp(interaction, command);
+		embed = await commandHelp(command);
 	} else {
 		embed = defaultEmbed().setTitle("Help - Alle Befehle");
-		guildCommands.filter(g => g.defaultPermission).forEach((command) => {
-			embed.addField(command.name, command.description);
-		});
+		guildCommands
+			.filter((g) => g.defaultPermission)
+			.forEach((command) => {
+				embed.addField(command.name, command.description);
+			});
 	}
 
 	await interaction.reply({ embeds: [embed] });
 }
 
-async function commandHelp(
-	interaction: CommandInteraction<CacheType>,
-	command: ApplicationCommand<any>
-): Promise<MessageEmbed> {
+async function commandHelp(command: ApplicationCommand<any>): Promise<MessageEmbed> {
 	const embed = defaultEmbed()
 		.setTitle("Help - " + command.name)
 		.setDescription(command.description);
