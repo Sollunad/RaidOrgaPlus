@@ -6,14 +6,14 @@ import { Spieler } from "models/Spieler";
 import { DiscordMember, DiscordRole } from "models/Discord";
 
 export async function getUser(id: string): Promise<DiscordMember> {
-	return (await getAllUsers()).find(m => m.id === id);
+	return (await getAllUsers()).find((m) => m.id === id);
 }
 
 export async function getAllUsers(): Promise<DiscordMember[]> {
 	try {
 		const guild = client.guilds.cache.get(config.server);
 		const members = await guild.members.fetch();
-		return members.filter(m => m.user.bot === false).map(mapMember);
+		return members.filter((m) => m.user.bot === false).map(mapMember);
 	} catch (e) {
 		console.log(e);
 		return [];
@@ -28,8 +28,8 @@ function mapMember(member: GuildMember): DiscordMember {
 		roles: getRoles(member),
 		joined: member.joinedTimestamp,
 		avatar: getAvatarURL(member),
-		color: member.displayHexColor
-	}
+		color: member.displayHexColor,
+	};
 }
 
 function getNickname(member: GuildMember): string {
@@ -41,13 +41,15 @@ function getNickname(member: GuildMember): string {
 }
 
 function getRoles(member: GuildMember): DiscordRole[] {
-	return member.roles.cache.filter(r => r.id !== config.server).map(r => {
-		return { id: r.id, name: r.name, color: parseColor(r.color) };
-	});
+	return member.roles.cache
+		.filter((r) => r.id !== config.server)
+		.map((r) => {
+			return { id: r.id, name: r.name, color: parseColor(r.color) };
+		});
 }
 
 function parseColor(number: number): string {
-	return `#${number.toString(16).padStart(6, '0')}`;
+	return `#${number.toString(16).padStart(6, "0")}`;
 }
 
 function getAvatarURL(member: GuildMember): string {
@@ -60,7 +62,7 @@ function getAvatarURL(member: GuildMember): string {
 
 export function findUser(roUser: Spieler, discordUsers: DiscordMember[]): DiscordMember {
 	if (!roUser.discord) return;
-	return discordUsers.find(d => {
+	return discordUsers.find((d) => {
 		return d.id.toString() === roUser.discord.toString();
 	});
 }
@@ -107,17 +109,21 @@ function getGuild() {
 
 export async function getGuildMember(accName: string): Promise<GuildMember> {
 	const members = await getGuild().members.fetch();
-	return members.find(m => m.displayName.toLocaleUpperCase().includes(accName.toLocaleUpperCase()));
+	return members.find((m) => m.displayName.toLocaleUpperCase().includes(accName.toLocaleUpperCase()));
 }
 
 export async function getRole(roleName: string): Promise<Role> {
 	const guild = getGuild();
 
-	let role = guild.roles.cache.find(r => r.name === roleName);
+	let role = guild.roles.cache.find((r) => equalsIgnoreCase(r.name, roleName));
 	if (!role) {
 		await guild.roles.fetch();
-		role = guild.roles.cache.find(r => r.name === roleName);
+		role = guild.roles.cache.find((r) => equalsIgnoreCase(r.name, roleName));
 	}
 
 	return role;
+}
+
+function equalsIgnoreCase(text: string, search: string) {
+	return text.localeCompare(search, undefined, { sensitivity: "base" }) === 0;
 }
