@@ -7,6 +7,7 @@ import { DiscordTermin, Termin } from "../../models/Termin";
 import { Aufstellung } from "../../models/Aufstellung";
 import { Encounter } from "../../models/Encounter";
 import { OkPacket } from "mysql";
+import { element } from "../../models/Types";
 
 export async function listRaidsForUser(nickname: string, leader?: RaidRole): Promise<(Raid & SpielerRaid)[]> {
 	const stmt = `
@@ -16,7 +17,12 @@ export async function listRaidsForUser(nickname: string, leader?: RaidRole): Pro
 		WHERE INSTR(?, s.accname) > 0
 	`;
 	try {
-		let result = await queryV<(Raid & SpielerRaid)[]>(stmt, [nickname]);
+		let accountName = /[a-zA-Z]+[a-zA-Z\s]*\.\d{4}/.exec(nickname)[0];
+		if (accountName == null || accountName.trim() === '') {
+			accountName = nickname;
+		}
+
+		let result = await queryV<(Raid & SpielerRaid)[]>(stmt, [accountName]);
 
 		if (leader != null) {
 			result = result.filter((r) => r.role >= leader);
@@ -122,6 +128,40 @@ export async function getAufstellungen(termin: number): Promise<(Aufstellung & E
 	}
 }
 
+export async function getAufstellungForTermin(raidId: number, offset: number): Promise<Aufstellung & Encounter> {
+	const stmt = `
+		SELECT a.*, e.*
+		FROM aufstellung a, encounter e, (
+			SELECT id
+			FROM termin
+			WHERE fk_raid = 2
+			LIMIT 1 OFFSET 0
+		) AS t1
+		WHERE a.fk_termin = t1.id
+		AND a.fk_boss = e.id;
+	`;
+	try {
+		return await queryV(stmt, [raidId, offset]);
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function getElementsForAufstellung(aufstellung: number): Promise<element[]> {
+	const stmt = `
+		SELECT Aufstellung.id AS aufstellung, AufstellungElement.position AS pos, Klasse.abbr AS class, AufstellungElement.roles AS roleIds, Spieler.id AS id, Spieler.name AS name, Spieler.accname AS accname FROM Aufstellung
+		JOIN AufstellungElement ON AufstellungElement.fk_aufstellung = Aufstellung.id
+		JOIN Klasse ON Klasse.id = AufstellungElement.fk_class
+		JOIN Spieler ON Spieler.id = AufstellungElement.fk_spieler
+		WHERE Aufstellung.id = ? FOR UPDATE
+	`;
+	try {
+		return await queryV(stmt, aufstellung);
+	} catch (e) {
+		throw e;
+	}
+}
+
 export async function getCalenderTermine(): Promise<(Termin & Raid)[]> {
 	const stmt = `
 		SELECT Termin.id, Termin.date, Termin.time, Termin.endtime, Raid.name
@@ -169,7 +209,12 @@ export async function saveTermin(messageId: string, channelId: string, terminId:
 export async function getPlayer(nickname: string): Promise<{ id: number; accname: string }> {
 	const stmt = "SELECT id, accname FROM Spieler WHERE id > 9 AND INSTR(?, accname)";
 	try {
-		const response = await queryV(stmt, [nickname]);
+		let accountName = /[a-zA-Z]+[a-zA-Z\s]*\.\d{4}/.exec(nickname)[0];
+		if (accountName == null || accountName.trim() === '') {
+			accountName = nickname;
+		}
+
+		const response = await queryV(stmt, [accountName]);
 		return response[0];
 	} catch (e) {
 		throw e;
