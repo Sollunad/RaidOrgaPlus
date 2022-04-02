@@ -8,6 +8,7 @@ import { Aufstellung } from "../../models/Aufstellung";
 import { Encounter } from "../../models/Encounter";
 import { OkPacket } from "mysql";
 import { element } from "../../models/Types";
+import { Role, ROLES } from "../../models/Rolle";
 
 export async function listRaidsForUser(nickname: string, leader?: RaidRole): Promise<(Raid & SpielerRaid)[]> {
 	const stmt = `
@@ -128,14 +129,15 @@ export async function getAufstellungen(termin: number): Promise<(Aufstellung & E
 	}
 }
 
-export async function getAufstellungForTermin(raidId: number, offset: number): Promise<Aufstellung & Encounter> {
+export async function getAufstellungForTermin(raidId: number, offset: number): Promise<(Aufstellung & Encounter)[]> {
 	const stmt = `
-		SELECT a.*, e.*
+		SELECT a.id, e.name, e.abbr
 		FROM aufstellung a, encounter e, (
 			SELECT id
 			FROM termin
-			WHERE fk_raid = 2
-			LIMIT 1 OFFSET 0
+			WHERE fk_raid = ?
+			AND isArchived = 0
+			LIMIT 1 OFFSET ?
 		) AS t1
 		WHERE a.fk_termin = t1.id
 		AND a.fk_boss = e.id;
@@ -156,7 +158,27 @@ export async function getElementsForAufstellung(aufstellung: number): Promise<el
 		WHERE Aufstellung.id = ? FOR UPDATE
 	`;
 	try {
-		return await queryV(stmt, aufstellung);
+		const elements = await queryV<element[]>(stmt, aufstellung);
+
+		elements.forEach((e) => {
+			if (e.roleIds) {
+				const roleIds = e.roleIds.split(",");
+				e.roles = roleIds.map((r) => {
+					let role: Role = { id: 0, name: "", abbr: "" };
+					const id = Number(r) - 1;
+
+					if (id > -1) {
+						role = ROLES[id];
+					}
+
+					return role;
+				});
+			} else {
+				e.roles = [];
+			}
+		});
+
+		return elements;
 	} catch (e) {
 		throw e;
 	}

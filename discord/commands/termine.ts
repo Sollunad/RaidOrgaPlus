@@ -1,11 +1,22 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CacheType, CommandInteraction, GuildEmoji, MessageEmbed } from "discord.js";
-import { getAnmeldungenForTermin, getAufstellungen, getTermine, listRaidsForUser, saveTermin } from "../Utils/queries";
+import { CacheType, Client, CommandInteraction, GuildEmoji, MessageEmbed } from "discord.js";
+import {
+	getAnmeldungenForTermin,
+	getAufstellungen,
+	getAufstellungForTermin,
+	getElementsForAufstellung,
+	getTermine,
+	listRaidsForUser,
+	saveTermin,
+} from "../Utils/queries";
 import { Raid } from "../../models/Raid";
 import { SpielerRaid, SpielerTermin } from "../../models/Spieler";
 import { defaultEmbed, terminEmbed } from "../Utils/embedProvider";
 import { DiscordClient } from "models/DiscordClient";
 import { Termin } from "../../models/Termin";
+import { encIcon } from "../services/icons";
+import { Aufstellung } from "../../models/Aufstellung";
+import { Encounter } from "../../models/Encounter";
 
 const command = new SlashCommandBuilder()
 	.setName("termine")
@@ -26,13 +37,36 @@ const command = new SlashCommandBuilder()
 					.setDescription("Der Name des Raides für den der Termin angezeigt werden soll.")
 					.setRequired(false)
 			)
+	)
+	.addSubcommand((sub) =>
+		sub
+			.setName("aufstellung")
+			.setDescription("Zeigt die Aufstellung für einen Termin an.")
+			.addNumberOption((option) =>
+				option
+					.setName("termin")
+					.setDescription("Der Index des Termins für den die Aufstellung angezeigt werden soll.")
+					.setRequired(true)
+			)
+			.addNumberOption((option) =>
+				option
+					.setName("boss")
+					.setDescription("Der Index des Bosses für den die Aufstellung angezeigt werden soll.")
+					.setRequired(false)
+			)
+			.addStringOption((option) =>
+				option
+					.setName("raid")
+					.setDescription("Der Name des Raides für den die Aufstellung angezeigt werden soll.")
+					.setRequired(false)
+			)
 	);
 
 export default {
 	data: command,
 	execute: executeCommand,
 	production: true,
-	global: false
+	global: false,
 };
 
 async function executeCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
@@ -41,6 +75,9 @@ async function executeCommand(interaction: CommandInteraction<CacheType>): Promi
 	switch (subCommand) {
 		case "show":
 			await showTerminCommand(interaction);
+			break;
+		case "aufstellung":
+			await aufstellung(interaction);
 			break;
 	}
 }
@@ -51,16 +88,7 @@ async function showTerminCommand(interaction: CommandInteraction<CacheType>): Pr
 	const terminIdx = interaction.options.getNumber("termin");
 	const raidName = interaction.options.getString("raid");
 
-	const guildUser = await interaction.guild.members.fetch(interaction.user);
-	const raids = await listRaidsForUser(guildUser.nickname);
-
-	let raid: Raid & SpielerRaid = null;
-
-	if (raidName == null || raidName.trim() == "") {
-		raid = raids.find((r) => r.discordChannel === interaction.channelId);
-	} else {
-		raid = raids.find((r) => r.name === raidName);
-	}
+	const raid = await getRaid(interaction, raidName);
 
 	if (raid == null) {
 		await interaction.editReply("Es konnte kein Raid gefunden werden.");
@@ -78,7 +106,11 @@ async function showTerminCommand(interaction: CommandInteraction<CacheType>): Pr
 	}
 }
 
-async function listTermine(interaction: CommandInteraction<CacheType>, termine: (Termin & SpielerTermin)[], raid: Raid & SpielerRaid): Promise<void> {
+async function listTermine(
+	interaction: CommandInteraction<CacheType>,
+	termine: (Termin & SpielerTermin)[],
+	raid: Raid & SpielerRaid
+): Promise<void> {
 	let embed: MessageEmbed = defaultEmbed();
 	embed = embed.setTitle(`${raid.name} - Alle Termine`);
 
@@ -95,15 +127,19 @@ async function listTermine(interaction: CommandInteraction<CacheType>, termine: 
 	await interaction.editReply({ embeds: [embed] });
 }
 
-async function showTermin(interaction: CommandInteraction<CacheType>, termin: Termin & SpielerTermin, raidName: string): Promise<void> {
+async function showTermin(
+	interaction: CommandInteraction<CacheType>,
+	termin: Termin & SpielerTermin,
+	raidName: string
+): Promise<void> {
 	const anmeldungen = await getAnmeldungenForTermin(termin.id);
 	const aufstellungen = await getAufstellungen(termin.id);
 
 	const embed = terminEmbed(interaction.client as DiscordClient, raidName, termin, aufstellungen, anmeldungen);
 
-	const emojiYes = interaction.client.emojis.cache.find(emoji => emoji.name === 'yes');
-	const emojiMaybe = interaction.client.emojis.cache.find(emoji => emoji.name === 'maybe');
-	const emojiNo = interaction.client.emojis.cache.find(emoji => emoji.name === 'no');
+	const emojiYes = interaction.client.emojis.cache.find((emoji) => emoji.name === "yes");
+	const emojiMaybe = interaction.client.emojis.cache.find((emoji) => emoji.name === "maybe");
+	const emojiNo = interaction.client.emojis.cache.find((emoji) => emoji.name === "no");
 
 	await interaction.editReply({ embeds: [embed] });
 	const message = await interaction.fetchReply();
@@ -116,102 +152,100 @@ async function showTermin(interaction: CommandInteraction<CacheType>, termin: Te
 	await saveTermin(message.id, interaction.channelId, termin.id);
 }
 
-// import { DiscordClient, DiscordMessage } from "../models/DiscordClient";
-// import * as _termine from "../services/endpoints/termine";
-// import * as _aufstellungen from "../services/endpoints/aufstellungen";
-// import * as _embeds from "../services/util/embedProvider";
-// import * as _icons from "../services/icons";
-// import * as _messages from "../services/store/messages";
-// import { GuildEmoji } from "discord.js";
+async function aufstellung(interaction: CommandInteraction<CacheType>) {
+	await interaction.deferReply();
 
-// exports.run = async (client: DiscordClient, message: DiscordMessage, args: number[]) => {
-// 	if (!message.raid) {
-// 		message.channel.send('Verbinde zuerst einen Raid mit diesem Channel mit "!orga link".');
-// 		return;
-// 	}
-// 	const pickedTermin = args[0];
-// 	const pickedAufstellung = args[1];
+	const terminIdx = interaction.options.getNumber("termin");
+	const bossIdx = interaction.options.getNumber("boss", false);
+	const raidName = interaction.options.getString("raid", false);
 
-// 	message.channel.startTyping();
-// 	const termine = await _termine.getTermine(message.auth, message.raid.id);
-// 	if (termine.length === 0) {
-// 		message.channel.send('Es gibt keine kommenden Termine oder dir fehlt die Berechtigung, diese anzuzeigen.');
-// 	} else {
-// 		if (pickedTermin && pickedTermin <= termine.length) {
-// 			const termin = termine[pickedTermin - 1];
-// 			const aufstellungen = await _aufstellungen.getAufstellungen(message.auth, termin.id);
-// 			if (pickedAufstellung && pickedAufstellung <= aufstellungen.length) {
-// 				/*
-// 					Embed: 1 Aufstellung
-// 				 */
-// 				const aufstellung = aufstellungen[pickedAufstellung - 1];
-// 				const elements = await _aufstellungen.getElements(message.auth, aufstellung.id);
-// 				let aufstellungString = '';
-// 				const empty = client.emojis.cache.find(emoji => emoji.name === 'empty');
-// 				for (let i = 0; i < elements.length; i++) {
-// 					const element = elements[i];
-// 					const clss = client.emojis.cache.find(emoji => emoji.name === element.class.toLowerCase());
-// 					const role = client.emojis.cache.find(emoji => emoji.name === element.role.toLowerCase() + '_');
-// 					aufstellungString += `${clss ? clss : empty} ${role ? role : empty} - ${element.name}\n`
-// 				}
-// 				let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Aufstellung`)
-// 					.addField('Datum', termin.dateString)
-// 					.addField('Uhrzeit', termin.time)
-// 					.addField('Boss', `(${pickedAufstellung}) ${aufstellung.name}`)
-// 					.addField('Aufstellung', aufstellungString)
-// 					.setThumbnail(_icons.encIcon(aufstellung.abbr));
-// 				await message.channel.send(embed);
-// 			} else {
-// 				/*
-// 					Embed: 1 Termin
-// 				 */
-// 				const anmeldungen = await _termine.getAnmeldungen(message.auth, termin.id);
-// 				let emojiYes: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'yes');
-// 				let emojiMaybe: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'maybe');
-// 				let emojiNo: string | GuildEmoji = client.emojis.cache.find(emoji => emoji.name === 'no');
+	const raid = await getRaid(interaction, raidName);
 
-// 				if (emojiYes == null) {
-// 					emojiYes = "🟢"
-// 				}
+	if (raid == null) {
+		await interaction.editReply("Es konnte kein Raid gefunden werden.");
+		return;
+	}
 
-// 				if (emojiMaybe == null) {
-// 					emojiMaybe = "🟡"
-// 				}
+	const aufstellungen = await getAufstellungForTermin(raid.id, terminIdx - 1);
+	if (bossIdx != null && bossIdx > 0) {
+		const embed = await createAufstellungEmbed(interaction.client, aufstellungen[bossIdx - 1], raid);
 
-// 				if (emojiNo == null) {
-// 					emojiNo = "🔴"
-// 				}
+		await interaction.editReply({ embeds: [embed] });
+	} else {
+		const embedList: MessageEmbed[] = [];
 
-// 				const embed = _embeds.terminEmbed(client, message.raid.name, termin, aufstellungen, anmeldungen);
-// 				message.channel.send(embed)
-// 					.then(msg => msg.react(emojiYes))
-// 					.then(r => r.message.react(emojiMaybe))
-// 					.then(r => r.message.react(emojiNo))
-// 					.then(r => {
-// 						_messages.newMessageTermin(r.message.id, r.message.channel.id, termin, message.auth, message.raid.name);
-// 					});
+		for (let i = 0; i < aufstellungen.length; i++) {
+			const embed = await createAufstellungEmbed(interaction.client, aufstellungen[i], raid);
+			embedList.push(embed);
+		}
 
-// 			}
-// 		} else {
-// 			/*
-// 				Embed: Alle Termine
-// 			 */
-// 			let embed = _embeds.defaultEmbed().setTitle(`${message.raid.name} - Alle Termine`);
-// 			for (let i = 0; i < termine.length; i++) {
-// 				const termin = termine[i];
-// 				if (termin.endtime) {
-// 					embed = embed.addField(`(${i + 1}) ${termin.dateString}`, `${termin.time} - ${termin.endtime}`);
-// 				} else {
-// 					embed = embed.addField(`(${i + 1}) ${termin.dateString}`, termin.time);
-// 				}
-// 			}
-// 			await message.channel.send(embed);
-// 		}
-// 	}
-// 	message.channel.stopTyping();
-// };
+		while (embedList.length > 10) {
+			const embeds = embedList.splice(0, 10);
+			await interaction.channel.send({ embeds: embeds });
+		}
 
-// exports.help = {
-// 	usage: '!orga termine <termin> <aufstellung>',
-// 	desc: 'Zeigt Termine und Aufstellungen an.'
-// };
+		if (embedList.length > 0) {
+			await interaction.channel.send({ embeds: embedList });
+		}
+
+		await interaction.editReply({ content: "Embeds mit den Aufstellungen erzeugt!" });
+	}
+}
+
+async function getRaid(interaction: CommandInteraction<CacheType>, raidName: string) {
+	const guildUser = await interaction.guild.members.fetch(interaction.user);
+	const raids = await listRaidsForUser(guildUser.nickname);
+
+	let raid: Raid & SpielerRaid = null;
+
+	if (raidName == null || raidName.trim() == "") {
+		raid = raids.find((r) => r.discordChannel === interaction.channelId);
+	} else {
+		raid = raids.find((r) => r.name === raidName);
+	}
+
+	return raid;
+}
+
+async function createAufstellungEmbed(
+	client: Client<boolean>,
+	aufstellung: Aufstellung & Encounter,
+	raid: Raid
+): Promise<MessageEmbed> {
+	const elements = await getElementsForAufstellung(aufstellung.id);
+
+	let aufstellungString = "";
+	const empty = client.emojis.cache.find((emoji) => emoji.name === "empty");
+
+	const maxRole = Math.max(...elements.map((e) => e.roles.length));
+
+	elements.forEach((element) => {
+		const clss = client.emojis.cache.find((emoji) => emoji.name === element.class.toLowerCase());
+		aufstellungString += `${clss ? clss : empty} `;
+
+		element.roles.forEach((role) => {
+			const emoji = client.emojis.cache.find((emoji) => emoji.name === role.abbr.toLowerCase() + "_");
+			aufstellungString += `${emoji ? emoji : empty} `;
+		});
+
+		for (let i = element.roles.length; i < maxRole; i++) {
+			aufstellungString += "\u1CBC\u1CBC\u1CBC";
+		}
+
+		aufstellungString += `- ${element.name}\n`;
+	});
+
+	if (aufstellungString.trim() === "") {
+		aufstellungString = "Es gibt noch keine Aufstellung";
+	}
+
+	const embed = defaultEmbed()
+		.setTitle(raid.name + " - Aufstellung")
+		.addField("Datum", "Datum")
+		.addField("Uhrzeit", "Uhrzeit")
+		.addField("Boss", aufstellung.name)
+		.addField("Aufstellung", aufstellungString)
+		.setThumbnail(encIcon(aufstellung.abbr));
+
+	return embed;
+}

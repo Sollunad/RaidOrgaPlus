@@ -1,19 +1,46 @@
 --------------------------------------
---- Recent Schema Changes
+-- Recent Schema Changes
+--------------------------------------
+
+CREATE TABLE Strikes (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	NAME VARCHAR(100) NOT NULL
+)
+
+INSERT INTO Strikes
+VALUES
+(1, 'The Icebrood Saga'),
+(2, 'End of Dragons');
+
+--------------------------------------
+-- Changes from 13.03.2022
 --------------------------------------
 
 ALTER TABLE raid
 ADD COLUMN discordChannel varchar(25);
 
+CREATE TABLE DiscordTermin (
+	messageId VARCHAR(25) PRIMARY KEY,
+    channelId VARCHAR(25) NOT NULL,
+    fk_termin BIGINT(20) UNSIGNED,
+    FOREIGN KEY (fk_termin)
+		REFERENCES Termin (id)
+        ON UPDATE CASCADE
+)
+
 --------------------------------------
---- Last Changes
+--- Changes from 24.11.2021
 --------------------------------------
 
 ALTER TABLE Spieler_Build
 DROP INDEX fk_role;
 
+--------------------------------------
+-- Changes from: 20.11.2021
+--------------------------------------
+
 ALTER TABLE Spieler_Build
-DROP INDEX Spieler_Build_ibfk_3;
+DROP FOREIGN KEY Spieler_Build_ibfk_3;
 
 ALTER TABLE Spieler_Build
 CHANGE fk_role roles varchar(25);
@@ -21,10 +48,7 @@ CHANGE fk_role roles varchar(25);
 --------------------------------------
 
 ALTER TABLE BlankoElement
-DROP INDEX fk_role;
-
-ALTER TABLE BlankoElement
-DROP INDEX BlankoElement_ibfk_3;
+DROP FOREIGN KEY BlankoElement_ibfk_3;
 
 ALTER TABLE BlankoElement
 CHANGE fk_role roles varchar(25);
@@ -32,10 +56,7 @@ CHANGE fk_role roles varchar(25);
 --------------------------------------
 
 ALTER TABLE AufstellungElement
-DROP INDEX fk_role;
-
-ALTER TABLE AufstellungElement
-DROP INDEX AufstellungElement_ibfk_4;
+DROP FOREIGN KEY AufstellungElement_ibfk_4;
 
 ALTER TABLE AufstellungElement
 CHANGE fk_role roles varchar(25);
@@ -46,4 +67,3 @@ ALTER TABLE raid
 ADD COLUMN dpsReportToken varchar(100);
 
 --------------------------------------
-
