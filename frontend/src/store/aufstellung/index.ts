@@ -161,14 +161,17 @@ const actions: AufstellungActionsDefinition = {
 	ToggleUpload: (context: ActionContext<AufstellungState, RootState>) => {
 		context.commit(AufstellungMutations.ToggleUpload);
 	},
-	AddBoss: async (context: ActionContext<AufstellungState, RootState>, info: number[]) => {
-		const [boss, wing] = info;
+	AddBoss: async (context: ActionContext<AufstellungState, RootState>, info: Encounter) => {
 		const termin = context.getters.termin;
-		if (boss === 0) {
-			context.commit(AufstellungMutations.SetAufstellungen, await _termine.addWing(termin.id, wing));
+		if (info.id === 0) {
+			if (info.wing != null) {
+				context.commit(AufstellungMutations.SetAufstellungen, await _termine.addWing(termin.id, info.wing));
+			} else {
+				context.commit(AufstellungMutations.SetAufstellungen, await _termine.addStrike(termin.id, info.strike));
+			}
 			context.commit(AufstellungMutations.SetElements, await _aufstellungen.getElements(termin.id));
 		} else {
-			context.commit(AufstellungMutations.SetAufstellungen, await _termine.addBoss(termin.id, boss));
+			context.commit(AufstellungMutations.SetAufstellungen, await _termine.addBoss(termin.id, info.id));
 			context.commit(AufstellungMutations.SetElements, await _aufstellungen.getElements(termin.id));
 		}
 		context.dispatch(AufstellungActions.WsSendRefresh);

@@ -118,6 +118,7 @@
 	import KommentarComp from "./KommentarComp.vue";
 	import { MyActions } from "@/models/Store/State";
 	import { Termin } from "models/Termin";
+	import { Encounter } from "models/Encounter";
 
 	export default Vue.extend({
 		name: "TerminToolbarComp",
@@ -150,7 +151,7 @@
 			},
 		},
 		methods: {
-			addBoss: function(info: number[]): void {
+			addBoss: function(info: Encounter): void {
 				this.$vStore.dispatch(MyActions.AddBoss, info);
 			},
 			openArchiveDialog: function(): void {
