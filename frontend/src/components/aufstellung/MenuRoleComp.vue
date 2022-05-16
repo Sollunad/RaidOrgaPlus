@@ -24,7 +24,10 @@
 
 	export default Vue.extend({
 		name: "MenuRoleComp",
-		props: ["showStar"],
+		props: {
+			showStar: Boolean,
+			showSupports: Boolean
+		},
 		methods: {
 			roleIcon: function(name: string): string {
 				return _icons.roleIcon(name);
@@ -35,10 +38,19 @@
 		},
 		computed: {
 			roles: function() {
+				let roles = ROLES;
+
 				if (!this.showStar) {
-					return ROLES.filter(r => r.id != 7);
+					// filter out the Star Icon.
+					roles = roles.filter(r => r.id != 7);
 				}
-				return ROLES;
+
+				if (!this.showSupports) {
+					// filter out the Alac and Quickness Icons.
+					roles = roles.filter(r => r.abbr != "A" && r.abbr != "Q");
+				}
+
+				return roles;
 			},
 		},
 	});

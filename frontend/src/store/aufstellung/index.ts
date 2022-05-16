@@ -257,6 +257,11 @@ const actions: AufstellungActionsDefinition = {
 		if (!element) {
 			element = context.getters.dummyElement(aufstellung, position);
 		}
+
+		if (!element.roles || element.roles.length <= 0) {
+			element.roles.push({ id: 0 } as Role);
+		}
+
 		element.roles.push({ id: 0 } as Role);
 		const roles = element.roles.map(r => r.id).join(", ");
 		context.commit(AufstellungMutations.AddElement, element);
