@@ -21,7 +21,7 @@ const stmt = `
 		GROUP BY id, accname, NAME, lastActive
 		ORDER BY accname
 	) AS t1
-	GROUP BY id, accname, name, lastActive, comment, discord, role
+	GROUP BY id, accname, name, lastActive, comment, discord, role, archived, archiveDate
 	ORDER BY t1.accname;
 `;
 
