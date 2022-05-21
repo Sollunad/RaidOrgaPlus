@@ -10,7 +10,7 @@
 			<span class="font-weight-bold">Letzte Raid-Anmeldung:</span> {{ lastTermin }}
 		</div>
 		<div class="subheading textLine" v-if="user.archived">
-			<span class="font-weight-bold">Archivierungs Datum:</span> {{ user.archiveDate }}
+			<span class="font-weight-bold">Archivierungs Datum:</span> {{ archiveDate }}
 		</div>
 		<v-divider class="divider" v-if="hasExtraAccounts || hasDiscord || isInGuild"></v-divider>
 		<div v-if="hasExtraAccounts">
@@ -60,7 +60,7 @@
 			</template>
 			<ModListUserGuildLogComp :log="user.guildLog"></ModListUserGuildLogComp>
 		</v-dialog>
-		<v-dialog width="600" v-model="archiveDialog">
+		<v-dialog width="600" v-model="restoreDialog" v-if="!user.archived">
 			<template v-slot:activator="{ on }">
 				<v-btn class="openProfileButton" v-on="on" rounded>Archivieren</v-btn>
 			</template>
@@ -78,8 +78,30 @@
 
 				<v-card-actions>
 					<v-spacer />
-					<v-btn @click="closeDialog">Nein</v-btn>
+					<v-btn @click="archiveDialog = false">Nein</v-btn>
 					<v-btn @click="archive">Ja</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<v-dialog width="600" v-model="archiveDialog" v-if="user.archived">
+			<template v-slot:activator="{ on }">
+				<v-btn class="openProfileButton" v-on="on" rounded>Wiederherstellen</v-btn>
+			</template>
+			<v-card>
+				<v-card-title>
+					<span>Spieler {{ user.accname }} Wiederherstellen</span>
+				</v-card-title>
+
+				<v-divider style="margin-top: -4px" />
+
+				<v-card-text>
+					Möchtest du den/die Spieler*in <span style="font-weight: bold">{{ user.accname }}</span> wiederherstellen?
+				</v-card-text>
+
+				<v-card-actions>
+					<v-spacer />
+					<v-btn @click="restoreDialog = false">Nein</v-btn>
+					<v-btn @click="restore">Ja</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -100,6 +122,8 @@
 		components: { ModListUserEditComp, ModListUserGuildLogComp, ModListUserBodyRolesComp },
 		data: () => ({
 			archiveDialog: false,
+			restoreDialog: false,
+			dateOptions: { dateStyle: "medium", timeStyle: "medium" } as Intl.DateTimeFormatOptions
 		}),
 		props: {
 			user: Object as PropType<User>,
@@ -114,15 +138,7 @@
 			discordJoinDate: function(): string {
 				if (this.hasDiscord) {
 					const date = new Date((this.user.discord as DiscordMember).joined);
-					const dateOptions: any = {
-						day: "2-digit",
-						month: "2-digit",
-						year: "numeric",
-						hour: "2-digit",
-						minute: "2-digit",
-						second: "2-digit",
-					};
-					return date.toLocaleDateString("de-DE", dateOptions);
+					return date.toLocaleString("de-DE", this.dateOptions);
 				} else {
 					return "";
 				}
@@ -130,15 +146,14 @@
 			guildJoinDate: function(): string {
 				if (this.isInGuild) {
 					const date = new Date(this.user.guild.joined);
-					const dateOptions: any = {
-						day: "2-digit",
-						month: "2-digit",
-						year: "numeric",
-						hour: "2-digit",
-						minute: "2-digit",
-						second: "2-digit",
-					};
-					return date.toLocaleDateString("de-DE", dateOptions);
+					return date.toLocaleString("de-DE", this.dateOptions);
+				} else {
+					return "";
+				}
+			},
+			archiveDate: function(): string {
+				if (this.user.archived) {
+					return this.user.archiveDate.toLocaleString("de-DE", this.dateOptions);
 				} else {
 					return "";
 				}
@@ -180,15 +195,15 @@
 					return "Nie";
 				}
 			},
-			closeDialog: function(): void {
-				this.archiveDialog = false;
-			},
 			archive: async function(): Promise<void> {
-				console.log(this.user);
 				const archiveDate = await moderation.archiveSpieler(this.user.id);
-				this.$emit("archive", this.user.id, archiveDate);
+				this.$emit("userArchived", this.user.id, archiveDate);
 				this.archiveDialog = false;
 			},
+			restore: async function(): Promise<void> {
+				await moderation.restoreUser(this.user.id);
+				this.$emit("userRestored", this.user.id);
+			}
 		},
 	});
 </script>

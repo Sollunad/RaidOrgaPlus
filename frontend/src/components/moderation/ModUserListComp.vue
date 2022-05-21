@@ -34,7 +34,7 @@
 					<ModListUserHeaderComp v-bind:user="user"> </ModListUserHeaderComp>
 				</v-expansion-panel-header>
 				<v-expansion-panel-content>
-					<ModListUserBodyComp class="listRowBody" v-bind:user="user" @archive="archivedUser">
+					<ModListUserBodyComp class="listRowBody" v-bind:user="user" @userArchived="archivedUser" @userRestored="restoredUser">
 					</ModListUserBodyComp>
 				</v-expansion-panel-content>
 			</v-expansion-panel>
@@ -155,6 +155,13 @@
 					user.archiveDate = archiveDate;
 				}
 			},
+			restoredUser: function(userId: number): void {
+				const user = this.users.find(u => u.id === userId);
+				if (user != null) {
+					user.archived = false;
+					user.archiveDate = null;
+				}
+			}
 		},
 		created: async function(): Promise<void> {
 			this.users = await _moderation.getUsers();

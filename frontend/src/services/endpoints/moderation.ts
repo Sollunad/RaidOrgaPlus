@@ -20,7 +20,9 @@ export default {
 };
 
 async function getUsers(): Promise<User[]> {
-	return await con("moderation/users", "get", {}, true);
+	const users = await con<User[]>("moderation/users", "get", {}, true);
+	users.forEach(u => u.archiveDate = new Date(u.archiveDate));
+	return users;
 }
 
 async function getRaids(): Promise<ModRaid[]> {
