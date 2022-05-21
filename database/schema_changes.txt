@@ -33,6 +33,12 @@ VALUES
 ('Kainen Overlook', 'Minister', '', 1, 2),
 ('Harvest Temple', 'Dragonvoid', '', 1, 2);
 
+ALTER TABLE Spieler
+ADD COLUMN archived TINYINT NOT NULL DEFAULT 0;
+
+ALTER TABLE Spieler
+ADD COLUMN archiveDate TIMESTAMP DEFAULT NULL;
+
 --------------------------------------
 -- Changes from 13.03.2022
 --------------------------------------
