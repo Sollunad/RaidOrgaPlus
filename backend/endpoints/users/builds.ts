@@ -50,7 +50,7 @@ function classRoleMapper(element): Build {
 		class: {
 			abbr: element.classAbbr, id: element.classId, color: element.classColor, name: element.className
 		},
-		role: (element.roles as string).split(',').map(r => ROLES[Number(r) - 1]),
+		role: (element.roles as string).split(',').map(r => ROLES.find(role => role.id === Number(r))),
 		prefer: element.prefer
 	} as Build;
 }

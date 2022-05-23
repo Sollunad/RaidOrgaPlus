@@ -94,7 +94,7 @@ async function getElement(req: Request, authentication: Authentication): Promise
 					const id = Number(r) - 1;
 
 					if (id > -1) {
-						role = ROLES[id];
+						role = ROLES.find(r => r.id === id);
 					}
 
 					return role;
