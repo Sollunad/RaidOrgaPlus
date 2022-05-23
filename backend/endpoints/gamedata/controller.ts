@@ -6,12 +6,14 @@ import { Class } from "models/Klasse";
 import { Encounter } from "models/Encounter";
 import { Wing } from "models/Wing";
 import { ControllerEndpoint } from "models/ControllerEndpoint";
+import { wingStrike } from "../../../models/Types";
 
 const endpoints: ControllerEndpoint[] = [
 	{ function: getForBase, path: "/classes", method: "get", authed: false },
 	{ function: getEncounter, path: "/encounter", method: "get", authed: false },
 	{ function: getEncounterStrikes, path: "/encounter/strikes", method: "get", authed: false },
 	{ function: getWings, path: "/wings", method: "get", authed: false },
+	{ function: getWingsAndStrikes, path: "/wingsStrikes", method: "get", authed: false },
 	{ function: getAchievements, path: "/achievements", method: "get", authed: false },
 ];
 export default endpoints;
@@ -55,6 +57,17 @@ async function getEncounterStrikes(req: Request): Promise<Encounter[] | Encounte
 
 async function getWings(): Promise<Wing[]> {
 	return await _encounter.getWings();
+}
+
+async function getWingsAndStrikes(): Promise<wingStrike[]> {
+	const result: wingStrike[] = [];
+	const wings = await _encounter.getWings();
+	const strikes = await _encounter.getStrikes();
+
+	wings.forEach(w => result.push({ ...w, isStrike: false }));
+	strikes.forEach(w => result.push({ ...w, isStrike: true }));
+
+	return result;
 }
 
 async function getAchievements(): Promise<any[]> {

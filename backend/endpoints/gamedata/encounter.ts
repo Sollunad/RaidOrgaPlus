@@ -83,3 +83,12 @@ export async function getWings(): Promise<Wing[]> {
 		throw e;
 	}
 }
+
+export async function getStrikes(): Promise<Wing[]> {
+	const stmt = "SELECT * FROM Strikes";
+	try {
+		return await query(stmt);
+	} catch (e) {
+		throw e;
+	}
+}
