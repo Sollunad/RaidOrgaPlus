@@ -40,7 +40,7 @@
 		}),
 		computed: {
 			filteredBosses: function(): Encounter[] {
-				if (!this.wingFilter) {
+				if (!this.wingFilter || this.wingFilter.id === 0) {
 					return this.bosses;
 				}
 
