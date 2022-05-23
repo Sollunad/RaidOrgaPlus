@@ -62,7 +62,7 @@
 			pick: async function(wing: wingStrike): Promise<void> {
 				this.wingFilter = wing;
 			},
-			copyBlanko: async function(info: any): Promise<void> {
+			copyBlanko: async function(info: number[]): Promise<void> {
 				this.elements = await _blankos.copyFromTo(this.raid.id, info[0], info[1]);
 			},
 		},
