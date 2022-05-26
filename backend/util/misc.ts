@@ -5,10 +5,10 @@ export function equalsIgnoreCase(text: string, search: string) {
 }
 
 export function mapRoleStringToRoles(roleId: string) {
-	let role: Role = { id: 0, name: "", abbr: "" };
+	let role: Role = { id: 0, name: "", abbr: "", visible: false, order: null };
 	const id = Number(roleId);
 
-	if (id > -1) {
+	if (id > 0) {
 		role = ROLES.find(r => r.id === id);
 	}
 

@@ -1,6 +1,7 @@
 import con from "../connector";
 import { Encounter } from "models/Encounter";
 import { wingStrike } from "../../../../models/Types";
+import { Class } from "../../../../models/Klasse";
 
 export default {
 	listEncounter,
@@ -34,7 +35,7 @@ async function listEncounterForStrike(strike: number): Promise<Encounter[]> {
 	return await con("gamedata/encounter", "get", { strike }, false);
 }
 
-async function getClassesForBase(base: any): Promise<any> {
+async function getClassesForBase(base: number): Promise<Class[]> {
 	return await con("gamedata/classes", "get", { base }, false);
 }
 

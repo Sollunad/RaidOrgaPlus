@@ -29,7 +29,7 @@
 							<img :src="roleIcon(role.abbr)" v-else>
 						</v-avatar>
 					</template>
-					<MenuRoleComp v-on:pick="pickRole(idx, $event)" :showStar="true" :showSupports="true" />
+					<MenuRoleComp v-on:pick="pickRole(idx, $event)" :showStar="true" />
 				</v-menu>
 				<template v-if="showExtraRoles">
 					<v-btn color="green" fab width="24px" height="24px" @click="addRole" v-if="this.roles.length < 4">

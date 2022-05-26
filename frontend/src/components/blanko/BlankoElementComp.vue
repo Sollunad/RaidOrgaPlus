@@ -21,7 +21,7 @@
 						<img :src="roleIcon(role)" v-else />
 					</v-avatar>
 				</template>
-				<MenuRoleComp v-on:pick="pickRole($event, idx)" :showStar="true" :showSupports="true" />
+				<MenuRoleComp v-on:pick="pickRole($event, idx)" :showStar="true" />
 			</v-menu>
 			<v-btn color="green" fab width="24px" height="24px" @click="addRole" v-if="this.roles.length < 4">
 				<v-icon>add</v-icon>

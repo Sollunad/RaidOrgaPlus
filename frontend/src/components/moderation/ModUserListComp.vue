@@ -34,8 +34,13 @@
 					<ModListUserHeaderComp v-bind:user="user"> </ModListUserHeaderComp>
 				</v-expansion-panel-header>
 				<v-expansion-panel-content>
-					<ModListUserBodyComp class="listRowBody" v-bind:user="user" @userArchived="archivedUser" @userRestored="restoredUser">
-					</ModListUserBodyComp>
+					<ModListUserBodyComp
+						class="listRowBody"
+						v-bind:user="user"
+						@userArchived="archivedUser"
+						@userRestored="restoredUser"
+						@commentUpdated="commentUpdated"
+					/>
 				</v-expansion-panel-content>
 			</v-expansion-panel>
 		</v-expansion-panels>
@@ -160,6 +165,12 @@
 				if (user != null) {
 					user.archived = false;
 					user.archiveDate = null;
+				}
+			},
+			commentUpdated: function(userId: number, comment: string): void {
+				const user = this.users.find(u => u.id === userId);
+				if (user != null) {
+					user.comment = comment;
 				}
 			}
 		},

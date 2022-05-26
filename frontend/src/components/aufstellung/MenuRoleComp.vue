@@ -18,36 +18,30 @@
 </template>
 
 <script lang="ts">
-	import { ROLES } from "../../../../models/Rolle";
 	import Vue from "vue";
 	import _icons from "../../services/icons";
+	import { Role, ROLES } from "../../../../models/Rolle";
 
 	export default Vue.extend({
 		name: "MenuRoleComp",
 		props: {
 			showStar: Boolean,
-			showSupports: Boolean
 		},
 		methods: {
 			roleIcon: function(name: string): string {
 				return _icons.roleIcon(name);
 			},
-			pick: function(role: any) {
+			pick: function(role: Role) {
 				this.$emit("pick", role);
 			},
 		},
 		computed: {
 			roles: function() {
-				let roles = ROLES;
+				let roles = ROLES.filter(r => r.visible).sort((a, b) => a.order - b.order);
 
 				if (!this.showStar) {
 					// filter out the Star Icon.
 					roles = roles.filter(r => r.id != 7);
-				}
-
-				if (!this.showSupports) {
-					// filter out the Alac and Quickness Icons.
-					roles = roles.filter(r => r.abbr != "A" && r.abbr != "Q");
 				}
 
 				return roles;
