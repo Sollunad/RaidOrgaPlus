@@ -10,6 +10,17 @@ export const changelogs: Changelog[] = [
 			"Neuer alter Bot-Befehl: /termine aufstellung [termin] [boss] [raid]",
 			"Mit dem Befehl kann die Aufstellung für einen kompletten Termin oder für einzelne Bosse ausgegeben werden.",
 			"Credits für die neuen Icons - @Mo | AoPle.7326"
+		],
+		subversions: [
+			{
+				version: "v2.4.1",
+				release: "30.05.2022",
+				features: [
+					"Quickness und Alacrity Icons den Profil-Builds hinzugefügt.",
+					"Das Support-Icon als auswahl entfernt.",
+					"Profil-Builds können nur noch dann gespeichert werden, wenn die Klasse und alle verwendete Rollen ausgewählt sind."
+				],
+			}
 		]
 	},
 	{
