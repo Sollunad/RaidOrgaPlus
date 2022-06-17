@@ -14,11 +14,12 @@ export const changelogs: Changelog[] = [
 		subversions: [
 			{
 				version: "v2.4.1",
-				release: "30.05.2022",
+				release: "17.06.2022",
 				features: [
 					"Quickness und Alacrity Icons den Profil-Builds hinzugefügt.",
 					"Das Support-Icon als auswahl entfernt.",
-					"Profil-Builds können nur noch dann gespeichert werden, wenn die Klasse und alle verwendete Rollen ausgewählt sind."
+					"Profil-Builds können nur noch dann gespeichert werden, wenn die Klasse und alle verwendete Rollen ausgewählt sind.",
+					"Bug gefixt, wodurch Log-in Sessions nach jedem Browser-Update invalide waren. Sie sollten nun 90 Tage lang anhalten."
 				],
 			}
 		]
