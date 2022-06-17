@@ -32,7 +32,7 @@ async function addCache(uuid: string, agent: string): Promise<Authentication> {
     await _session.invalidateExpired();
     const response = (await _session.getUser(uuid))[0];
     if (!response) return;
-    if (response.agent !== agent) return;
+    // if (response.agent !== agent) return;
 
     const authObject: Authentication = { user: response.user, role: response.role, uuid, agent, raids: [], cachedUntil: undefined };
     const raids = await _raids.listForPlayer(authObject.user);
