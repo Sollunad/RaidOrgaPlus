@@ -21,6 +21,13 @@ export const changelogs: Changelog[] = [
 					"Profil-Builds können nur noch dann gespeichert werden, wenn die Klasse und alle verwendete Rollen ausgewählt sind.",
 					"Bug gefixt, wodurch Log-in Sessions nach jedem Browser-Update invalide waren. Sie sollten nun 90 Tage lang anhalten."
 				],
+			},
+			{
+				version: "v2.4.2",
+				release: "05.07.2022",
+				features: [
+					"Banner-Icon von der auswahl entfernt."
+				]
 			}
 		]
 	},
