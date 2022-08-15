@@ -28,6 +28,13 @@ export const changelogs: Changelog[] = [
 				features: [
 					"Banner-Icon von der auswahl entfernt."
 				]
+			},
+			{
+				version: "v2.4.3",
+				release: "15.08.2022",
+				features: [
+					"Font anpassungen und Bugfixes."
+				]
 			}
 		]
 	},
