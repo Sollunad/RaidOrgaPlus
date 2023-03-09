@@ -55,12 +55,12 @@ async function getUsers(req: Request, authentication: Authentication): Promise<U
 	if (role > UserRole.Raider) {
 		const users = (await _users.getUsers()) as User[];
 		const discordUsers = await _discord.getAllUsers();
-		const guildUsers = await _guild.getUsers();
-		const guildLog = await _guild.getGuildLog();
+		// const guildUsers = await _guild.getUsers();
+		// const guildLog = await _guild.getGuildLog();
 		const allExtraAccounts = await getAllExtraAccounts();
 		for (const user of users) {
 			const discordUser = _discord.findUser(user, discordUsers);
-			const guildUser = _guild.findUser(user, guildUsers);
+			// const guildUser = _guild.findUser(user, guildUsers);
 			const extraAccounts = allExtraAccounts.filter((e) => e.fk_spieler === user.id);
 
 			if (discordUser) {
@@ -69,10 +69,10 @@ async function getUsers(req: Request, authentication: Authentication): Promise<U
 				user.discord = null;
 			}
 
-			if (guildUser) {
-				user.guild = guildUser;
-				user.guildLog = _guild.filterLogByUser(user, guildLog);
-			}
+			// if (guildUser) {
+			// 	user.guild = guildUser;
+			// 	user.guildLog = _guild.filterLogByUser(user, guildLog);
+			// }
 
 			if (extraAccounts && extraAccounts.length > 0) {
 				user.extraAccounts = extraAccounts;
