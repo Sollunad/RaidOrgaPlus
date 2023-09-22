@@ -7,6 +7,7 @@ import { deleteDiscordTermin, getDiscordTermin } from "../endpoints/termine/anme
 
 import { DiscordTermin } from "../../models/Termin";
 import { NrDictionary } from "../../models/Dictionary";
+import { ChannelType } from "discord.js";
 
 const terminTimeouts: NrDictionary<NodeJS.Timeout> = {};
 const baseTimeoutTime = 1000 * 60;
@@ -71,7 +72,7 @@ async function getMessage(channelId: string, messageId: string) {
 		try {
 			const guild = await client.guilds.fetch(process.env.GUILD_ID);
 			const channel = await guild.channels.fetch(channelId);
-			if (channel.isText()) {
+			if (channel.type === ChannelType.GuildText) {
 				return await channel.messages.fetch(messageId);
 			}
 			break;

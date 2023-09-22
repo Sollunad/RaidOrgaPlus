@@ -1,5 +1,4 @@
-import { AuditLogEvent } from "discord-api-types";
-import { GuildMember, User } from "discord.js";
+import { AuditLogEvent, GuildMember, User } from "discord.js";
 import { DiscordEvent } from "models/DiscordEvent";
 import { checkRoleHistory, getPlayer, updateRoleHistory } from "../Utils/queries";
 
@@ -7,8 +6,23 @@ export default {
 	name: "guildMemberUpdate",
 	once: false,
 	execute: async (oldMember: GuildMember, newMember: GuildMember): Promise<void> => {
+		const oldRoles = oldMember.roles.cache;
+		const newRoles = newMember.roles.cache;
+
+		const diff = oldRoles.difference(newRoles);
+		if (diff.size <= 0) {
+			return;
+		}
+
+		console.log("GuildMemberUpdate for User: " + newMember.displayName);
+
+		if (newMember.nickname == null || newMember.nickname.trim() == null) {
+			console.log("The user has no nickname");
+			return;
+		}
+
 		try {
-			const player = await getPlayer(newMember.displayName);
+			const player = await getPlayer(newMember.nickname);
 
 			const guild = newMember.guild;
 			const auditLogs = await guild.fetchAuditLogs({

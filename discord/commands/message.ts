@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CacheType, CommandInteraction, MessageEmbed } from "discord.js";
+import { CacheType, ChannelType, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 import { encrypt } from "../Utils/encyrption";
 
@@ -30,16 +29,16 @@ async function message(interaction: CommandInteraction<CacheType>): Promise<void
 	const reply = replyCollection.first();
 	const userId = encrypt(reply.author.id);
 
-	const embed = new MessageEmbed()
+	const embed = new EmbedBuilder()
 		.setColor("#0099ff")
 		.setTitle("New Ticket (or something like this)")
 		.setDescription("I could have a description?")
-		.addField("Message", reply.content)
+		.addFields({ name: "Message", value: reply.content })
 		.setTimestamp()
-		.setFooter(userId);
+		.setFooter({ text: userId });
 
 	const channel = interaction.guild.channels.cache.find((channel) => channel.name === "shoutbox");
-	if (channel && channel.isText()) {
+	if (channel && channel.type === ChannelType.GuildText) {
 		channel.send({ embeds: [embed] });
 	} else {
 		interaction.followUp({ embeds: [embed] });

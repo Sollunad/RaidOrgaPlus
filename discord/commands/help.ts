@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { ApplicationCommand, CacheType, CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { ApplicationCommand, ApplicationCommandOptionType, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { defaultEmbed } from "../Utils/embedProvider";
 
 const command = new SlashCommandBuilder()
@@ -9,18 +8,18 @@ const command = new SlashCommandBuilder()
 
 export default {
 	data: command,
-	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => help(interaction),
+	execute: (interaction: ChatInputCommandInteraction<CacheType>): Promise<void> => help(interaction),
 	production: true,
 	global: true,
 };
 
-async function help(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function help(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	const commandName = interaction.options.getString("befehl");
 
 	const client = interaction.client;
 	const guild = await client.guilds.fetch(process.env.GUILD_ID);
 	const guildCommands = await guild.commands.fetch();
-	let embed: MessageEmbed;
+	let embed: EmbedBuilder;
 
 	if (commandName != null && commandName.trim() != null && commandName.trim() != "") {
 		const command = guildCommands.filter((c) => c.name === commandName).first();
@@ -33,22 +32,22 @@ async function help(interaction: CommandInteraction<CacheType>): Promise<void> {
 	} else {
 		embed = defaultEmbed().setTitle("Help - Alle Befehle");
 		guildCommands
-			.filter((g) => g.defaultPermission)
+			// .filter((g) => g.defaultPermission)
 			.forEach((command) => {
-				embed.addField(command.name, command.description);
+				embed.addFields({ name: command.name, value: command.description });
 			});
 	}
 
 	await interaction.reply({ embeds: [embed] });
 }
 
-async function commandHelp(command: ApplicationCommand<any>): Promise<MessageEmbed> {
+async function commandHelp(command: ApplicationCommand<any>): Promise<EmbedBuilder> {
 	const embed = defaultEmbed()
 		.setTitle("Help - " + command.name)
 		.setDescription(command.description);
 
 	command.options.forEach((option) => {
-		if (option.type === "SUB_COMMAND") {
+		if (option.type === ApplicationCommandOptionType.Subcommand) {
 			let value = option.description;
 
 			if (option.options != null) {
@@ -59,7 +58,7 @@ async function commandHelp(command: ApplicationCommand<any>): Promise<MessageEmb
 				});
 			}
 
-			embed.addField(option.name, value);
+			embed.addFields({ name: option.name, value });
 		}
 	});
 

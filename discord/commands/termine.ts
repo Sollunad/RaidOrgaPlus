@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CacheType, Client, CommandInteraction, GuildEmoji, MessageEmbed } from "discord.js";
+import { CacheType, ChatInputCommandInteraction, Client, CommandInteraction, EmbedBuilder, GuildEmoji, SlashCommandBuilder } from "discord.js";
 import {
 	getAnmeldungenForTermin,
 	getAufstellungen,
@@ -70,7 +69,7 @@ export default {
 	global: false,
 };
 
-async function executeCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function executeCommand(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	const subCommand = interaction.options.getSubcommand();
 
 	switch (subCommand) {
@@ -83,7 +82,7 @@ async function executeCommand(interaction: CommandInteraction<CacheType>): Promi
 	}
 }
 
-async function showTerminCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function showTerminCommand(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	await interaction.deferReply();
 
 	const terminIdx = interaction.options.getNumber("termin");
@@ -108,11 +107,11 @@ async function showTerminCommand(interaction: CommandInteraction<CacheType>): Pr
 }
 
 async function listTermine(
-	interaction: CommandInteraction<CacheType>,
+	interaction: ChatInputCommandInteraction<CacheType>,
 	termine: (Termin & SpielerTermin)[],
 	raid: Raid & SpielerRaid
 ): Promise<void> {
-	let embed: MessageEmbed = defaultEmbed();
+	let embed: EmbedBuilder = defaultEmbed();
 	embed = embed.setTitle(`${raid.name} - Alle Termine`);
 
 	termine.forEach((termin, idx) => {
@@ -122,14 +121,14 @@ async function listTermine(
 			value += ` - ${termin.endtime}`;
 		}
 
-		embed = embed.addField(`(${idx + 1}) ${termin.dateString}`, value);
+		embed = embed.addFields({ name: `(${idx + 1}) ${termin.dateString}`, value });
 	});
 
 	await interaction.editReply({ embeds: [embed] });
 }
 
 async function showTermin(
-	interaction: CommandInteraction<CacheType>,
+	interaction: ChatInputCommandInteraction<CacheType>,
 	termin: Termin & SpielerTermin,
 	raidName: string
 ): Promise<void> {
@@ -153,7 +152,7 @@ async function showTermin(
 	await saveTermin(message.id, interaction.channelId, termin.id);
 }
 
-async function aufstellung(interaction: CommandInteraction<CacheType>) {
+async function aufstellung(interaction: ChatInputCommandInteraction<CacheType>) {
 	await interaction.deferReply();
 
 	const terminIdx = interaction.options.getNumber("termin");
@@ -173,7 +172,7 @@ async function aufstellung(interaction: CommandInteraction<CacheType>) {
 
 		await interaction.editReply({ embeds: [embed] });
 	} else {
-		const embedList: MessageEmbed[] = [];
+		const embedList: EmbedBuilder[] = [];
 
 		for (let i = 0; i < aufstellungen.length; i++) {
 			const embed = await createAufstellungEmbed(interaction.client, aufstellungen[i], raid);
@@ -193,7 +192,7 @@ async function aufstellung(interaction: CommandInteraction<CacheType>) {
 	}
 }
 
-async function getRaid(interaction: CommandInteraction<CacheType>, raidName: string) {
+async function getRaid(interaction: ChatInputCommandInteraction<CacheType>, raidName: string) {
 	const guildUser = await interaction.guild.members.fetch(interaction.user);
 	const raids = await listRaidsForUser(guildUser.nickname);
 
@@ -212,7 +211,7 @@ async function createAufstellungEmbed(
 	client: Client<boolean>,
 	aufstellung: Aufstellung & Encounter,
 	raid: Raid
-): Promise<MessageEmbed> {
+): Promise<EmbedBuilder> {
 	const elements = await getElementsForAufstellung(aufstellung.id);
 
 	let aufstellungString = "";
@@ -242,10 +241,12 @@ async function createAufstellungEmbed(
 
 	const embed = defaultEmbed()
 		.setTitle(raid.name + " - Aufstellung")
-		.addField("Datum", "Datum")
-		.addField("Uhrzeit", "Uhrzeit")
-		.addField("Boss", aufstellung.name)
-		.addField("Aufstellung", aufstellungString)
+		.addFields([
+			{ name: "Datum", value: "Datum" },
+			{ name: "Uhrzeit", value: "Uhrzeit" },
+			{ name: "Boss", value: aufstellung.name },
+			{ name: "Aufstellung", value: aufstellungString }
+		])
 		.setThumbnail(encIcon(aufstellung.abbr));
 
 	return embed;

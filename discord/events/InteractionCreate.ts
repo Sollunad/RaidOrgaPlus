@@ -6,7 +6,7 @@ export default {
 	name: "interactionCreate",
 	once: false,
 	execute: async (interaction: Interaction<CacheType>): Promise<void> => {
-		if (!interaction.isCommand() || interaction.user.bot) {
+		if ((!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) || interaction.user.bot) {
 			return;
 		}
 

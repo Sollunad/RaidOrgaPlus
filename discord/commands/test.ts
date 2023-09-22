@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CacheType, CommandInteraction } from "discord.js";
+import { CacheType, ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
 import { decrypt } from "../Utils/encyrption";
 
@@ -32,7 +31,7 @@ export default {
 	global: false
 };
 
-async function executeCommand(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function executeCommand(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	const subCommand = interaction.options.getSubcommand();
 
 	switch (subCommand) {
@@ -51,11 +50,11 @@ async function executeCommand(interaction: CommandInteraction<CacheType>): Promi
 	}
 }
 
-async function pong(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function pong(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	await interaction.reply("Pong!");
 }
 
-async function decryptMessage(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function decryptMessage(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	// const cypher = interaction.options.getString("cypher");
 	const cypher = interaction.options.get("cypher");
 	let result = "";
@@ -67,7 +66,7 @@ async function decryptMessage(interaction: CommandInteraction<CacheType>): Promi
 	await interaction.reply("The result: " + result);
 }
 
-async function reaction(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function reaction(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	const message = await interaction.reply({ content: "Test Reaction", fetchReply: true });
 
 	if ("react" in message) {
@@ -75,7 +74,7 @@ async function reaction(interaction: CommandInteraction<CacheType>): Promise<voi
 	}
 }
 
-async function echoMessage(interaction: CommandInteraction<CacheType>): Promise<void> {
+async function echoMessage(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
 	const input = interaction.options.getString("input");
 
 	if (input) {

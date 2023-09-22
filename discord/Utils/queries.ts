@@ -268,3 +268,12 @@ export async function getPlayer(nickname: string): Promise<{ id: number; accname
 		throw e;
 	}
 }
+
+export async function upgradePlayer(playerId: number): Promise<void> {
+	const stmt = "UPDATE Spieler SET role = 1 WHERE id = ?";
+	try {
+		await queryV(stmt, [playerId]);
+	} catch (e) {
+		throw e;
+	}
+}
