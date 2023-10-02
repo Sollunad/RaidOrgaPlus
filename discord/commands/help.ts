@@ -36,7 +36,6 @@ async function help(interaction: ChatInputCommandInteraction<CacheType>): Promis
 			.forEach((command) => {
 				const description = command.description && command.description.trim() ? command.description : " - ";
 				embed.addFields({ name: command.name, value: description });
-				console.log(command.permissions);
 			});
 	}
 

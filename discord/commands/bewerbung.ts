@@ -7,10 +7,14 @@ import {
 	ButtonStyle,
 	ActionRowBuilder,
 	PermissionsBitField,
+	GuildMember,
+	Message,
 } from "discord.js";
 import { defaultEmbed } from "../Utils/embedProvider";
 import { checkAccountName } from "../Utils/misc";
 import { getPlayer, upgradePlayer } from "../Utils/queries";
+
+type orgaAccount = { id: number; accname: string };
 
 const command = new ContextMenuCommandBuilder()
 	.setName("Bewerbung prüfen")
@@ -50,7 +54,7 @@ const executeCommand = async (interaction: MessageContextMenuCommandInteraction<
 			: false;
 
 	let hasOrgaAccount = false;
-	let orgaAccount: { id: number; accname: string };
+	let orgaAccount: orgaAccount;
 	try {
 		orgaAccount = await getPlayer(accountName);
 		hasOrgaAccount = !!orgaAccount;
@@ -58,14 +62,23 @@ const executeCommand = async (interaction: MessageContextMenuCommandInteraction<
 		console.error(e);
 	}
 
+	const emojiYes = interaction.client.emojis.cache.find((emoji) => emoji.name === "yes");
+	const emojiNo = interaction.client.emojis.cache.find((emoji) => emoji.name === "no");
+
+	const accountNameValue = accountName + " " + (isNameCorrect ? emojiYes.toString() : emojiNo.toString());
+	const nicknameValue = nickname + " " + (isNicknameCorrect ? emojiYes.toString() : emojiNo.toString());
+	const orgaAccountValue = hasOrgaAccount ? emojiYes.toString() : emojiNo.toString();
+
 	const resultEmbed = defaultEmbed()
 		.setDescription(userString)
 		.setTitle("Ergebnis der Überprüfung")
 		.addFields([
-			{ name: "Account Name korrekt?", value: boolToAnswer(isNameCorrect) + "\n" + accountName },
-			{ name: "Nickname korrekt?", value: boolToAnswer(isNicknameCorrect) + "\n" + nickname },
-			{ name: "RO+ Account vorhanden?", value: boolToAnswer(hasOrgaAccount) },
+			{ name: "Account Name korrekt?", value: accountNameValue },
+			{ name: "Nickname korrekt?", value: nicknameValue },
+			{ name: "RO+ Account vorhanden?", value: orgaAccountValue },
 		]);
+
+	const hasRole = guildMember.roles.cache.has(process.env.OPEN_ROLE);
 
 	const finishButton = new ButtonBuilder()
 		.setCustomId("finishBewerbung")
@@ -74,16 +87,15 @@ const executeCommand = async (interaction: MessageContextMenuCommandInteraction<
 		.setDisabled(!(isNameCorrect && isNicknameCorrect && hasOrgaAccount));
 
 	const row = new ActionRowBuilder<ButtonBuilder>().addComponents(finishButton);
+	const components = hasRole ? [row] : [];
 
-	const reply = await interaction.reply({ embeds: [resultEmbed], components: [row], ephemeral: true });
+	const reply = await interaction.reply({ embeds: [resultEmbed], components: components, ephemeral: true });
 
 	try {
 		const response = await reply.awaitMessageComponent({ time: 60_000 });
 
 		if (response.customId === "finishBewerbung") {
-			guildMember.roles.remove(process.env.OPEN_ROLE, "Bewerbung abgeschlossen");
-			guildMember.roles.add(process.env.TRIAL_ROLE, "Bewerbung abgeschlossen");
-			await upgradePlayer(orgaAccount.id);
+			await finishBewerbung(guildMember, message, orgaAccount);
 
 			await response.update({ content: "Die Bewerbung wurde erfolgreich abgeschlossen!", components: [] });
 		}
@@ -92,9 +104,16 @@ const executeCommand = async (interaction: MessageContextMenuCommandInteraction<
 	}
 };
 
-const boolToAnswer = (value: boolean) => {
-	return value ? "Ja" : "Nein";
-};
+const finishBewerbung = async (guildMember: GuildMember, message: Message, account: orgaAccount) => {
+	try {
+		guildMember.roles.remove(process.env.OPEN_ROLE, "Bewerbung abgeschlossen");
+		guildMember.roles.add(process.env.TRIAL_ROLE, "Bewerbung abgeschlossen");
+		await upgradePlayer(account.id);
+		await message.react("👍");
+	} catch (e) {
+		console.error(e);
+	}
+}
 
 export default {
 	data: command,
