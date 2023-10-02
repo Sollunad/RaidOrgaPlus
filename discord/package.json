@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "npx tsnd -r dotenv/config ./bot.ts dotenv_config_path=config/.env.dev",
+		"prod": "npx ts-node -r dotenv/config ./bot.ts dotenv_config_path=config/.env",
 		"commands": "npx tsnd -r dotenv/config ./deploy-commands.ts dotenv_config_path=config/.env.dev",
 		"commands:global": "npx tsnd -r dotenv/config ./deployGlobalCommands.ts dotenv_config_path=config/.env.dev",
 		"commands:permission": "npx tsnd -r dotenv/config ./setCommandPermission.ts dotenv_config_path=config/.env.dev",
