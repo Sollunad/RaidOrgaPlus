@@ -34,7 +34,9 @@ async function help(interaction: ChatInputCommandInteraction<CacheType>): Promis
 		guildCommands
 			// .filter((g) => g.defaultPermission)
 			.forEach((command) => {
-				embed.addFields({ name: command.name, value: command.description });
+				const description = command.description && command.description.trim() ? command.description : " - ";
+				embed.addFields({ name: command.name, value: description });
+				console.log(command.permissions);
 			});
 	}
 

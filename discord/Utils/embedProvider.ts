@@ -11,10 +11,7 @@ import { Raid } from "../../models/Raid";
 
 export function defaultEmbed(): EmbedBuilder {
 	const iconUrl = miscIcon("raid");
-	return new EmbedBuilder()
-		.setColor("#F55535")
-		.setTimestamp()
-		.setFooter({ text: "RaidOrga+", iconURL: iconUrl });
+	return new EmbedBuilder().setColor("#F55535").setTimestamp().setFooter({ text: "RaidOrga+", iconURL: iconUrl });
 }
 
 export function terminEmbed(
@@ -40,15 +37,22 @@ export function terminEmbed(
 
 	const gesamtString = gesamtAnmeldungen(anmeldungen, emojis);
 
+	let time = termin.time;
+	if (termin.endtime) {
+		time += " - " + termin.endtime;
+	}
+
+	time += " Uhr";
+
 	return defaultEmbed()
 		.setTitle(`${raidName} - Kommender Termin`)
 		.addFields([
 			{ name: "Datum", value: termin.dateString },
-			{ name: "Uhrzeit", value: `${termin.time} - ${termin.endtime}` },
+			{ name: "Uhrzeit", value: time },
 			{ name: "Geplante Bosse", value: allBosses },
 			{ name: "Anmeldungen", value: anmeldungenString },
-			{ name: "Gesamt Anmeldungen", value: gesamtString }
-		])
+			{ name: "Gesamt Anmeldungen", value: gesamtString },
+		]);
 }
 
 function getAnmeldeEmojis(client: DiscordClient) {

@@ -23,14 +23,18 @@ export default {
 
 		try {
 			const player = await getPlayer(newMember.nickname);
+			if (player == null) {
+				console.log("Could not find an RO+ Account.");
+				return;
+			}
 
 			const guild = newMember.guild;
 			const auditLogs = await guild.fetchAuditLogs({
 				type: AuditLogEvent.MemberRoleUpdate,
 			});
 
-			const logs = auditLogs.entries.filter(a => (a.target as User).id === newMember.id);
-			if (!logs) return
+			const logs = auditLogs.entries.filter((a) => (a.target as User).id === newMember.id);
+			if (!logs) return;
 
 			const roleLog = logs.first();
 			if (!roleLog) return;
@@ -44,15 +48,14 @@ export default {
 				} else {
 					type = "ADD";
 				}
-				
+
 				const role = c.new[0].name;
 				const check = await checkRoleHistory(player.id, role);
 				if (type != check) {
 					await updateRoleHistory(player.id, role, type, executor.displayName);
 				}
 			});
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

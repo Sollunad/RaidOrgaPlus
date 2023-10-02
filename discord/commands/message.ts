@@ -1,16 +1,25 @@
-import { CacheType, ChannelType, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import {
+	CacheType,
+	ChannelType,
+	CommandInteraction,
+	EmbedBuilder,
+	PermissionsBitField,
+	SlashCommandBuilder,
+} from "discord.js";
 
 import { encrypt } from "../Utils/encyrption";
 
 const command = new SlashCommandBuilder()
 	.setName("message")
-	.setDescription("Send a message to the moderators of this Server!");
+	.setDescription("Send a message to the moderators of this Server!")
+	.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles)
+	.setDMPermission(false);
 
 export default {
 	data: command,
 	execute: (interaction: CommandInteraction<CacheType>): Promise<void> => message(interaction),
 	production: false,
-	global: false
+	global: false,
 };
 
 async function message(interaction: CommandInteraction<CacheType>): Promise<void> {

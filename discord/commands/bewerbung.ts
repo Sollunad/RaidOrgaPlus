@@ -6,12 +6,17 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	ActionRowBuilder,
+	PermissionsBitField,
 } from "discord.js";
 import { defaultEmbed } from "../Utils/embedProvider";
 import { checkAccountName } from "../Utils/misc";
 import { getPlayer, upgradePlayer } from "../Utils/queries";
 
-const command = new ContextMenuCommandBuilder().setName("Bewerbung prüfen").setType(ApplicationCommandType.Message);
+const command = new ContextMenuCommandBuilder()
+	.setName("Bewerbung prüfen")
+	.setType(ApplicationCommandType.Message)
+	.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles)
+	.setDMPermission(false);
 
 const executeCommand = async (interaction: MessageContextMenuCommandInteraction<CacheType>): Promise<void> => {
 	const message = interaction.targetMessage;

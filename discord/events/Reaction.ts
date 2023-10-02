@@ -91,7 +91,7 @@ async function sendTicket(reaction: MessageReaction | PartialMessageReaction, us
 	} while (reply != null && reply.stickers.size > 0);
 
 	if (reply == null) {
-		await dmChannel.send("Der Bot erwatet keine Nachricht mehr, da die Zeit ausgelaufen ist.");
+		await dmChannel.send("Der Bot erwatet keine Nachricht mehr, da die Zeit abgelaufen ist.");
 		return;
 	}
 
@@ -143,7 +143,7 @@ async function handleAnmeldung(reaction: MessageReaction | PartialMessageReactio
 
 	if (discordTermin == null) {
 		const errorMessage = await reaction.message.channel.send({
-			content: `Der Termin konnte nicht gefunden werden. Falls dieser aktuell sein sollte, muss der embed im Discord mit '/termin show' neu gepostet werden.`
+			content: `Der Termin konnte nicht gefunden werden. Falls dieser aktuell sein sollte, muss der embed im Discord mit dem Befehl '/termin show' neu gepostet werden.`,
 		});
 		setTimeout(async () => await errorMessage.delete(), 60000);
 		return;

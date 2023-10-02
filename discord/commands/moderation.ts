@@ -1,4 +1,4 @@
-import { CacheType, ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { CacheType, ChatInputCommandInteraction, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { listRaidsForMod, removeChannelFromRaid, setChannelForRaid } from "../Utils/queries";
 import { defaultEmbed } from "../Utils/embedProvider";
 import { Raid } from "../../models/Raid";
@@ -7,7 +7,9 @@ import { equalsIgnoreCase } from "../Utils/misc";
 const command = new SlashCommandBuilder()
 	.setName("moderation")
 	.setDescription("Befehle für das Leitungsteam")
-	.setDefaultPermission(false)
+	// .setDefaultPermission(false)
+	.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles)
+	.setDMPermission(false)
 	.addSubcommand((sub) =>
 		sub.setName("shoutbox").setDescription("Generiert eine Nachricht mit Reaction für die Shoutbox.")
 	)

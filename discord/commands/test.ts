@@ -6,6 +6,8 @@ const command = new SlashCommandBuilder()
 	.setName("test")
 	.setDescription("A set of test commands")
 	.setDefaultPermission(false)
+	.setDefaultMemberPermissions("0")
+	.setDMPermission(false)
 	.addSubcommand((sub) => sub.setName("ping").setDescription("Replies with pong!"))
 	.addSubcommand((sub) =>
 		sub
@@ -28,7 +30,7 @@ export default {
 	data: command,
 	execute: executeCommand,
 	production: false,
-	global: false
+	global: false,
 };
 
 async function executeCommand(interaction: ChatInputCommandInteraction<CacheType>): Promise<void> {
