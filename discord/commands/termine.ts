@@ -30,6 +30,7 @@ import { equalsIgnoreCase } from "../Utils/misc";
 const command = new SlashCommandBuilder()
 	.setName("termine")
 	.setDescription("Zeigt die Termine und Aufstellungen des Raides an.")
+	.setDMPermission(false)
 	.addSubcommand((sub) =>
 		sub
 			.setName("show")

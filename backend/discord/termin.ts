@@ -32,9 +32,11 @@ export function updateTerminEmbed(termin: number): void {
 
 	const timeout = setTimeout(async () => {
 		const discordTermin = await getDiscordTermin(termin);
-		await updateEmbed(discordTermin);
-		terminTimeouts[termin] = null;
-		delete terminTimeouts[termin];
+		if (discordTermin != null) {
+			await updateEmbed(discordTermin);
+			terminTimeouts[termin] = null;
+			delete terminTimeouts[termin];
+		}
 	}, timeoutTime);
 
 	terminTimeouts[termin] = timeout;

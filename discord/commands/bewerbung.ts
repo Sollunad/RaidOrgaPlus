@@ -68,6 +68,9 @@ const executeCommand = async (interaction: MessageContextMenuCommandInteraction<
 	const accountNameValue = accountName + " " + (isNameCorrect ? emojiYes.toString() : emojiNo.toString());
 	const nicknameValue = nickname + " " + (isNicknameCorrect ? emojiYes.toString() : emojiNo.toString());
 	const orgaAccountValue = hasOrgaAccount ? emojiYes.toString() : emojiNo.toString();
+	
+	const hasRole = guildMember.roles.cache.has(process.env.OPEN_ROLE);
+	const hasRoleValue = hasRole ? emojiYes.toString() : emojiNo.toString();
 
 	const resultEmbed = defaultEmbed()
 		.setDescription(userString)
@@ -76,9 +79,8 @@ const executeCommand = async (interaction: MessageContextMenuCommandInteraction<
 			{ name: "Account Name korrekt?", value: accountNameValue },
 			{ name: "Nickname korrekt?", value: nicknameValue },
 			{ name: "RO+ Account vorhanden?", value: orgaAccountValue },
+			{ name: "Bewerbungs Rolle vorhanden?", value: hasRoleValue },
 		]);
-
-	const hasRole = guildMember.roles.cache.has(process.env.OPEN_ROLE);
 
 	const finishButton = new ButtonBuilder()
 		.setCustomId("finishBewerbung")

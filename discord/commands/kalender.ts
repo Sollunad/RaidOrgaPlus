@@ -3,7 +3,8 @@ import { kalenderEmbed } from "../Utils/embedProvider";
 
 const command = new SlashCommandBuilder()
 	.setName("kalender")
-	.setDescription("Zeigt die Termine der nächsten 7 Tage an.");
+	.setDescription("Zeigt die Termine der nächsten 7 Tage an.")
+	.setDMPermission(false);
 
 export default {
 	data: command,

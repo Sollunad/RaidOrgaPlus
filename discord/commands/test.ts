@@ -5,8 +5,7 @@ import { decrypt } from "../Utils/encyrption";
 const command = new SlashCommandBuilder()
 	.setName("test")
 	.setDescription("A set of test commands")
-	.setDefaultPermission(false)
-	.setDefaultMemberPermissions("0")
+	.setDefaultMemberPermissions(0)
 	.setDMPermission(false)
 	.addSubcommand((sub) => sub.setName("ping").setDescription("Replies with pong!"))
 	.addSubcommand((sub) =>

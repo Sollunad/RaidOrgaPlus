@@ -8,6 +8,7 @@ import { equalsIgnoreCase } from "../Utils/misc";
 const command = new SlashCommandBuilder()
 	.setName("link")
 	.setDescription("Befehle, um einen Channel mit einem Raid zu verknüpfen/die Verknüpfung aufzuheben.")
+	.setDMPermission(false)
 	.addSubcommand((sub) =>
 		sub.setName("list").setDescription("Listet die Raids auf, die mit dem Channel verknüpft werden können.")
 	)
