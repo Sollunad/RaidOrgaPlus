@@ -177,6 +177,11 @@ async function aufstellung(interaction: ChatInputCommandInteraction<CacheType>) 
 	}
 
 	const aufstellungen = await getAufstellungForTermin(raid.id, terminIdx - 1);
+	if (aufstellungen[0] == null) {
+		await interaction.editReply("Für den Termin konnten keine Aufstellungen gefunden werden.");
+		return;
+	}
+
 	const termin = await getTerminFromId(aufstellungen[0].terminId);
 	if (bossIdx != null && bossIdx > 0) {
 		const embed = await createAufstellungEmbed(interaction.client, aufstellungen[bossIdx - 1], raid, termin);
