@@ -29,6 +29,7 @@
 		"password-hash": "^1.2.2",
 		"request": "^2.88.0",
 		"simple-node-logger": "^18.12.22",
+		"tsconfig-paths": "^4.2.0",
 		"uuid": "^3.3.2",
 		"websocket": "^1.0.31"
 	},
