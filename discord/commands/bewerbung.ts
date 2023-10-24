@@ -108,8 +108,8 @@ const executeCommand = async (interaction: MessageContextMenuCommandInteraction<
 
 const finishBewerbung = async (guildMember: GuildMember, message: Message, account: orgaAccount) => {
 	try {
-		guildMember.roles.remove(process.env.OPEN_ROLE, "Bewerbung abgeschlossen");
-		guildMember.roles.add(process.env.TRIAL_ROLE, "Bewerbung abgeschlossen");
+		await guildMember.roles.remove(process.env.OPEN_ROLE, "Bewerbung abgeschlossen");
+		await guildMember.roles.add(process.env.TRIAL_ROLE, "Bewerbung abgeschlossen");
 		await upgradePlayer(account.id);
 		await message.react("👍");
 	} catch (e) {
