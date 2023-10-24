@@ -264,7 +264,8 @@ export async function updateRoleHistory(
 }
 
 export async function getPlayer(nickname: string): Promise<{ id: number; accname: string }> {
-	const stmt = "SELECT id, accname FROM Spieler WHERE id > 9 AND INSTR(?, accname)";
+	/* using the binary-keyword in the query, to make the search case-sensitive. */
+	const stmt = "SELECT id, accname FROM Spieler WHERE id > 9 AND binary accname = ?";
 	try {
 		const accountName = getAccountName(nickname);
 		if (accountName == null) {
